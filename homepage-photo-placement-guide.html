@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homepage Photo Placement Guide</title>
+    <style>
+      :root {
+        --bg: #f6f1ea;
+        --paper: #fffaf5;
+        --text: #3e342e;
+        --muted: #6e6058;
+        --line: rgba(76, 58, 48, 0.14);
+        --shadow: 0 24px 70px rgba(59, 41, 31, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: linear-gradient(180deg, #f9f5ef 0%, #f2e8dd 100%);
+        color: var(--text);
+        font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+      }
+
+      .wrap {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 36px 0 72px;
+      }
+
+      .intro {
+        margin-bottom: 28px;
+        padding: 28px 30px;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: rgba(255, 250, 245, 0.86);
+        box-shadow: var(--shadow);
+      }
+
+      .eyebrow {
+        display: inline-block;
+        margin-bottom: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--muted);
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 5vw, 4rem);
+        line-height: 0.98;
+      }
+
+      .intro p {
+        max-width: 50rem;
+        margin: 14px 0 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .hero {
+        display: grid;
+        gap: 26px;
+        grid-template-columns: 1fr 1.05fr;
+        align-items: center;
+        margin-bottom: 34px;
+      }
+
+      .hero-copy,
+      .section-card {
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: rgba(255, 250, 245, 0.86);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-copy {
+        padding: 38px 34px;
+      }
+
+      .hero-copy h2 {
+        font-size: clamp(2.7rem, 5vw, 4.8rem);
+        line-height: 0.96;
+        max-width: 8ch;
+      }
+
+      .hero-copy p {
+        margin: 18px 0 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .hero-photo {
+        position: relative;
+        min-height: 580px;
+        overflow: hidden;
+        border-radius: 34px;
+        box-shadow: var(--shadow);
+        background: #d7cbc0;
+      }
+
+      .hero-photo img,
+      .placement img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .label {
+        position: absolute;
+        top: 18px;
+        left: 18px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 250, 245, 0.9);
+        border: 1px solid rgba(76, 58, 48, 0.12);
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .grid-two {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: 0.95fr 1.05fr;
+        margin-bottom: 26px;
+      }
+
+      .section-card {
+        padding: 24px;
+      }
+
+      .section-card h2 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 1;
+      }
+
+      .section-card p {
+        margin: 12px 0 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .placement {
+        position: relative;
+        min-height: 380px;
+        overflow: hidden;
+        border-radius: 24px;
+        background: #e2d9cf;
+      }
+
+      .three-up {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: 22px;
+      }
+
+      .thumb-card {
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(255, 250, 245, 0.86);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .thumb-card .placement {
+        min-height: 250px;
+        border-radius: 0;
+      }
+
+      .thumb-copy {
+        padding: 16px 16px 18px;
+      }
+
+      .thumb-copy strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .thumb-copy span {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      .note {
+        margin-top: 28px;
+        padding: 18px 20px;
+        border-radius: 18px;
+        background: rgba(231, 221, 208, 0.52);
+        color: var(--muted);
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .grid-two,
+        .three-up {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-photo {
+          min-height: 420px;
+        }
+
+        .placement {
+          min-height: 320px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="intro">
+        <span class="eyebrow">Homepage Photo Guide</span>
+        <h1>Where the shortlisted images would go on the homepage.</h1>
+        <p>
+          This is not the live homepage. It is a visual placement guide so you can
+          see how the selected photos could be used before we swap anything into
+          the real site.
+        </p>
+      </section>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">Hero Section</span>
+          <h2>Come back to yourself.</h2>
+          <p>
+            I would use one strong portrait or healing image here that feels calm,
+            welcoming, and high-trust. This is the image that sets the emotional
+            tone for the whole site.
+          </p>
+        </div>
+        <div class="hero-photo">
+          <span class="label">Main Hero Image</span>
+          <img
+            src="selected-site-photos/best-for-website/IMG_0509.jpeg"
+            alt="Suggested hero image"
+          />
+        </div>
+      </section>
+
+      <section class="grid-two">
+        <div class="placement">
+          <span class="label">About Kate Image</span>
+          <img
+            src="selected-site-photos/best-for-website/pinkbowlsmile.jpeg"
+            alt="Suggested About Kate image"
+          />
+        </div>
+        <div class="section-card">
+          <span class="eyebrow">About Section</span>
+          <h2>Meet Kate</h2>
+          <p>
+            This section wants a portrait that feels warm, grounded, and personal.
+            It should feel more human and less dramatic than the hero.
+          </p>
+          <div class="note">
+            Best fit here: a natural portrait, seated portrait, or one of the soft
+            outdoor images where you feel open and approachable.
+          </div>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <span class="eyebrow">Sanctuary / Atmosphere Section</span>
+        <h2>Images that make the site feel like a healing space.</h2>
+        <p>
+          Lower on the homepage, I would use detail and atmosphere images to make
+          the site feel immersive, sacred, and intentional, without overwhelming
+          the text.
+        </p>
+
+        <div class="three-up">
+          <article class="thumb-card">
+            <div class="placement">
+              <span class="label">Space Detail</span>
+              <img
+                src="selected-site-photos/best-for-website/spacedetail2.jpeg"
+                alt="Suggested space detail image"
+              />
+            </div>
+            <div class="thumb-copy">
+              <strong>Supportive detail image</strong>
+              <span>Best for reinforcing the mood and warmth of the space.</span>
+            </div>
+          </article>
+
+          <article class="thumb-card">
+            <div class="placement">
+              <span class="label">Healing Session</span>
+              <img
+                src="selected-site-photos/best-for-website/18__D9563205-1C3E-4CB5-A2E6-783AC8A70253_1_105_c.jpeg"
+                alt="Suggested healing image"
+              />
+            </div>
+            <div class="thumb-copy">
+              <strong>Healing-focused image</strong>
+              <span>Best for showing what it actually feels like to work with you.</span>
+            </div>
+          </article>
+
+          <article class="thumb-card">
+            <div class="placement">
+              <span class="label">Sound / Event Atmosphere</span>
+              <img
+                src="selected-site-photos/best-for-website/20__E419EE62-B83E-4420-8C57-8F2BFB61599D_4_5005_c.jpeg"
+                alt="Suggested event image"
+              />
+            </div>
+            <div class="thumb-copy">
+              <strong>Event / sound image</strong>
+              <span>Best if you want the homepage to hint at events and sound work too.</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-card" style="margin-top: 26px;">
+        <span class="eyebrow">My Recommendation</span>
+        <h2>The cleanest homepage mix.</h2>
+        <p>
+          If we want the homepage to feel premium, calm, and emotionally clear,
+          I’d use:
+        </p>
+        <div class="note">
+          Hero: `IMG_0509.jpeg`<br />
+          About Kate: `pinkbowlsmile.jpeg`<br />
+          Supporting detail: `spacedetail2.jpeg`<br />
+          Healing image lower on page: `18__D9563205-1C3E-4CB5-A2E6-783AC8A70253_1_105_c.jpeg`
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

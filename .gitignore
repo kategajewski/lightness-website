@@ -1,0 +1,41 @@
+.DS_Store
+.tooling/
+*.csv
+node_modules
+node_modules/
+.next/
+out/
+build/
+.vercel/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Local env files
+.env
+.env.local
+.env.*
+!.env.example
+!web/.env.example
+
+# Editor/system noise
+*.log
+.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local workbook exports and source files
+/reiki-workbook/
+/Reiki*.pdf
+/REIKI*.pdf
+/Reiki I Class Holy Fire III Outline PDF*
+/reiki-level-1-*
+/360_F_440964169_fFI2DzatDaGYiMcOC4pd0zySmLaMCLNt.jpg
+/Body_Meridians_V1.jpg
+/images.jpg
+
+# Local photo review folders
+/.photo-review/
+/website-photo-option/
+/selected-site-photos/

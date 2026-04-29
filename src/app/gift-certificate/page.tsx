@@ -11,7 +11,13 @@ const giftIdeas = [
   "A thoughtful gift when words do not feel like enough",
 ] as const;
 
-const giftAmounts = ["$50", "$100", "$140", "$250", "$500"] as const;
+const giftAmounts = [
+  { label: "$50", optionKey: "gift-50" },
+  { label: "$100", optionKey: "gift-100" },
+  { label: "$140", optionKey: "gift-140" },
+  { label: "$250", optionKey: "gift-250" },
+  { label: "$500", optionKey: "gift-500" },
+] as const;
 
 export default function GiftCertificatePage() {
   return (
@@ -43,7 +49,7 @@ export default function GiftCertificatePage() {
           </ul>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
-              href="/checkout/gift-certificate"
+              href="#gift-amounts"
               className="button-pill"
             >
               Choose Gift Amount
@@ -85,19 +91,26 @@ export default function GiftCertificatePage() {
             reach out.
           </p>
         </div>
-        <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">
+        <div
+          id="gift-amounts"
+          className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6"
+        >
           <strong className="block text-[1.05rem] text-[var(--color-text)]">
             Available Amounts
           </strong>
           <div className="mt-4 grid gap-3">
             {giftAmounts.map((amount) => (
-              <Link
-                key={amount}
-                href="/checkout/gift-certificate"
-                className="button-pill"
+              <form
+                key={amount.optionKey}
+                action="/api/checkout"
+                method="post"
               >
-                Choose {amount}
-              </Link>
+                <input type="hidden" name="slug" value="gift-certificate" />
+                <input type="hidden" name="optionKey" value={amount.optionKey} />
+                <button type="submit" className="button-pill">
+                  Choose {amount.label}
+                </button>
+              </form>
             ))}
           </div>
         </div>

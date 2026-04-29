@@ -66,6 +66,9 @@ Rule for future sessions:
   - Any real Stripe checkout testing must happen on:
     - `http://localhost:3000`
   - not on the Vercel preview URL yet.
+  - If local dev acts strange again after Node changes, remember the earlier repair step:
+    - refresh the project dependencies / code links with `npm install`
+    - then restart local dev with `npm run dev`
 - Next recommended starting point:
   - Resume local testing from `http://localhost:3000/gift-certificate`.
   - Click a gift amount and confirm Stripe Checkout opens correctly in local dev.

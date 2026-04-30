@@ -4,6 +4,16 @@ import { site } from "@/lib/site";
 
 const upcomingEvents = [
   {
+    eyebrow: "New Outdoor Event",
+    title: "Sacred Sounds Under the Sky",
+    description:
+      "An outdoor sound bath experience at The Lightness Grounds in Bayport designed for rest, reset, and open-air healing.",
+    details:
+      "Saturday, May 23, 2026 · 11:00 AM-12:00 PM · $30 in advance · Rain date Sunday, May 24",
+    href: site.links.sacredSoundsUnderTheSky,
+    cta: "Purchase Ticket",
+  },
+  {
     eyebrow: "Featured Event",
     title: "Gallery Reading with Don Schaefer",
     description:
@@ -87,7 +97,7 @@ export default function EventsPage() {
           </div>
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-3">
+      <div className="grid gap-5 xl:grid-cols-2">
         {upcomingEvents.map((item) => (
           <article
             key={item.title}

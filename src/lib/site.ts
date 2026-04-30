@@ -41,6 +41,7 @@ export const site = {
     mentorshipApplication: "/mentorship-application",
     meditation: "https://root-and-shield.bethelightness.com/about",
     specialBlessing: "/special-blessing",
+    sacredSoundsUnderTheSky: "/sacred-sounds-under-the-sky",
     rosaries: "https://bethelightness.com/rosary-custom-order-form",
   },
 };

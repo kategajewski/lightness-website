@@ -55,6 +55,9 @@ Rule for future sessions:
   - Local repo remote now points to that new repo.
   - Old stale upstream tracking for the previous remote was cleared.
   - GitHub Desktop now shows the clean `Publish branch` state for the new repo / repo preview linkage.
+  - The stray broken Git refs `main 2` and `main 3` were removed so GitHub Desktop could fetch normally again.
+  - Vercel was later reconnected to `lightness-website`, but it was still showing an older deployment.
+  - If the preview looks stale, make one fresh commit and push so Vercel has a new commit to build from the corrected repo connection.
 - Local development setup:
   - Node was installed locally and Terminal now reports `v24.15.0`.
   - The local `next` package had been corrupted; it was repaired.

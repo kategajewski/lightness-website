@@ -29,9 +29,9 @@ const upcomingEvents = [
     description:
       "A monthly Island Kava gathering with stretch, sound bath, and kava to help you reset for the week ahead.",
     details:
-      "Upcoming dates: May 17, 2026 and June 14, 2026 · Outside weather permitting, otherwise indoors at Island Kava in Lindenhurst",
+      "Upcoming dates: May 17, 2026 and June 14, 2026 · $45 per gathering · Outside weather permitting, otherwise indoors at Island Kava in Lindenhurst",
     href: "/soothing-sunday",
-    cta: "Explore Soothing Sunday",
+    cta: "Purchase Ticket",
   },
   {
     eyebrow: "New Outdoor Event",

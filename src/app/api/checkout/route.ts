@@ -30,8 +30,15 @@ export async function POST(request: Request) {
     mode: checkoutMode,
     "line_items[0][price]": selectedPriceId,
     "line_items[0][quantity]": "1",
-    success_url: `${env.siteUrl}/checkout/success`,
-    cancel_url: `${env.siteUrl}/checkout/cancel`,
+    "metadata[purchaseType]": "offer",
+    "metadata[offerSlug]": offer.slug,
+    "metadata[optionKey]": selectedOption?.key ?? "",
+    success_url: `${env.siteUrl}/checkout/success?type=offer&slug=${encodeURIComponent(
+      offer.slug,
+    )}`,
+    cancel_url: `${env.siteUrl}/checkout/cancel?type=offer&slug=${encodeURIComponent(
+      offer.slug,
+    )}`,
   });
 
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {

@@ -9,6 +9,22 @@ const eventCheckoutConfig = {
     successPath: "/checkout/success",
     cancelPath: "/sacred-sounds-under-the-sky",
   },
+  "soothing-sunday-may-17-2026": {
+    name: "Soothing Sunday at Island Kava",
+    description:
+      "Ticket for the Sunday, May 17, 2026 Soothing Sunday gathering in Lindenhurst.",
+    amountCents: 4500,
+    successPath: "/checkout/success",
+    cancelPath: "/soothing-sunday",
+  },
+  "soothing-sunday-june-14-2026": {
+    name: "Soothing Sunday at Island Kava",
+    description:
+      "Ticket for the Sunday, June 14, 2026 Soothing Sunday gathering in Lindenhurst.",
+    amountCents: 4500,
+    successPath: "/checkout/success",
+    cancelPath: "/soothing-sunday",
+  },
 } as const;
 
 export async function POST(request: Request) {
@@ -35,8 +51,14 @@ export async function POST(request: Request) {
     "line_items[0][price_data][product_data][name]": event.name,
     "line_items[0][price_data][product_data][description]": event.description,
     "line_items[0][quantity]": "1",
-    success_url: `${env.siteUrl}${event.successPath}`,
-    cancel_url: `${env.siteUrl}${event.cancelPath}`,
+    "metadata[purchaseType]": "event",
+    "metadata[eventSlug]": eventSlug,
+    success_url: `${env.siteUrl}${event.successPath}?type=event&eventSlug=${encodeURIComponent(
+      eventSlug,
+    )}`,
+    cancel_url: `${env.siteUrl}/checkout/cancel?type=event&eventSlug=${encodeURIComponent(
+      eventSlug,
+    )}`,
   });
 
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {

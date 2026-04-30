@@ -48,6 +48,7 @@ export const integrations = {
     Boolean(env.supabaseUrl) &&
     Boolean(env.supabaseAnonKey) &&
     Boolean(env.supabaseServiceRoleKey),
+  emailDelivery: Boolean(env.emailFrom) && Boolean(env.gmailAppPassword),
   emailForwarding:
     Boolean(env.contactForwardTo) &&
     Boolean(env.emailFrom) &&

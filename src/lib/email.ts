@@ -1,5 +1,17 @@
 import nodemailer from "nodemailer";
 import { env, integrations } from "@/lib/env";
+import { getOfferBySlug } from "@/lib/offers";
+import { site } from "@/lib/site";
+
+type StripeCheckoutSession = {
+  amount_total?: number | null;
+  currency?: string | null;
+  customer_details?: {
+    email?: string | null;
+    name?: string | null;
+  } | null;
+  metadata?: Record<string, string | undefined> | null;
+};
 
 function createTransport() {
   return nodemailer.createTransport({
@@ -63,6 +75,267 @@ export async function sendInquiryForwardEmail(input: InquiryEmailInput) {
   });
 
   return { skipped: false };
+}
+
+const eventEmailContent = {
+  "sacred-sounds-under-the-sky": {
+    title: "Sacred Sounds Under the Sky",
+    intro:
+      "Your ticket is confirmed. I’m so glad you’ll be joining this outdoor sound bath experience.",
+    detailLines: [
+      "Date: Saturday, May 23, 2026",
+      "Time: 11:00 AM-12:00 PM",
+      "Location: The Lightness Grounds, Bayport, NY",
+      "Rain date: Sunday, May 24, 2026",
+      "Weather updates: shared by 9:00 AM if the rain date is needed",
+    ],
+    reminderLines: [
+      "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy and supported.",
+      "This is a fully outdoor gathering and there are no bathroom facilities on site.",
+    ],
+    href: `${env.siteUrl}${site.links.sacredSoundsUnderTheSky}`,
+    hrefLabel: "View event details",
+  },
+  "soothing-sunday-may-17-2026": {
+    title: "Soothing Sunday at Island Kava",
+    intro:
+      "Your ticket is confirmed. I’m looking forward to sharing this gentle community gathering with you.",
+    detailLines: [
+      "Date: Sunday, May 17, 2026",
+      "Location: Lindenhurst Village Square Gazebo",
+      "Weather plan: outdoors if weather allows, otherwise indoors at Island Kava in Lindenhurst",
+    ],
+    reminderLines: [
+      "You do not need any previous experience to come.",
+      "Come in comfortable clothes and bring anything that helps you settle in with ease.",
+    ],
+    href: `${env.siteUrl}/soothing-sunday`,
+    hrefLabel: "View Soothing Sunday details",
+  },
+  "soothing-sunday-june-14-2026": {
+    title: "Soothing Sunday at Island Kava",
+    intro:
+      "Your ticket is confirmed. I’m looking forward to sharing this gentle community gathering with you.",
+    detailLines: [
+      "Date: Sunday, June 14, 2026",
+      "Location: Lindenhurst Village Square Gazebo",
+      "Weather plan: outdoors if weather allows, otherwise indoors at Island Kava in Lindenhurst",
+    ],
+    reminderLines: [
+      "You do not need any previous experience to come.",
+      "Come in comfortable clothes and bring anything that helps you settle in with ease.",
+    ],
+    href: `${env.siteUrl}/soothing-sunday`,
+    hrefLabel: "View Soothing Sunday details",
+  },
+} as const;
+
+export async function sendPurchaseConfirmationEmail(
+  session: StripeCheckoutSession,
+) {
+  if (!integrations.emailDelivery) {
+    return { skipped: true };
+  }
+
+  const email = session.customer_details?.email?.trim();
+
+  if (!email) {
+    return { skipped: true };
+  }
+
+  const transporter = createTransport();
+  const metadata = session.metadata ?? {};
+  const purchaseType = metadata.purchaseType;
+  const amountLabel = formatAmount(session.amount_total, session.currency);
+  const customerName = session.customer_details?.name?.trim() || "there";
+
+  const emailContent =
+    purchaseType === "event"
+      ? getEventPurchaseEmailContent(metadata.eventSlug, amountLabel)
+      : getOfferPurchaseEmailContent(
+          metadata.offerSlug,
+          metadata.optionKey,
+          amountLabel,
+        );
+
+  const text = [
+    `Hi ${customerName},`,
+    "",
+    emailContent.intro,
+    "",
+    ...emailContent.detailLines,
+    "",
+    ...emailContent.reminderLines,
+    "",
+    `${emailContent.hrefLabel}: ${emailContent.href}`,
+    "",
+    "A Stripe receipt should also arrive separately at this email address.",
+    "",
+    "With love,",
+    "Kate",
+    "The Lightness of Being",
+  ].join("\n");
+
+  const html = `
+    <div style="font-family: Georgia, serif; color: #3e342e; line-height: 1.7; max-width: 680px; margin: 0 auto;">
+      <p>Hi ${escapeHtml(customerName)},</p>
+      <p>${escapeHtml(emailContent.intro)}</p>
+      <div style="margin: 20px 0;">
+        ${emailContent.detailLines
+          .map((line) => `<p style="margin: 0 0 8px;"><strong>${escapeHtml(line)}</strong></p>`)
+          .join("")}
+      </div>
+      <div style="margin: 20px 0;">
+        ${emailContent.reminderLines
+          .map((line) => `<p style="margin: 0 0 12px;">${escapeHtml(line)}</p>`)
+          .join("")}
+      </div>
+      <p>
+        <a href="${escapeHtml(emailContent.href)}" style="color: #5d5148; font-weight: bold;">
+          ${escapeHtml(emailContent.hrefLabel)}
+        </a>
+      </p>
+      <p>A Stripe receipt should also arrive separately at this email address.</p>
+      <p style="margin-top: 28px;">With love,<br />Kate<br />The Lightness of Being</p>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: env.emailFrom,
+    to: email,
+    subject: emailContent.subject,
+    text,
+    html,
+  });
+
+  return { skipped: false };
+}
+
+function getEventPurchaseEmailContent(
+  eventSlug: string | undefined,
+  amountLabel: string,
+) {
+  const event =
+    eventSlug && eventEmailContent[eventSlug as keyof typeof eventEmailContent];
+
+  if (event) {
+    return {
+      subject: `You're confirmed for ${event.title}`,
+      intro: event.intro,
+      detailLines: amountLabel
+        ? [`Payment received: ${amountLabel}`, ...event.detailLines]
+        : event.detailLines,
+      reminderLines: event.reminderLines,
+      href: event.href,
+      hrefLabel: event.hrefLabel,
+    };
+  }
+
+  return {
+    subject: "Your event purchase is confirmed",
+    intro:
+      "Your purchase has been received, and your spot is confirmed.",
+    detailLines: amountLabel ? [`Payment received: ${amountLabel}`] : [],
+    reminderLines: [
+      "If you have any questions before the event, you are always welcome to reach out.",
+    ],
+    href: `${env.siteUrl}${site.links.events}`,
+    hrefLabel: "Browse events",
+  };
+}
+
+function getOfferPurchaseEmailContent(
+  offerSlug: string | undefined,
+  optionKey: string | undefined,
+  amountLabel: string,
+) {
+  const offer = offerSlug ? getOfferBySlug(offerSlug) : undefined;
+  const option = offer?.purchaseOptions?.find((item) => item.key === optionKey);
+  const title = option?.label || offer?.name || "your purchase";
+  const detailLines = [amountLabel ? `Payment received: ${amountLabel}` : null]
+    .filter(Boolean) as string[];
+
+  if (offer?.slug === "monthly-membership") {
+    return {
+      subject: "Your Monthly Membership is confirmed",
+      intro:
+        "Your Monthly Rest & Reset Membership has been received. Thank you for saying yes to this rhythm of ongoing support.",
+      detailLines,
+      reminderLines: [
+        "A Stripe receipt should arrive separately, and your membership access flow can be connected next through the site.",
+        "If you need anything in the meantime, you are always welcome to reach out.",
+      ],
+      href: `${env.siteUrl}${site.links.membership}`,
+      hrefLabel: "View membership details",
+    };
+  }
+
+  if (offer?.slug === "sound-training") {
+    return {
+      subject: "Your Sound Practitioner Training purchase is confirmed",
+      intro:
+        "Your place in Sound Practitioner Training has been received. I'm so glad you'll be part of this experience.",
+      detailLines,
+      reminderLines: [
+        option
+          ? `Your selected option: ${option.label}.`
+          : "Your training purchase has been recorded successfully.",
+        "More training details and next steps can be shared with you directly as the event gets closer.",
+      ],
+      href: `${env.siteUrl}${site.links.soundTraining}`,
+      hrefLabel: "View training details",
+    };
+  }
+
+  if (offer?.slug === "gift-certificate") {
+    return {
+      subject: "Your gift certificate purchase is confirmed",
+      intro:
+        "Your gift certificate purchase has been received. Thank you for offering such a thoughtful kind of support.",
+      detailLines: option ? [...detailLines, `Gift amount: ${option.priceLabel}`] : detailLines,
+      reminderLines: [
+        "If you want help deciding how it should be used or gifted, you are always welcome to reach out.",
+      ],
+      href: `${env.siteUrl}${site.links.giftCertificate}`,
+      hrefLabel: "View gift certificate details",
+    };
+  }
+
+  if (offer?.slug === "reiki-rising") {
+    return {
+      subject: "Your Reiki Rising purchase is confirmed",
+      intro:
+        "Your Reiki Rising purchase has been received. Thank you for joining this training path.",
+      detailLines,
+      reminderLines: [
+        "A Stripe receipt should arrive separately, and additional next-step details can be shared directly with you.",
+      ],
+      href: `${env.siteUrl}${site.links.reikiTraining}`,
+      hrefLabel: "View Reiki Rising details",
+    };
+  }
+
+  return {
+    subject: `Your purchase is confirmed`,
+    intro: `Your payment for ${title} has been received.`,
+    detailLines,
+    reminderLines: [
+      "A Stripe receipt should also arrive separately at this email address.",
+    ],
+    href: `${env.siteUrl}${site.links.courses}`,
+    hrefLabel: "Browse offers",
+  };
+}
+
+function formatAmount(amountTotal?: number | null, currency?: string | null) {
+  if (amountTotal == null || !currency) {
+    return "";
+  }
+
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currency.toUpperCase(),
+  }).format(amountTotal / 100);
 }
 
 function escapeHtml(value: string) {

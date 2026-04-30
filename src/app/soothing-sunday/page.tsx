@@ -7,11 +7,15 @@ const soothingSundayDates = [
     title: "Sunday, May 17, 2026",
     details:
       "Lindenhurst Village Square Gazebo · Outdoors weather permitting, otherwise indoors at Island Kava, Lindenhurst",
+    priceLabel: "$45",
+    eventSlug: "soothing-sunday-may-17-2026",
   },
   {
     title: "Sunday, June 14, 2026",
     details:
       "Lindenhurst Village Square Gazebo · Outdoors weather permitting, otherwise indoors at Island Kava, Lindenhurst",
+    priceLabel: "$45",
+    eventSlug: "soothing-sunday-june-14-2026",
   },
 ] as const;
 
@@ -57,12 +61,9 @@ export default function SoothingSundayPage() {
             ))}
           </ul>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/contact?inquiryType=events&subject=Upcoming%20Event%20Inquiry&draft=Hi%20Kate%2C%20I%27m%20interested%20in%20Soothing%20Sunday%20at%20Island%20Kava.%20I%27d%20love%20ticket%20details%20for%20the%20next%20date."
-              className="button-pill"
-            >
-              Ask About Tickets
-            </Link>
+            <a href="#soothing-sunday-dates" className="button-pill">
+              Purchase Tickets
+            </a>
             <Link href={site.links.events} className="button-pill">
               Back to Events
             </Link>
@@ -80,7 +81,7 @@ export default function SoothingSundayPage() {
         </div>
       </section>
 
-      <section className="grid gap-5 md:grid-cols-2">
+      <section id="soothing-sunday-dates" className="grid gap-5 md:grid-cols-2">
         {soothingSundayDates.map((item) => (
           <article
             key={item.title}
@@ -90,6 +91,15 @@ export default function SoothingSundayPage() {
               {item.title}
             </h3>
             <p className="mt-4 text-[var(--color-muted)]">{item.details}</p>
+            <p className="mt-4 font-semibold text-[var(--color-text)]">
+              Investment: {item.priceLabel}
+            </p>
+            <form action="/api/checkout/event" method="post" className="mt-6">
+              <input type="hidden" name="eventSlug" value={item.eventSlug} />
+              <button type="submit" className="button-pill">
+                Purchase Ticket
+              </button>
+            </form>
           </article>
         ))}
       </section>

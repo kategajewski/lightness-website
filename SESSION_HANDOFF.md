@@ -73,11 +73,73 @@ Rule for future sessions:
     - refresh the project dependencies / code links with `npm install`
     - then restart local dev with `npm run dev`
 - Next recommended starting point:
-  - Resume local testing from `http://localhost:3000/gift-certificate`.
-  - Click a gift amount and confirm Stripe Checkout opens correctly in local dev.
-  - Then test:
-    - Sound Practitioner Training full pay
-    - Sound Practitioner Training payment plan
+  - Core local checkout testing was completed successfully for:
+    - Gift Certificate
+    - Sound Practitioner Training
     - Monthly Membership
-  - After local checkout testing passes, add the same Stripe env vars into Vercel.
-  - Then build the Stripe webhook / receipt / portal-access workflow.
+  - Gift certificate checkout was simplified so the landing page goes straight to Stripe for each amount and skips the redundant middle selection step.
+  - Stripe payment methods were reviewed in test mode:
+    - keep simple launch setup:
+      - Cards
+      - Apple Pay
+      - Link
+      - optional Google Pay
+    - turn off:
+      - Affirm
+      - Klarna
+      - other BNPL / regional extras
+  - Membership Stripe product copy was updated in Stripe so checkout no longer mentions old 75-minute or multi-quantity options.
+  - New event added:
+    - `Sacred Sounds Under the Sky`
+    - route:
+      - `/sacred-sounds-under-the-sky`
+    - direct Stripe event checkout route created:
+      - `/api/checkout/event`
+    - current online event ticket is:
+      - `$30 in advance`
+    - `$35 day-of` is mentioned on the page only and is not sold online yet
+    - event details captured on page:
+      - Saturday, May 23, 2026
+      - 11:00 AM–12:00 PM
+      - rain date Sunday, May 24, 2026
+      - update by 9 AM if rain date is used
+      - The Lightness Grounds, Bayport, NY
+      - corner of Gillette Avenue and Academy Street
+      - no bathroom facilities
+      - outdoor only
+      - dress in layers / bring yoga mat, blanket, and anything cozy
+  - Sacred Sounds page now uses the outdoor sound photo:
+    - `public/homepage-images/sacred-sounds-outdoor.jpeg`
+    - mirrored in `web/public/homepage-images/sacred-sounds-outdoor.jpeg`
+  - Events page:
+    - `Sacred Sounds Under the Sky` card added
+    - event cards reordered into chronological order:
+      - Gallery Reading with Don Schaefer
+      - Full Moon Release
+      - Soothing Sunday at Island Kava
+      - Sacred Sounds Under the Sky
+  - Vercel / deployment:
+    - Vercel project was reconnected to the correct GitHub repo:
+      - `kategajewski/lightness-website`
+    - A stale deployment problem was resolved.
+    - Production build was failing because of:
+      - duplicate stray files with ` 2` in their names
+      - copied `.next` artifacts inside `web/`
+      - production build using Turbopack
+    - Fixes applied:
+      - removed duplicate ` 2` files
+      - removed copied `.next` artifacts
+      - changed both build scripts to:
+        - `next build --webpack`
+    - `npm run build` now passes locally.
+    - Updated files:
+      - `package.json`
+      - `web/package.json`
+  - Current live/preview state:
+    - User confirmed the Vercel site is finally updated.
+
+### Recommended Next Starting Point
+- Add Stripe environment variables into Vercel so preview/live checkout uses the same working values as local.
+- Build the Stripe webhook / receipt / confirmation flow.
+- Decide whether `Soothing Sunday` should get the same immediate direct Stripe ticket flow as `Sacred Sounds Under the Sky`.
+- Keep `Gallery Reading` on Don Schaefer’s Venmo unless the user changes that decision later.

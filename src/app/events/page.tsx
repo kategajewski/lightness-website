@@ -4,16 +4,6 @@ import { site } from "@/lib/site";
 
 const upcomingEvents = [
   {
-    eyebrow: "New Outdoor Event",
-    title: "Sacred Sounds Under the Sky",
-    description:
-      "An outdoor sound bath experience at The Lightness Grounds in Bayport designed for rest, reset, and open-air healing.",
-    details:
-      "Saturday, May 23, 2026 · 11:00 AM-12:00 PM · $30 in advance · Rain date Sunday, May 24",
-    href: site.links.sacredSoundsUnderTheSky,
-    cta: "Purchase Ticket",
-  },
-  {
     eyebrow: "Featured Event",
     title: "Gallery Reading with Don Schaefer",
     description:
@@ -22,6 +12,16 @@ const upcomingEvents = [
       "Tuesday, April 28, 2026 · 7-8:30 PM · Limited to 8 people",
     href: "https://venmo.com/u/donald-schaefer-12",
     cta: "Register Through Venmo",
+  },
+  {
+    eyebrow: "Seasonal Gathering",
+    title: "Full Moon Release: Reiki Infused Sound Journey",
+    description:
+      "A Reiki-infused sound journey designed to help you soften, restore, and reconnect under the energy of the full moon.",
+    details:
+      "Saturday, May 2, 2026 · Sanctuary+Health, Patchogue",
+    href: "/full-moon-release",
+    cta: "See Event Details",
   },
   {
     eyebrow: "Recurring Series",
@@ -34,14 +34,14 @@ const upcomingEvents = [
     cta: "Explore Soothing Sunday",
   },
   {
-    eyebrow: "Seasonal Gathering",
-    title: "Full Moon Release: Reiki Infused Sound Journey",
+    eyebrow: "New Outdoor Event",
+    title: "Sacred Sounds Under the Sky",
     description:
-      "A Reiki-infused sound journey designed to help you soften, restore, and reconnect under the energy of the full moon.",
+      "An outdoor sound bath experience at The Lightness Grounds in Bayport designed for rest, reset, and open-air healing.",
     details:
-      "Saturday, May 2, 2026 · Sanctuary+Health, Patchogue",
-    href: "/full-moon-release",
-    cta: "See Event Details",
+      "Saturday, May 23, 2026 · 11:00 AM-12:00 PM · $30 in advance · Rain date Sunday, May 24",
+    href: site.links.sacredSoundsUnderTheSky,
+    cta: "Purchase Ticket",
   },
 ] as const;
 

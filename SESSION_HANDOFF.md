@@ -454,3 +454,175 @@ Rule for future sessions:
   - `GMAIL_AUTH_USER`
   - `GMAIL_APP_PASSWORD`
   - only after Resend delivery is confirmed end-to-end.
+
+### Latest Save Point
+- Resend contact-form delivery test completed successfully:
+  - Test submitted on hosted site:
+    - `https://lightness-preview-4x1n.vercel.app/contact`
+  - Test inquiry details:
+    - name: `Resend Website Test`
+    - email: `test@example.com`
+    - phone: `555-0100`
+    - message began:
+      - `TEST MESSAGE: Please ignore. This is a website email delivery test after switching automated email to Resend.`
+  - Hosted site returned:
+    - `Your message was sent successfully.`
+  - Vercel logs showed:
+    - `POST /contact`
+    - no email forwarding error
+  - Resend sending logs showed:
+    - status: `delivered`
+    - recipient: `KATE@bethelightness.com`
+    - subject: `New website inquiry: Resend Website Test`
+- Practical conclusion:
+  - Resend is working for contact form owner notifications.
+  - Website email sending is no longer dependent on Gmail app-password delivery for this tested path.
+- Git/deploy state:
+  - Resend email integration commit:
+    - `7b9b5fd Send website emails with Resend`
+  - commit was pushed to `main`
+  - Vercel production deployment completed and is aliased to:
+    - `https://lightness-preview-4x1n.vercel.app`
+- Current working tree note:
+  - Untracked duplicate file still present:
+    - `src/app/api/stripe/webhook/route 2.ts`
+  - Do not remove it unless user confirms cleanup.
+
+### Recommended Next Starting Point
+- Run one hosted Stripe test purchase to verify the purchase email path:
+  - customer confirmation email through Resend
+  - owner purchase notification email through Resend
+- Check Resend sending logs after the purchase for both messages.
+- Confirm normal Google Workspace inbox receiving still works.
+- After purchase email testing succeeds, consider removing old Gmail-specific production env vars later:
+  - `GMAIL_AUTH_USER`
+  - `GMAIL_APP_PASSWORD`
+  - keep them until Resend purchase emails are confirmed end-to-end.
+
+### Latest Save Point
+- Hosted Stripe purchase email test completed successfully:
+  - Test purchase:
+    - `Soothing Sunday - May 17, 2026`
+    - amount: `$45.00`
+    - Stripe sandbox/test checkout
+    - customer email: `kate@bethelightness.com`
+    - test card: Stripe `4242` test card
+    - cardholder name: `Resend Purchase Test`
+  - Checkout returned successfully to:
+    - `https://lightness-preview-4x1n.vercel.app/checkout/success?type=event&eventSlug=soothing-sunday-may-17-2026`
+  - Success page displayed:
+    - `You're booked for Soothing Sunday.`
+  - Vercel logs showed:
+    - `POST /api/checkout/event`
+    - `POST /api/stripe/webhook`
+    - `GET /checkout/success`
+    - no webhook/email errors surfaced in logs
+  - Resend sending logs showed both purchase emails as `delivered`:
+    - owner notification:
+      - to: `KATE@bethelightness.com`
+      - subject: `New website purchase: Soothing Sunday - May 17, 2026`
+    - customer confirmation:
+      - to: `kate@bethelightness.com`
+      - subject: `You're confirmed for Soothing Sunday - May 17, 2026`
+- Practical conclusion:
+  - Resend is confirmed working for:
+    - contact form owner notifications
+    - Stripe customer confirmation emails
+    - Stripe owner purchase notification emails
+  - The email delivery path is now launch-safe enough for the tested hosted checkout flow.
+- Current working tree note:
+  - `SESSION_HANDOFF.md` was updated with this save point.
+  - Untracked duplicate file still present:
+    - `src/app/api/stripe/webhook/route 2.ts`
+  - Do not remove it unless user confirms cleanup.
+
+### Recommended Next Starting Point
+- Optional cleanup:
+  - remove old Gmail-specific production env vars after user confirms:
+    - `GMAIL_AUTH_USER`
+    - `GMAIL_APP_PASSWORD`
+  - leave them for now if avoiding changes before launch.
+- Optional local cleanup:
+  - review/remove duplicate untracked file:
+    - `src/app/api/stripe/webhook/route 2.ts`
+- Continue broader launch QA:
+  - test remaining checkout flows if desired:
+    - Gift Certificate
+    - Sound Practitioner Training
+    - Monthly Membership
+    - Sacred Sounds Under the Sky
+  - verify each produces expected Resend emails.
+
+### Latest Save Point
+- Hosted Stripe Gift Certificate checkout test was run:
+  - Test purchase:
+    - `Gift Certificate`
+    - amount: `$50.00`
+    - Stripe sandbox/test checkout
+    - customer email: `kate+gift-test@bethelightness.com`
+    - test card: Stripe `4242` test card
+    - cardholder name: `Resend Gift Test`
+  - Important Stripe/Link handling:
+    - Initial checkout with `kate@bethelightness.com` triggered a Link verification / remembered-device prompt.
+    - User chose the safer path: restart/use `kate+gift-test@bethelightness.com`.
+    - In the clean checkout, `Save my information for faster checkout` was unchecked before payment.
+  - Checkout returned successfully to:
+    - `https://lightness-preview-4x1n.vercel.app/checkout/success?type=offer&slug=gift-certificate`
+- Verification status:
+  - Stripe checkout completion is confirmed by the hosted success redirect.
+  - Resend dashboard delivery-log confirmation for this Gift Certificate test is still pending because the clean browser session used for the test was not logged into Resend.
+  - Ask user to check either:
+    - Resend Emails dashboard for the two expected messages, or
+    - Google Workspace inbox for the plus-addressed customer email.
+  - Expected Resend/customer email subject:
+    - `Your gift certificate purchase is confirmed`
+  - Expected owner notification subject:
+    - `New website purchase: $50 Gift Certificate`
+- Current working tree note:
+  - `SESSION_HANDOFF.md` was updated with this save point.
+  - Untracked duplicate file still present:
+    - `src/app/api/stripe/webhook/route 2.ts`
+  - A temporary Playwright screenshot file was created during checkout troubleshooting:
+    - `gift-checkout-current.png`
+  - Do not remove local files unless user confirms cleanup.
+
+### Recommended Next Starting Point
+- Confirm the Gift Certificate emails in Resend or the inbox:
+  - customer confirmation to `kate+gift-test@bethelightness.com`
+  - owner notification to `KATE@bethelightness.com`
+- If both are present/delivered, mark Gift Certificate email QA complete.
+- Continue remaining checkout QA if desired:
+  - Sound Practitioner Training
+  - Monthly Membership
+  - Sacred Sounds Under the Sky
+
+### Latest Save Point
+- Soothing Sunday receipt/confirmation email copy was updated in:
+  - `src/lib/email.ts`
+- Both Soothing Sunday event entries were changed:
+  - `Soothing Sunday - May 17, 2026`
+  - `Soothing Sunday - June 14, 2026`
+- Old reminder line:
+  - `Come in comfortable clothes and bring anything that helps you settle in with ease.`
+- New reminder line:
+  - `Please dress comfortably, in layers and bring a yoga mat and blanket.`
+- Validation:
+  - `npm run lint` passed with no errors.
+  - Existing warnings remain:
+    - Next.js `<img>` optimization warnings
+    - existing unused `secondaryPaths` warning
+- Current working tree note:
+  - `SESSION_HANDOFF.md` was updated with this save point.
+  - `src/lib/email.ts` has the Soothing Sunday copy change.
+  - Untracked duplicate file still present:
+    - `src/app/api/stripe/webhook/route 2.ts`
+  - Temporary Playwright screenshot still present:
+    - `gift-checkout-current.png`
+  - Do not remove local files unless user confirms cleanup.
+
+### Recommended Next Starting Point
+- Commit/deploy the Soothing Sunday email copy change when user is ready.
+- Continue remaining checkout QA if desired:
+  - Sound Practitioner Training
+  - Monthly Membership
+  - Sacred Sounds Under the Sky

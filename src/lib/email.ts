@@ -155,7 +155,7 @@ const eventEmailContent = {
     ],
     reminderLines: [
       "You do not need any previous experience to come.",
-      "Come in comfortable clothes and bring anything that helps you settle in with ease.",
+      "Please dress comfortably, in layers and bring a yoga mat and blanket.",
     ],
     href: `${env.siteUrl}/soothing-sunday`,
     hrefLabel: "View Soothing Sunday details",
@@ -171,7 +171,7 @@ const eventEmailContent = {
     ],
     reminderLines: [
       "You do not need any previous experience to come.",
-      "Come in comfortable clothes and bring anything that helps you settle in with ease.",
+      "Please dress comfortably, in layers and bring a yoga mat and blanket.",
     ],
     href: `${env.siteUrl}/soothing-sunday`,
     hrefLabel: "View Soothing Sunday details",

@@ -39,3 +39,4 @@ yarn-error.log*
 /.photo-review/
 /website-photo-option/
 /selected-site-photos/
+.vercel

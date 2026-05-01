@@ -54,7 +54,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           {userResult.user ? (
             <>
               <strong className="block text-[1.05rem] text-[var(--color-text)]">
-                You're already signed in
+                You&apos;re already signed in
               </strong>
               <p className="mt-3 text-[var(--color-muted)]">
                 Signed in as {userResult.user.email}.

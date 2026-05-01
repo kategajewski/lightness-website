@@ -20,7 +20,7 @@ function createTransport() {
   return nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: env.emailFrom,
+      user: env.gmailAuthUser || env.emailFrom,
       pass: env.gmailAppPassword,
     },
   });

@@ -10,6 +10,7 @@ export const env = {
   supabaseServiceRoleKey: readOptionalEnv("SUPABASE_SERVICE_ROLE_KEY"),
   contactForwardTo: readOptionalEnv("CONTACT_FORWARD_TO"),
   emailFrom: readOptionalEnv("EMAIL_FROM"),
+  gmailAuthUser: readOptionalEnv("GMAIL_AUTH_USER"),
   gmailAppPassword: readOptionalEnv("GMAIL_APP_PASSWORD"),
   stripeSecretKey: readOptionalEnv("STRIPE_SECRET_KEY"),
   stripeWebhookSecret: readOptionalEnv("STRIPE_WEBHOOK_SECRET"),
@@ -48,10 +49,14 @@ export const integrations = {
     Boolean(env.supabaseUrl) &&
     Boolean(env.supabaseAnonKey) &&
     Boolean(env.supabaseServiceRoleKey),
-  emailDelivery: Boolean(env.emailFrom) && Boolean(env.gmailAppPassword),
+  emailDelivery:
+    Boolean(env.emailFrom) &&
+    Boolean(env.gmailAuthUser || env.emailFrom) &&
+    Boolean(env.gmailAppPassword),
   emailForwarding:
     Boolean(env.contactForwardTo) &&
     Boolean(env.emailFrom) &&
+    Boolean(env.gmailAuthUser || env.emailFrom) &&
     Boolean(env.gmailAppPassword),
   stripe:
     Boolean(env.stripeSecretKey) && Boolean(env.stripePublishableKey),

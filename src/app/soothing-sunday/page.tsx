@@ -99,9 +99,6 @@ export default async function SoothingSundayPage({
             </div>
           ) : null}
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#soothing-sunday-dates" className="button-pill">
-              Purchase Tickets
-            </a>
             <Link href={site.links.events} className="button-pill">
               Back to Events
             </Link>

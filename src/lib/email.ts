@@ -5,12 +5,15 @@ import { site } from "@/lib/site";
 
 type StripeCheckoutSession = {
   amount_total?: number | null;
+  created?: number | null;
   currency?: string | null;
   customer_details?: {
     email?: string | null;
     name?: string | null;
   } | null;
+  id?: string | null;
   metadata?: Record<string, string | undefined> | null;
+  payment_intent?: string | { id?: string | null } | null;
 };
 
 function createTransport() {
@@ -97,7 +100,7 @@ const eventEmailContent = {
     hrefLabel: "View event details",
   },
   "soothing-sunday-may-17-2026": {
-    title: "Soothing Sunday at Island Kava",
+    title: "Soothing Sunday - May 17, 2026",
     intro:
       "Your ticket is confirmed. I’m looking forward to sharing this gentle community gathering with you.",
     detailLines: [
@@ -113,7 +116,7 @@ const eventEmailContent = {
     hrefLabel: "View Soothing Sunday details",
   },
   "soothing-sunday-june-14-2026": {
-    title: "Soothing Sunday at Island Kava",
+    title: "Soothing Sunday - June 14, 2026",
     intro:
       "Your ticket is confirmed. I’m looking forward to sharing this gentle community gathering with you.",
     detailLines: [
@@ -204,6 +207,77 @@ export async function sendPurchaseConfirmationEmail(
     from: env.emailFrom,
     to: email,
     subject: emailContent.subject,
+    text,
+    html,
+  });
+
+  return { skipped: false };
+}
+
+export async function sendPurchaseOwnerNotificationEmail(
+  session: StripeCheckoutSession,
+) {
+  if (!integrations.emailForwarding) {
+    return { skipped: true };
+  }
+
+  const transporter = createTransport();
+  const metadata = session.metadata ?? {};
+  const amountLabel = formatAmount(session.amount_total, session.currency);
+  const purchase = getOwnerPurchaseSummary(
+    metadata.purchaseType,
+    metadata.eventSlug,
+    metadata.offerSlug,
+    metadata.optionKey,
+  );
+  const customerName = session.customer_details?.name?.trim() || "Not provided";
+  const customerEmail =
+    session.customer_details?.email?.trim() || "Not provided";
+  const paymentIntent =
+    typeof session.payment_intent === "string"
+      ? session.payment_intent
+      : session.payment_intent?.id;
+  const purchasedAt = session.created
+    ? new Intl.DateTimeFormat("en-US", {
+        dateStyle: "medium",
+        timeStyle: "short",
+        timeZone: "America/New_York",
+      }).format(new Date(session.created * 1000))
+    : "Not provided";
+
+  const lines = [
+    "A new website checkout purchase was completed.",
+    "",
+    `Purchase: ${purchase}`,
+    `Amount: ${amountLabel || "Not provided"}`,
+    `Customer: ${customerName}`,
+    `Customer email: ${customerEmail}`,
+    `Purchased at: ${purchasedAt}`,
+    `Stripe session: ${session.id || "Not provided"}`,
+    `Payment intent: ${paymentIntent || "Not provided"}`,
+  ];
+
+  const text = lines.join("\n");
+  const html = `
+    <div style="font-family: Georgia, serif; color: #3e342e; line-height: 1.6;">
+      <h2 style="margin-bottom: 16px;">New website purchase</h2>
+      <p>A new checkout purchase was completed.</p>
+      <p><strong>Purchase:</strong> ${escapeHtml(purchase)}</p>
+      <p><strong>Amount:</strong> ${escapeHtml(amountLabel || "Not provided")}</p>
+      <p><strong>Customer:</strong> ${escapeHtml(customerName)}</p>
+      <p><strong>Customer email:</strong> ${escapeHtml(customerEmail)}</p>
+      <p><strong>Purchased at:</strong> ${escapeHtml(purchasedAt)}</p>
+      <p><strong>Stripe session:</strong> ${escapeHtml(session.id || "Not provided")}</p>
+      <p><strong>Payment intent:</strong> ${escapeHtml(paymentIntent || "Not provided")}</p>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: env.emailFrom,
+    to: env.contactForwardTo,
+    replyTo:
+      customerEmail === "Not provided" ? undefined : session.customer_details?.email ?? undefined,
+    subject: `New website purchase: ${purchase}`,
     text,
     html,
   });
@@ -325,6 +399,26 @@ function getOfferPurchaseEmailContent(
     href: `${env.siteUrl}${site.links.courses}`,
     hrefLabel: "Browse offers",
   };
+}
+
+function getOwnerPurchaseSummary(
+  purchaseType: string | undefined,
+  eventSlug: string | undefined,
+  offerSlug: string | undefined,
+  optionKey: string | undefined,
+) {
+  if (purchaseType === "event") {
+    const event = eventSlug
+      ? eventEmailContent[eventSlug as keyof typeof eventEmailContent]
+      : undefined;
+
+    return event?.title || "Event ticket";
+  }
+
+  const offer = offerSlug ? getOfferBySlug(offerSlug) : undefined;
+  const option = offer?.purchaseOptions?.find((item) => item.key === optionKey);
+
+  return option?.label || offer?.name || "Website purchase";
 }
 
 function formatAmount(amountTotal?: number | null, currency?: string | null) {

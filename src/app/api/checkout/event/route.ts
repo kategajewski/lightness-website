@@ -10,7 +10,7 @@ const eventCheckoutConfig = {
     cancelPath: "/sacred-sounds-under-the-sky",
   },
   "soothing-sunday-may-17-2026": {
-    name: "Soothing Sunday at Island Kava",
+    name: "Soothing Sunday - May 17, 2026",
     description:
       "Ticket for the Sunday, May 17, 2026 Soothing Sunday gathering in Lindenhurst.",
     amountCents: 4500,
@@ -18,7 +18,7 @@ const eventCheckoutConfig = {
     cancelPath: "/soothing-sunday",
   },
   "soothing-sunday-june-14-2026": {
-    name: "Soothing Sunday at Island Kava",
+    name: "Soothing Sunday - June 14, 2026",
     description:
       "Ticket for the Sunday, June 14, 2026 Soothing Sunday gathering in Lindenhurst.",
     amountCents: 4500,

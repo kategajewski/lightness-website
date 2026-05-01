@@ -139,7 +139,88 @@ Rule for future sessions:
     - User confirmed the Vercel site is finally updated.
 
 ### Recommended Next Starting Point
-- Add Stripe environment variables into Vercel so preview/live checkout uses the same working values as local.
-- Build the Stripe webhook / receipt / confirmation flow.
-- Decide whether `Soothing Sunday` should get the same immediate direct Stripe ticket flow as `Sacred Sounds Under the Sky`.
+- Stripe event checkout / hosted preview:
+  - `Soothing Sunday` now has direct Stripe checkout buttons on each date card:
+    - May 17, 2026
+    - June 14, 2026
+  - ticket price is now correctly set to:
+    - `$45`
+  - `Sacred Sounds Under the Sky` direct event checkout remains active at:
+    - `$30 in advance`
+  - Event checkout route now uses the current deployment origin instead of relying on one fixed site URL, so Vercel previews can open Stripe correctly.
+- Checkout confirmation flow:
+  - Hosted success/cancel pages were upgraded from placeholder copy to customer-facing pages.
+  - Success/cancel routes now detect:
+    - event purchase vs offer purchase
+    - event slug / offer slug
+  - Event purchases land on event-aware confirmation pages instead of a generic staging message.
+- Stripe webhook / custom confirmation emails:
+  - New webhook route added:
+    - `/api/stripe/webhook`
+  - Checkout sessions now send metadata for:
+    - purchase type
+    - event slug
+    - offer slug
+    - offer option key
+  - Custom confirmation emails were built for:
+    - Soothing Sunday
+    - Sacred Sounds Under the Sky
+    - Monthly Membership
+    - Sound Practitioner Training
+    - Gift Certificate
+    - Reiki Rising
+  - `integrations.emailDelivery` was added so customer confirmation emails no longer depend on the inquiry forward-to inbox setting.
+- Vercel / Stripe environment state:
+  - Hosted Stripe preview debugging was completed.
+  - The main hosted issue was Vercel env mismatch:
+    - `STRIPE_SECRET_KEY` needed to be a test key:
+      - `sk_test_...`
+    - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` needed to be a test key:
+      - `pk_test_...`
+  - Earlier failures came from accidentally mixing:
+    - `sk_live_...`
+    - `pk_live_...`
+    - and test-mode preview checkout
+  - Soothing Sunday now opens Stripe successfully on the hosted preview after those env fixes.
+- Webhook destination note:
+  - A Stripe test webhook destination was created in Stripe.
+  - Current webhook destination name:
+    - `vercel preview webhook`
+  - Current endpoint used during setup:
+    - `https://lightness-website-2txw9n7f2-bethelightness.vercel.app/api/stripe/webhook`
+  - Important:
+    - hosted preview testing later moved to a newer preview URL:
+      - `https://lightness-website-9sg9vsfev-bethelightness.vercel.app`
+    - next session should update the Stripe webhook endpoint to the newest active preview deployment or to the eventual stable production domain before relying on end-to-end email testing.
+- Git / deploy state:
+  - Additional commits made this session:
+    - `f100c90 Add Stripe event checkout and confirmation emails`
+    - `51f52e5 Use deployment origin for Stripe checkout redirects`
+    - `333e33e Surface hosted Stripe event checkout errors`
+    - `cc552b2 Detect Stripe key mode mismatch on preview`
+  - Working tree is currently clean.
+- Playwright / Codex browser control:
+  - The Codex Playwright browser tool was failing because it tried to use:
+    - `/.playwright-mcp`
+    - which was read-only on this machine
+  - Permanent local fix was added in Codex config:
+    - new wrapper script:
+      - `/Users/magicalbeing/.codex/playwright-mcp-wrapper.sh`
+    - updated config:
+      - `/Users/magicalbeing/.codex/config.toml`
+    - writable Playwright dirs:
+      - `/Users/magicalbeing/.codex/tmp/playwright-user-data`
+      - `/Users/magicalbeing/.codex/tmp/playwright-output`
+  - Direct Playwright smoke test succeeded locally after this change.
+  - Important next step for browser automation:
+    - fully restart the Codex app so the Playwright MCP server reloads from the updated config.
+
+### Recommended Next Starting Point
+- Restart the Codex app, then test whether browser control now works after the Playwright MCP config fix.
+- Run one full Stripe test purchase on the newest Vercel preview and confirm:
+  - Stripe checkout opens
+  - success page works
+  - custom confirmation email sends
+  - Stripe receipt email behavior is acceptable
+- Update the Stripe webhook destination from the older preview URL to the newest active preview URL, or switch it to the final production domain when ready.
 - Keep `Gallery Reading` on Don Schaefer’s Venmo unless the user changes that decision later.

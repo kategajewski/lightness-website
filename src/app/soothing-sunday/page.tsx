@@ -41,6 +41,8 @@ const checkoutErrorMessages: Record<string, string> = {
     "The Stripe secret key format looks invalid on this deployment.",
   publishable_key_invalid:
     "The Stripe publishable key format looks invalid on this deployment.",
+  key_mode_mismatch:
+    "The Stripe secret key and publishable key are not in the same test/live mode on this deployment.",
   stripe_session_failed:
     "Stripe could not create the checkout session from this deployment.",
   session_url_missing:

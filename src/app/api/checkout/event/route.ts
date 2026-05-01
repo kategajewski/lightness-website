@@ -78,6 +78,30 @@ export async function POST(request: Request) {
     );
   }
 
+  if (
+    env.stripeSecretKey.startsWith("sk_test_") &&
+    !env.stripePublishableKey.startsWith("pk_test_")
+  ) {
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=key_mode_mismatch`,
+      {
+        status: 303,
+      },
+    );
+  }
+
+  if (
+    env.stripeSecretKey.startsWith("sk_live_") &&
+    !env.stripePublishableKey.startsWith("pk_live_")
+  ) {
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=key_mode_mismatch`,
+      {
+        status: 303,
+      },
+    );
+  }
+
   try {
     const body = new URLSearchParams({
       mode: "payment",

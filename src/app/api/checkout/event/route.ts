@@ -40,46 +40,99 @@ export async function POST(request: Request) {
   }
 
   if (!integrations.stripe || !env.stripeSecretKey) {
-    return NextResponse.redirect(`${origin}${event.cancelPath}`, {
-      status: 303,
-    });
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=stripe_not_configured`,
+      {
+        status: 303,
+      },
+    );
   }
 
-  const body = new URLSearchParams({
-    mode: "payment",
-    "line_items[0][price_data][currency]": "usd",
-    "line_items[0][price_data][unit_amount]": String(event.amountCents),
-    "line_items[0][price_data][product_data][name]": event.name,
-    "line_items[0][price_data][product_data][description]": event.description,
-    "line_items[0][quantity]": "1",
-    "metadata[purchaseType]": "event",
-    "metadata[eventSlug]": eventSlug,
-    success_url: `${origin}${event.successPath}?type=event&eventSlug=${encodeURIComponent(
-      eventSlug,
-    )}`,
-    cancel_url: `${origin}/checkout/cancel?type=event&eventSlug=${encodeURIComponent(
-      eventSlug,
-    )}`,
-  });
-
-  const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.stripeSecretKey}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body,
-  });
-
-  if (!response.ok) {
-    return NextResponse.redirect(`${origin}${event.cancelPath}`, {
-      status: 303,
-    });
+  if (!env.stripePublishableKey) {
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=publishable_key_missing`,
+      {
+        status: 303,
+      },
+    );
   }
 
-  const session = (await response.json()) as { url?: string };
+  if (!env.stripeSecretKey.startsWith("sk_")) {
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=secret_key_invalid`,
+      {
+        status: 303,
+      },
+    );
+  }
 
-  return NextResponse.redirect(session.url ?? `${origin}${event.cancelPath}`, {
-    status: 303,
-  });
+  if (
+    !env.stripePublishableKey.startsWith("pk_test_") &&
+    !env.stripePublishableKey.startsWith("pk_live_")
+  ) {
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=publishable_key_invalid`,
+      {
+        status: 303,
+      },
+    );
+  }
+
+  try {
+    const body = new URLSearchParams({
+      mode: "payment",
+      "line_items[0][price_data][currency]": "usd",
+      "line_items[0][price_data][unit_amount]": String(event.amountCents),
+      "line_items[0][price_data][product_data][name]": event.name,
+      "line_items[0][price_data][product_data][description]": event.description,
+      "line_items[0][quantity]": "1",
+      "metadata[purchaseType]": "event",
+      "metadata[eventSlug]": eventSlug,
+      success_url: `${origin}${event.successPath}?type=event&eventSlug=${encodeURIComponent(
+        eventSlug,
+      )}`,
+      cancel_url: `${origin}/checkout/cancel?type=event&eventSlug=${encodeURIComponent(
+        eventSlug,
+      )}`,
+    });
+
+    const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.stripeSecretKey}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body,
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Stripe event checkout session creation failed", errorText);
+
+      return NextResponse.redirect(
+        `${origin}${event.cancelPath}?checkoutError=stripe_session_failed`,
+        {
+          status: 303,
+        },
+      );
+    }
+
+    const session = (await response.json()) as { url?: string };
+
+    return NextResponse.redirect(
+      session.url ?? `${origin}${event.cancelPath}?checkoutError=session_url_missing`,
+      {
+        status: 303,
+      },
+    );
+  } catch (error) {
+    console.error("Unexpected Stripe event checkout error", error);
+
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=unexpected_error`,
+      {
+        status: 303,
+      },
+    );
+  }
 }

@@ -26,7 +26,38 @@ const soothingSundayFeatures = [
   "A welcoming community experience whether you come alone or with a friend",
 ] as const;
 
-export default function SoothingSundayPage() {
+type SoothingSundayPageProps = {
+  searchParams: Promise<{
+    checkoutError?: string;
+  }>;
+};
+
+const checkoutErrorMessages: Record<string, string> = {
+  stripe_not_configured:
+    "Stripe is not configured on this deployment yet.",
+  publishable_key_missing:
+    "The Stripe publishable key is missing on this deployment.",
+  secret_key_invalid:
+    "The Stripe secret key format looks invalid on this deployment.",
+  publishable_key_invalid:
+    "The Stripe publishable key format looks invalid on this deployment.",
+  stripe_session_failed:
+    "Stripe could not create the checkout session from this deployment.",
+  session_url_missing:
+    "Stripe returned no checkout URL for this purchase.",
+  unexpected_error:
+    "An unexpected checkout error happened on this deployment.",
+};
+
+export default async function SoothingSundayPage({
+  searchParams,
+}: SoothingSundayPageProps) {
+  const { checkoutError } = await searchParams;
+  const checkoutErrorMessage = checkoutError
+    ? checkoutErrorMessages[checkoutError] ??
+      "The checkout could not be opened from this deployment."
+    : null;
+
   return (
     <PageShell
       eyebrow="Soothing Sunday"
@@ -60,6 +91,11 @@ export default function SoothingSundayPage() {
               </li>
             ))}
           </ul>
+          {checkoutErrorMessage ? (
+            <div className="mt-6 rounded-[20px] border border-[rgba(130,75,56,0.16)] bg-[rgba(255,243,236,0.94)] p-5 text-[0.98rem] text-[#6d4e40]">
+              {checkoutErrorMessage}
+            </div>
+          ) : null}
           <div className="mt-8 flex flex-wrap gap-3">
             <a href="#soothing-sunday-dates" className="button-pill">
               Purchase Tickets

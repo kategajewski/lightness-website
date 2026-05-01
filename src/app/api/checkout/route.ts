@@ -3,13 +3,14 @@ import { env, integrations } from "@/lib/env";
 import { getOfferBySlug } from "@/lib/offers";
 
 export async function POST(request: Request) {
+  const origin = new URL(request.url).origin;
   const formData = await request.formData();
   const slug = String(formData.get("slug") ?? "");
   const optionKey = String(formData.get("optionKey") ?? "");
   const offer = getOfferBySlug(slug);
 
   if (!offer) {
-    return NextResponse.redirect(`${env.siteUrl}/courses`, { status: 303 });
+    return NextResponse.redirect(`${origin}/courses`, { status: 303 });
   }
 
   const selectedOption = offer.purchaseOptions?.find(
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
     (offer.format === "subscription" ? "subscription" : "payment");
 
   if (!integrations.stripe || !selectedPriceId || !env.stripeSecretKey) {
-    return NextResponse.redirect(`${env.siteUrl}/checkout/${offer.slug}`, {
+    return NextResponse.redirect(`${origin}/checkout/${offer.slug}`, {
       status: 303,
     });
   }
@@ -33,10 +34,10 @@ export async function POST(request: Request) {
     "metadata[purchaseType]": "offer",
     "metadata[offerSlug]": offer.slug,
     "metadata[optionKey]": selectedOption?.key ?? "",
-    success_url: `${env.siteUrl}/checkout/success?type=offer&slug=${encodeURIComponent(
+    success_url: `${origin}/checkout/success?type=offer&slug=${encodeURIComponent(
       offer.slug,
     )}`,
-    cancel_url: `${env.siteUrl}/checkout/cancel?type=offer&slug=${encodeURIComponent(
+    cancel_url: `${origin}/checkout/cancel?type=offer&slug=${encodeURIComponent(
       offer.slug,
     )}`,
   });
@@ -51,7 +52,7 @@ export async function POST(request: Request) {
   });
 
   if (!response.ok) {
-    return NextResponse.redirect(`${env.siteUrl}/checkout/${offer.slug}`, {
+    return NextResponse.redirect(`${origin}/checkout/${offer.slug}`, {
       status: 303,
     });
   }
@@ -59,7 +60,7 @@ export async function POST(request: Request) {
   const session = (await response.json()) as { url?: string };
 
   return NextResponse.redirect(
-    session.url ?? `${env.siteUrl}/checkout/${offer.slug}`,
+    session.url ?? `${origin}/checkout/${offer.slug}`,
     { status: 303 },
   );
 }

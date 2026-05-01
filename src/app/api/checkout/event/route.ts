@@ -28,6 +28,7 @@ const eventCheckoutConfig = {
 } as const;
 
 export async function POST(request: Request) {
+  const origin = new URL(request.url).origin;
   const formData = await request.formData();
   const eventSlug = String(formData.get("eventSlug") ?? "");
   const event = eventCheckoutConfig[
@@ -35,11 +36,11 @@ export async function POST(request: Request) {
   ];
 
   if (!event) {
-    return NextResponse.redirect(`${env.siteUrl}/events`, { status: 303 });
+    return NextResponse.redirect(`${origin}/events`, { status: 303 });
   }
 
   if (!integrations.stripe || !env.stripeSecretKey) {
-    return NextResponse.redirect(`${env.siteUrl}${event.cancelPath}`, {
+    return NextResponse.redirect(`${origin}${event.cancelPath}`, {
       status: 303,
     });
   }
@@ -53,10 +54,10 @@ export async function POST(request: Request) {
     "line_items[0][quantity]": "1",
     "metadata[purchaseType]": "event",
     "metadata[eventSlug]": eventSlug,
-    success_url: `${env.siteUrl}${event.successPath}?type=event&eventSlug=${encodeURIComponent(
+    success_url: `${origin}${event.successPath}?type=event&eventSlug=${encodeURIComponent(
       eventSlug,
     )}`,
-    cancel_url: `${env.siteUrl}/checkout/cancel?type=event&eventSlug=${encodeURIComponent(
+    cancel_url: `${origin}/checkout/cancel?type=event&eventSlug=${encodeURIComponent(
       eventSlug,
     )}`,
   });
@@ -71,14 +72,14 @@ export async function POST(request: Request) {
   });
 
   if (!response.ok) {
-    return NextResponse.redirect(`${env.siteUrl}${event.cancelPath}`, {
+    return NextResponse.redirect(`${origin}${event.cancelPath}`, {
       status: 303,
     });
   }
 
   const session = (await response.json()) as { url?: string };
 
-  return NextResponse.redirect(session.url ?? `${env.siteUrl}${event.cancelPath}`, {
+  return NextResponse.redirect(session.url ?? `${origin}${event.cancelPath}`, {
     status: 303,
   });
 }

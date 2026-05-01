@@ -16,6 +16,15 @@ type StripeCheckoutSession = {
   payment_intent?: string | { id?: string | null } | null;
 };
 
+type WebsiteEmailInput = {
+  from: string;
+  to: string;
+  replyTo?: string;
+  subject: string;
+  text: string;
+  html: string;
+};
+
 function createTransport() {
   return nodemailer.createTransport({
     service: "gmail",
@@ -23,6 +32,44 @@ function createTransport() {
       user: env.gmailAuthUser || env.emailFrom,
       pass: env.gmailAppPassword,
     },
+  });
+}
+
+async function sendWebsiteEmail(input: WebsiteEmailInput) {
+  if (env.resendApiKey) {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.resendApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: input.from,
+        to: input.to,
+        reply_to: input.replyTo,
+        subject: input.subject,
+        text: input.text,
+        html: input.html,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Resend email failed: ${response.status} ${errorText}`);
+    }
+
+    return;
+  }
+
+  const transporter = createTransport();
+
+  await transporter.sendMail({
+    from: input.from,
+    to: input.to,
+    replyTo: input.replyTo,
+    subject: input.subject,
+    text: input.text,
+    html: input.html,
   });
 }
 
@@ -38,8 +85,6 @@ export async function sendInquiryForwardEmail(input: InquiryEmailInput) {
   if (!integrations.emailForwarding) {
     return { skipped: true };
   }
-
-  const transporter = createTransport();
 
   const subject = `New website inquiry: ${input.name}`;
   const text = [
@@ -68,7 +113,7 @@ export async function sendInquiryForwardEmail(input: InquiryEmailInput) {
     </div>
   `;
 
-  await transporter.sendMail({
+  await sendWebsiteEmail({
     from: env.emailFrom,
     to: env.contactForwardTo,
     replyTo: input.email,
@@ -146,7 +191,6 @@ export async function sendPurchaseConfirmationEmail(
     return { skipped: true };
   }
 
-  const transporter = createTransport();
   const metadata = session.metadata ?? {};
   const purchaseType = metadata.purchaseType;
   const amountLabel = formatAmount(session.amount_total, session.currency);
@@ -203,7 +247,7 @@ export async function sendPurchaseConfirmationEmail(
     </div>
   `;
 
-  await transporter.sendMail({
+  await sendWebsiteEmail({
     from: env.emailFrom,
     to: email,
     subject: emailContent.subject,
@@ -221,7 +265,6 @@ export async function sendPurchaseOwnerNotificationEmail(
     return { skipped: true };
   }
 
-  const transporter = createTransport();
   const metadata = session.metadata ?? {};
   const amountLabel = formatAmount(session.amount_total, session.currency);
   const purchase = getOwnerPurchaseSummary(
@@ -272,7 +315,7 @@ export async function sendPurchaseOwnerNotificationEmail(
     </div>
   `;
 
-  await transporter.sendMail({
+  await sendWebsiteEmail({
     from: env.emailFrom,
     to: env.contactForwardTo,
     replyTo:

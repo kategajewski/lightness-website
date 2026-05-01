@@ -215,12 +215,242 @@ Rule for future sessions:
   - Important next step for browser automation:
     - fully restart the Codex app so the Playwright MCP server reloads from the updated config.
 
+### Latest Save Point
+- Soothing Sunday page / checkout polish:
+  - removed the top hero `Purchase Tickets` jump button so the page now only presents the real dated purchase buttons
+  - Soothing Sunday Stripe checkout names are now date-specific:
+    - `Soothing Sunday - May 17, 2026`
+    - `Soothing Sunday - June 14, 2026`
+  - customer confirmation email titles were updated to match those date-specific names
+- Owner notification emails:
+  - Stripe webhook flow now attempts to send two emails on completed checkout:
+    - customer confirmation email
+    - owner/admin notification email to `CONTACT_FORWARD_TO`
+  - owner notification email includes:
+    - purchase name
+    - amount
+    - customer name
+    - customer email
+    - purchase time
+    - Stripe session ID
+    - payment intent ID
+- Git / commit state:
+  - new commit created and pushed to `main`:
+    - `20ebccc Refine event checkout and notification emails`
+- Vercel project / deploy state:
+  - Vercel CLI was authenticated during this session
+  - repo was correctly linked to the existing Vercel project:
+    - `bethelightness/lightness-website`
+  - one accidental extra Vercel project was created during an early wrong link step:
+    - `bethelightness/gohighlevel`
+  - this extra project was not deleted yet
+  - `.vercel` was added to `.gitignore` locally by the Vercel link flow
+  - current working tree at handoff time is **not** clean:
+    - modified:
+      - `.gitignore`
+    - untracked duplicate files still present in repo:
+      - `src/app/api/checkout/route 2.ts`
+      - `src/app/contact/actions 2.ts`
+      - `src/lib/email 2.ts`
+      - `src/lib/env 2.ts`
+      - `src/lib/offers 2.ts`
+      - `web/src/app/gift-certificate/page 2.tsx`
+      - `web/src/app/login/page 2.tsx`
+      - `web/src/lib/offers 2.ts`
+  - two fresh production deploys were triggered from the corrected project during this session
+  - latest production deployment completed successfully
+- Hosted/public URL reality:
+  - the public reachable alias that actually opens without Vercel auth is currently:
+    - `https://lightness-preview-4x1n.vercel.app`
+  - `https://lightness-website-bethelightness.vercel.app` returned `401` during testing
+  - because of that, hosted Stripe redirects and webhook targeting were aligned to:
+    - `https://lightness-preview-4x1n.vercel.app`
+- Vercel environment state:
+  - production env was updated so the deployed app now has the values it needs for hosted Stripe:
+    - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+    - `STRIPE_SECRET_KEY`
+    - `STRIPE_WEBHOOK_SECRET`
+    - `NEXT_PUBLIC_SITE_URL`
+    - existing email vars were already present:
+      - `EMAIL_FROM`
+      - `GMAIL_APP_PASSWORD`
+      - `CONTACT_FORWARD_TO`
+  - earlier problem discovered during this session:
+    - Vercel had email vars present
+    - but hosted Stripe vars were blank
+    - and the webhook secret existed only as lowercase `stripe_webhook_secret`, which the app did not read
+  - this was corrected for production with the uppercase env name:
+    - `STRIPE_WEBHOOK_SECRET`
+  - preview env handling through the Vercel CLI was branch-specific and not fully normalized during this session
+- Stripe webhook state:
+  - old webhook endpoint was found and was still pointing at an outdated deployment URL
+  - new Stripe test webhook endpoint was created:
+    - id: `we_1TS7GCElTVNK9O7pgZxv7fFk`
+    - description: `lightness website webhook`
+    - event: `checkout.session.completed`
+    - url:
+      - `https://lightness-preview-4x1n.vercel.app/api/stripe/webhook`
+  - old stale webhook endpoint was deleted:
+    - `we_1TS5NmElTVNK9O7pWbHVQLpb`
+- Hosted checkout testing:
+  - full hosted Soothing Sunday test purchase was completed on:
+    - `https://lightness-preview-4x1n.vercel.app/soothing-sunday`
+  - hosted Stripe checkout opened successfully
+  - purchase returned to:
+    - `/checkout/success?type=event&eventSlug=soothing-sunday-may-17-2026`
+  - success page displayed correctly
+  - Stripe event inspection showed:
+    - `checkout.session.completed`
+    - payment status `paid`
+    - metadata included:
+      - `purchaseType=event`
+      - `eventSlug=soothing-sunday-may-17-2026`
+    - `pending_webhooks: 0`
+  - this strongly suggests the webhook endpoint accepted the event
+- Email verification status:
+  - inbox verification was attempted in Gmail after the hosted purchase
+  - searches for the exact customer confirmation subject and the owner notification subject did **not** show matching messages
+  - search for recent mail from `kate@bethelightness.com` also showed no matching recent messages
+  - practical conclusion:
+    - hosted checkout is working
+    - Stripe event is completing
+    - webhook is likely receiving the event
+    - but customer/owner email delivery is still **not yet launch-safe**
+
 ### Recommended Next Starting Point
-- Restart the Codex app, then test whether browser control now works after the Playwright MCP config fix.
-- Run one full Stripe test purchase on the newest Vercel preview and confirm:
-  - Stripe checkout opens
-  - success page works
-  - custom confirmation email sends
-  - Stripe receipt email behavior is acceptable
-- Update the Stripe webhook destination from the older preview URL to the newest active preview URL, or switch it to the final production domain when ready.
+- Debug the email delivery path directly:
+  - inspect Vercel runtime logs for `/api/stripe/webhook`
+  - inspect whether `sendPurchaseConfirmationEmail` or `sendPurchaseOwnerNotificationEmail` is throwing
+  - verify Gmail/nodemailer auth is still valid for the deployed environment
+  - check whether Google is blocking or silently refusing the send from `EMAIL_FROM`
+- After email delivery is fixed:
+  - run one more hosted Soothing Sunday test purchase
+  - verify:
+    - customer confirmation email arrives
+    - owner notification email arrives
+    - Stripe receipt email behavior is acceptable
+- Clean up local/project drift:
+  - decide whether to keep and commit the `.gitignore` addition for `.vercel`
+  - remove or review the stray duplicate ` 2` files before the next code pass
+  - optionally delete the accidental Vercel project:
+    - `bethelightness/gohighlevel`
 - Keep `Gallery Reading` on Don Schaefer’s Venmo unless the user changes that decision later.
+
+### Latest Save Point
+- Email delivery direction changed:
+  - User confirmed they prefer moving website email delivery away from Gmail/Nodemailer weirdness and toward a dedicated sender service.
+  - Resend is the chosen sending service.
+  - This does **not** replace the normal inbox:
+    - Google Workspace remains the inbox provider.
+    - Customer replies should still go to the normal email inbox.
+    - Resend is only the website email sending engine.
+- Resend account/domain:
+  - Resend dashboard is accessible.
+  - Domain added in Resend:
+    - `bethelightness.com`
+  - Resend domain page:
+    - `https://resend.com/domains/9ebe8873-9b91-44be-9bf6-c3001ef95a96`
+  - Domain status after DNS verification click:
+    - `pending`
+  - Resend showed:
+    - `Looking for DNS records: This may take a few hours depending on IONOS's propagation time.`
+- IONOS DNS:
+  - User logged into IONOS successfully.
+  - DNS is managed at IONOS.
+  - Domain DNS page:
+    - `https://my.ionos.com/domain-dns-settings/bethelightness.com`
+  - Added Resend sending/authentication records:
+    - `TXT resend._domainkey.bethelightness.com`
+      - value:
+        - `p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCsPi3kG9B3+VnbkoEpdjP0iZnQK9ietCCGxRNv2j8Ucb1/s0mH9Wpg6M27KGQHduyDGHCPD435fIeIhbeac+Yw49qUm8ltGKHhNtjHID/yoa+Out8fcfAbNtxR6J2HLeHBggJMLxoS/U0gCS9YYEFSFz04h4MyXLHFlglr1PmiewIDAQAB`
+    - `MX send.bethelightness.com`
+      - value:
+        - `feedback-smtp.us-east-1.amazonses.com`
+      - priority:
+        - `10`
+    - `TXT send.bethelightness.com`
+      - value:
+        - `v=spf1 include:amazonses.com ~all`
+    - `TXT _dmarc.bethelightness.com`
+      - value:
+        - `v=DMARC1; p=none;`
+  - Public DNS check succeeded immediately with `dig` for all four records.
+  - Important safety note:
+    - Resend warned about existing MX records / inbound email.
+    - We deliberately did **not** touch or replace any existing Google/Gmail MX records for `bethelightness.com`.
+    - Google Workspace inbox delivery should remain intact.
+    - Resend receiving / inbound email remains off and is not needed.
+- Current code/deploy state from earlier in this session:
+  - Before switching to Resend, a Gmail auth fix was committed and pushed:
+    - `c438f21 Fix Gmail auth user for checkout emails`
+  - Vercel production deployment completed and aliased to:
+    - `https://lightness-preview-4x1n.vercel.app`
+  - Build passed locally.
+  - Lint has no errors, only existing image/performance warnings.
+  - This Gmail fix may be superseded by the upcoming Resend integration.
+- Current working tree:
+  - `SESSION_HANDOFF.md` modified for this save point.
+  - Untracked duplicate file present:
+    - `src/app/api/stripe/webhook/route 2.ts`
+
+### Recommended Next Starting Point
+- Wait for Resend domain status to move from `pending` to verified, or click `Verify DNS Records` again after a short propagation window.
+- Create a Resend API key.
+  - This is a persistent access key, so ask for explicit confirmation immediately before creating it.
+- Add the Resend API key to Vercel production environment.
+- Update website backend email delivery:
+  - replace Gmail/Nodemailer transport with Resend API sending
+  - keep `EMAIL_FROM` as the customer-visible sender
+  - keep `CONTACT_FORWARD_TO` as the owner notification destination
+  - set replies so customer replies go to the normal inbox when appropriate
+- Run one hosted Stripe test purchase after deployment and verify:
+  - customer confirmation arrives
+  - owner notification arrives
+  - normal inbox receiving still works
+- Keep `Gallery Reading` on Don Schaefer’s Venmo unless the user changes that decision later.
+
+### Latest Save Point
+- Resend domain verification:
+  - Resend moved from `pending` to `verified`.
+  - Resend status message:
+    - `Domain verified: Your domain is ready to send emails.`
+- Resend API key:
+  - User confirmed creation of a persistent Resend API key.
+  - Key created in Resend:
+    - name: `lightness website email`
+    - permission: `Sending access`
+    - domain: `bethelightness.com`
+  - Do not print or store the secret value in docs.
+- Vercel environment:
+  - User confirmed transmitting the Resend API key to Vercel.
+  - Added production env var to `bethelightness/lightness-website`:
+    - `RESEND_API_KEY`
+- Website email code:
+  - `src/lib/env.ts` now reads:
+    - `RESEND_API_KEY`
+  - `src/lib/email.ts` now sends through Resend when `RESEND_API_KEY` exists.
+  - Existing Gmail/Nodemailer path remains as a fallback when Resend is not configured.
+  - Inquiry forwarding, customer purchase confirmations, and owner purchase notifications all use the shared sender helper.
+  - `EMAIL_FROM` remains the customer-visible sender.
+  - `CONTACT_FORWARD_TO` remains the owner notification destination.
+  - Replies are still routed with `replyTo` where appropriate.
+- Validation:
+  - `npm run build` passes.
+  - `npm run lint` has no errors; only the existing image/performance warnings remain.
+- Current working tree note:
+  - Untracked duplicate file still present and intentionally not removed without explicit cleanup confirmation:
+    - `src/app/api/stripe/webhook/route 2.ts`
+
+### Recommended Next Starting Point
+- Commit and push the Resend email integration if not already done.
+- Wait for Vercel production deployment from that commit.
+- Run one hosted test:
+  - safest low-friction option is a contact-form inquiry to verify owner notification delivery
+  - full launch-safe test is a hosted Stripe test purchase to verify both:
+    - customer confirmation email
+    - owner purchase notification email
+- Verify normal Google Workspace inbox receiving still works.
+- After successful testing, consider removing old Gmail-specific env vars from production later:
+  - `GMAIL_AUTH_USER`
+  - `GMAIL_APP_PASSWORD`
+  - only after Resend delivery is confirmed end-to-end.

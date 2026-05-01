@@ -12,6 +12,7 @@ export const env = {
   emailFrom: readOptionalEnv("EMAIL_FROM"),
   gmailAuthUser: readOptionalEnv("GMAIL_AUTH_USER"),
   gmailAppPassword: readOptionalEnv("GMAIL_APP_PASSWORD"),
+  resendApiKey: readOptionalEnv("RESEND_API_KEY"),
   stripeSecretKey: readOptionalEnv("STRIPE_SECRET_KEY"),
   stripeWebhookSecret: readOptionalEnv("STRIPE_WEBHOOK_SECRET"),
   stripePublishableKey: readOptionalEnv("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"),
@@ -51,13 +52,15 @@ export const integrations = {
     Boolean(env.supabaseServiceRoleKey),
   emailDelivery:
     Boolean(env.emailFrom) &&
-    Boolean(env.gmailAuthUser || env.emailFrom) &&
-    Boolean(env.gmailAppPassword),
+    (Boolean(env.resendApiKey) ||
+      (Boolean(env.gmailAuthUser || env.emailFrom) &&
+        Boolean(env.gmailAppPassword))),
   emailForwarding:
     Boolean(env.contactForwardTo) &&
     Boolean(env.emailFrom) &&
-    Boolean(env.gmailAuthUser || env.emailFrom) &&
-    Boolean(env.gmailAppPassword),
+    (Boolean(env.resendApiKey) ||
+      (Boolean(env.gmailAuthUser || env.emailFrom) &&
+        Boolean(env.gmailAppPassword))),
   stripe:
     Boolean(env.stripeSecretKey) && Boolean(env.stripePublishableKey),
 };

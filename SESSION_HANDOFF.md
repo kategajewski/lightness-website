@@ -731,3 +731,105 @@ Rule for future sessions:
 - Then continue checkout/email QA:
   - Monthly Membership
   - Sacred Sounds Under the Sky
+
+### Latest Save Point
+- Sound Practitioner Training owner-notification subject fix was committed and pushed.
+- Commit:
+  - `457da79 Clarify sound training owner email subject`
+- Files included in the commit:
+  - `src/lib/email.ts`
+  - `SESSION_HANDOFF.md`
+- Deployment expectation:
+  - Push went to `main`.
+  - Vercel should automatically deploy from GitHub.
+- What changed:
+  - future owner notifications for the sound-training offer should now use:
+    - `New website purchase: Sound Practitioner Training`
+  - instead of the overly generic:
+    - `New website purchase: Full Payment`
+- Current working tree note:
+  - Branch is synced with `origin/main`.
+  - Known untracked local files still present:
+    - `gift-checkout-current.png`
+    - `src/app/api/stripe/webhook/route 2.ts`
+  - Do not remove local files unless user confirms cleanup.
+
+### Recommended Next Starting Point
+- Confirm Vercel finished deploying commit `457da79`.
+- Continue checkout/email QA:
+  - Monthly Membership
+  - Sacred Sounds Under the Sky
+
+### Latest Save Point
+- Hosted Stripe Monthly Membership checkout test completed successfully.
+- Test purchase:
+  - `Monthly Rest & Reset Membership`
+  - recurring amount: `$130.00/month`
+  - Stripe sandbox/test checkout
+  - customer email: `kate+membership-test@bethelightness.com`
+  - test card: Stripe `4242` test card
+  - cardholder name: `Resend Membership Test`
+- Checkout returned successfully to:
+  - `https://lightness-preview-4x1n.vercel.app/checkout/success?type=offer&slug=monthly-membership`
+- Resend verification:
+  - user confirmed the emails appeared in the correct `kategajewski` Resend workspace
+  - in-app browser session was still stuck in the separate empty `bethelightness` workspace, so direct in-session log reading was not reliable for this step
+- Expected/confirmed email subjects for this test:
+  - customer confirmation:
+    - `Your Monthly Membership is confirmed`
+  - owner notification:
+    - `New website purchase: Monthly Rest & Reset Membership`
+- Practical conclusion:
+  - Monthly Membership checkout email flow is working through Resend.
+- Current working tree note:
+  - `SESSION_HANDOFF.md` updated with this save point
+  - known untracked local files still present:
+    - `gift-checkout-current.png`
+    - `src/app/api/stripe/webhook/route 2.ts`
+  - do not remove local files unless user confirms cleanup
+
+### Recommended Next Starting Point
+- Continue final checkout/email QA:
+  - Sacred Sounds Under the Sky
+
+### Latest Save Point
+- Hosted Stripe Sacred Sounds Under the Sky checkout test completed successfully.
+- Test purchase:
+  - `Sacred Sounds Under the Sky`
+  - amount: `$30.00`
+  - Stripe sandbox/test checkout
+  - customer email: `kate+sacredsounds-test@bethelightness.com`
+  - test card: Stripe `4242` test card
+  - cardholder name: `Resend Sacred Sounds Test`
+- Checkout returned successfully to:
+  - `https://lightness-preview-4x1n.vercel.app/checkout/success?type=event&eventSlug=sacred-sounds-under-the-sky`
+- Resend verification:
+  - user confirmed both emails appeared in the correct `kategajewski` Resend workspace
+- Confirmed email subjects for this test:
+  - customer confirmation:
+    - `You're confirmed for Sacred Sounds Under the Sky`
+  - owner notification:
+    - `New website purchase: Sacred Sounds Under the Sky`
+- Practical conclusion:
+  - Sacred Sounds Under the Sky checkout email flow is working through Resend.
+  - This completes the hosted Stripe/Resend QA sweep for the currently tested checkout flows:
+    - contact form
+    - Soothing Sunday
+    - Gift Certificate
+    - Sound Practitioner Training
+    - Monthly Membership
+    - Sacred Sounds Under the Sky
+- Current working tree note:
+  - `SESSION_HANDOFF.md` updated with this save point
+  - known untracked local files still present:
+    - `gift-checkout-current.png`
+    - `src/app/api/stripe/webhook/route 2.ts`
+  - do not remove local files unless user confirms cleanup
+
+### Recommended Next Starting Point
+- Optional cleanup and polish:
+  - confirm Vercel deployed commit `457da79`
+  - decide whether to commit the latest `SESSION_HANDOFF.md` updates
+  - decide whether to clean up:
+    - `gift-checkout-current.png`
+    - `src/app/api/stripe/webhook/route 2.ts`

@@ -626,3 +626,108 @@ Rule for future sessions:
   - Sound Practitioner Training
   - Monthly Membership
   - Sacred Sounds Under the Sky
+
+### Latest Save Point
+- Soothing Sunday receipt/confirmation email copy change was committed and pushed.
+- Commit:
+  - `3363f57 Update Soothing Sunday receipt copy`
+- Files included in the commit:
+  - `src/lib/email.ts`
+  - `SESSION_HANDOFF.md`
+- Deployment expectation:
+  - Push went to `main`.
+  - Vercel should automatically deploy from GitHub.
+- Current working tree note:
+  - Branch is synced with `origin/main`.
+  - Only known untracked local files remain:
+    - `gift-checkout-current.png`
+    - `src/app/api/stripe/webhook/route 2.ts`
+  - Do not remove local files unless user confirms cleanup.
+
+### Recommended Next Starting Point
+- Confirm Vercel finished deploying commit `3363f57`.
+- Then continue checkout/email QA:
+  - first confirm Gift Certificate emails in Resend or inbox
+  - then test Sound Practitioner Training
+  - then test Monthly Membership
+  - then test Sacred Sounds Under the Sky
+
+### Latest Save Point
+- Gift Certificate email delivery was confirmed directly in Resend sending logs.
+- Resend dashboard showed both messages as `Delivered`:
+  - owner notification:
+    - to: `KATE@bethelightness.com`
+    - subject: `New website purchase: $50 Gift Certificate`
+  - customer confirmation:
+    - to: `kate+gift-test@bethelightness.com`
+    - subject: `Your gift certificate purchase is confirmed`
+- Timing in Resend:
+  - both appeared about 3 hours before the dashboard screenshot/check
+- Practical conclusion:
+  - Gift Certificate checkout email flow is confirmed working through Resend.
+  - This closes the open verification loop from the earlier Gift Certificate sandbox purchase.
+- Browser/tooling note:
+  - in-app browser is working again for live QA
+  - Resend email logs can now be checked directly in-session
+- Current working tree note:
+  - `SESSION_HANDOFF.md` updated with this save point
+  - known untracked local files still present:
+    - `gift-checkout-current.png`
+    - `src/app/api/stripe/webhook/route 2.ts`
+  - do not remove local files unless user confirms cleanup
+
+### Recommended Next Starting Point
+- Continue checkout/email QA in this order:
+  - Sound Practitioner Training
+  - Monthly Membership
+  - Sacred Sounds Under the Sky
+- After each hosted Stripe test:
+  - confirm success page
+  - confirm corresponding Resend delivery logs
+
+### Latest Save Point
+- Hosted Stripe Sound Practitioner Training checkout test completed successfully.
+- Test purchase:
+  - `Sound Practitioner Training`
+  - option used: `Full Payment`
+  - amount: `$1,344.00`
+  - Stripe sandbox/test checkout
+  - customer email: `kate+sound-test@bethelightness.com`
+  - test card: Stripe `4242` test card
+  - cardholder name: `Resend Sound Test`
+- Checkout returned successfully to:
+  - `https://lightness-preview-4x1n.vercel.app/checkout/success?type=offer&slug=sound-training`
+- Resend sending logs confirmed both messages:
+  - owner notification:
+    - to: `KATE@bethelightness.com`
+    - subject seen in logs: `New website purchase: Full Payment`
+  - customer confirmation:
+    - to: `kate+sound-test@bethelightness.com`
+    - subject: `Your Sound Practitioner Training purchase is confirmed`
+- Practical conclusion:
+  - Sound Practitioner Training checkout email flow is working through Resend.
+  - One owner-facing wording issue was identified:
+    - owner subject was too generic because it used the option label `Full Payment` instead of the offer name
+- Code fix applied:
+  - `src/lib/email.ts`
+  - `getOwnerPurchaseSummary()` now returns `Sound Practitioner Training` for the sound-training offer slug instead of the option label
+  - expected future owner subject after deploy:
+    - `New website purchase: Sound Practitioner Training`
+- Validation:
+  - `npm run lint` passed with no errors
+  - existing warnings remain unchanged:
+    - Next.js `<img>` optimization warnings
+    - existing unused `secondaryPaths` warning
+- Current working tree note:
+  - `SESSION_HANDOFF.md` updated with this save point
+  - `src/lib/email.ts` has the owner-subject wording fix
+  - known untracked local files still present:
+    - `gift-checkout-current.png`
+    - `src/app/api/stripe/webhook/route 2.ts`
+  - do not remove local files unless user confirms cleanup
+
+### Recommended Next Starting Point
+- Commit and deploy the Sound Practitioner Training owner-subject fix.
+- Then continue checkout/email QA:
+  - Monthly Membership
+  - Sacred Sounds Under the Sky

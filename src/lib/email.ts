@@ -461,6 +461,10 @@ function getOwnerPurchaseSummary(
   const offer = offerSlug ? getOfferBySlug(offerSlug) : undefined;
   const option = offer?.purchaseOptions?.find((item) => item.key === optionKey);
 
+  if (offer?.slug === "sound-training") {
+    return offer.name;
+  }
+
   return option?.label || offer?.name || "Website purchase";
 }
 

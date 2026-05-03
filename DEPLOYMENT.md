@@ -6,13 +6,16 @@ This app is designed to deploy on `Vercel`.
 - App builds successfully locally
 - Supabase auth works locally
 - Contact form writes to Supabase
-- Stripe is intentionally not connected yet
-- Domain cutover has not happened yet
-- Vercel preview deployment is now live
+- Production domain cutover is complete
+- Live production site is available at `https://bethelightness.com`
+- `www.bethelightness.com` is also connected and valid in Vercel
+- Vercel production deployment is live
 - Vercel env vars for Supabase, Calendly, and Gmail forwarding have been added
-- Supabase hosted auth URLs have been updated to the Vercel preview domain
+- Vercel `NEXT_PUBLIC_SITE_URL` is set to `https://bethelightness.com`
+- Supabase hosted auth URLs have been updated to the production domain
 - Private inquiry inbox at `/inquiries` is deployed and tested
 - Contact form email forwarding to `kate@bethelightness.com` is deployed and tested
+- Stripe checkout/test flows have been staged and tested, but final live payment migration should still be handled deliberately before replacing any old payment setup
 
 ## Before Vercel
 - Make sure the code is in a Git provider Vercel can import
@@ -70,17 +73,15 @@ Notes:
 - `NEXT_PUBLIC_SITE_URL` must be changed from localhost to the real production domain before live password reset or Stripe redirect testing
 
 ## Supabase Production Settings
-Before production testing, update Supabase Auth settings:
+Production auth settings were updated on May 3, 2026:
 
 ### Site URL
 - `https://bethelightness.com`
 
 ### Redirect URLs
 - `https://bethelightness.com/**`
-- add preview URLs later if you want preview auth flows
-
-If you use `www`, also add:
 - `https://www.bethelightness.com/**`
+- `http://localhost:3000/**` is still allowed for local development/testing
 
 ## First Deploy Checklist
 - Vercel project created
@@ -93,10 +94,10 @@ If you use `www`, also add:
 - account page redirects correctly for signed-out users
 
 ## Current Next Steps
-1. Continue page-by-page design/content polish on the hosted preview
-2. Review the local `selected-site-photos/best-for-website` shortlist and place final optimized images into the site
-3. Test hosted password reset when ready
-4. Keep Stripe paused until payment migration is approved
+1. Test live login with a real member account
+2. Test one live password reset email and confirm the link returns to `https://bethelightness.com`
+3. Submit one live contact form test and confirm storage/email forwarding
+4. Keep Stripe/live payment migration deliberate until any old payment setup is ready to be retired
 
 ## Production Smoke Test
 - Homepage renders correctly
@@ -118,16 +119,20 @@ Do this later when ready to replace the old live payment setup:
 - connect purchases to `member_access`
 
 ## Domain Cutover
-When the Vercel production site is approved:
-1. Add `bethelightness.com` to the Vercel project
-2. Update DNS at your registrar to point to Vercel
-3. Wait for SSL to provision
-4. Update Supabase Auth URLs to the live domain
-5. Re-test login, password reset, and contact form
-6. Only then retire GoHighLevel
+Completed on May 3, 2026:
+1. Added `bethelightness.com` to the Vercel `lightness-website` project
+2. Updated IONOS DNS:
+   - `A` record for `@` / `bethelightness.com` changed from `162.159.140.166` to `216.150.1.1`
+   - `CNAME` for `www` changed from `sites.ludicrous.cloud` to Vercel DNS
+3. Vercel generated SSL and marked both domains as valid:
+   - `bethelightness.com`
+   - `www.bethelightness.com`
+4. Updated Supabase Auth URL configuration to the live domain
+5. Updated Vercel `NEXT_PUBLIC_SITE_URL` to `https://bethelightness.com`
+6. Triggered production redeploy at commit `80cf930`
 
 ## Current Recommended Next Step
-1. Create the Vercel project
-2. Add the Supabase env vars
-3. Deploy a preview or production build without Stripe
-4. Test the live hosted version
+1. Test live member login
+2. Test live password reset email
+3. Test live contact form
+4. Review whether and when to retire old GoHighLevel pages/payment paths

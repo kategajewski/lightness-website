@@ -12,6 +12,76 @@ Rule for future sessions:
 
 ## Current Note
 ### Latest Save Point
+- Mobile and interior-page layout polish:
+  - shared interior page intro layout was widened in:
+    - `src/components/page-shell.tsx`
+    - `web/src/components/page-shell.tsx`
+  - interior page headers now have more breathing room and a wider line length
+  - shared section rhythm was tightened and normalized by adjusting the default `PageShell` spacing:
+    - slightly smaller hero-to-content spacing
+    - more even vertical spacing between sections
+    - slightly tighter mobile spacing overall
+- Contact page simplification:
+  - updated default page header copy to:
+    - `Have questions? Reach out and start the conversation.`
+  - removed the extra explanatory text above the contact form and left only:
+    - `Contact Form`
+  - removed the full bottom block:
+    - `A Gentle Starting Point`
+  - files updated:
+    - `src/app/contact/page.tsx`
+    - `web/src/app/contact/page.tsx`
+- Mobile header navigation:
+  - original tap-to-open mobile menu was unreliable on the user’s phone
+  - replaced it with a direct mobile nav row so there is no menu toggle on phones
+  - mobile nav is now:
+    - always visible below the header on small screens
+    - horizontally scrollable
+    - more compact after a second pass
+  - files updated:
+    - `src/components/site-header.tsx`
+    - `web/src/components/site-header.tsx`
+- Mobile footer polish:
+  - footer was condensed significantly for phone screens
+  - changes include:
+    - smaller top/bottom padding
+    - smaller logo
+    - tighter link spacing
+    - two-column mobile layout before expanding to desktop columns
+  - files updated:
+    - `src/components/site-footer.tsx`
+    - `web/src/components/site-footer.tsx`
+- Homepage / shared visual rhythm:
+  - prior homepage cleanup remains in place
+  - testimonial and footer spacing were further balanced against surrounding sections
+  - shared layout changes should now make page-to-page spacing feel calmer and more consistent
+- Events page restructure:
+  - page is now organized into two clearer categories:
+    - `Community Offerings`
+    - `Private Events & Ceremonies`
+  - updated intro card copy and CTA labels to reflect that distinction
+  - separated private offerings into their own intro section plus cards
+  - files updated:
+    - `src/app/events/page.tsx`
+    - `web/src/app/events/page.tsx`
+- Validation:
+  - `npm run lint` still passes with:
+    - `0 errors`
+    - the same existing `40` warnings about `<img>` usage
+- Working state:
+  - this design/layout pass is saved locally in the workspace
+  - not yet committed or pushed
+- Recommended next starting point:
+  - review the site on phone again, especially:
+    - mobile header compactness
+    - footer height on small screens
+    - Events page section split
+    - section spacing consistency on About / Events / Services / Contact
+  - after visual approval:
+    - update this handoff once more if needed
+    - then commit the current layout pass
+
+### Latest Save Point
 - Stripe setup / pricing:
   - Monthly Membership price ID saved and added locally:
     - `STRIPE_PRICE_MEMBERSHIP_MONTHLY=price_1SP3HWElTVNK9O7pK4L76oOY`
@@ -833,3 +903,119 @@ Rule for future sessions:
   - decide whether to clean up:
     - `gift-checkout-current.png`
     - `src/app/api/stripe/webhook/route 2.ts`
+
+### Latest Save Point
+- Homepage aesthetic simplification pass completed locally on May 2, 2026.
+- Primary goals of this pass:
+  - reduce repetition on the homepage
+  - make the site feel more direct and clear for the seeker
+  - simplify oversized sections and normalize vertical spacing
+- Homepage content/layout changes completed in both app copies:
+  - `src/app/page.tsx`
+  - `web/src/app/page.tsx`
+- Footer changes completed in both shared footer components:
+  - `src/components/site-footer.tsx`
+  - `web/src/components/site-footer.tsx`
+- Specific homepage changes made:
+  - removed the duplicate location/support line under the hero buttons
+  - changed the hero photo bubble to:
+    - `Patchogue, New York`
+    - `Offering deeply personal 1:1 sessions, sacred support, and transformational care.`
+  - removed the four-bubble trust-point strip under the hero
+  - removed the full `Healing Offerings` section and its three-card promo block
+  - removed the homepage About/Meet Kate section
+  - reworked `A Place To Begin` copy to:
+    - `Choose the kind of support you're looking for.`
+    - `Whether you're seeking private healing sessions, sound bath experiences, or deeper training and mentorship, you can begin with the path that feels most aligned.`
+  - centered the `A Place To Begin` content block and kept the subtle image treatment behind it
+  - normalized spacing between the hero, intro panel, cards, testimonial, and footer
+  - removed the separate closing `Begin Here` booking section entirely
+  - tightened the testimonial card, reduced the quote size, and added a subtle layered image treatment behind it
+  - tightened the footer spacing and gave the footer a warmer, more distinct background so it separates from the page
+- Practical design direction reached:
+  - cleaner homepage
+  - less repetition
+  - softer visual rhythm
+  - fewer redundant booking prompts
+- Validation:
+  - `npm run lint` passes with `0 errors`
+  - remaining warnings are the same existing site-wide `<img>` warnings (`40 warnings`)
+- Current working tree note:
+  - working tree is not clean because of the local homepage/footer aesthetic edits above
+  - no deploy/commit has been made yet for this design pass
+
+### Recommended Next Starting Point
+- Open the local homepage and do one more visual pass on:
+  - hero-to-intro spacing
+  - testimonial scale
+  - footer density/color separation
+- If the visual pass feels good, commit the homepage/footer aesthetic changes and update deployment.
+
+### Latest Save Point
+- Production launch/domain cutover completed on May 3, 2026.
+- Live site:
+  - `https://bethelightness.com`
+  - `https://www.bethelightness.com`
+- Latest deployed GitHub/Vercel commit:
+  - `80cf930 Trigger production deploy after domain launch`
+- Vercel domain status:
+  - `bethelightness.com` added to the `bethelightness/lightness-website` Vercel project
+  - `www.bethelightness.com` added to the same Vercel project
+  - both domains reached `Valid Configuration`
+  - SSL generated successfully
+- IONOS DNS changes completed:
+  - main `A` record:
+    - host/name: `@`
+    - old value: `162.159.140.166`
+    - new value: `216.150.1.1`
+  - `www` CNAME:
+    - host/name: `www`
+    - old value: `sites.ludicrous.cloud`
+    - new value: Vercel DNS target shown by Vercel, `d1524946f6bbbbe4.vercel-dns-017.com`
+  - email/Gmail/MX records were not touched
+- Supabase Auth URL configuration completed:
+  - Site URL:
+    - `https://bethelightness.com`
+  - Redirect URLs now include:
+    - `http://localhost:3000/**`
+    - `https://bethelightness.com/**`
+    - `https://www.bethelightness.com/**`
+- Vercel environment variable update completed:
+  - `NEXT_PUBLIC_SITE_URL`
+  - production value set to:
+    - `https://bethelightness.com`
+  - production redeploy triggered afterward with empty commit `80cf930`
+- Live smoke checks completed:
+  - `https://bethelightness.com/` returned `200`
+  - `/about` returned `200`
+  - `/events` returned `200`
+  - `/contact` returned `200`
+  - `/login` returned `200`
+  - `/forgot-password` returned `200`
+  - `/auth/callback` returned `307` as expected without a session
+  - `/reset-password` returned `200`
+  - `/reiki-rising/ReikiLevel1TrainingFinalPDF.pdf` returned `200 application/pdf`
+- Reiki Rising portal PDF note:
+  - PDF direct URL is live:
+    - `https://bethelightness.com/reiki-rising/ReikiLevel1TrainingFinalPDF.pdf`
+  - library page now includes both `Open PDF` and `Download PDF` fallback controls
+- Practical launch status:
+  - public site is live on the real domain
+  - `www` version is connected
+  - auth URL configuration is pointed at the real domain
+  - no real password-reset email was submitted during the final check
+- Current working tree note:
+  - many old local scratch files, duplicate `page 2.tsx` files, screenshots, and root-app edits remain unstaged
+  - do not bulk stage the whole repository without reviewing
+  - deployable production app changes have already been committed/pushed through `80cf930`
+  - this handoff/deployment documentation update should be committed separately
+
+### Recommended Next Starting Point
+- Test live member login at:
+  - `https://bethelightness.com/login`
+- Test one live password reset email and confirm the reset link returns to:
+  - `https://bethelightness.com`
+- Submit one live contact form test and confirm:
+  - Supabase stores the inquiry
+  - owner email forwarding arrives
+- Decide when to retire/disable any old GoHighLevel pages, payment links, or workflows.

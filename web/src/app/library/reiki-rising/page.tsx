@@ -177,12 +177,21 @@ export default async function ReikiRisingLibraryPage() {
                 <strong className="block text-[1.02rem] text-[var(--color-text)]">
                   {download.title}
                 </strong>
-                <div className="mt-4">
+                <div className="mt-4 flex flex-wrap gap-3">
                   <a
                     href={download.href}
                     className="button-pill"
+                    target="_blank"
+                    rel="noreferrer"
                   >
                     Open PDF
+                  </a>
+                  <a
+                    href={download.href}
+                    className="button-pill button-pill-secondary"
+                    download
+                  >
+                    Download PDF
                   </a>
                 </div>
               </article>

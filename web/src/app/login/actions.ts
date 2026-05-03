@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { env } from "@/lib/env";
+import { env, integrations } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 function getFormValue(formData: FormData, key: string) {
@@ -18,6 +18,16 @@ function getAuthErrorMessage(error: { message?: string }) {
   return "Supabase could not send the reset email. Please check the email sender settings and try again.";
 }
 
+function getSignInErrorMessage(error: { message?: string }) {
+  const message = error.message?.trim();
+
+  if (message && message !== "{}") {
+    return message;
+  }
+
+  return "Member login could not complete. Please try again.";
+}
+
 export async function signInAction(formData: FormData) {
   const email = getFormValue(formData, "email");
   const password = getFormValue(formData, "password");
@@ -26,14 +36,26 @@ export async function signInAction(formData: FormData) {
     redirect("/login?error=Please%20enter%20your%20email%20and%20password.");
   }
 
-  const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  if (!integrations.supabase) {
+    redirect("/login?error=Member%20login%20is%20not%20configured%20on%20this%20deployment%20yet.");
+  }
+
+  let error: { message?: string } | null = null;
+
+  try {
+    const supabase = await createSupabaseServerClient();
+    const result = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    error = result.error;
+  } catch {
+    redirect("/login?error=Member%20login%20could%20not%20connect%20to%20Supabase.%20Please%20check%20the%20deployment%20settings.");
+  }
 
   if (error) {
-    redirect(`/login?error=${encodeURIComponent(error.message)}`);
+    redirect(`/login?error=${encodeURIComponent(getSignInErrorMessage(error))}`);
   }
 
   redirect("/account");

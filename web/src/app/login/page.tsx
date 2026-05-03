@@ -25,7 +25,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     >
       <section className="grid gap-6 rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] lg:grid-cols-[0.9fr_1.1fr]">
         <div>
-          <h2 className="font-display text-[clamp(2.3rem,5vw,3.5rem)] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             A calm place to return to your learning and resources.
           </h2>
           <p className="mt-4 max-w-[36rem] text-[var(--color-muted)]">

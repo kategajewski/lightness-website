@@ -77,7 +77,7 @@ export default function MentorshipPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Personalized 1:1 Mentorship
           </span>
-          <h2 className="font-display text-[clamp(2.6rem,5vw,4rem)] leading-[0.96] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Reiki can begin here, even if you are just answering the call for the first time.
           </h2>
           <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
@@ -113,7 +113,7 @@ export default function MentorshipPage() {
         <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <div className="mx-auto w-full max-w-[20rem]">
             <img
-              src="/homepage-images/embodied-healer-mentorship.jpeg"
+              src="/homepage-images/embodied-healer-warm-mentorship-final.jpeg"
               alt="Kate guiding a student during The Embodied Healer Reiki mentorship"
               className="block h-auto w-full rounded-[32px] object-contain object-center"
             />
@@ -127,7 +127,7 @@ export default function MentorshipPage() {
             key={item.title}
             className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
           >
-            <h2 className="font-display text-[2rem] leading-[0.98] tracking-[-0.02em]">
+            <h2 className="display-card-title">
               {item.title}
             </h2>
             <p className="mt-4 text-[var(--color-muted)]">{item.description}</p>
@@ -140,7 +140,7 @@ export default function MentorshipPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Ongoing Enrollment
           </span>
-          <h2 className="font-display text-[clamp(2.3rem,5vw,3.5rem)] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             This mentorship is always onboarding.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
@@ -167,7 +167,7 @@ export default function MentorshipPage() {
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
           Investment
         </span>
-        <h2 className="max-w-[18ch] font-display text-[clamp(2.3rem,5vw,3.4rem)] leading-[0.98] tracking-[-0.02em]">
+        <h2 className="max-w-[22ch] display-section-title">
           Clear pricing for the path you feel called toward.
         </h2>
         <p className="mt-5 max-w-[42rem] text-[var(--color-muted)]">
@@ -182,7 +182,7 @@ export default function MentorshipPage() {
               className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.84)] p-6 shadow-[0_12px_32px_rgba(59,41,31,0.08)]"
             >
               <div className="flex flex-wrap items-start justify-between gap-4">
-                <h3 className="max-w-[18ch] font-display text-[1.7rem] leading-[1] tracking-[-0.02em]">
+                <h3 className="max-w-[22ch] display-card-title">
                   {item.title}
                 </h3>
                 <strong className="text-[1.2rem] text-[var(--color-text)]">

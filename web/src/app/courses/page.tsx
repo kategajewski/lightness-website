@@ -40,31 +40,14 @@ export default function CoursesPage() {
     <PageShell
       eyebrow="Training"
       title="Three distinct paths for learning, growth, and embodied practice."
-      description="Explore the training experiences offered through The Lightness of Being, from group Reiki study to private mentorship and seasonal sound practitioner education."
+      description="Explore group Reiki study, private mentorship, and seasonal sound practitioner education, each designed to support personal transformation as much as skill development."
     >
-      <section className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-        <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
-          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            Learning at The Lightness of Being
-          </span>
-          <h2 className="max-w-[18ch] font-display text-[clamp(2.5rem,5vw,3.8rem)] leading-[0.98] tracking-[-0.02em]">
-            Choose the training path that meets where you are being called.
-          </h2>
-          <p className="mt-5 max-w-[42rem] text-[var(--color-muted)]">
-            Whether you are looking for an intimate mentorship, a live group
-            Reiki container, or a seasonal sound practitioner training, each path
-            is designed to support personal transformation as much as skill
-            development.
-          </p>
-        </div>
-
-        <div className="overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
-          <img
-            src="/homepage-images/services-lightnesssound.jpeg"
-            alt="Kate facilitating a sound experience"
-            className="block h-full min-h-[24rem] w-full object-cover object-center"
-          />
-        </div>
+      <section className="overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
+        <img
+          src="/homepage-images/services-lightnesssound.jpeg"
+          alt="Kate facilitating a sound experience"
+          className="block h-[22rem] w-full object-cover object-center sm:h-[30rem]"
+        />
       </section>
 
       <section className="grid gap-5 lg:grid-cols-3">
@@ -76,7 +59,7 @@ export default function CoursesPage() {
             <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               {path.eyebrow}
             </span>
-            <h2 className="font-display text-[clamp(2.1rem,4vw,3rem)] leading-[0.98] tracking-[-0.02em]">
+            <h2 className="display-section-title">
               {path.title}
             </h2>
             <p className="mt-4 text-[var(--color-muted)]">{path.description}</p>

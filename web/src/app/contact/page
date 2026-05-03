@@ -42,7 +42,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Contact Details
           </span>
-          <h2 className="font-display text-[clamp(2.4rem,5vw,3.8rem)] leading-[0.96] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Choose the path that fits best.
           </h2>
           <div className="mt-6 grid gap-5 text-[var(--color-muted)]">
@@ -86,7 +86,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Contact Form
           </span>
-          <h2 className="font-display text-[clamp(2.4rem,5vw,3.8rem)] leading-[0.96] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Tell Kate what you&apos;re looking for.
           </h2>
           <p className="mt-4 max-w-[36rem] text-[var(--color-muted)]">

@@ -32,6 +32,13 @@ const courseWeeks = [
       "Learn the Three Pillars of Reiki, deepen into self-Reiki practice, and receive your Level 1 placement as you begin embodying the work more fully.",
     href: "https://drive.google.com/file/d/1sVSugV8LEGj3yWely8NP1KW-FEgOHT7m/view?usp=sharing",
   },
+  {
+    title: "Week 5",
+    focus: "How to Share Reiki with Others & Self-Reiki Practice",
+    summary:
+      "Continue building confidence with self-Reiki while learning how to share Reiki with others in a grounded and respectful way.",
+    href: "https://drive.google.com/file/d/16xmSRPgAoQuxEnNCKB7qgJxn5cyCv_dE/view?usp=sharing",
+  },
 ] as const;
 
 const downloads = [
@@ -61,7 +68,7 @@ export default async function ReikiRisingLibraryPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Reiki Rising Library
           </span>
-          <h1 className="font-display text-[clamp(3rem,6vw,4.8rem)] leading-[0.96] tracking-[-0.02em]">
+          <h1 className="display-page-title">
             Welcome to your Reiki Rising course space.
           </h1>
           <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
@@ -101,7 +108,7 @@ export default async function ReikiRisingLibraryPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Course Journey
           </span>
-          <h2 className="font-display text-[clamp(2.2rem,5vw,3.4rem)] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Move through each week in order, and return to the replay whenever you need it.
           </h2>
           <div className="grid gap-5 lg:grid-cols-2">
@@ -116,7 +123,7 @@ export default async function ReikiRisingLibraryPage() {
                 <span className="inline-block text-[0.78rem] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
                   {week.title}
                 </span>
-                <h2 className="mt-3 font-display text-[2rem] leading-[0.98] tracking-[-0.02em]">
+                <h2 className="mt-3 display-card-title">
                   {week.focus}
                 </h2>
                 <p className="mt-3 text-[var(--color-muted)]">
@@ -155,7 +162,7 @@ export default async function ReikiRisingLibraryPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Downloads
           </span>
-          <h2 className="font-display text-[clamp(2.2rem,5vw,3.4rem)] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Keep your manuals and class materials close by.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
@@ -171,14 +178,12 @@ export default async function ReikiRisingLibraryPage() {
                   {download.title}
                 </strong>
                 <div className="mt-4">
-                  <Link
+                  <a
                     href={download.href}
-                    target="_blank"
-                    rel="noreferrer"
                     className="button-pill"
                   >
                     Open PDF
-                  </Link>
+                  </a>
                 </div>
               </article>
             ))}

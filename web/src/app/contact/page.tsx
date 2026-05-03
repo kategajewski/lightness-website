@@ -38,6 +38,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
     subject !== "Private Event or Ceremony Inquiry";
   const isCorporateInquiry =
     inquiryType === "corporate" && Boolean(subject);
+  const showContactImage = inquiryType !== "events";
 
   const initialMessage = [subject, draft].filter(Boolean).join("\n\n");
 
@@ -53,7 +54,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               ? "Ask about an upcoming event."
               : isCorporateInquiry
                 ? "Inquire about corporate wellness."
-            : "Reach out and start the conversation."
+            : "Have questions? Reach out and start the conversation."
       }
       description={
         isTrainingWaitlist
@@ -67,60 +68,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             : "Whether you want to ask about sessions, training, events, or corporate wellness, this is the place to begin."
       }
     >
-      <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
-        <div className="grid gap-6">
-          <div className="overflow-hidden rounded-[34px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
-            <div className="mx-auto w-full max-w-[20rem]">
-              <img
-                src="/homepage-images/contact-page-magicbed.jpeg"
-                alt="A warm and welcoming healing space"
-                className="block h-auto w-full rounded-[34px] object-contain object-center"
-              />
-            </div>
-          </div>
-
-          <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
-            <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-              Contact Details
-            </span>
-            <h2 className="font-display text-[clamp(2.4rem,5vw,3.8rem)] leading-[0.96] tracking-[-0.02em]">
-              Choose the path that fits best.
-            </h2>
-            <div className="mt-6 grid gap-5 text-[var(--color-muted)]">
-              <div>
-                <strong className="mb-1 block text-[var(--color-text)]">
-                  In-Person Sessions
-                </strong>
-                <div>{site.contact.address}</div>
-              </div>
-              <div>
-                <strong className="mb-1 block text-[var(--color-text)]">
-                  Book a Session
-                </strong>
-                <Link href={site.links.calendly} className="font-bold text-[#5d5148]">
-                  Open Calendly
-                </Link>
-              </div>
-              <div>
-                <strong className="mb-1 block text-[var(--color-text)]">
-                  General Contact
-                </strong>
-                <Link href="mailto:kate@bethelightness.com" className="font-bold text-[#5d5148]">
-                  kate@bethelightness.com
-                </Link>
-              </div>
-              <div>
-                <strong className="mb-1 block text-[var(--color-text)]">
-                  Instagram
-                </strong>
-                <Link href={site.social.instagram} className="font-bold text-[#5d5148]">
-                  @thelightness0fbeing
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <div className="grid gap-6">
         <form
           action={submitContactInquiry}
           className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(248,242,235,0.9),rgba(239,229,217,0.86))] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10"
@@ -128,28 +76,6 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Contact Form
           </span>
-          <h2 className="font-display text-[clamp(2.4rem,5vw,3.8rem)] leading-[0.96] tracking-[-0.02em]">
-            {isTrainingWaitlist
-              ? "You're joining the Reiki Rising waitlist."
-              : isPrivateEventInquiry
-                ? "You're inquiring about a private event or ceremony."
-                : isUpcomingEventInquiry
-                  ? "You're asking about an upcoming event."
-                  : isCorporateInquiry
-                ? "You're inquiring about corporate wellness."
-                : "Tell Kate what you're looking for."}
-          </h2>
-          <p className="mt-4 max-w-[36rem] text-[var(--color-muted)]">
-            {isTrainingWaitlist
-              ? "Your message is prefilled below so you can quickly join the waitlist for the next cohort."
-              : isPrivateEventInquiry
-                ? "Your message is prefilled below so you can quickly share the kind of gathering, ritual, or support you are looking for."
-                : isUpcomingEventInquiry
-                ? "Your message is prefilled below so you can quickly ask about the event you are interested in."
-                : isCorporateInquiry
-                ? "Your message is prefilled below so you can quickly share what kind of workplace or team support you are looking for."
-                : "Share a little about what you're moving through, what you're curious about, or the kind of support you're seeking. Kate will respond with care and help guide the next step."}
-          </p>
 
           {status === "success" ? (
             <p className="mt-6 rounded-[18px] border border-[rgba(124,163,130,0.22)] bg-[rgba(168,178,159,0.22)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
@@ -263,22 +189,60 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             Send Message
           </button>
         </form>
-      </div>
 
-      <section className="rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
-        <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-          A Gentle Starting Point
-        </span>
-        <h2 className="font-display text-[clamp(2.2rem,4vw,3.2rem)] leading-[0.98] tracking-[-0.02em]">
-          You do not need to know exactly what to ask for.
-        </h2>
-        <p className="mt-4 max-w-[42rem] text-[var(--color-muted)]">
-          If you feel drawn to this work but are not sure which offering fits best,
-          you can simply reach out honestly. Whether you are moving through something
-          specific or just know you are ready for support, this can be a simple,
-          gentle place to begin.
-        </p>
-      </section>
+        {showContactImage ? (
+          <div className="overflow-hidden rounded-[34px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
+            <div className="mx-auto w-full max-w-[20rem]">
+              <img
+                src="/homepage-images/contact-page-magicbed.jpeg"
+                alt="A warm and welcoming healing space"
+                className="block h-auto w-full rounded-[34px] object-contain object-center"
+              />
+            </div>
+          </div>
+        ) : null}
+
+        <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+            Contact Details
+          </span>
+          <h2 className="display-section-title">
+            Choose the path that fits best.
+          </h2>
+          <div className="mt-6 grid gap-5 text-[var(--color-muted)] sm:grid-cols-2">
+            <div>
+              <strong className="mb-1 block text-[var(--color-text)]">
+                Patchogue Studio
+              </strong>
+              <div>{site.contact.address}</div>
+            </div>
+            <div>
+              <strong className="mb-1 block text-[var(--color-text)]">
+                Book a Session
+              </strong>
+              <Link href={site.links.calendly} className="font-bold text-[#5d5148]">
+                Open Calendly
+              </Link>
+            </div>
+            <div>
+              <strong className="mb-1 block text-[var(--color-text)]">
+                General Contact
+              </strong>
+              <Link href="mailto:kate@bethelightness.com" className="font-bold text-[#5d5148]">
+                kate@bethelightness.com
+              </Link>
+            </div>
+            <div>
+              <strong className="mb-1 block text-[var(--color-text)]">
+                Instagram
+              </strong>
+              <Link href={site.social.instagram} className="font-bold text-[#5d5148]">
+                @thelightness0fbeing
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
     </PageShell>
   );
 }

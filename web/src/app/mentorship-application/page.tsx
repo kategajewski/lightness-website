@@ -28,7 +28,7 @@ export default async function MentorshipApplicationPage({
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Before You Apply
           </span>
-          <h2 className="font-display text-[clamp(2.4rem,5vw,3.8rem)] leading-[0.96] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             This path is open to both beginners and those already deepening into Reiki.
           </h2>
           <p className="mt-5 text-[var(--color-muted)]">
@@ -56,7 +56,7 @@ export default async function MentorshipApplicationPage({
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Application Form
           </span>
-          <h2 className="font-display text-[clamp(2.4rem,5vw,3.8rem)] leading-[0.96] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Tell Kate what is calling you here.
           </h2>
           <p className="mt-4 max-w-[36rem] text-[var(--color-muted)]">

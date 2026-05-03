@@ -7,8 +7,7 @@ const serviceSections = [
     id: "reiki-energy-healing",
     eyebrow: "Reiki & Energy Healing",
     title: "Support for rest, reset, and energetic renewal.",
-    description:
-      "These sessions are best for those seeking Reiki, deeper energetic support, or gentle care for children.",
+    description: "",
     explanation:
       "Reiki and energy healing work gently with the body, mind, and energy field to support relaxation, emotional balance, and a return to greater steadiness and flow.",
     services: [
@@ -40,9 +39,9 @@ const serviceSections = [
     eyebrow: "Hypnotherapy & Regression",
     title: "Subconscious work for clarity, release, and deeper understanding.",
     description:
-      "This offering is ideal for those ready to explore root patterns, beliefs, and the deeper layers shaping their present experience.",
+      "Hypnotherapy and regression therapy create a guided, relaxed state where the subconscious becomes more accessible, helping you understand patterns, shift beliefs, and uncover deeper insight.",
     explanation:
-      "Hypnotherapy and regression create a guided, relaxed state where the subconscious becomes more accessible, helping you understand patterns, shift beliefs, and uncover deeper insight.",
+      "This offering is ideal for those ready to explore root patterns, beliefs, and the deeper layers shaping their present experience.",
     services: [
       {
         title: "The Inner Journey",
@@ -96,7 +95,7 @@ export default function ServicesPage() {
     <PageShell
       eyebrow="Services"
       title="Healing support for where you are right now."
-      description="Explore the private 1:1 offerings available through The Lightness of Being, each designed to meet you with care, clarity, and the support that feels right for this season of your life."
+      description="Explore the private 1:1 offerings available, each designed to meet you with care, clarity, and the support that feels right for this season of your life."
     >
       <div className="grid gap-8">
         {serviceSections.map((section) => (
@@ -108,15 +107,19 @@ export default function ServicesPage() {
             <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               {section.eyebrow}
             </span>
-            <h2 className="font-display text-[clamp(2.2rem,4vw,3.5rem)] leading-[0.98] tracking-[-0.02em]">
+            <h2 className="display-section-title">
               {section.title}
             </h2>
-            <p className="mt-4 max-w-[42rem] text-[var(--color-muted)]">
-              {section.description}
-            </p>
-            <p className="mt-3 max-w-[48rem] text-[var(--color-muted)]">
-              {section.explanation}
-            </p>
+            {section.description ? (
+              <p className="mt-4 max-w-[42rem] text-[var(--color-muted)]">
+                {section.description}
+              </p>
+            ) : null}
+            {section.explanation ? (
+              <p className="mt-3 max-w-[48rem] text-[var(--color-muted)]">
+                {section.explanation}
+              </p>
+            ) : null}
 
             <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {section.services.map((service) => (
@@ -125,7 +128,7 @@ export default function ServicesPage() {
                   className="rounded-[22px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(180deg,rgba(255,252,248,0.85),rgba(250,243,236,0.92))] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
                 >
                   <div className="mb-5 h-12 w-12 rounded-full bg-[radial-gradient(circle_at_30%_30%,#fefaf4,rgba(255,255,255,0.15)),linear-gradient(135deg,rgba(168,178,159,0.7),rgba(201,159,146,0.75))]" />
-                  <h3 className="font-display text-[2rem] leading-none tracking-[-0.02em]">
+                  <h3 className="display-card-title">
                     {service.title}
                   </h3>
                   <p className="mb-5 mt-3 text-[var(--color-muted)]">
@@ -142,9 +145,6 @@ export default function ServicesPage() {
       </div>
 
       <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.82)] p-6 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-8">
-        <p className="mb-5 max-w-2xl text-[var(--color-muted)] sm:mb-6">
-          Experience the relaxing, cozy vibes of The Lightness of Being.
-        </p>
         <div className="grid gap-4 md:grid-cols-3">
           <div className="overflow-hidden rounded-[24px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
             <img

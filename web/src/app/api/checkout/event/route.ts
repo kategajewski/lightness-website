@@ -9,6 +9,20 @@ const eventCheckoutConfig = {
     successPath: "/checkout/success",
     cancelPath: "/sacred-sounds-under-the-sky",
   },
+  "soothing-sunday-may-17-2026": {
+    name: "Soothing Sunday at Island Kava - May 17, 2026",
+    description: "Ticket for the May 17 gentle stretching, sound bath, and kava gathering.",
+    amountCents: 4500,
+    successPath: "/checkout/success",
+    cancelPath: "/soothing-sunday",
+  },
+  "soothing-sunday-june-14-2026": {
+    name: "Soothing Sunday at Island Kava - June 14, 2026",
+    description: "Ticket for the June 14 gentle stretching, sound bath, and kava gathering.",
+    amountCents: 4500,
+    successPath: "/checkout/success",
+    cancelPath: "/soothing-sunday",
+  },
 } as const;
 
 export async function POST(request: Request) {

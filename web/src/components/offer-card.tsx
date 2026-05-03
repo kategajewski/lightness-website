@@ -6,6 +6,8 @@ type OfferCardProps = {
 };
 
 export function OfferCard({ offer }: OfferCardProps) {
+  const isMembership = offer.slug === "monthly-membership";
+
   return (
     <article className="overflow-hidden rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
       <div
@@ -24,7 +26,7 @@ export function OfferCard({ offer }: OfferCardProps) {
           </span>
         </div>
         <div>
-          <h2 className="font-display text-[2.1rem] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="display-card-title">
             {offer.name}
           </h2>
           <p className="mt-3 text-[var(--color-muted)]">{offer.description}</p>
@@ -40,12 +42,21 @@ export function OfferCard({ offer }: OfferCardProps) {
             </li>
           ))}
         </ul>
-        <Link
-          href={offer.href}
-          className="button-pill"
-        >
-          {offer.cta}
-        </Link>
+        {isMembership ? (
+          <form action="/api/checkout" method="post">
+            <input type="hidden" name="slug" value={offer.slug} />
+            <button type="submit" className="button-pill">
+              {offer.cta}
+            </button>
+          </form>
+        ) : (
+          <Link
+            href={offer.href}
+            className="button-pill"
+          >
+            {offer.cta}
+          </Link>
+        )}
       </div>
     </article>
   );

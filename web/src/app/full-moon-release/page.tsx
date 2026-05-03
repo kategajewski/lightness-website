@@ -38,7 +38,7 @@ export default function FullMoonReleasePage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Upcoming Seasonal Gathering
           </span>
-          <h2 className="font-display text-[clamp(2.6rem,5vw,4rem)] leading-[0.96] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             A full moon evening for release, rest, and energetic recalibration.
           </h2>
           <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
@@ -90,7 +90,7 @@ export default function FullMoonReleasePage() {
             key={item.title}
             className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
           >
-            <h3 className="font-display text-[2rem] leading-[0.98] tracking-[-0.02em]">
+            <h3 className="display-card-title">
               {item.title}
             </h3>
             <p className="mt-4 text-[var(--color-muted)]">{item.description}</p>

@@ -3,25 +3,24 @@ import { footerNavigation, site } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer className="px-4 pb-12 pt-4 sm:px-6">
-      <div className="mx-auto w-full max-w-[1180px] rounded-[2rem] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.72)]">
-        <div className="grid gap-8 px-8 py-10 text-[var(--color-muted)] md:grid-cols-[1.2fr_0.8fr_0.8fr]">
-          <div>
-            <div className="mb-3 flex items-center gap-3">
+    <footer className="px-4 pb-5 pt-5 sm:px-6 sm:pb-12 sm:pt-4">
+      <div className="mx-auto w-full max-w-[1180px] rounded-[1.35rem] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.72)] sm:rounded-[2rem]">
+        <div className="grid grid-cols-2 gap-x-5 gap-y-5 px-4 py-5 text-[0.82rem] leading-relaxed text-[var(--color-muted)] sm:px-8 sm:py-10 sm:text-base md:grid-cols-[1.2fr_0.8fr_0.8fr]">
+          <div className="col-span-2 md:col-span-1">
+            <div className="flex items-center gap-2.5 sm:mb-3 sm:gap-3">
               <img
                 src="/homepage-images/hand-logo.png"
                 alt={`${site.name} logo`}
-                className="h-10 w-10 rounded-full object-cover opacity-90"
+                className="h-7 w-7 rounded-full object-cover opacity-90 sm:h-10 sm:w-10"
               />
-              <strong className="block text-[var(--color-text)]">
+              <strong className="block text-[0.95rem] text-[var(--color-text)] sm:text-base">
                 {site.name}
               </strong>
             </div>
-            <div>Private healing sessions in Patchogue, NY.</div>
           </div>
 
-          <div className="grid gap-2">
-            <strong className="mb-1 block text-[var(--color-text)]">
+          <div className="grid gap-1.5 sm:gap-2">
+            <strong className="mb-0.5 block text-[var(--color-text)] sm:mb-1">
               Navigate
             </strong>
             {footerNavigation.map((item) => (
@@ -31,8 +30,8 @@ export function SiteFooter() {
             ))}
           </div>
 
-          <div className="grid gap-2">
-            <strong className="mb-1 block text-[var(--color-text)]">
+          <div className="grid gap-1.5 sm:gap-2">
+            <strong className="mb-0.5 block text-[var(--color-text)] sm:mb-1">
               Connect
             </strong>
             <div>{site.contact.address}</div>

@@ -14,7 +14,7 @@ export default function ResetPasswordPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Reset Access
           </span>
-          <h2 className="font-display text-[clamp(2.3rem,5vw,3.5rem)] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Create a new password and get back into your account.
           </h2>
           <p className="mt-4 max-w-[36rem] text-[var(--color-muted)]">

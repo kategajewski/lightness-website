@@ -4,6 +4,7 @@ import { site } from "@/lib/site";
 
 const upcomingEvents = [
   {
+    isActive: false,
     eyebrow: "Featured Event",
     title: "Gallery Reading with Don Schaefer",
     description:
@@ -14,6 +15,7 @@ const upcomingEvents = [
     cta: "Register Through Venmo",
   },
   {
+    isActive: false,
     eyebrow: "Seasonal Gathering",
     title: "Full Moon Release: Reiki Infused Sound Journey",
     description:
@@ -24,6 +26,7 @@ const upcomingEvents = [
     cta: "See Event Details",
   },
   {
+    isActive: true,
     eyebrow: "Recurring Series",
     title: "Soothing Sunday at Island Kava",
     description:
@@ -34,6 +37,7 @@ const upcomingEvents = [
     cta: "Explore Soothing Sunday",
   },
   {
+    isActive: true,
     eyebrow: "New Outdoor Event",
     title: "Sacred Sounds Under the Sky",
     description:
@@ -45,7 +49,9 @@ const upcomingEvents = [
   },
 ] as const;
 
-const eventPaths = [
+const visibleUpcomingEvents = upcomingEvents.filter((event) => event.isActive);
+
+const privateEventPaths = [
   {
     title: "Private Events & Ceremonies",
     description:
@@ -66,39 +72,32 @@ export default function EventsPage() {
   return (
     <PageShell
       eyebrow="Events"
-      title="Gatherings, readings, and restorative community experiences."
-      description="From intimate mediumship events to monthly Island Kava gatherings and private ceremonies, The Lightness of Being offers ways to connect beyond one-on-one sessions."
+      title="Join a community event or organize your own special experience."
+      description="Explore upcoming gatherings, seasonal rituals, sound journeys, readings, and private event options."
     >
       <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            Upcoming Events
+            Community Offerings
           </span>
-          <h2 className="font-display text-[clamp(2.4rem,5vw,3.8rem)] leading-[0.96] tracking-[-0.02em]">
-            A mix of intimate experiences and recurring community offerings.
+          <h2 className="display-section-title">
+            Explore upcoming gatherings and seasonal experiences.
           </h2>
           <p className="mt-4 text-[var(--color-muted)]">
-            Some events are one-night gatherings, while others return monthly
-            as part of the rhythm of The Lightness of Being. This page is meant
-            to help you quickly see what is coming up next and where to learn more.
+            Browse the latest readings, sound journeys, and community events
+            currently open for registration.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/contact?inquiryType=events&subject=Upcoming%20Event%20Inquiry&draft=Hi%20Kate%2C%20I%27m%20interested%20in%20one%20of%20your%20upcoming%20events.%20I%27d%20love%20more%20details%20about%3A"
               className="button-pill"
             >
-              Ask About Events
-            </Link>
-            <Link
-              href={site.links.specialBlessing}
-              className="button-pill"
-            >
-              Private Events
+              Ask About Community Events
             </Link>
           </div>
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-2">
-        {upcomingEvents.map((item) => (
+      <section className="grid gap-5 xl:grid-cols-2">
+        {visibleUpcomingEvents.map((item) => (
           <article
             key={item.title}
             className="rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(180deg,rgba(249,244,237,0.9),rgba(243,234,224,0.95))] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
@@ -106,7 +105,7 @@ export default function EventsPage() {
             <span className="mb-3 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               {item.eyebrow}
             </span>
-            <h3 className="font-display text-[1.9rem] leading-none tracking-[-0.02em]">
+            <h3 className="display-card-title">
               {item.title}
             </h3>
             <p className="mt-3 text-[var(--color-muted)]">
@@ -120,15 +119,29 @@ export default function EventsPage() {
             </Link>
           </article>
         ))}
-      </div>
+      </section>
 
-      <div className="grid gap-5 md:grid-cols-2">
-        {eventPaths.map((item) => (
+      <section className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+        <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+          Private Events & Ceremonies
+        </span>
+        <h2 className="display-section-title">
+          Personalized support for private gatherings, rituals, and special moments.
+        </h2>
+        <p className="mt-4 text-[var(--color-muted)]">
+          If you are looking for something more personal, Kate also offers custom
+          ceremonies, private events, and workplace wellness experiences tailored
+          to the people and intention involved.
+        </p>
+      </section>
+
+      <section className="grid gap-5 md:grid-cols-2">
+        {privateEventPaths.map((item) => (
           <article
             key={item.title}
             className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
           >
-            <h3 className="font-display text-[1.9rem] leading-none tracking-[-0.02em]">
+            <h3 className="display-card-title">
               {item.title}
             </h3>
             <p className="mb-4 mt-3 text-[var(--color-muted)]">
@@ -139,7 +152,7 @@ export default function EventsPage() {
             </Link>
           </article>
         ))}
-      </div>
+      </section>
 
       <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.82)] p-6 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-8">
         <div className="grid gap-4 md:grid-cols-3">

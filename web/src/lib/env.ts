@@ -38,6 +38,9 @@ export const env = {
   stripePriceGiftCertificate500: readOptionalEnv(
     "STRIPE_PRICE_GIFT_CERTIFICATE_500",
   ),
+  emailFrom: readOptionalEnv("EMAIL_FROM"),
+  contactForwardTo: readOptionalEnv("CONTACT_FORWARD_TO"),
+  gmailAppPassword: readOptionalEnv("GMAIL_APP_PASSWORD"),
 };
 
 export const integrations = {
@@ -47,4 +50,8 @@ export const integrations = {
     Boolean(env.supabaseServiceRoleKey),
   stripe:
     Boolean(env.stripeSecretKey) && Boolean(env.stripePublishableKey),
+  emailForwarding:
+    Boolean(env.emailFrom) &&
+    Boolean(env.contactForwardTo) &&
+    Boolean(env.gmailAppPassword),
 };

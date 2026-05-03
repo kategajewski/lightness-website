@@ -8,6 +8,16 @@ function getFormValue(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
 }
 
+function getAuthErrorMessage(error: { message?: string }) {
+  const message = error.message?.trim();
+
+  if (message && message !== "{}") {
+    return message;
+  }
+
+  return "Supabase could not send the reset email. Please check the email sender settings and try again.";
+}
+
 export async function signInAction(formData: FormData) {
   const email = getFormValue(formData, "email");
   const password = getFormValue(formData, "password");
@@ -44,12 +54,12 @@ export async function requestPasswordResetAction(formData: FormData) {
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${env.siteUrl}/reset-password`,
+    redirectTo: `${env.siteUrl}/auth/callback?next=/reset-password`,
   });
 
   if (error) {
     redirect(
-      `/forgot-password?status=error&message=${encodeURIComponent(error.message)}`,
+      `/forgot-password?status=error&message=${encodeURIComponent(getAuthErrorMessage(error))}`,
     );
   }
 

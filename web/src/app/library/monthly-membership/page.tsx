@@ -67,7 +67,7 @@ export default async function MonthlyMembershipLibraryPage() {
           className="min-h-[460px] rounded-[32px] bg-cover bg-center shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
           style={{
             backgroundImage:
-              "linear-gradient(180deg, rgba(76,58,48,0.08), rgba(76,58,48,0.22)), url('https://storage.googleapis.com/msgsndr/UjW44wJD5eUk7BCDEe2Z/media/68353a2d66829df7dc8f202e.webp')",
+              "linear-gradient(180deg, rgba(76,58,48,0.08), rgba(76,58,48,0.22)), url('/homepage-images/ghl-sound-room.webp')",
           }}
         />
       </section>

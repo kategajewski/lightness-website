@@ -60,7 +60,7 @@ export default function ReikiRisingPage() {
         <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <div className="mx-auto w-full max-w-[20rem]">
             <img
-              src="https://storage.googleapis.com/msgsndr/UjW44wJD5eUk7BCDEe2Z/media/68353a2cc305a903ecc0be02.webp"
+              src="/homepage-images/ghl-reiki-rising.webp"
               alt="Reiki Rising training"
               className="block h-auto w-full rounded-[32px] object-contain object-center"
             />

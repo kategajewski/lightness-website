@@ -101,7 +101,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(248,242,235,0.9),rgba(239,229,217,0.86)),linear-gradient(0deg,rgba(248,242,235,0.52),rgba(248,242,235,0.52)),url('https://storage.googleapis.com/msgsndr/UjW44wJD5eUk7BCDEe2Z/media/68353a2c66829d893e8f2029.webp')] bg-cover bg-center p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+      <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(248,242,235,0.9),rgba(239,229,217,0.86)),linear-gradient(0deg,rgba(248,242,235,0.52),rgba(248,242,235,0.52)),url('/homepage-images/ghl-healing-session.webp')] bg-cover bg-center p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
           Why Work With Kate
         </span>

@@ -67,7 +67,7 @@ export default function MembershipPage() {
           className="min-h-[560px] rounded-[32px] bg-cover bg-center shadow-[0_24px_80px_rgba(59,41,31,0.08)] max-md:min-h-[420px]"
           style={{
             backgroundImage:
-              "linear-gradient(180deg, rgba(76,58,48,0.08), rgba(76,58,48,0.22)), url('https://storage.googleapis.com/msgsndr/UjW44wJD5eUk7BCDEe2Z/media/68353a2c66829d893e8f2029.webp')",
+              "linear-gradient(180deg, rgba(76,58,48,0.08), rgba(76,58,48,0.22)), url('/homepage-images/ghl-healing-session.webp')",
           }}
         />
       </section>

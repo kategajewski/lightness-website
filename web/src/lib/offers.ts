@@ -48,7 +48,7 @@ export const offers: Offer[] = [
     detail:
       "This membership is designed to create a grounded monthly rhythm of healing, savings, and long-term support without overcomplicating the path.",
     image:
-      "https://storage.googleapis.com/msgsndr/UjW44wJD5eUk7BCDEe2Z/media/68353a2c66829d893e8f2029.webp",
+      "/homepage-images/ghl-healing-session.webp",
     href: "/checkout/monthly-membership",
     stripePriceId: env.stripePriceMembershipMonthly,
   },
@@ -72,7 +72,7 @@ export const offers: Offer[] = [
     detail:
       "This offer is a strong candidate for the first full course migration because it already exists as a separate registration flow on the current site.",
     image:
-      "https://storage.googleapis.com/msgsndr/UjW44wJD5eUk7BCDEe2Z/media/68353a2cc305a903ecc0be02.webp",
+      "/homepage-images/ghl-reiki-rising.webp",
     href: "/checkout/reiki-rising",
     stripePriceId: env.stripePriceReikiRising,
   },

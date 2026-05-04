@@ -5,6 +5,8 @@ export const site = {
     "Private healing sessions, courses, and memberships for The Lightness of Being.",
   social: {
     instagram: "https://instagram.com/thelightness0fbeing",
+    googleReviews:
+      "https://www.google.com/search?q=the+lightness+of+being+patchogue#mpd=~2014996060404357506/customers/reviews",
   },
   contact: {
     address: "98 Medford Ave, Patchogue, NY 11772",

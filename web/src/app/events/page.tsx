@@ -4,13 +4,13 @@ import { site } from "@/lib/site";
 
 const upcomingEvents = [
   {
-    isActive: false,
+    isActive: true,
     eyebrow: "Featured Event",
     title: "Gallery Reading with Don Schaefer",
     description:
       "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
     details:
-      "Tuesday, April 28, 2026 · 7-8:30 PM · Limited to 8 people",
+      "Tuesday, May 26, 2026 · 7-8:30 PM · Limited to 8 people",
     href: "https://venmo.com/u/donald-schaefer-12",
     cta: "Register Through Venmo",
   },

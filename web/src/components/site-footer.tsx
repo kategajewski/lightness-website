@@ -36,7 +36,13 @@ export function SiteFooter() {
             </strong>
             <div>{site.contact.address}</div>
             <Link href={site.social.instagram}>Instagram</Link>
-            <Link href={site.social.googleReviews}>Google Reviews</Link>
+            <a
+              href={site.social.googleReviews}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Google Reviews
+            </a>
             <Link href={site.links.login}>Member Login</Link>
             <Link href={site.links.contact}>Email</Link>
           </div>

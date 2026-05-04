@@ -51,6 +51,38 @@ const upcomingEvents = [
 
 const visibleUpcomingEvents = upcomingEvents.filter((event) => event.isActive);
 
+const yogaSchedule = [
+  {
+    day: "Monday",
+    classes: [
+      "5:45-6:15 PM Evening Meditation",
+      "6:30-7:30 PM Restorative Zen Yoga",
+    ],
+    location: "Sanctuary+Health, Patchogue, NY",
+  },
+  {
+    day: "Tuesday",
+    classes: [
+      "9:45-10:45 AM Dirty Yoga",
+      "11:00 AM-12:00 PM Pole-ates",
+    ],
+    location: "The Cheeky Peach, Patchogue, NY",
+  },
+  {
+    day: "Thursday",
+    classes: [
+      "8:15-9:15 AM Sanctuary Flow",
+      "9:30-10:30 AM Yin + Release",
+    ],
+    location: "Sanctuary+Health, Patchogue, NY",
+  },
+  {
+    day: "Friday",
+    classes: ["9:30-10:30 AM Stretch + Sound"],
+    location: "Sanctuary+Health, Patchogue, NY",
+  },
+] as const;
+
 const privateEventPaths = [
   {
     title: "Private Events & Ceremonies",
@@ -119,6 +151,44 @@ export default function EventsPage() {
             </Link>
           </article>
         ))}
+      </section>
+
+      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.72)] p-6 shadow-[0_18px_56px_rgba(59,41,31,0.06)] sm:p-8">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span className="mb-3 inline-block text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+              Weekly Classes
+            </span>
+            <h2 className="display-section-title">
+              Yoga schedule with Kate.
+            </h2>
+          </div>
+          <p className="max-w-[32rem] text-[0.95rem] text-[var(--color-muted)]">
+            Ongoing movement, meditation, and sound-based classes offered
+            weekly in Patchogue.
+          </p>
+        </div>
+
+        <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {yogaSchedule.map((item) => (
+            <article
+              key={item.day}
+              className="rounded-[20px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.68)] p-5"
+            >
+              <h3 className="text-[0.82rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
+                {item.day}
+              </h3>
+              <ul className="mt-4 grid gap-2 text-[0.95rem] text-[var(--color-muted)]">
+                {item.classes.map((classItem) => (
+                  <li key={classItem}>{classItem}</li>
+                ))}
+              </ul>
+              <p className="mt-4 text-[0.86rem] text-[var(--color-text)]">
+                {item.location}
+              </p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">

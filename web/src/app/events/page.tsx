@@ -5,28 +5,6 @@ import { site } from "@/lib/site";
 const upcomingEvents = [
   {
     isActive: true,
-    eyebrow: "Featured Event",
-    title: "Gallery Reading with Don Schaefer",
-    description:
-      "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
-    details:
-      "Tuesday, May 26, 2026 · 7-8:30 PM · Limited to 8 people",
-    href: "https://venmo.com/u/donald-schaefer-12",
-    cta: "Register Through Venmo",
-  },
-  {
-    isActive: false,
-    eyebrow: "Seasonal Gathering",
-    title: "Full Moon Release: Reiki Infused Sound Journey",
-    description:
-      "A Reiki-infused sound journey designed to help you soften, restore, and reconnect under the energy of the full moon.",
-    details:
-      "Saturday, May 2, 2026 · Sanctuary+Health, Patchogue",
-    href: "/full-moon-release",
-    cta: "See Event Details",
-  },
-  {
-    isActive: true,
     eyebrow: "Recurring Series",
     title: "Soothing Sunday at Island Kava",
     description:
@@ -46,6 +24,28 @@ const upcomingEvents = [
       "Saturday, May 23, 2026 · 11:00 AM-12:00 PM · $30 in advance · Rain date Sunday, May 24",
     href: site.links.sacredSoundsUnderTheSky,
     cta: "Purchase Ticket",
+  },
+  {
+    isActive: true,
+    eyebrow: "Featured Event",
+    title: "Gallery Reading with Don Schaefer",
+    description:
+      "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
+    details:
+      "Tuesday, May 26, 2026 · 7-8:30 PM · Limited to 8 people",
+    href: "https://venmo.com/u/donald-schaefer-12",
+    cta: "Register Through Venmo",
+  },
+  {
+    isActive: false,
+    eyebrow: "Seasonal Gathering",
+    title: "Full Moon Release: Reiki Infused Sound Journey",
+    description:
+      "A Reiki-infused sound journey designed to help you soften, restore, and reconnect under the energy of the full moon.",
+    details:
+      "Saturday, May 2, 2026 · Sanctuary+Health, Patchogue",
+    href: "/full-moon-release",
+    cta: "See Event Details",
   },
 ] as const;
 

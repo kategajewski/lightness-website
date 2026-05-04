@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Lightness of Being Event Flyers</title>
+    <style>
+      :root {
+        --bg: #f6f0e8;
+        --text: #2f2520;
+        --muted: #554842;
+        --brown: #4a3d36;
+        --soft: #fffaf5;
+        --sage: #a8b29f;
+        --rose: #c9a79c;
+        --peach: #e6c2a2;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #ded4c9;
+        color: var(--text);
+        font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+      }
+
+      .board {
+        display: grid;
+        gap: 48px;
+        justify-items: center;
+        padding: 48px;
+      }
+
+      .flyer {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 18% 12%, rgba(230, 194, 162, 0.55), transparent 28%),
+          radial-gradient(circle at 88% 15%, rgba(168, 178, 159, 0.38), transparent 25%),
+          radial-gradient(circle at 50% 95%, rgba(201, 167, 156, 0.34), transparent 30%),
+          var(--bg);
+      }
+
+      .flyer::before {
+        content: "";
+        position: absolute;
+        inset: 32px;
+        border: 1px solid rgba(76, 58, 48, 0.16);
+        border-radius: 40px;
+        pointer-events: none;
+        z-index: 4;
+      }
+
+      .photo {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: saturate(0.95) contrast(0.92);
+      }
+
+      .photo-soft {
+        opacity: 0.3;
+      }
+
+      .wash {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(246, 240, 232, 0.9) 0%, rgba(246, 240, 232, 0.56) 42%, rgba(246, 240, 232, 0.94) 100%),
+          linear-gradient(90deg, rgba(246, 240, 232, 0.94) 0%, rgba(246, 240, 232, 0.5) 58%, rgba(246, 240, 232, 0.9) 100%);
+        z-index: 1;
+      }
+
+      .content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        padding: 76px 76px 64px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .logo {
+        width: 74px;
+        height: 74px;
+        border-radius: 999px;
+        border: 1px solid rgba(76, 58, 48, 0.18);
+      }
+
+      .brand-name {
+        font-weight: 800;
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      .brand-sub {
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 15px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow {
+        margin-top: 86px;
+        color: var(--muted);
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 800px;
+        margin: 24px 0 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 98px;
+        font-weight: 700;
+        letter-spacing: 0;
+        line-height: 0.96;
+      }
+
+      .subhead {
+        max-width: 770px;
+        margin-top: 28px;
+        color: var(--muted);
+        font-size: 34px;
+        line-height: 1.22;
+      }
+
+      .details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin-top: auto;
+      }
+
+      .detail {
+        min-height: 142px;
+        border: 1px solid rgba(76, 58, 48, 0.12);
+        border-radius: 22px;
+        background: rgba(255, 250, 245, 0.82);
+        padding: 24px;
+        box-shadow: 0 22px 60px rgba(59, 41, 31, 0.08);
+      }
+
+      .detail strong {
+        display: block;
+        margin-bottom: 9px;
+        font-size: 16px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .detail span {
+        display: block;
+        color: var(--muted);
+        font-size: 26px;
+        line-height: 1.18;
+      }
+
+      .footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 26px;
+        gap: 24px;
+      }
+
+      .pill {
+        border-radius: 999px;
+        background: var(--brown);
+        color: #fffaf5;
+        font-size: 24px;
+        font-weight: 800;
+        padding: 18px 28px;
+      }
+
+      .site {
+        color: var(--muted);
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .vertical-photo {
+        position: absolute;
+        right: 58px;
+        bottom: 516px;
+        z-index: 2;
+        width: 292px;
+        height: 330px;
+        overflow: hidden;
+        border: 1px solid rgba(76, 58, 48, 0.12);
+        border-radius: 32px;
+        box-shadow: 0 28px 70px rgba(59, 41, 31, 0.16);
+      }
+
+      .vertical-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .with-photo-card h1 {
+        max-width: 620px;
+        font-size: 91px;
+      }
+
+      .with-photo-card .subhead {
+        max-width: 590px;
+      }
+
+      .mini-note {
+        position: absolute;
+        right: 76px;
+        top: 79px;
+        z-index: 3;
+        border: 1px solid rgba(76, 58, 48, 0.12);
+        border-radius: 999px;
+        background: rgba(255, 250, 245, 0.82);
+        padding: 14px 20px;
+        color: var(--muted);
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .soothing-collage {
+        background:
+          radial-gradient(circle at 18% 14%, rgba(230, 194, 162, 0.42), transparent 28%),
+          radial-gradient(circle at 88% 42%, rgba(168, 178, 159, 0.22), transparent 25%),
+          radial-gradient(circle at 46% 92%, rgba(201, 167, 156, 0.18), transparent 30%),
+          var(--bg);
+      }
+
+      .soothing-collage::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(246, 240, 232, 0.12) 0%, rgba(246, 240, 232, 0.86) 46%, rgba(246, 240, 232, 0.98) 100%);
+        pointer-events: none;
+      }
+
+      .collage-content {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        padding: 54px 68px 58px;
+      }
+
+      .presenter {
+        color: var(--text);
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 0;
+        line-height: 1.1;
+      }
+
+      .soothing-hero-photo {
+        position: absolute;
+        inset: 0 0 auto;
+        height: 555px;
+        overflow: hidden;
+      }
+
+      .soothing-hero-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .partner-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .partner {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+        border: 1px solid rgba(76, 58, 48, 0.12);
+        border-radius: 999px;
+        background: rgba(255, 250, 245, 0.88);
+        padding: 10px 18px 10px 10px;
+        box-shadow: 0 18px 42px rgba(59, 41, 31, 0.12);
+      }
+
+      .partner-logo {
+        width: 70px;
+        height: 70px;
+        border-radius: 999px;
+        object-fit: cover;
+      }
+
+      .partner-logo.lightness {
+        background: rgba(255, 248, 242, 0.86);
+        object-fit: contain;
+        padding: 6px;
+      }
+
+      .partner small {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .script-title {
+        margin: 388px 0 0;
+        color: var(--text);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 108px;
+        font-weight: 700;
+        letter-spacing: 0;
+        line-height: 0.9;
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      .collage-copy {
+        position: absolute;
+        left: 68px;
+        top: 726px;
+        width: 430px;
+        color: var(--muted);
+        font-size: 31px;
+        line-height: 1.18;
+        text-align: left;
+      }
+
+      .sound-photo {
+        position: absolute;
+        right: 68px;
+        top: 648px;
+        width: 390px;
+        height: 350px;
+        overflow: hidden;
+        border: 18px solid var(--soft);
+        border-radius: 24px;
+        box-shadow: 0 24px 80px rgba(59, 41, 31, 0.12);
+      }
+
+      .sound-photo img,
+      .gazebo-photo img,
+      .kava-badge img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .gazebo-photo {
+        position: absolute;
+        right: 70px;
+        top: 430px;
+        width: 502px;
+        height: 394px;
+        overflow: hidden;
+        border: 22px solid var(--soft);
+        border-radius: 24px;
+        box-shadow: 0 24px 80px rgba(59, 41, 31, 0.12);
+      }
+
+      .kava-badge {
+        position: absolute;
+        right: 70px;
+        top: 346px;
+        width: 178px;
+        height: 178px;
+        overflow: hidden;
+        border: 8px solid var(--soft);
+        border-radius: 999px;
+        box-shadow: 0 18px 42px rgba(59, 41, 31, 0.14);
+      }
+
+      .lightness-badge {
+        position: absolute;
+        left: 30px;
+        bottom: 54px;
+        width: 186px;
+        height: 186px;
+        border: 7px solid var(--soft);
+        border-radius: 999px;
+        background: rgba(255, 248, 242, 0.86);
+        box-shadow: 0 18px 42px rgba(59, 41, 31, 0.14);
+      }
+
+      .lightness-badge img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 10px;
+      }
+
+      .info-ribbons {
+        position: absolute;
+        left: 68px;
+        right: 68px;
+        bottom: 54px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        width: auto;
+      }
+
+      .ribbon {
+        position: relative;
+        min-height: 104px;
+        display: grid;
+        align-items: center;
+        border-radius: 22px;
+        border: 1px solid rgba(76, 58, 48, 0.12);
+        background: rgba(255, 250, 245, 0.9);
+        box-shadow: 0 22px 60px rgba(59, 41, 31, 0.08);
+        color: var(--brown);
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        line-height: 1.24;
+        padding: 22px 24px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .ribbon::after {
+        content: none;
+      }
+
+      .ribbon.wide {
+        grid-column: 1 / -1;
+        min-height: 84px;
+      }
+
+      .ribbon.note {
+        min-height: 70px;
+        color: var(--muted);
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 0;
+        text-transform: none;
+      }
+
+      .sacred-flyer {
+        background:
+          radial-gradient(circle at 12% 14%, rgba(168, 178, 159, 0.35), transparent 28%),
+          radial-gradient(circle at 90% 88%, rgba(230, 194, 162, 0.26), transparent 26%),
+          var(--bg);
+      }
+
+      .sacred-hero {
+        position: absolute;
+        inset: 0;
+      }
+
+      .sacred-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .sacred-hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(246, 240, 232, 0.18) 0%, rgba(246, 240, 232, 0.3) 34%, rgba(246, 240, 232, 0.9) 68%, rgba(246, 240, 232, 1) 100%),
+          linear-gradient(90deg, rgba(246, 240, 232, 0.86) 0%, rgba(246, 240, 232, 0.5) 58%, rgba(246, 240, 232, 0.72) 100%);
+      }
+
+      .sacred-content {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        padding: 62px 68px 58px;
+      }
+
+      .sacred-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        border: 1px solid rgba(76, 58, 48, 0.12);
+        border-radius: 999px;
+        background: rgba(255, 250, 245, 0.9);
+        padding: 10px 22px 10px 10px;
+        box-shadow: 0 18px 42px rgba(59, 41, 31, 0.12);
+      }
+
+      .sacred-brand img {
+        width: 70px;
+        height: 70px;
+        border-radius: 999px;
+        object-fit: contain;
+      }
+
+      .sacred-brand strong {
+        display: block;
+        color: var(--text);
+        font-size: 24px;
+        line-height: 1;
+      }
+
+      .sacred-brand span {
+        display: block;
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .sacred-eyebrow {
+        margin-top: 132px;
+        color: var(--muted);
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      .sacred-title {
+        max-width: 770px;
+        margin: 22px 0 0;
+        color: var(--text);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 92px;
+        font-weight: 700;
+        line-height: 0.96;
+      }
+
+      .sacred-copy {
+        max-width: 600px;
+        margin-top: 26px;
+        color: var(--muted);
+        font-size: 32px;
+        line-height: 1.2;
+      }
+
+      .sacred-price {
+        position: absolute;
+        right: 68px;
+        top: 66px;
+        border: 1px solid rgba(76, 58, 48, 0.12);
+        border-radius: 999px;
+        background: rgba(255, 250, 245, 0.9);
+        color: var(--brown);
+        font-size: 22px;
+        font-weight: 800;
+        padding: 18px 26px;
+        box-shadow: 0 18px 42px rgba(59, 41, 31, 0.12);
+      }
+
+      .sacred-detail-grid {
+        position: absolute;
+        left: 68px;
+        right: 68px;
+        bottom: 58px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .sacred-photo-inset {
+        position: absolute;
+        right: 68px;
+        top: 554px;
+        width: 336px;
+        height: 336px;
+        overflow: hidden;
+        border: 18px solid rgba(255, 250, 245, 0.92);
+        border-radius: 999px;
+        box-shadow: 0 24px 80px rgba(59, 41, 31, 0.14);
+      }
+
+      .sacred-photo-inset img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .sacred-detail {
+        min-height: 118px;
+        border: 1px solid rgba(76, 58, 48, 0.12);
+        border-radius: 22px;
+        background: rgba(255, 250, 245, 0.9);
+        padding: 22px 24px;
+        box-shadow: 0 22px 60px rgba(59, 41, 31, 0.08);
+      }
+
+      .sacred-detail strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--text);
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .sacred-detail span {
+        display: block;
+        color: var(--muted);
+        font-size: 25px;
+        line-height: 1.18;
+      }
+
+      .sacred-detail small {
+        display: block;
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.22;
+      }
+
+      .sacred-detail.wide {
+        grid-column: 1 / -1;
+        min-height: 86px;
+        display: grid;
+        align-items: center;
+        text-align: center;
+      }
+
+      .sacred-detail.wide span {
+        color: var(--brown);
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="board">
+      <article class="flyer soothing-collage" id="soothing-sunday">
+        <div class="soothing-hero-photo">
+          <img src="lindenhurst-gazebo.jpeg" alt="" />
+        </div>
+        <div class="collage-content">
+          <div class="partner-row">
+            <div class="partner">
+              <img class="partner-logo" src="island-kava-logo.jpeg" alt="" />
+              <div class="presenter">
+                Island Kava
+                <small>Lindenhurst</small>
+              </div>
+            </div>
+            <div class="partner">
+              <img class="partner-logo lightness" src="../../web/public/homepage-images/hand-logo.png" alt="" />
+              <div class="presenter">
+                The Lightness of Being
+                <small>Kate Gajewski</small>
+              </div>
+            </div>
+          </div>
+          <div class="script-title">Soothing Sunday</div>
+          <div class="collage-copy">
+            A gentle outdoor gathering with stretching, a guided sound journey, and tea.
+          </div>
+
+          <div class="sound-photo">
+            <img src="../../web/public/homepage-images/events-island-kava-sound.jpeg" alt="" />
+          </div>
+
+          <div class="info-ribbons">
+            <div class="ribbon">Lindenhurst Village<br />Square Park</div>
+            <div class="ribbon">Sunday 5/17<br />10 AM - 11:30 AM</div>
+            <div class="ribbon wide">Register in advance at bethelightness.com</div>
+            <div class="ribbon wide note">Rain or shine. Outdoors weather permitting, otherwise held at Island Kava.</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flyer sacred-flyer" id="sacred-sounds">
+        <div class="sacred-hero">
+          <img src="home-sound-bowls-grass.png" alt="" />
+        </div>
+        <div class="sacred-content">
+          <div class="sacred-brand">
+            <img src="../../web/public/homepage-images/hand-logo.png" alt="" />
+            <div>
+              <strong>The Lightness of Being</strong>
+              <span>Healing with Kate Gajewski</span>
+            </div>
+          </div>
+          <div class="sacred-price">$30 advance</div>
+
+          <div class="sacred-eyebrow">Outdoor Sound Bath</div>
+          <h1 class="sacred-title">Sacred Sounds Under the Sky</h1>
+          <p class="sacred-copy">
+            Gather beneath the sky for sound, stillness, and deep rest.
+          </p>
+
+          <div class="sacred-photo-inset">
+            <img src="../../web/public/homepage-images/sacred-sounds-outdoor.jpeg" alt="" />
+          </div>
+
+          <div class="sacred-detail-grid">
+            <div class="sacred-detail">
+              <strong>Date</strong>
+              <span>Saturday, May 23</span>
+            </div>
+            <div class="sacred-detail">
+              <strong>Time</strong>
+              <span>11 AM - 12 PM</span>
+            </div>
+            <div class="sacred-detail">
+              <strong>Location</strong>
+              <span>The Lightness Grounds, Bayport</span>
+              <small>Corner of Gillette Avenue and Academy St</small>
+            </div>
+            <div class="sacred-detail">
+              <strong>Rain Date</strong>
+              <span>Sunday, May 24</span>
+            </div>
+            <div class="sacred-detail wide">
+              <span>Register in advance at bethelightness.com</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>

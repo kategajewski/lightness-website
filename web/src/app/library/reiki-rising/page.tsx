@@ -46,6 +46,10 @@ const downloads = [
     title: "Holy Fire III Reiki Level 1 Manual",
     href: "/reiki-rising/ReikiLevel1TrainingFinalPDF.pdf",
   },
+  {
+    title: "Holy Fire III Reiki Level 2 Manual",
+    href: "/reiki-rising/ReikiLevel2TrainingLuxuryPrintable.pdf",
+  },
 ] as const;
 
 export default async function ReikiRisingLibraryPage() {

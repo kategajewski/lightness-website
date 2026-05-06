@@ -8,7 +8,13 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createSupabaseServerClient();
-    await supabase.auth.exchangeCodeForSession(code);
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+    if (error) {
+      const errorUrl = new URL(next, requestUrl.origin);
+      errorUrl.searchParams.set("status", "expired");
+      return NextResponse.redirect(errorUrl);
+    }
   }
 
   return NextResponse.redirect(new URL(next, requestUrl.origin));

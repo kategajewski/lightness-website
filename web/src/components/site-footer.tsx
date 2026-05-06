@@ -43,6 +43,7 @@ export function SiteFooter() {
             >
               Google Reviews
             </a>
+            <Link href={site.links.emailUpdates}>Email Updates</Link>
             <Link href={site.links.login}>Member Login</Link>
             <Link href={site.links.contact}>Email</Link>
           </div>

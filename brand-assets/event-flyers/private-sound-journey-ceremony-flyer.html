@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Private Sound Journey & Ceremony Flyer - The Lightness of Being</title>
+    <style>
+      :root {
+        --cream: #f6f0e8;
+        --ink: #2f2520;
+        --muted: #554842;
+        --brown: #4a3d36;
+        --soft: #fffaf5;
+        --sage: #a8b29f;
+        --peach: #e6c2a2;
+        --rose: #c9a79c;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #ded4c9;
+        color: var(--ink);
+        font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+      }
+
+      figure {
+        margin: 0;
+      }
+
+      .flyer {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 14% 16%, rgba(230, 194, 162, 0.7), transparent 26%),
+          radial-gradient(circle at 88% 16%, rgba(168, 178, 159, 0.4), transparent 25%),
+          radial-gradient(circle at 24% 94%, rgba(201, 167, 156, 0.34), transparent 30%),
+          linear-gradient(180deg, #fbf5ee 0%, var(--cream) 55%, #efe5db 100%);
+        padding: 58px;
+      }
+
+      .flyer::before {
+        content: "";
+        position: absolute;
+        inset: 30px;
+        border: 1px solid rgba(76, 58, 48, 0.14);
+        border-radius: 48px;
+        pointer-events: none;
+      }
+
+      .bubble {
+        position: absolute;
+        border: 1px solid rgba(76, 58, 48, 0.08);
+        border-radius: 999px;
+        background: rgba(255, 250, 245, 0.42);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      }
+
+      .bubble.one {
+        left: -124px;
+        top: 138px;
+        width: 330px;
+        height: 330px;
+      }
+
+      .bubble.two {
+        right: -78px;
+        top: 420px;
+        width: 250px;
+        height: 250px;
+      }
+
+      .bubble.three {
+        right: 62px;
+        bottom: -124px;
+        width: 380px;
+        height: 380px;
+      }
+
+      .bubble.four {
+        left: 116px;
+        bottom: 180px;
+        width: 150px;
+        height: 150px;
+        background: rgba(168, 178, 159, 0.18);
+      }
+
+      .content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .logo {
+        width: 76px;
+        height: 76px;
+        border-radius: 999px;
+        border: 1px solid rgba(76, 58, 48, 0.18);
+      }
+
+      .brand-name {
+        font-size: 31px;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .brand-subtitle {
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 15px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .hero {
+        margin-top: 46px;
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 30px;
+        align-items: end;
+      }
+
+      .eyebrow {
+        margin: 0 0 18px;
+        color: var(--muted);
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 92px;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 0.92;
+      }
+
+      .hero-note {
+        border: 1px solid rgba(76, 58, 48, 0.09);
+        border-radius: 38px;
+        background: rgba(255, 250, 245, 0.72);
+        padding: 28px 26px;
+        color: var(--muted);
+        font-size: 24px;
+        line-height: 1.28;
+        box-shadow: 0 22px 70px rgba(59, 41, 31, 0.08);
+      }
+
+      .photo-row {
+        margin-top: 34px;
+        display: grid;
+        grid-template-columns: 1.22fr 0.78fr;
+        gap: 22px;
+        align-items: stretch;
+      }
+
+      .main-photo,
+      .side-photo {
+        overflow: hidden;
+        border: 10px solid rgba(255, 250, 245, 0.95);
+        box-shadow: 0 28px 78px rgba(59, 41, 31, 0.14);
+      }
+
+      .main-photo {
+        height: 384px;
+        border-radius: 48px;
+      }
+
+      .side-photo {
+        height: 384px;
+        border-radius: 999px 999px 46px 46px;
+      }
+
+      .main-photo img,
+      .side-photo img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .main-photo img {
+        object-position: 52% 44%;
+      }
+
+      .side-photo img {
+        object-position: 52% 52%;
+      }
+
+      .details {
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .detail-card {
+        min-height: 112px;
+        border: 1px solid rgba(76, 58, 48, 0.09);
+        border-radius: 34px;
+        background: rgba(255, 250, 245, 0.78);
+        padding: 18px 24px;
+        box-shadow: 0 22px 68px rgba(59, 41, 31, 0.08);
+      }
+
+      .detail-card:nth-child(2) {
+        background: rgba(232, 218, 207, 0.64);
+      }
+
+      .detail-card:nth-child(3) {
+        background: rgba(232, 225, 214, 0.76);
+      }
+
+      .detail-card:nth-child(4) {
+        background: rgba(238, 223, 215, 0.7);
+      }
+
+      .label {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        background: rgba(74, 61, 54, 0.92);
+        color: #fffaf5;
+        padding: 9px 16px 8px;
+        font-size: 13px;
+        font-weight: 850;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .detail-card p {
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 20px;
+        font-weight: 560;
+        line-height: 1.18;
+      }
+
+      .cta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: auto;
+        border: 1px solid rgba(76, 58, 48, 0.1);
+        border-radius: 999px;
+        background: rgba(74, 61, 54, 0.92);
+        color: #fffaf5;
+        padding: 20px 30px;
+        box-shadow: 0 24px 70px rgba(59, 41, 31, 0.14);
+      }
+
+      .cta strong {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 1;
+      }
+
+      .site {
+        font-size: 23px;
+        font-weight: 850;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="flyer" aria-label="Private sound journey and ceremony flyer">
+      <div class="bubble one"></div>
+      <div class="bubble two"></div>
+      <div class="bubble three"></div>
+      <div class="bubble four"></div>
+
+      <section class="content">
+        <header class="brand">
+          <img
+            class="logo"
+            src="../../public/homepage-images/hand-logo.png"
+            alt="The Lightness of Being logo"
+          />
+          <div>
+            <div class="brand-name">The Lightness of Being</div>
+            <div class="brand-subtitle">Healing with Kate Gajewski</div>
+          </div>
+        </header>
+
+        <section class="hero">
+          <div>
+            <p class="eyebrow">Private Group Experiences</p>
+            <h1>Private Group Experiences & Ceremonies</h1>
+          </div>
+          <p class="hero-note">
+            Private yoga, sound journeys, and meaningful ceremonies for you and
+            your loved ones, held in the comfort of your own home or chosen space.
+          </p>
+        </section>
+
+        <section class="photo-row">
+          <figure class="main-photo">
+            <img
+              src="../../public/homepage-images/services-lightnesssound.jpeg"
+              alt="Private sound healing session"
+            />
+          </figure>
+          <figure class="side-photo">
+            <img
+              src="../../public/homepage-images/private-events-ceremony.jpeg"
+              alt="Ceremony altar in an outdoor setting"
+            />
+          </figure>
+        </section>
+
+        <section class="details">
+          <article class="detail-card">
+            <span class="label">For</span>
+            <p>Private clients, families, intimate groups, and special moments.</p>
+          </article>
+
+          <article class="detail-card">
+            <span class="label">Includes</span>
+            <p>Gentle yoga, sound, Reiki, ritual design, blessing elements, or intuitive support.</p>
+          </article>
+
+          <article class="detail-card">
+            <span class="label">Where</span>
+            <p>Homes, backyards, studios, and spaces ready to feel lighter and clearer.</p>
+          </article>
+
+          <article class="detail-card">
+            <span class="label">Begin</span>
+            <p>Each gathering begins with a conversation and is shaped with care.</p>
+          </article>
+        </section>
+
+        <footer class="cta">
+          <strong>Inquire about a private gathering</strong>
+          <div class="site">bethelightness.com</div>
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>

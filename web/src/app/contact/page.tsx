@@ -204,6 +204,23 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
         <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+            Email Updates
+          </span>
+          <h2 className="display-section-title">
+            Choose what you want to hear about.
+          </h2>
+          <p className="mt-4 max-w-[42rem] text-[var(--color-muted)]">
+            Join the email list for events, yoga classes, Reiki trainings, sound
+            healing, private ceremonies, and membership updates. You can choose
+            the topics that feel relevant to you.
+          </p>
+          <Link href={site.links.emailUpdates} className="button-pill mt-6">
+            Join Email Updates
+          </Link>
+        </div>
+
+        <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Contact Details
           </span>
           <h2 className="display-section-title">

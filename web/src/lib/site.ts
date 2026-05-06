@@ -28,6 +28,7 @@ export const site = {
     soundTraining: "/sound-training",
     corporateWellness: "/corporate-wellness",
     events: "/events",
+    emailUpdates: "/email-updates",
     contact: "/contact",
     hypnotherapy:
       "https://bethelightness.com/hypnotherapy-past-life-regression-therapy",

@@ -1049,6 +1049,38 @@ Rule for future sessions:
   - do not bulk stage the whole repo
   - the Reiki 2 portal change itself is already committed and pushed
 
+### Latest Save Point - Email Updates + Private Group Flyer
+- Added a new website email signup page:
+  - `/email-updates`
+  - lets visitors explicitly opt in to receive email updates
+  - includes preference checkboxes for:
+    - Monthly events
+    - Yoga classes
+    - Reiki trainings
+    - Sound healing and sound training
+    - Private sessions and ceremonies
+    - Membership and Reiki Rising updates
+  - includes required consent language so people are not being added from Calendly without permission
+- Added email signup storage through the existing website inquiry flow:
+  - `web/src/app/email-updates/actions.ts`
+  - stores submissions in the existing `contact_inquiries` table with source `email_signup`
+  - forwards to email when forwarding is configured
+- Added an Email Updates block to the Contact page.
+- Moved Email Updates into the footer Connect column to balance the footer.
+- Created a branded flyer:
+  - `brand-assets/event-flyers/private-sound-journey-ceremony-flyer.html`
+  - `brand-assets/event-flyers/private-sound-journey-ceremony-flyer.png`
+  - final title: `Private Group Experiences & Ceremonies`
+  - includes yoga, sound, Reiki, ritual design, blessing elements, and private gathering language
+- Mailchimp status:
+  - user logged into Mailchimp in regular Chrome
+  - Mailchimp blocked the in-app browser login page
+  - next recommended step is to create Mailchimp groups/interests matching the website checkboxes, then connect the site via Mailchimp API or an embedded form flow
+- Verification:
+  - `npm run lint --prefix web` passed with existing image warnings only
+  - `/email-updates` and `/contact` returned HTTP 200 locally after restarting the dev server
+  - local production build is still blocked by unrelated extensionless scratch file issue at `web/src/app/login/actions`
+
 ### Latest Save Point - Student Portal Password Setup
 - Student feedback on May 5, 2026:
   - original account links did not work cleanly for students

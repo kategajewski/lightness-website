@@ -1019,3 +1019,73 @@ Rule for future sessions:
   - Supabase stores the inquiry
   - owner email forwarding arrives
 - Decide when to retire/disable any old GoHighLevel pages, payment links, or workflows.
+
+### Latest Save Point - Reiki 2 Portal PDF
+- Reiki 2 luxury printable PDF was finalized and saved locally:
+  - `/Users/magicalbeing/Desktop/gohighlevel/reiki-workbook/ReikiLevel2TrainingLuxuryPrintable.pdf`
+- Reiki 2 PDF was also saved into Kate's synced Google Drive:
+  - `/Users/magicalbeing/Library/CloudStorage/GoogleDrive-kategajewski@gmail.com/My Drive/reiki level 2/ReikiLevel2TrainingLuxuryPrintable.pdf`
+- The PDF was added to the live app asset folder:
+  - `/Users/magicalbeing/Desktop/gohighlevel/web/public/reiki-rising/ReikiLevel2TrainingLuxuryPrintable.pdf`
+- Reiki Rising portal downloads now include:
+  - `Holy Fire III Reiki Level 1 Manual`
+  - `Holy Fire III Reiki Level 2 Manual`
+- Portal code updated in:
+  - `/Users/magicalbeing/Desktop/gohighlevel/web/src/app/library/reiki-rising/page.tsx`
+- Commit and push completed:
+  - `414a5fe Add Reiki Level 2 manual to portal`
+  - pushed to `origin/main`
+- Vercel production deployment inspected afterward:
+  - production deployment status was `Ready`
+  - deployment id shown by Vercel: `dpl_EE9i3Ln4icDYDuiLmrir3ZGVRS6w`
+- Live PDF verification completed:
+  - `https://bethelightness.com/reiki-rising/ReikiLevel2TrainingLuxuryPrintable.pdf`
+  - returned `200 application/pdf`
+- Note for portal page checking:
+  - the protected library route redirects unauthenticated visitors to login, so use Kate's logged-in Chrome session to visually verify the Downloads section
+  - if the portal page still looks stale, hard refresh with `Command + Shift + R`
+- Current working tree note:
+  - repository still has many unrelated unstaged local edits and scratch files from prior design/deployment work
+  - do not bulk stage the whole repo
+  - the Reiki 2 portal change itself is already committed and pushed
+
+### Latest Save Point - Student Portal Password Setup
+- Student feedback on May 5, 2026:
+  - original account links did not work cleanly for students
+  - students were able to get in only by going to login, choosing Forgot Password, and resetting their password
+  - this was not the desired first-time student experience
+- Diagnosis:
+  - Reiki Rising `member_access` rows were correct
+  - student accounts existed in Supabase Auth
+  - the issue was the first-time password setup/recovery session flow and the language around it
+- New live flow added:
+  - `/create-password`
+  - branded first-time setup page titled `Create your password for the student portal`
+  - uses the existing secure Supabase session/password update underneath
+- New branded bridge route added:
+  - `/portal-setup?token=...&type=recovery`
+  - starts on `bethelightness.com`, forwards securely to Supabase verification, then returns to `/create-password`
+  - this keeps student-facing links more aligned with The Lightness of Being instead of raw Supabase links
+- Existing reset flow updated:
+  - `/forgot-password` remains for students who already created a portal password and need a reset
+  - `/reset-password` copy no longer says Supabase in the student-facing language
+  - reset/setup form now has separate language for `reset` and `setup` modes
+- Helper script added for future setup links:
+  - `/Users/magicalbeing/Desktop/gohighlevel/scripts/generate-portal-setup-links.mjs`
+  - usage:
+    - `node scripts/generate-portal-setup-links.mjs student@email.com`
+  - outputs a branded `https://bethelightness.com/portal-setup?...` link
+  - uses `https://bethelightness.com` by default, regardless of local `.env.local`
+- Commit and push completed:
+  - `d89c2be Add student portal password setup flow`
+  - pushed to `origin/main`
+- Vercel production deployment verified:
+  - production deployment id: `dpl_CaEeyKmsVpZdjoNwSiSW4iUV1mG5`
+  - status: `Ready`
+  - `/create-password` live page checked and contained the new setup title
+  - `/portal-setup?token=test-token&type=recovery` returned `307` to Supabase verify as expected
+- Local verification note:
+  - `npm run lint --prefix web -- --quiet` passed with no errors
+  - `node --check scripts/generate-portal-setup-links.mjs` passed
+  - local `npm run build --prefix web` is still blocked by unrelated untracked extensionless scratch files in `web/src`
+  - those scratch files were not staged or pushed

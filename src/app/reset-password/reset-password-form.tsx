@@ -3,13 +3,40 @@
 import { FormEvent, useEffect, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 
-export function ResetPasswordForm() {
+type PasswordFlow = "reset" | "setup";
+
+const copy = {
+  reset: {
+    waiting: "Waiting for recovery session...",
+    missingSession:
+      "Auth session missing. Please open the newest password reset email and use that link directly.",
+    notReady:
+      "Please open the reset page from the newest password recovery email.",
+    success: "Password updated. You can now return to login.",
+    button: "Update Password",
+  },
+  setup: {
+    waiting: "Opening your portal setup link...",
+    missingSession:
+      "This portal setup link has expired or was already used. Please ask Kate for a fresh setup link, or use Forgot Password from the login page.",
+    notReady: "Please open this page from your newest portal setup email.",
+    success: "Password created. You can now return to login.",
+    button: "Create Password",
+  },
+} as const;
+
+type ResetPasswordFormProps = {
+  mode?: PasswordFlow;
+};
+
+export function ResetPasswordForm({ mode = "reset" }: ResetPasswordFormProps) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [status, setStatus] = useState<
     "loading" | "ready" | "submitting" | "success" | "error"
   >("loading");
   const [message, setMessage] = useState("");
+  const text = copy[mode];
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -25,9 +52,7 @@ export function ResetPasswordForm() {
       }
 
       setStatus("error");
-      setMessage(
-        "Auth session missing. Please open the newest password reset email and use that link directly.",
-      );
+      setMessage(text.missingSession);
     });
 
     const {
@@ -45,16 +70,14 @@ export function ResetPasswordForm() {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, []);
+  }, [text.missingSession]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (status !== "ready") {
       setStatus("error");
-      setMessage(
-        "Please open the reset page from the newest password recovery email.",
-      );
+      setMessage(text.notReady);
       return;
     }
 
@@ -83,7 +106,7 @@ export function ResetPasswordForm() {
     }
 
     setStatus("success");
-    setMessage("Password updated. You can now return to login.");
+    setMessage(text.success);
     setPassword("");
     setConfirmPassword("");
   }
@@ -92,7 +115,7 @@ export function ResetPasswordForm() {
     <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">
       {status === "loading" ? (
         <p className="rounded-[18px] border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.86)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
-          Waiting for recovery session...
+          {text.waiting}
         </p>
       ) : null}
 
@@ -140,7 +163,7 @@ export function ResetPasswordForm() {
           disabled={status === "submitting" || status === "loading"}
           className="button-pill disabled:opacity-70"
         >
-          {status === "submitting" ? "Saving..." : "Update Password"}
+          {status === "submitting" ? "Saving..." : text.button}
         </button>
       </form>
     </div>

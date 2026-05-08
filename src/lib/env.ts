@@ -13,6 +13,8 @@ export const env = {
   gmailAuthUser: readOptionalEnv("GMAIL_AUTH_USER"),
   gmailAppPassword: readOptionalEnv("GMAIL_APP_PASSWORD"),
   resendApiKey: readOptionalEnv("RESEND_API_KEY"),
+  mailchimpApiKey: readOptionalEnv("MAILCHIMP_API_KEY"),
+  mailchimpAudienceId: readOptionalEnv("MAILCHIMP_AUDIENCE_ID"),
   stripeSecretKey: readOptionalEnv("STRIPE_SECRET_KEY"),
   stripeWebhookSecret: readOptionalEnv("STRIPE_WEBHOOK_SECRET"),
   stripePublishableKey: readOptionalEnv("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"),
@@ -63,4 +65,6 @@ export const integrations = {
         Boolean(env.gmailAppPassword))),
   stripe:
     Boolean(env.stripeSecretKey) && Boolean(env.stripePublishableKey),
+  mailchimp:
+    Boolean(env.mailchimpApiKey) && Boolean(env.mailchimpAudienceId),
 };

@@ -10,6 +10,8 @@ export const site = {
   ],
   social: {
     instagram: "https://instagram.com/thelightness0fbeing",
+    googleReviews:
+      "https://www.google.com/search?q=the+lightness+of+being+patchogue#mpd=~2014996060404357506/customers/reviews",
   },
   contact: {
     address: "98 Medford Ave, Patchogue, NY 11772",
@@ -32,6 +34,7 @@ export const site = {
     soundTraining: "/sound-training",
     corporateWellness: "/corporate-wellness",
     events: "/events",
+    emailUpdates: "/email-updates",
     contact: "/contact",
     hypnotherapy:
       "https://bethelightness.com/hypnotherapy-past-life-regression-therapy",
@@ -47,15 +50,15 @@ export const site = {
 };
 
 export const booking = {
-  primaryLabel: "Book Appointment",
-  primaryHref: site.links.calendly,
+  primaryLabel: "Join Monthly Membership",
+  primaryHref: site.links.membership,
   primaryDescription:
-    "Book private one-on-one healing support through Kate's live Calendly schedule.",
+    "Monthly Rest & Reset offers ongoing support, built-in savings, and a steady rhythm of care for clients who want healing to be a regular part of life.",
   secondaryOptions: [
     {
-      label: "Monthly Membership",
-      href: site.links.membership,
-      description: "Explore ongoing recurring support and membership access.",
+      label: "Book Appointment",
+      href: site.links.calendly,
+      description: "Book private one-on-one healing support through Kate's live Calendly schedule.",
     },
   ],
 } as const;

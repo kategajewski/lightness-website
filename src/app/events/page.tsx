@@ -4,36 +4,18 @@ import { site } from "@/lib/site";
 
 const upcomingEvents = [
   {
-    eyebrow: "Featured Event",
-    title: "Gallery Reading with Don Schaefer",
-    description:
-      "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
-    details:
-      "Tuesday, April 28, 2026 · 7-8:30 PM · Limited to 8 people",
-    href: "https://venmo.com/u/donald-schaefer-12",
-    cta: "Register Through Venmo",
-  },
-  {
-    eyebrow: "Seasonal Gathering",
-    title: "Full Moon Release: Reiki Infused Sound Journey",
-    description:
-      "A Reiki-infused sound journey designed to help you soften, restore, and reconnect under the energy of the full moon.",
-    details:
-      "Saturday, May 2, 2026 · Sanctuary+Health, Patchogue",
-    href: "/full-moon-release",
-    cta: "See Event Details",
-  },
-  {
+    isActive: true,
     eyebrow: "Recurring Series",
     title: "Soothing Sunday at Island Kava",
     description:
       "A monthly Island Kava gathering with stretch, sound bath, and kava to help you reset for the week ahead.",
     details:
-      "Upcoming dates: May 17, 2026 and June 14, 2026 · $45 per gathering · Outside weather permitting, otherwise indoors at Island Kava in Lindenhurst",
+      "Upcoming dates: May 17, 2026 and June 14, 2026 · Outside weather permitting, otherwise indoors at Island Kava in Lindenhurst",
     href: "/soothing-sunday",
-    cta: "Purchase Ticket",
+    cta: "Explore Soothing Sunday",
   },
   {
+    isActive: true,
     eyebrow: "New Outdoor Event",
     title: "Sacred Sounds Under the Sky",
     description:
@@ -42,6 +24,51 @@ const upcomingEvents = [
       "Saturday, May 23, 2026 · 11:00 AM-12:00 PM · $30 in advance · Rain date Sunday, May 24",
     href: site.links.sacredSoundsUnderTheSky,
     cta: "Purchase Ticket",
+  },
+  {
+    isActive: true,
+    eyebrow: "Featured Event",
+    title: "Gallery Reading with Don Schaefer",
+    description:
+      "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
+    details:
+      "Tuesday, May 26, 2026 · 7-8:30 PM · Limited to 8 people",
+    href: "https://venmo.com/u/donald-schaefer-12",
+    cta: "Register Through Venmo",
+  },
+] as const;
+
+const visibleUpcomingEvents = upcomingEvents.filter((event) => event.isActive);
+
+const yogaSchedule = [
+  {
+    day: "Monday",
+    classes: [
+      "5:45-6:15 PM Evening Meditation",
+      "6:30-7:30 PM Restorative Zen Yoga",
+    ],
+    location: "Sanctuary+Health, Patchogue, NY",
+  },
+  {
+    day: "Tuesday",
+    classes: [
+      "9:45-10:45 AM Dirty Yoga",
+      "11:00 AM-12:00 PM Pole-ates",
+    ],
+    location: "The Cheeky Peach, Patchogue, NY",
+  },
+  {
+    day: "Thursday",
+    classes: [
+      "8:15-9:15 AM Sanctuary Flow",
+      "9:30-10:30 AM Yin + Release",
+    ],
+    location: "Sanctuary+Health, Patchogue, NY",
+  },
+  {
+    day: "Friday",
+    classes: ["9:30-10:30 AM Stretch + Sound"],
+    location: "Sanctuary+Health, Patchogue, NY",
   },
 ] as const;
 
@@ -66,20 +93,19 @@ export default function EventsPage() {
   return (
     <PageShell
       eyebrow="Events"
-      title="Gatherings, readings, and restorative community experiences."
-      description="From intimate mediumship events to monthly Island Kava gatherings and private ceremonies, The Lightness of Being offers ways to connect beyond one-on-one sessions."
+      title="Join a community event or organize your own special experience."
+      description="Explore upcoming gatherings, weekly yoga classes, seasonal rituals, sound journeys, readings, and private event options."
     >
       <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Community Offerings
           </span>
           <h2 className="display-section-title">
-            Gather with the community in recurring and one-time experiences.
+            Explore upcoming gatherings and seasonal experiences.
           </h2>
           <p className="mt-4 text-[var(--color-muted)]">
-            These gatherings include sound baths, readings, seasonal rituals, and
-            restorative evenings designed to help people connect, soften, and reset
-            together.
+            Browse the latest readings, sound journeys, and community events
+            currently open for registration.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
@@ -88,17 +114,11 @@ export default function EventsPage() {
             >
               Ask About Community Events
             </Link>
-            <Link
-              href={site.links.specialBlessing}
-              className="button-pill"
-            >
-              Private Events & Ceremonies
-            </Link>
           </div>
       </div>
 
       <section className="grid gap-5 xl:grid-cols-2">
-        {upcomingEvents.map((item) => (
+        {visibleUpcomingEvents.map((item) => (
           <article
             key={item.title}
             className="rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(180deg,rgba(249,244,237,0.9),rgba(243,234,224,0.95))] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
@@ -120,6 +140,44 @@ export default function EventsPage() {
             </Link>
           </article>
         ))}
+      </section>
+
+      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.72)] p-6 shadow-[0_18px_56px_rgba(59,41,31,0.06)] sm:p-8">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span className="mb-3 inline-block text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+              Weekly Classes
+            </span>
+            <h2 className="display-section-title">
+              Yoga schedule with Kate.
+            </h2>
+          </div>
+          <p className="max-w-[32rem] text-[0.95rem] text-[var(--color-muted)]">
+            Ongoing movement, meditation, and sound-based classes offered
+            weekly in Patchogue.
+          </p>
+        </div>
+
+        <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {yogaSchedule.map((item) => (
+            <article
+              key={item.day}
+              className="rounded-[20px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.68)] p-5"
+            >
+              <h3 className="text-[0.82rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
+                {item.day}
+              </h3>
+              <ul className="mt-4 grid gap-2 text-[0.95rem] text-[var(--color-muted)]">
+                {item.classes.map((classItem) => (
+                  <li key={classItem}>{classItem}</li>
+                ))}
+              </ul>
+              <p className="mt-4 text-[0.86rem] text-[var(--color-text)]">
+                {item.location}
+              </p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">

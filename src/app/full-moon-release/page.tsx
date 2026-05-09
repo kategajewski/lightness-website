@@ -6,21 +6,21 @@ const features = [
   "A Reiki-infused sound bath held under the energy of the full moon",
   "Created to support release, reflection, rest, and nervous system softening",
   "Held at Sanctuary+Health in Patchogue on Saturday, May 2, 2026",
-  "Open to those who want a restorative, intentional community experience",
+  "Created for guests who wanted a restorative, intentional community experience",
 ] as const;
 
 const details = [
   {
-    title: "Date & Place",
+    title: "Held On",
     description: "Saturday, May 2, 2026 · Sanctuary+Health, Patchogue",
   },
   {
-    title: "What it offers",
+    title: "What it offered",
     description:
       "A blend of Reiki, sound, and intentional space to help you release what feels heavy and reconnect with yourself.",
   },
   {
-    title: "Who it is for",
+    title: "Who it was for",
     description:
       "Those craving a gentler reset, energetic clearing, and a more grounded way to move through the full moon.",
   },
@@ -31,26 +31,25 @@ export default function FullMoonReleasePage() {
     <PageShell
       eyebrow="Full Moon Event"
       title="Full Moon Release: Reiki Infused Sound Journey"
-      description="A restorative evening experience designed to help you soften, clear, and reconnect through Reiki, sound, and the reflective energy of the full moon."
+      description="This seasonal gathering has passed. You can return to the Events page to see current community experiences and upcoming offerings."
     >
       <section className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
         <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            Upcoming Seasonal Gathering
+            Past Seasonal Gathering
           </span>
           <h2 className="display-section-title">
             A full moon evening for release, rest, and energetic recalibration.
           </h2>
           <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
-            This Reiki infused sound journey is designed as a space to exhale.
+            This Reiki infused sound journey was designed as a space to exhale.
             Through sound, energetic support, and intentional atmosphere, the
-            evening invites you to soften what has built up, release what no longer
-            needs to be carried, and reconnect with yourself in a more spacious way.
+            evening invited guests to soften what had built up, release what no longer
+            needed to be carried, and reconnect with themselves in a more spacious way.
           </p>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            Whether you come for rest, ritual, emotional reset, or simply the chance
-            to be held inside a meaningful gathering, this event is meant to feel
-            restorative, gentle, and nourishing.
+            For current seasonal gatherings, community events, and sound experiences,
+            visit the Events page for what is open now.
           </p>
           <ul className="mt-8 grid gap-3 text-[var(--color-muted)]">
             {features.map((feature) => (
@@ -61,14 +60,8 @@ export default function FullMoonReleasePage() {
             ))}
           </ul>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="https://www.sanctuary-health.org/events-list"
-              className="button-pill"
-            >
-              Reserve Your Spot
-            </Link>
             <Link href={site.links.events} className="button-pill">
-              Back to Events
+              Browse Current Events
             </Link>
           </div>
         </div>

@@ -39,6 +39,10 @@ const downloads = [
     title: "Holy Fire III Reiki Level 1 Manual",
     href: "/reiki-rising/ReikiLevel1TrainingFinalPDF.pdf",
   },
+  {
+    title: "Holy Fire III Reiki Level 2 Manual",
+    href: "/reiki-rising/ReikiLevel2TrainingLuxuryPrintable.pdf",
+  },
 ] as const;
 
 export default async function ReikiRisingLibraryPage() {
@@ -61,7 +65,7 @@ export default async function ReikiRisingLibraryPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Reiki Rising Library
           </span>
-          <h1 className="font-display text-[clamp(3rem,6vw,4.8rem)] leading-[0.96] tracking-[-0.02em]">
+          <h1 className="display-page-title">
             Welcome to your Reiki Rising course space.
           </h1>
           <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
@@ -101,7 +105,7 @@ export default async function ReikiRisingLibraryPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Course Journey
           </span>
-          <h2 className="font-display text-[clamp(2.2rem,5vw,3.4rem)] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Move through each week in order, and return to the replay whenever you need it.
           </h2>
           <div className="grid gap-5 lg:grid-cols-2">
@@ -116,7 +120,7 @@ export default async function ReikiRisingLibraryPage() {
                 <span className="inline-block text-[0.78rem] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
                   {week.title}
                 </span>
-                <h2 className="mt-3 font-display text-[2rem] leading-[0.98] tracking-[-0.02em]">
+                <h2 className="mt-3 display-card-title">
                   {week.focus}
                 </h2>
                 <p className="mt-3 text-[var(--color-muted)]">
@@ -155,7 +159,7 @@ export default async function ReikiRisingLibraryPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Downloads
           </span>
-          <h2 className="font-display text-[clamp(2.2rem,5vw,3.4rem)] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Keep your manuals and class materials close by.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">

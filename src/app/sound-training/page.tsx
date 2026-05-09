@@ -52,7 +52,7 @@ export default function SoundTrainingPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Live Training Experience
           </span>
-          <h2 className="font-display text-[clamp(2.6rem,5vw,4rem)] leading-[0.96] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Learn to facilitate sound experiences in a way that feels intentional, embodied, and deeply restorative.
           </h2>
           <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
@@ -107,7 +107,7 @@ export default function SoundTrainingPage() {
             key={item.title}
             className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
           >
-            <h2 className="font-display text-[2rem] leading-[0.98] tracking-[-0.02em]">
+            <h2 className="display-card-title">
               {item.title}
             </h2>
             <p className="mt-4 text-[var(--color-muted)]">{item.description}</p>
@@ -120,7 +120,7 @@ export default function SoundTrainingPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Next Training Dates
           </span>
-          <h2 className="font-display text-[clamp(2.3rem,5vw,3.5rem)] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             October 2-4, 2026
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
@@ -146,7 +146,7 @@ export default function SoundTrainingPage() {
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
           Investment
         </span>
-        <h2 className="max-w-[16ch] font-display text-[clamp(2.3rem,5vw,3.4rem)] leading-[0.98] tracking-[-0.02em]">
+        <h2 className="max-w-[20ch] display-section-title">
           Choose the payment path that feels most supportive.
         </h2>
         <p className="mt-5 max-w-[42rem] text-[var(--color-muted)]">
@@ -162,7 +162,7 @@ export default function SoundTrainingPage() {
               className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.84)] p-6 shadow-[0_12px_32px_rgba(59,41,31,0.08)]"
             >
               <div className="flex flex-wrap items-start justify-between gap-4">
-                <h3 className="font-display text-[1.7rem] leading-[1] tracking-[-0.02em]">
+                <h3 className="display-card-title">
                   {item.title}
                 </h3>
                 <strong className="text-[1.1rem] text-[var(--color-text)]">

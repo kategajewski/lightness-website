@@ -47,7 +47,7 @@ export default function CoursesPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Learning at The Lightness of Being
           </span>
-          <h2 className="max-w-[18ch] font-display text-[clamp(2.5rem,5vw,3.8rem)] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="max-w-[22ch] display-section-title">
             Choose the training path that meets where you are being called.
           </h2>
           <p className="mt-5 max-w-[42rem] text-[var(--color-muted)]">
@@ -76,7 +76,7 @@ export default function CoursesPage() {
             <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               {path.eyebrow}
             </span>
-            <h2 className="font-display text-[clamp(2.1rem,4vw,3rem)] leading-[0.98] tracking-[-0.02em]">
+            <h2 className="display-section-title">
               {path.title}
             </h2>
             <p className="mt-4 text-[var(--color-muted)]">{path.description}</p>

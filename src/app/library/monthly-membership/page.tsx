@@ -40,7 +40,7 @@ export default async function MonthlyMembershipLibraryPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Monthly Membership Library
           </span>
-          <h1 className="font-display text-[clamp(3rem,6vw,4.8rem)] leading-[0.96] tracking-[-0.02em]">
+          <h1 className="display-page-title">
             Welcome to your recurring support space.
           </h1>
           <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
@@ -67,7 +67,7 @@ export default async function MonthlyMembershipLibraryPage() {
           className="min-h-[460px] rounded-[32px] bg-cover bg-center shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
           style={{
             backgroundImage:
-              "linear-gradient(180deg, rgba(76,58,48,0.08), rgba(76,58,48,0.22)), url('https://storage.googleapis.com/msgsndr/UjW44wJD5eUk7BCDEe2Z/media/68353a2d66829df7dc8f202e.webp')",
+              "linear-gradient(180deg, rgba(76,58,48,0.08), rgba(76,58,48,0.22)), url('/homepage-images/ghl-sound-room.webp')",
           }}
         />
       </section>
@@ -79,7 +79,7 @@ export default async function MonthlyMembershipLibraryPage() {
               key={section.title}
               className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
             >
-              <h2 className="font-display text-[2rem] leading-[0.98] tracking-[-0.02em]">
+              <h2 className="display-card-title">
                 {section.title}
               </h2>
               <p className="mt-4 text-[var(--color-muted)]">{section.description}</p>

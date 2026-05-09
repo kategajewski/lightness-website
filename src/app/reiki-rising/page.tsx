@@ -39,7 +39,7 @@ export default function ReikiRisingPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Live Online Group Program
           </span>
-          <h2 className="font-display text-[clamp(2.6rem,5vw,4rem)] leading-[0.96] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Learn Reiki in a way that feels spacious, personal, and deeply transformative.
           </h2>
           <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
@@ -71,7 +71,7 @@ export default function ReikiRisingPage() {
         <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <div className="mx-auto w-full max-w-[20rem]">
             <img
-              src="https://storage.googleapis.com/msgsndr/UjW44wJD5eUk7BCDEe2Z/media/68353a2cc305a903ecc0be02.webp"
+              src="/homepage-images/ghl-reiki-rising.webp"
               alt="Reiki Rising training"
               className="block h-auto w-full rounded-[32px] object-contain object-center"
             />
@@ -85,7 +85,7 @@ export default function ReikiRisingPage() {
             key={item.title}
             className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
           >
-            <h2 className="font-display text-[2rem] leading-[0.98] tracking-[-0.02em]">
+            <h2 className="display-card-title">
               {item.title}
             </h2>
             <p className="mt-4 text-[var(--color-muted)]">{item.description}</p>
@@ -98,7 +98,7 @@ export default function ReikiRisingPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Current Enrollment
           </span>
-          <h2 className="font-display text-[clamp(2.3rem,5vw,3.5rem)] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             The current round is underway, and the next cohort will open in the coming months.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">

@@ -102,7 +102,7 @@ export default function TermsPage() {
         <div className="grid gap-8">
           {termsSections.map((section) => (
             <article key={section.title} className="grid gap-4">
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] leading-[0.98] tracking-[-0.02em]">
+              <h2 className="display-section-title">
                 {section.title}
               </h2>
               <div className="grid gap-3 text-[var(--color-muted)]">

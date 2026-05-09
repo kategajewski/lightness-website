@@ -1,14 +1,5 @@
-import Link from "next/link";
 import { BookingCard } from "@/components/booking-card";
 import { PageShell } from "@/components/page-shell";
-import { site } from "@/lib/site";
-
-const whyChooseKate = [
-  "Extensive training with over nine years of professional experience across healing modalities.",
-  "A holistic approach that combines energy healing, hypnotherapy, sound therapy, and spiritual support.",
-  "Personalized care tailored to your unique needs and healing goals.",
-  "A safe and nurturing environment where you are seen, heard, and supported.",
-] as const;
 
 const credentials = [
   "B.A. in Psychology",
@@ -34,8 +25,8 @@ export default function AboutPage() {
   return (
     <PageShell
       eyebrow="About Kate"
-      title="Meet the healer and guide behind The Lightness of Being."
-      description="Discover the path of Kate Gajewski, a healer and guide whose work blends energy medicine, sound healing, hypnotherapy, and grounded personal care in Patchogue, New York."
+      title="Meet the practitioner behind The Lightness of Being."
+      description="Discover the path of Kate Gajewski, a holistic practitioner, teacher, and mentor whose work integrates energy medicine, sound healing, and hypnotherapy, offering deeply personalized support both in-person in Patchogue, New York, and remotely."
     >
       <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
         <div className="overflow-hidden rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(180deg,rgba(255,250,245,0.96),rgba(243,232,222,0.92))] p-6 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-8">
@@ -47,37 +38,24 @@ export default function AboutPage() {
         </div>
 
         <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
-          <h2 className="font-display text-[clamp(2.5rem,5vw,3.8rem)] leading-[0.96] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Healing that feels both spiritual and embodied.
           </h2>
           <p className="mt-5 text-[var(--color-muted)]">
-            Kate Gajewski is a healer and guide whose work is rooted in
-            intuition, energy medicine, and grounded presence. Through Reiki,
-            sound healing, hypnotherapy, and holistic support, she creates
-            deeply personal experiences that help clients release heaviness,
-            reconnect to their inner light, and return to themselves.
+            This work isn&apos;t about fixing, it&apos;s about being met where
+            you are.
           </p>
           <p className="mt-4 text-[var(--color-muted)]">
-            The Lightness of Being is built around the belief that healing begins
-            when you feel safe enough to soften. Each session is intentional and
-            responsive to what you most need in the moment rather than forcing a
-            one-size-fits-all process.
+            Each session is guided by what&apos;s present in the moment,
+            blending Reiki, sound healing, hypnotherapy, and intuitive support
+            in a way that allows the body to soften and the mind to settle.
           </p>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href={site.links.courses}
-              className="button-pill"
-            >
-              Explore Programs
-            </Link>
-            <Link
-              href={site.links.calendly}
-              className="button-pill"
-            >
-              Book a Session
-            </Link>
-          </div>
+          <p className="mt-4 text-[var(--color-muted)]">
+            The Lightness of Being is built on the belief that healing begins
+            when you feel safe enough to soften. There is no rigid structure
+            and no one-size-fits-all approach, only intentional, responsive
+            care that meets you where you are.
+          </p>
         </div>
       </div>
 
@@ -87,65 +65,69 @@ export default function AboutPage() {
             <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               Kate&apos;s Path
             </span>
-            <h2 className="max-w-[18ch] font-display text-[clamp(2.4rem,5vw,3.6rem)] leading-[0.98] tracking-[-0.02em]">
+            <h2 className="max-w-[22ch] display-section-title">
               Rooted in devotion, shaped by study, and guided by lived experience.
             </h2>
             <p className="mt-5 max-w-[42rem] text-[var(--color-muted)]">
-              For years, Reiki was quietly calling Kate long before she fully said
-              yes to it. Even with that inner pull, she was skeptical at first. But
-              once she experienced Reiki for herself, it changed her world. It
-              supported her healing in countless ways, opened her mind to a world of
-              deeper possibility, and helped uncover a more authentic relationship
-              with who she truly is.
+              For years, Reiki was quietly calling Kate long before she fully
+              said yes to it. Even with that inner pull, she was initially
+              skeptical, but once she experienced Reiki for herself, everything
+              shifted. It supported her healing in profound ways, expanded her
+              perspective, and deepened her connection to who she truly is.
             </p>
             <p className="mt-4 max-w-[42rem] text-[var(--color-muted)]">
-              Inspired by how profoundly Reiki transformed her own life, Kate
-              devoted herself to the path of healing, study, and service. Her work
-              is now rooted in helping women remember who they truly are beneath the
-              noise, the conditioning, and the heaviness they may be carrying.
+              That experience led her to devote herself fully to the path of
+              healing, study, and service. Today, her work supports women in
+              reconnecting to themselves beneath the noise, conditioning, and
+              patterns they&apos;ve been carrying.
             </p>
             <p className="mt-4 max-w-[42rem] text-[var(--color-muted)]">
-              Along the way, Kate became a Reiki Master in both Usui Ryoho and Holy
-              Fire, trained in Animal and Pet Reiki, Gong and Sound Resonance,
-              Clinical Hypnosis and Regression Therapy, and yoga, while also drawing
-              from a background in psychology, childhood education, and
-              community-centered healing work. The result is an approach that is
-              both intuitive and grounded: spiritual without losing practical care,
-              and deeply personal without ever becoming performative.
+              Kate is a Reiki Master in both Usui Ryoho and Holy Fire®, with
+              advanced training in sound healing, clinical hypnotherapy,
+              regression work, and yoga. Combined with her background in
+              psychology, education, and community-centered healing, her
+              approach is both intuitive and grounded, spiritual without losing
+              structure, and deeply personal without ever becoming
+              performative.
             </p>
           </div>
 
           <div className="mx-auto w-full max-w-[19rem] overflow-hidden rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,248,242,0.8)] p-3">
             <img
-              src="/homepage-images/contact-buddha.jpeg"
-              alt="A grounding Buddha detail in the healing space"
+              src="/homepage-images/portal-login-handsup.jpeg"
+              alt="Kate in her healing space"
               className="block h-auto w-full rounded-[22px] object-contain object-center"
             />
           </div>
         </div>
       </div>
 
-      <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(248,242,235,0.9),rgba(239,229,217,0.86)),linear-gradient(0deg,rgba(248,242,235,0.52),rgba(248,242,235,0.52)),url('https://storage.googleapis.com/msgsndr/UjW44wJD5eUk7BCDEe2Z/media/68353a2c66829d893e8f2029.webp')] bg-cover bg-center p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+      <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(248,242,235,0.9),rgba(239,229,217,0.86)),linear-gradient(0deg,rgba(248,242,235,0.52),rgba(248,242,235,0.52)),url('/homepage-images/ghl-healing-session.webp')] bg-cover bg-center p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-          Why Choose Kate
+          Why Work With Kate
         </span>
-        <div className="grid gap-4 md:grid-cols-2">
-          {whyChooseKate.map((item) => (
-            <div
-              key={item}
-              className="rounded-[22px] bg-[rgba(255,251,246,0.82)] p-5 text-[var(--color-text)] shadow-[0_12px_32px_rgba(59,41,31,0.08)]"
-            >
-              {item}
-            </div>
-          ))}
-        </div>
+        <h2 className="max-w-[22ch] display-section-title">
+          Refined, personalized care for those seeking depth and real change.
+        </h2>
+        <p className="mt-5 max-w-[46rem] text-[var(--color-muted)]">
+          Each session is thoughtfully designed around you, your needs, your
+          pace, and what is present in the moment. Blending energy work,
+          hypnotherapy, and sound healing, Kate offers a high-touch,
+          integrative approach within a space that is both grounded and deeply
+          supportive.
+        </p>
+        <p className="mt-4 max-w-[46rem] text-[var(--color-muted)]">
+          With over nine years of experience, her work is known for its depth,
+          intention, and ability to create lasting shifts, without force,
+          pressure, or performance.
+        </p>
       </div>
 
       <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
           Training & Background
         </span>
-        <h2 className="max-w-[18ch] font-display text-[clamp(2.2rem,5vw,3.2rem)] leading-[0.98] tracking-[-0.02em]">
+        <h2 className="max-w-[22ch] display-section-title">
           Deeply intuitive work, supported by years of study and practice.
         </h2>
         <ul className="mt-6 grid gap-x-8 gap-y-3 md:grid-cols-2">

@@ -33,7 +33,7 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Checkout
           </span>
-          <h1 className="font-display text-[clamp(3rem,6vw,4.8rem)] leading-[0.96] tracking-[-0.02em]">
+          <h1 className="display-page-title">
             {offer.name}
           </h1>
           <p className="mt-5 max-w-[36rem] text-[1.03rem] text-[var(--color-muted)]">

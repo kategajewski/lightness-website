@@ -71,7 +71,7 @@ export default async function SoothingSundayPage({
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Monthly Event Series
           </span>
-          <h2 className="font-display text-[clamp(2.6rem,5vw,4rem)] leading-[0.96] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Gentle yoga, sound bath, and kava in a warm community space.
           </h2>
           <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
@@ -122,7 +122,7 @@ export default async function SoothingSundayPage({
             key={item.title}
             className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
           >
-            <h3 className="font-display text-[2rem] leading-[0.98] tracking-[-0.02em]">
+            <h3 className="display-card-title">
               {item.title}
             </h3>
             <p className="mt-4 text-[var(--color-muted)]">{item.details}</p>
@@ -144,7 +144,7 @@ export default async function SoothingSundayPage({
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             What to expect
           </span>
-          <h2 className="font-display text-[clamp(2.3rem,5vw,3.5rem)] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             A simple, grounding ritual to carry you into the week ahead.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">

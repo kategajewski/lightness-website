@@ -45,7 +45,7 @@ export default async function SoundTrainingLibraryPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Sound Training Attendee Resources
           </span>
-          <h1 className="font-display text-[clamp(3rem,6vw,4.8rem)] leading-[0.96] tracking-[-0.02em]">
+          <h1 className="display-page-title">
             Welcome to your Sound Training resource space.
           </h1>
           <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
@@ -73,7 +73,7 @@ export default async function SoundTrainingLibraryPage() {
           className="min-h-[460px] rounded-[32px] bg-cover bg-center shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
           style={{
             backgroundImage:
-              "linear-gradient(180deg, rgba(76,58,48,0.08), rgba(76,58,48,0.22)), url('https://storage.googleapis.com/msgsndr/UjW44wJD5eUk7BCDEe2Z/media/68353a2d66829df7dc8f202e.webp')",
+              "linear-gradient(180deg, rgba(76,58,48,0.08), rgba(76,58,48,0.22)), url('/homepage-images/ghl-sound-room.webp')",
           }}
         />
       </section>
@@ -92,7 +92,7 @@ export default async function SoundTrainingLibraryPage() {
                 <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[rgba(168,178,159,0.25)] text-[0.95rem] font-bold text-[var(--color-text)]">
                   {index + 1}
                 </div>
-                <h2 className="font-display text-[2rem] leading-[0.98] tracking-[-0.02em]">
+                <h2 className="display-card-title">
                   {module.title}
                 </h2>
                 <p className="mt-3 text-[var(--color-muted)]">
@@ -108,7 +108,7 @@ export default async function SoundTrainingLibraryPage() {
             <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               What Comes Next
             </span>
-            <h2 className="font-display text-[clamp(2.2rem,5vw,3.4rem)] leading-[0.98] tracking-[-0.02em]">
+            <h2 className="display-section-title">
               This can support the live training without pretending it is a self-paced course.
             </h2>
             <ul className="mt-5 grid gap-3 text-[var(--color-muted)]">

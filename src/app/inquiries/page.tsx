@@ -72,7 +72,7 @@ export default async function InquiriesPage() {
             <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               Contact Form Inbox
             </span>
-            <h2 className="font-display text-[clamp(2.2rem,5vw,3.3rem)] leading-[0.98] tracking-[-0.02em]">
+            <h2 className="display-section-title">
               Latest submissions
             </h2>
           </div>

@@ -70,7 +70,7 @@ export default async function CheckoutSuccessPage({
       <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
         {eyebrow}
       </span>
-      <h1 className="font-display text-[clamp(3rem,7vw,4.8rem)] leading-[0.96] tracking-[-0.02em]">
+      <h1 className="display-page-title">
         {title}
       </h1>
       <p className="mx-auto mt-5 max-w-[38rem] text-[1.04rem] text-[var(--color-muted)]">

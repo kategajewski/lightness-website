@@ -30,7 +30,7 @@ export default function MembershipPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Monthly Rest & Reset
           </span>
-          <h2 className="font-display text-[clamp(2.6rem,5vw,4rem)] leading-[0.96] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             Ongoing healing support with built-in savings and a steady rhythm of care.
           </h2>
           <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
@@ -48,12 +48,12 @@ export default function MembershipPage() {
             ))}
           </ul>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/checkout/monthly-membership"
-              className="button-pill"
-            >
-              Join Monthly Membership
-            </Link>
+            <form action="/api/checkout" method="post">
+              <input type="hidden" name="slug" value="monthly-membership" />
+              <button type="submit" className="button-pill">
+                Join Monthly Membership
+              </button>
+            </form>
             <Link
               href={site.links.services}
               className="button-pill"
@@ -67,7 +67,7 @@ export default function MembershipPage() {
           className="min-h-[560px] rounded-[32px] bg-cover bg-center shadow-[0_24px_80px_rgba(59,41,31,0.08)] max-md:min-h-[420px]"
           style={{
             backgroundImage:
-              "linear-gradient(180deg, rgba(76,58,48,0.08), rgba(76,58,48,0.22)), url('https://storage.googleapis.com/msgsndr/UjW44wJD5eUk7BCDEe2Z/media/68353a2c66829d893e8f2029.webp')",
+              "linear-gradient(180deg, rgba(76,58,48,0.08), rgba(76,58,48,0.22)), url('/homepage-images/ghl-healing-session.webp')",
           }}
         />
       </section>
@@ -77,7 +77,7 @@ export default function MembershipPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Membership Details
           </span>
-          <h2 className="font-display text-[clamp(2.3rem,5vw,3.5rem)] leading-[0.98] tracking-[-0.02em]">
+          <h2 className="display-section-title">
             A grounded monthly rhythm of care, savings, and support.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">

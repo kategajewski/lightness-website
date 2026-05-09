@@ -113,7 +113,7 @@ export default function MentorshipPage() {
         <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <div className="mx-auto w-full max-w-[20rem]">
             <img
-              src="/homepage-images/embodied-healer-mentorship.jpeg"
+              src="/homepage-images/embodied-healer-warm-mentorship-final.jpeg"
               alt="Kate guiding a student during The Embodied Healer Reiki mentorship"
               className="block h-auto w-full rounded-[32px] object-contain object-center"
             />

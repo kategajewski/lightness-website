@@ -81,9 +81,9 @@ export default async function SoothingSundayPage({
             way that feels both nourishing and easy to arrive to.
           </p>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            These gatherings are intentionally simple and accessible. You will
-            be guided through gentle stretching, supported into rest with sound,
-            and invited to linger in the atmosphere of community and care.
+            No previous yoga, kava, or sound healing experience is needed.
+            The stretching is gentle and beginner-friendly, with space to
+            move at your own pace.
           </p>
           <ul className="mt-8 grid gap-3 text-[var(--color-muted)]">
             {soothingSundayFeatures.map((feature) => (
@@ -129,10 +129,10 @@ export default async function SoothingSundayPage({
             <p className="mt-4 font-semibold text-[var(--color-text)]">
               Investment: {item.priceLabel}
             </p>
-            <form action="/api/checkout/event" method="post" className="mt-6">
+            <form action="/api/checkout/event" method="post" className="mt-5">
               <input type="hidden" name="eventSlug" value={item.eventSlug} />
               <button type="submit" className="button-pill">
-                Purchase Ticket
+                Buy Ticket - {item.priceLabel}
               </button>
             </form>
           </article>
@@ -148,9 +148,9 @@ export default async function SoothingSundayPage({
             A simple, grounding ritual to carry you into the week ahead.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            Soothing Sunday is meant to feel approachable and restorative. You
-            do not need experience with yoga, kava, or sound healing to come.
-            Just arrive as you are and let the experience meet you there.
+            Soothing Sunday is meant to feel approachable and restorative.
+            Come as you are, settle in slowly, and let the experience meet you
+            where you are.
           </p>
         </div>
         <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">
@@ -158,10 +158,10 @@ export default async function SoothingSundayPage({
             Good to know
           </strong>
           <ul className="mt-4 grid gap-3 text-[var(--color-muted)]">
-            <li>This event happens monthly</li>
-            <li>May and June are planned for the Lindenhurst Village Square gazebo</li>
-            <li>If weather shifts, the gathering will move indoors to Island Kava</li>
-            <li>Island Kava creates a casual, welcoming atmosphere for the gathering</li>
+            <li>Dress comfortably and in layers</li>
+            <li>Your body may naturally cool down during the sound bath</li>
+            <li>Bring a yoga mat and blanket</li>
+            <li>May and June are planned for the Lindenhurst Village Square gazebo, with an indoor move to Island Kava if weather shifts</li>
           </ul>
         </div>
       </section>

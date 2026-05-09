@@ -3,27 +3,26 @@ import { PageShell } from "@/components/page-shell";
 import { site } from "@/lib/site";
 
 const soundTrainingFeatures = [
-  "A live in-person training held October 2-4, 2026",
-  "Designed for those called to facilitate sound with intention, presence, and care",
-  "Hands-on learning with instruments, facilitation, and grounded energetic awareness",
-  "Support for both personal practice and professional development",
+  "Instrument care, setup, and intuitive listening",
+  "Facilitation skills for private sessions, classes, and ceremony",
+  "Practice holding sound with presence, pacing, and confidence",
 ] as const;
 
 const soundTrainingSections = [
-  {
-    title: "What it is",
-    description:
-      "Sound Practitioner Training is a live immersive experience for those who want to work with sound in a way that feels intuitive, grounded, and deeply supportive.",
-  },
   {
     title: "Who it is for",
     description:
       "This training is for practitioners, space holders, and heart-led students who feel called to bring sound more intentionally into healing work, ritual, classes, or private sessions.",
   },
   {
-    title: "Training rhythm",
+    title: "What you practice",
     description:
-      "The next training takes place October 2-4, 2026. It is offered twice each year, creating a seasonal path for learning, practice, and integration.",
+      "You will work with instruments, energetic awareness, client comfort, transitions, and the subtle art of creating a restorative sound experience.",
+  },
+  {
+    title: "How it unfolds",
+    description:
+      "The training moves through guided teaching, hands-on practice, reflection, and integration so you can learn through the body, not only the mind.",
   },
 ] as const;
 
@@ -44,8 +43,8 @@ export default function SoundTrainingPage() {
   return (
     <PageShell
       eyebrow="Sound Training"
-      title="A live practitioner training for those called to hold sound with presence, care, and embodied confidence."
-      description="Sound Practitioner Training is a live immersive experience for those who want to learn how to work with sound in a grounded, intuitive, and supportive way."
+      title="Sound Practitioner Training"
+      description="Led by Kate Gajewski and Raquel Vamos, this in-person training takes place October 2-4, 2026 and explores instruments, facilitation, and grounded sound practice."
     >
       <section className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
         <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
@@ -56,15 +55,9 @@ export default function SoundTrainingPage() {
             Learn to facilitate sound experiences in a way that feels intentional, embodied, and deeply restorative.
           </h2>
           <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
-            This is not a prerecorded course or an abstract certification path.
-            It is a live training designed to help you understand instruments,
-            build confidence, and learn how to hold sound with clarity,
-            presence, and reverence.
-          </p>
-          <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            Whether you feel called to weave sound into your private work,
-            classes, ceremonies, or your own personal practice, this container
-            is here to help you begin in a grounded and supported way.
+            Inside the training, you will explore how sound supports the nervous
+            system, how to work with instruments responsibly, and how to create
+            spaces that feel clear, grounded, and caring.
           </p>
           <ul className="mt-8 grid gap-3 text-[var(--color-muted)]">
             {soundTrainingFeatures.map((feature) => (
@@ -74,20 +67,6 @@ export default function SoundTrainingPage() {
               </li>
             ))}
           </ul>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/checkout/sound-training"
-              className="button-pill"
-            >
-              Reserve Your Spot
-            </Link>
-            <Link
-              href={site.links.contact}
-              className="button-pill"
-            >
-              Ask a Question
-            </Link>
-          </div>
         </div>
 
         <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
@@ -115,30 +94,31 @@ export default function SoundTrainingPage() {
         ))}
       </section>
 
-      <section className="grid gap-6 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] lg:grid-cols-[1fr_0.95fr]">
-        <div>
+      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+        <div className="max-w-[46rem]">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Next Training Dates
           </span>
-          <h2 className="display-section-title">
-            October 2-4, 2026
-          </h2>
-          <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            The next Sound Practitioner Training will be held across three days
-            in October. If this training is calling to you, now is the right
-            time to reach out and receive details as registration opens.
+          <h2 className="display-section-title">October 2-4, 2026</h2>
+          <p className="mt-4 text-[var(--color-muted)]">
+            Registration is open for the next in-person Sound Practitioner
+            Training. Reserve your place now, or reach out if you want to feel
+            into whether this is the right next step.
           </p>
         </div>
-        <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">
-          <strong className="block text-[1.05rem] text-[var(--color-text)]">
-            What to expect
-          </strong>
-          <ul className="mt-4 grid gap-3 text-[var(--color-muted)]">
-            <li>A live immersive training rather than a self-paced course</li>
-            <li>Guidance around instruments, facilitation, and practitioner presence</li>
-            <li>Space for learning, hands-on practice, and embodied integration</li>
-            <li>Direct inquiry now, with fuller registration details to follow</li>
-          </ul>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link
+            href="/checkout/sound-training"
+            className="button-pill"
+          >
+            Reserve Your Spot
+          </Link>
+          <Link
+            href={site.links.contact}
+            className="button-pill"
+          >
+            Ask a Question
+          </Link>
         </div>
       </section>
 
@@ -150,10 +130,7 @@ export default function SoundTrainingPage() {
           Choose the payment path that feels most supportive.
         </h2>
         <p className="mt-5 max-w-[42rem] text-[var(--color-muted)]">
-          Sound Practitioner Training is available through either a full
-          payment or a monthly payment plan. Both options are intended to make
-          it easier to say yes to the training in the way that best fits your
-          current season.
+          Both options reserve your place in the October training.
         </p>
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {pricingOptions.map((item) => (

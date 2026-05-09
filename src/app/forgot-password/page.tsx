@@ -20,7 +20,7 @@ export default async function ForgotPasswordPage({
     <PageShell
       eyebrow="Password Reset"
       title="Reset your password and get back into your account."
-      description="Use the email address connected to your member account and we’ll send you a reset link through Supabase."
+      description="Use the email address connected to your member account and we’ll send you a secure reset link."
     >
       <section className="grid gap-6 rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] lg:grid-cols-[0.9fr_1.1fr]">
         <div>
@@ -31,8 +31,8 @@ export default async function ForgotPasswordPage({
             We&apos;ll send you a secure link to choose a new password.
           </h2>
           <p className="mt-4 max-w-[36rem] text-[var(--color-muted)]">
-            This uses Supabase&apos;s built-in recovery flow, so it fits the account
-            system you already have without relying on GoHighLevel.
+            Use this only if you already created a portal password and need a
+            new one.
           </p>
         </div>
 

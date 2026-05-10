@@ -32,6 +32,13 @@ const courseWeeks = [
       "Learn the Three Pillars of Reiki, deepen into self-Reiki practice, and receive your Level 1 placement as you begin embodying the work more fully.",
     href: "https://drive.google.com/file/d/1sVSugV8LEGj3yWely8NP1KW-FEgOHT7m/view?usp=sharing",
   },
+  {
+    title: "Week 5",
+    focus: "How to Share Reiki with Others & Self-Reiki Practice",
+    summary:
+      "Continue building confidence with self-Reiki while learning how to share Reiki with others in a grounded and respectful way.",
+    href: "https://drive.google.com/file/d/16xmSRPgAoQuxEnNCKB7qgJxn5cyCv_dE/view?usp=sharing",
+  },
 ] as const;
 
 const downloads = [

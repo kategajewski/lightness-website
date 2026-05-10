@@ -16,8 +16,30 @@ const preferenceLabels: Record<string, string> = {
   online_programs: "Online programs",
 };
 
+const minimumCompletionSeconds = 4;
+const maximumCompletionHours = 24;
+
 function getValue(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
+}
+
+function isLikelyAutomatedSubmission(formData: FormData) {
+  const honeypot = getValue(formData, "website");
+  const startedAt = Number(getValue(formData, "startedAt"));
+  const elapsedMs = Date.now() - startedAt;
+
+  if (honeypot) {
+    return true;
+  }
+
+  if (!Number.isFinite(startedAt) || startedAt <= 0) {
+    return true;
+  }
+
+  return (
+    elapsedMs < minimumCompletionSeconds * 1000 ||
+    elapsedMs > maximumCompletionHours * 60 * 60 * 1000
+  );
 }
 
 export async function submitEmailSignup(formData: FormData) {
@@ -28,6 +50,10 @@ export async function submitEmailSignup(formData: FormData) {
     .getAll("preferences")
     .map((value) => String(value))
     .filter((value) => value in preferenceLabels);
+
+  if (isLikelyAutomatedSubmission(formData)) {
+    redirect("/email-updates?status=success");
+  }
 
   if (!name || !email || consent !== "yes") {
     redirect(

@@ -54,6 +54,7 @@ export default async function EmailUpdatesPage({
   const params = await searchParams;
   const status = params?.status;
   const message = params?.message;
+  const startedAt = Date.now();
 
   return (
     <PageShell
@@ -69,6 +70,20 @@ export default async function EmailUpdatesPage({
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Join The List
           </span>
+
+          <input type="hidden" name="startedAt" value={startedAt} />
+          <label
+            aria-hidden="true"
+            className="absolute left-[-10000px] top-auto h-px w-px overflow-hidden"
+          >
+            Website
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </label>
 
           {status === "success" ? (
             <p className="mt-6 rounded-[18px] border border-[rgba(124,163,130,0.22)] bg-[rgba(168,178,159,0.22)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">

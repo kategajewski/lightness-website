@@ -179,6 +179,7 @@ export const offers: Offer[] = [
         description:
           "A beautiful amount for a private session gift with a little extra room for support.",
         mode: "payment",
+        stripePriceId: env.stripePriceGiftCertificate150,
         amountCents: 15000,
       },
       {

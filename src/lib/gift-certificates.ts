@@ -121,7 +121,7 @@ export async function createGiftCertificatePdf(input: GiftCertificateInput) {
   drawCenteredText(page, certificateCode, sansBold, 21, 122, clay);
   drawCenteredText(
     page,
-    "To redeem, contact Kate at bethelightness.com/contact and include this code.",
+    "Redeem through bethelightness.com using this certificate code.",
     sans,
     11,
     82,

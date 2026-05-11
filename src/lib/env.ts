@@ -41,6 +41,9 @@ export const env = {
   stripePriceGiftCertificate140: readOptionalEnv(
     "STRIPE_PRICE_GIFT_CERTIFICATE_140",
   ),
+  stripePriceGiftCertificate150: readOptionalEnv(
+    "STRIPE_PRICE_GIFT_CERTIFICATE_150",
+  ),
   stripePriceGiftCertificate250: readOptionalEnv(
     "STRIPE_PRICE_GIFT_CERTIFICATE_250",
   ),

@@ -471,7 +471,7 @@ function getOfferPurchaseEmailContent(
       ].filter(Boolean) as string[],
       reminderLines: [
         "Your printable gift certificate PDF is attached to this email.",
-        "The recipient can redeem it by contacting Kate and sharing the certificate code.",
+        "The recipient can redeem it through bethelightness.com using the certificate code.",
       ],
       href: `${env.siteUrl}${site.links.giftCertificate}`,
       hrefLabel: "View gift certificate details",

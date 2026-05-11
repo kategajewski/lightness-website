@@ -15,6 +15,7 @@ const giftAmounts = [
   { label: "$50", optionKey: "gift-50" },
   { label: "$100", optionKey: "gift-100" },
   { label: "$140", optionKey: "gift-140" },
+  { label: "$150", optionKey: "gift-150" },
   { label: "$250", optionKey: "gift-250" },
   { label: "$500", optionKey: "gift-500" },
 ] as const;

@@ -22,6 +22,7 @@ export type Offer = {
     description: string;
     mode: "subscription" | "payment";
     stripePriceId?: string;
+    amountCents?: number;
   }[];
 };
 
@@ -170,6 +171,15 @@ export const offers: Offer[] = [
           "A beautiful amount that aligns with a core private session.",
         mode: "payment",
         stripePriceId: env.stripePriceGiftCertificate140,
+      },
+      {
+        key: "gift-150",
+        label: "$150 Gift Certificate",
+        priceLabel: "$150",
+        description:
+          "A beautiful amount for a private session gift with a little extra room for support.",
+        mode: "payment",
+        amountCents: 15000,
       },
       {
         key: "gift-250",

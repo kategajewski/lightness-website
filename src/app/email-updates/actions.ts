@@ -1,8 +1,13 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { env, integrations } from "@/lib/env";
 import { sendInquiryForwardEmail } from "@/lib/email";
+import {
+  getFormValue,
+  hasValidTurnstileToken,
+  isLikelyAutomatedSubmission,
+} from "@/lib/form-security";
+import { integrations } from "@/lib/env";
 import { syncEmailSignupToMailchimp } from "@/lib/mailchimp";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
@@ -16,82 +21,10 @@ const preferenceLabels: Record<string, string> = {
   online_programs: "Online programs",
 };
 
-const minimumCompletionSeconds = 4;
-const maximumCompletionHours = 24;
-
-function getValue(formData: FormData, key: string) {
-  return String(formData.get(key) ?? "").trim();
-}
-
-function isLikelyAutomatedSubmission(formData: FormData) {
-  const honeypot = getValue(formData, "website");
-  const startedAt = Number(getValue(formData, "startedAt"));
-  const elapsedMs = Date.now() - startedAt;
-
-  if (honeypot) {
-    return true;
-  }
-
-  if (!Number.isFinite(startedAt) || startedAt <= 0) {
-    return true;
-  }
-
-  return (
-    elapsedMs < minimumCompletionSeconds * 1000 ||
-    elapsedMs > maximumCompletionHours * 60 * 60 * 1000
-  );
-}
-
-async function hasValidTurnstileToken(formData: FormData) {
-  if (!integrations.turnstile) {
-    return true;
-  }
-
-  const token = getValue(formData, "cf-turnstile-response");
-
-  if (!token) {
-    return false;
-  }
-
-  try {
-    const response = await fetch(
-      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          secret: env.turnstileSecretKey,
-          response: token,
-        }),
-      },
-    );
-    const result = (await response.json()) as {
-      success?: boolean;
-      action?: string;
-      "error-codes"?: string[];
-    };
-
-    if (!result.success) {
-      console.error("Turnstile email signup verification failed", {
-        action: result.action,
-        errorCodes: result["error-codes"],
-      });
-      return false;
-    }
-
-    return !result.action || result.action === "email_signup";
-  } catch (error) {
-    console.error("Turnstile email signup verification errored", error);
-    return false;
-  }
-}
-
 export async function submitEmailSignup(formData: FormData) {
-  const name = getValue(formData, "name");
-  const email = getValue(formData, "email");
-  const consent = getValue(formData, "consent");
+  const name = getFormValue(formData, "name");
+  const email = getFormValue(formData, "email");
+  const consent = getFormValue(formData, "consent");
   const preferences = formData
     .getAll("preferences")
     .map((value) => String(value))
@@ -101,7 +34,7 @@ export async function submitEmailSignup(formData: FormData) {
     redirect("/email-updates?status=success");
   }
 
-  if (!(await hasValidTurnstileToken(formData))) {
+  if (!(await hasValidTurnstileToken(formData, "email_signup"))) {
     redirect(
       "/email-updates?status=error&message=Please%20confirm%20you%20are%20human%20and%20try%20again.",
     );

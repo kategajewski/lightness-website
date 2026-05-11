@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Script from "next/script";
 import { submitEmailSignup } from "@/app/email-updates/actions";
+import { FormSecurityFields } from "@/components/form-security-fields";
 import { PageShell } from "@/components/page-shell";
-import { env } from "@/lib/env";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 import { site } from "@/lib/site";
 
 const updateOptions = [
@@ -56,26 +56,14 @@ export default async function EmailUpdatesPage({
   const params = await searchParams;
   const status = params?.status;
   const message = params?.message;
-  const startedAt = Date.now();
-  const turnstileSiteKey = env.turnstileSiteKey;
 
   return (
-    <>
-      {turnstileSiteKey ? (
-        <Script
-          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-          async
-          defer
-          strategy="afterInteractive"
-        />
-      ) : null}
-
-      <PageShell
-        eyebrow="Email Updates"
-        title="Choose what you want to receive."
-        description="Stay connected with events, yoga classes, Reiki trainings, sound healing, private ceremonies, and the offerings that feel relevant to you."
-      >
-        <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+    <PageShell
+      eyebrow="Email Updates"
+      title="Choose what you want to receive."
+      description="Stay connected with events, yoga classes, Reiki trainings, sound healing, private ceremonies, and the offerings that feel relevant to you."
+    >
+      <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
         <form
           action={submitEmailSignup}
           className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(248,242,235,0.9),rgba(239,229,217,0.86))] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10"
@@ -84,19 +72,7 @@ export default async function EmailUpdatesPage({
             Join The List
           </span>
 
-          <input type="hidden" name="startedAt" value={startedAt} />
-          <label
-            aria-hidden="true"
-            className="absolute left-[-10000px] top-auto h-px w-px overflow-hidden"
-          >
-            Website
-            <input
-              type="text"
-              name="website"
-              tabIndex={-1}
-              autoComplete="off"
-            />
-          </label>
+          <FormSecurityFields />
 
           {status === "success" ? (
             <p className="mt-6 rounded-[18px] border border-[rgba(124,163,130,0.22)] bg-[rgba(168,178,159,0.22)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
@@ -180,16 +156,7 @@ export default async function EmailUpdatesPage({
             </span>
           </label>
 
-          {turnstileSiteKey ? (
-            <div className="mt-5 overflow-hidden rounded-[18px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.72)] p-3">
-              <div
-                className="cf-turnstile"
-                data-sitekey={turnstileSiteKey}
-                data-action="email_signup"
-                data-theme="light"
-              />
-            </div>
-          ) : null}
+          <TurnstileWidget action="email_signup" />
 
           <button type="submit" className="button-pill mt-6">
             Join Email Updates
@@ -223,6 +190,5 @@ export default async function EmailUpdatesPage({
         </aside>
       </div>
     </PageShell>
-    </>
   );
 }

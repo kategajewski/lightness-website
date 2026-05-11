@@ -3,23 +3,34 @@
 import { redirect } from "next/navigation";
 import { integrations } from "@/lib/env";
 import { sendInquiryForwardEmail } from "@/lib/email";
+import {
+  getFormValue,
+  hasValidTurnstileToken,
+  isLikelyAutomatedSubmission,
+} from "@/lib/form-security";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
-function getValue(formData: FormData, key: string) {
-  return String(formData.get(key) ?? "").trim();
-}
-
 export async function submitMentorshipApplication(formData: FormData) {
-  const name = getValue(formData, "name");
-  const email = getValue(formData, "email");
-  const phone = getValue(formData, "phone");
-  const experienceLevel = getValue(formData, "experienceLevel");
-  const focus = getValue(formData, "focus");
-  const interest = getValue(formData, "interest");
-  const currentSeason = getValue(formData, "currentSeason");
-  const intentions = getValue(formData, "intentions");
-  const startTiming = getValue(formData, "startTiming");
-  const additionalNotes = getValue(formData, "additionalNotes");
+  const name = getFormValue(formData, "name");
+  const email = getFormValue(formData, "email");
+  const phone = getFormValue(formData, "phone");
+  const experienceLevel = getFormValue(formData, "experienceLevel");
+  const focus = getFormValue(formData, "focus");
+  const interest = getFormValue(formData, "interest");
+  const currentSeason = getFormValue(formData, "currentSeason");
+  const intentions = getFormValue(formData, "intentions");
+  const startTiming = getFormValue(formData, "startTiming");
+  const additionalNotes = getFormValue(formData, "additionalNotes");
+
+  if (isLikelyAutomatedSubmission(formData)) {
+    redirect("/mentorship-application?status=success");
+  }
+
+  if (!(await hasValidTurnstileToken(formData, "mentorship_application"))) {
+    redirect(
+      "/mentorship-application?status=error&message=Please%20confirm%20you%20are%20human%20and%20try%20again.",
+    );
+  }
 
   if (!name || !email || !interest || !intentions) {
     redirect(

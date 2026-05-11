@@ -3,18 +3,29 @@
 import { redirect } from "next/navigation";
 import { integrations } from "@/lib/env";
 import { sendInquiryForwardEmail } from "@/lib/email";
+import {
+  getFormValue,
+  hasValidTurnstileToken,
+  isLikelyAutomatedSubmission,
+} from "@/lib/form-security";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
-function getValue(formData: FormData, key: string) {
-  return String(formData.get(key) ?? "").trim();
-}
-
 export async function submitContactInquiry(formData: FormData) {
-  const name = getValue(formData, "name");
-  const email = getValue(formData, "email");
-  const phone = getValue(formData, "phone");
-  const inquiryType = getValue(formData, "inquiryType");
-  const message = getValue(formData, "message");
+  const name = getFormValue(formData, "name");
+  const email = getFormValue(formData, "email");
+  const phone = getFormValue(formData, "phone");
+  const inquiryType = getFormValue(formData, "inquiryType");
+  const message = getFormValue(formData, "message");
+
+  if (isLikelyAutomatedSubmission(formData)) {
+    redirect("/contact?status=success");
+  }
+
+  if (!(await hasValidTurnstileToken(formData, "contact_inquiry"))) {
+    redirect(
+      "/contact?status=error&message=Please%20confirm%20you%20are%20human%20and%20try%20again.",
+    );
+  }
 
   if (!name || !email || !message) {
     redirect("/contact?status=error&message=Please%20complete%20the%20required%20fields.");

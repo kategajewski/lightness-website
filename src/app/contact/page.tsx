@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { submitContactInquiry } from "@/app/contact/actions";
+import { FormSecurityFields } from "@/components/form-security-fields";
 import { PageShell } from "@/components/page-shell";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 import { site } from "@/lib/site";
 
 const inquiryOptions = [
@@ -129,6 +131,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             Contact Form
           </span>
 
+          <FormSecurityFields />
+
           {status === "success" ? (
             <p className="mt-6 rounded-[18px] border border-[rgba(124,163,130,0.22)] bg-[rgba(168,178,159,0.22)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
               Your message was sent successfully.
@@ -233,6 +237,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               />
             </label>
           </div>
+
+          <TurnstileWidget action="contact_inquiry" />
 
           <button
             type="submit"

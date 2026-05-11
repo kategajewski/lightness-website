@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { submitMentorshipApplication } from "@/app/mentorship/actions";
+import { FormSecurityFields } from "@/components/form-security-fields";
 import { PageShell } from "@/components/page-shell";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 import { site } from "@/lib/site";
 
 type MentorshipApplicationPageProps = {
@@ -63,6 +65,8 @@ export default async function MentorshipApplicationPage({
             This does not need to be perfect. A thoughtful, honest response is
             more helpful than polished language.
           </p>
+
+          <FormSecurityFields />
 
           {status === "success" ? (
             <p className="mt-6 rounded-[18px] border border-[rgba(124,163,130,0.22)] bg-[rgba(168,178,159,0.22)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
@@ -214,6 +218,8 @@ export default async function MentorshipApplicationPage({
               />
             </label>
           </div>
+
+          <TurnstileWidget action="mentorship_application" />
 
           <button type="submit" className="button-pill mt-6">
             Submit Application

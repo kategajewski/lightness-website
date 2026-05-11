@@ -3,7 +3,7 @@ import { env, integrations } from "@/lib/env";
 import { getOfferBySlug } from "@/lib/offers";
 
 export async function POST(request: Request) {
-  const origin = new URL(request.url).origin;
+  const origin = env.siteUrl.replace(/\/$/, "");
   const formData = await request.formData();
   const slug = String(formData.get("slug") ?? "");
   const optionKey = String(formData.get("optionKey") ?? "");

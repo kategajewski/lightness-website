@@ -28,7 +28,7 @@ const eventCheckoutConfig = {
 } as const;
 
 export async function POST(request: Request) {
-  const origin = new URL(request.url).origin;
+  const origin = env.siteUrl.replace(/\/$/, "");
   const formData = await request.formData();
   const eventSlug = String(formData.get("eventSlug") ?? "");
   const event = eventCheckoutConfig[

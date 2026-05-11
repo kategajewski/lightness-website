@@ -15,6 +15,8 @@ export const env = {
   resendApiKey: readOptionalEnv("RESEND_API_KEY"),
   mailchimpApiKey: readOptionalEnv("MAILCHIMP_API_KEY"),
   mailchimpAudienceId: readOptionalEnv("MAILCHIMP_AUDIENCE_ID"),
+  turnstileSiteKey: readOptionalEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY"),
+  turnstileSecretKey: readOptionalEnv("TURNSTILE_SECRET_KEY"),
   stripeSecretKey: readOptionalEnv("STRIPE_SECRET_KEY"),
   stripeWebhookSecret: readOptionalEnv("STRIPE_WEBHOOK_SECRET"),
   stripePublishableKey: readOptionalEnv("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"),
@@ -67,4 +69,6 @@ export const integrations = {
     Boolean(env.stripeSecretKey) && Boolean(env.stripePublishableKey),
   mailchimp:
     Boolean(env.mailchimpApiKey) && Boolean(env.mailchimpAudienceId),
+  turnstile:
+    Boolean(env.turnstileSiteKey) && Boolean(env.turnstileSecretKey),
 };

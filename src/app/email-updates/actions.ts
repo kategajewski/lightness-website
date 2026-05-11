@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { integrations } from "@/lib/env";
+import { env, integrations } from "@/lib/env";
 import { sendInquiryForwardEmail } from "@/lib/email";
 import { syncEmailSignupToMailchimp } from "@/lib/mailchimp";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
@@ -42,6 +42,52 @@ function isLikelyAutomatedSubmission(formData: FormData) {
   );
 }
 
+async function hasValidTurnstileToken(formData: FormData) {
+  if (!integrations.turnstile) {
+    return true;
+  }
+
+  const token = getValue(formData, "cf-turnstile-response");
+
+  if (!token) {
+    return false;
+  }
+
+  try {
+    const response = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          secret: env.turnstileSecretKey,
+          response: token,
+        }),
+      },
+    );
+    const result = (await response.json()) as {
+      success?: boolean;
+      action?: string;
+      "error-codes"?: string[];
+    };
+
+    if (!result.success) {
+      console.error("Turnstile email signup verification failed", {
+        action: result.action,
+        errorCodes: result["error-codes"],
+      });
+      return false;
+    }
+
+    return !result.action || result.action === "email_signup";
+  } catch (error) {
+    console.error("Turnstile email signup verification errored", error);
+    return false;
+  }
+}
+
 export async function submitEmailSignup(formData: FormData) {
   const name = getValue(formData, "name");
   const email = getValue(formData, "email");
@@ -53,6 +99,12 @@ export async function submitEmailSignup(formData: FormData) {
 
   if (isLikelyAutomatedSubmission(formData)) {
     redirect("/email-updates?status=success");
+  }
+
+  if (!(await hasValidTurnstileToken(formData))) {
+    redirect(
+      "/email-updates?status=error&message=Please%20confirm%20you%20are%20human%20and%20try%20again.",
+    );
   }
 
   if (!name || !email || consent !== "yes") {

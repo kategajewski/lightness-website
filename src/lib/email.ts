@@ -1,5 +1,9 @@
 import nodemailer from "nodemailer";
 import { env, integrations } from "@/lib/env";
+import {
+  createGiftCertificateCode,
+  createGiftCertificatePdf,
+} from "@/lib/gift-certificates";
 import { getOfferBySlug } from "@/lib/offers";
 import { site } from "@/lib/site";
 
@@ -23,6 +27,13 @@ type WebsiteEmailInput = {
   subject: string;
   text: string;
   html: string;
+  attachments?: WebsiteEmailAttachment[];
+};
+
+type WebsiteEmailAttachment = {
+  filename: string;
+  content: Buffer;
+  contentType: string;
 };
 
 function createTransport() {
@@ -50,6 +61,10 @@ async function sendWebsiteEmail(input: WebsiteEmailInput) {
         subject: input.subject,
         text: input.text,
         html: input.html,
+        attachments: input.attachments?.map((attachment) => ({
+          filename: attachment.filename,
+          content: attachment.content.toString("base64"),
+        })),
       }),
     });
 
@@ -70,6 +85,7 @@ async function sendWebsiteEmail(input: WebsiteEmailInput) {
     subject: input.subject,
     text: input.text,
     html: input.html,
+    attachments: input.attachments,
   });
 }
 
@@ -195,6 +211,18 @@ export async function sendPurchaseConfirmationEmail(
   const purchaseType = metadata.purchaseType;
   const amountLabel = formatAmount(session.amount_total, session.currency);
   const customerName = session.customer_details?.name?.trim() || "there";
+  const giftCertificate =
+    purchaseType === "offer" && metadata.offerSlug === "gift-certificate"
+      ? await createGiftCertificatePdf({
+          amountLabel: getGiftCertificateAmountLabel(
+            metadata.optionKey,
+            amountLabel,
+          ),
+          buyerName: session.customer_details?.name,
+          purchasedAt: session.created,
+          sessionId: session.id,
+        })
+      : null;
 
   const emailContent =
     purchaseType === "event"
@@ -203,6 +231,7 @@ export async function sendPurchaseConfirmationEmail(
           metadata.offerSlug,
           metadata.optionKey,
           amountLabel,
+          giftCertificate?.certificateCode,
         );
 
   const text = [
@@ -216,7 +245,9 @@ export async function sendPurchaseConfirmationEmail(
     "",
     `${emailContent.hrefLabel}: ${emailContent.href}`,
     "",
-    "A Stripe receipt should also arrive separately at this email address.",
+    giftCertificate
+      ? "Your printable gift certificate PDF is attached to this email."
+      : "A Stripe receipt should also arrive separately at this email address.",
     "",
     "With love,",
     "Kate",
@@ -242,7 +273,11 @@ export async function sendPurchaseConfirmationEmail(
           ${escapeHtml(emailContent.hrefLabel)}
         </a>
       </p>
-      <p>A Stripe receipt should also arrive separately at this email address.</p>
+      <p>${
+        giftCertificate
+          ? "Your printable gift certificate PDF is attached to this email."
+          : "A Stripe receipt should also arrive separately at this email address."
+      }</p>
       <p style="margin-top: 28px;">With love,<br />Kate<br />The Lightness of Being</p>
     </div>
   `;
@@ -253,6 +288,15 @@ export async function sendPurchaseConfirmationEmail(
     subject: emailContent.subject,
     text,
     html,
+    attachments: giftCertificate
+      ? [
+          {
+            filename: giftCertificate.filename,
+            content: giftCertificate.pdf,
+            contentType: "application/pdf",
+          },
+        ]
+      : undefined,
   });
 
   return { skipped: false };
@@ -287,6 +331,10 @@ export async function sendPurchaseOwnerNotificationEmail(
         timeZone: "America/New_York",
       }).format(new Date(session.created * 1000))
     : "Not provided";
+  const giftCertificateCode =
+    metadata.purchaseType === "offer" && metadata.offerSlug === "gift-certificate"
+      ? createGiftCertificateCode(session.id)
+      : "";
 
   const lines = [
     "A new website checkout purchase was completed.",
@@ -296,9 +344,10 @@ export async function sendPurchaseOwnerNotificationEmail(
     `Customer: ${customerName}`,
     `Customer email: ${customerEmail}`,
     `Purchased at: ${purchasedAt}`,
+    giftCertificateCode ? `Gift certificate code: ${giftCertificateCode}` : null,
     `Stripe session: ${session.id || "Not provided"}`,
     `Payment intent: ${paymentIntent || "Not provided"}`,
-  ];
+  ].filter(Boolean) as string[];
 
   const text = lines.join("\n");
   const html = `
@@ -310,6 +359,11 @@ export async function sendPurchaseOwnerNotificationEmail(
       <p><strong>Customer:</strong> ${escapeHtml(customerName)}</p>
       <p><strong>Customer email:</strong> ${escapeHtml(customerEmail)}</p>
       <p><strong>Purchased at:</strong> ${escapeHtml(purchasedAt)}</p>
+      ${
+        giftCertificateCode
+          ? `<p><strong>Gift certificate code:</strong> ${escapeHtml(giftCertificateCode)}</p>`
+          : ""
+      }
       <p><strong>Stripe session:</strong> ${escapeHtml(session.id || "Not provided")}</p>
       <p><strong>Payment intent:</strong> ${escapeHtml(paymentIntent || "Not provided")}</p>
     </div>
@@ -365,6 +419,7 @@ function getOfferPurchaseEmailContent(
   offerSlug: string | undefined,
   optionKey: string | undefined,
   amountLabel: string,
+  giftCertificateCode?: string,
 ) {
   const offer = offerSlug ? getOfferBySlug(offerSlug) : undefined;
   const option = offer?.purchaseOptions?.find((item) => item.key === optionKey);
@@ -409,9 +464,14 @@ function getOfferPurchaseEmailContent(
       subject: "Your gift certificate purchase is confirmed",
       intro:
         "Your gift certificate purchase has been received. Thank you for offering such a thoughtful kind of support.",
-      detailLines: option ? [...detailLines, `Gift amount: ${option.priceLabel}`] : detailLines,
+      detailLines: [
+        ...detailLines,
+        option ? `Gift amount: ${option.priceLabel}` : null,
+        giftCertificateCode ? `Certificate code: ${giftCertificateCode}` : null,
+      ].filter(Boolean) as string[],
       reminderLines: [
-        "If you want help deciding how it should be used or gifted, you are always welcome to reach out.",
+        "Your printable gift certificate PDF is attached to this email.",
+        "The recipient can redeem it by contacting Kate and sharing the certificate code.",
       ],
       href: `${env.siteUrl}${site.links.giftCertificate}`,
       hrefLabel: "View gift certificate details",
@@ -477,6 +537,16 @@ function formatAmount(amountTotal?: number | null, currency?: string | null) {
     style: "currency",
     currency: currency.toUpperCase(),
   }).format(amountTotal / 100);
+}
+
+function getGiftCertificateAmountLabel(
+  optionKey: string | undefined,
+  fallbackAmountLabel: string,
+) {
+  const offer = getOfferBySlug("gift-certificate");
+  const option = offer?.purchaseOptions?.find((item) => item.key === optionKey);
+
+  return option?.priceLabel || fallbackAmountLabel || "Gift Certificate";
 }
 
 function escapeHtml(value: string) {

@@ -55,7 +55,9 @@ export default async function CheckoutSuccessPage({
   const description =
     event?.description ??
     (offer
-      ? `Your payment for ${offer.name} has been received. A Stripe confirmation should be on its way to your email now.`
+      ? offer.slug === "gift-certificate"
+        ? "Your gift certificate purchase has been received. A printable certificate PDF with its unique code should be on its way to your email now."
+        : `Your payment for ${offer.name} has been received. A Stripe confirmation should be on its way to your email now.`
       : "Your payment has been received. A Stripe confirmation should be on its way to your email now.");
   const primaryHref =
     event?.primaryHref ?? (offer ? `/checkout/${offer.slug}` : "/account");

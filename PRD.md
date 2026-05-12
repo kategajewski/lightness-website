@@ -1,14 +1,14 @@
-# The Lightness of Being Migration PRD
+# Lightness Platform PRD
 
 ## Summary
-Rebuild `bethelightness.com` as a custom `Next.js` application deployed on `Vercel`, using `Supabase` for database/auth and `Stripe` for payments. Keep `Calendly` for booking in v1. Replace GoHighLevel entirely with a self-hosted marketing site plus protected customer access for courses and subscriptions.
+Lightness Platform is the self-hosted digital home for `bethelightness.com`: a custom `Next.js` application deployed on `Vercel`, using `Supabase` for database/auth and `Stripe` for payments. Keep `Calendly` for booking in v1. The platform replaces GoHighLevel entirely with a self-hosted marketing site plus protected customer access for courses and subscriptions.
 
 Reference design:
-- [`homepage-mockup.html`](/Users/magicalbeing/Desktop/gohighlevel/homepage-mockup.html)
+- [`homepage-mockup.html`](/Users/magicalbeing/Desktop/lightness-platform/homepage-mockup.html)
 
 Reference source assets:
-- [`site-images`](/Users/magicalbeing/Desktop/gohighlevel/site-images)
-- [`site.html`](/Users/magicalbeing/Desktop/gohighlevel/site.html)
+- [`site-images`](/Users/magicalbeing/Desktop/lightness-platform/site-images)
+- [`site.html`](/Users/magicalbeing/Desktop/lightness-platform/site.html)
 
 ## Current Project Status
 - Build is in active progress and the local app is working.
@@ -26,7 +26,7 @@ Reference source assets:
 - A local homepage photo placement guide is now in progress to help choose final image placement before changing the live homepage.
 
 ## Completed So Far
-- Base `Next.js` app scaffolded in [`web`](/Users/magicalbeing/Desktop/gohighlevel/web)
+- Base `Next.js` app scaffolded in [`web`](/Users/magicalbeing/Desktop/lightness-platform/web)
 - Global shell and approved homepage design implemented
 - Public pages built:
   - homepage
@@ -94,9 +94,9 @@ Reference source assets:
 - Hosted contact form forwarding to `kate@bethelightness.com` works
 
 ## Current Environment Status
-- Supabase values are present in [`web/.env.local`](/Users/magicalbeing/Desktop/gohighlevel/web/.env.local)
+- Supabase values are present in [`web/.env.local`](/Users/magicalbeing/Desktop/lightness-platform/web/.env.local)
 - Stripe env vars are intentionally blank for now
-- Local dev server should be run from [`web`](/Users/magicalbeing/Desktop/gohighlevel/web)
+- Local dev server should be run from [`web`](/Users/magicalbeing/Desktop/lightness-platform/web)
 - Production builds are verified with `webpack`
 
 ## Supabase Setup Already Completed
@@ -190,14 +190,14 @@ Reference source assets:
 6. Cut over the domain from GoHighLevel when approved
 
 ## Important Notes For Next Session
-- Whenever the user says `save everything`, update [`SESSION_HANDOFF.md`](/Users/magicalbeing/Desktop/gohighlevel/SESSION_HANDOFF.md) with a concise summary of the session so continuity is preserved even if the thread is closed.
+- Whenever the user says `save everything`, update [`SESSION_HANDOFF.md`](/Users/magicalbeing/Desktop/lightness-platform/SESSION_HANDOFF.md) with a concise summary of the session so continuity is preserved even if the thread is closed.
 - The user wants to continue section by section and may pause one product area while continuing others.
 - `Reiki Rising` implementation should be paused for deeper lesson expansion unless the user explicitly reopens it.
 - Do not connect Stripe until the user is ready to move off the old live setup.
 - Keep the approved homepage mockup unchanged as the design reference.
 - Continue using the existing warm, premium visual system already implemented.
 - Preserve the current internal route structure instead of pointing back to old GoHighLevel pages whenever a new page is built.
-- Use [`DEPLOYMENT.md`](/Users/magicalbeing/Desktop/gohighlevel/DEPLOYMENT.md) as the deployment playbook.
+- Use [`DEPLOYMENT.md`](/Users/magicalbeing/Desktop/lightness-platform/DEPLOYMENT.md) as the deployment playbook.
 - Important deployment note: the app now lives at the repo root for Vercel. Do not set the root directory to `web` on future imports.
 - Current stop point: inquiry inbox and Gmail forwarding are live/tested; photo options are sorted locally into `selected-site-photos`, including a tighter `best-for-website` shortlist with local usage notes. The homepage has now been significantly polished with updated imagery, warm glow treatment, cleaner copy pulled from the old live site, one selected Google review testimonial, simplified sections, and clearer navigation cards. The Services page has also been realigned to the user's real Calendly 1:1 offerings. A current visual reference screenshot is saved locally at `homepage-current-screenshot.png`. Next session should continue page-by-page polish, verify the latest homepage/services changes on mobile, and then refine the next most important page.
 

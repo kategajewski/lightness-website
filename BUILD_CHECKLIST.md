@@ -1,4 +1,4 @@
-# Build Checklist
+# Lightness Platform Build Checklist
 
 This project will be completed one section at a time. Each section has:
 - required user inputs

@@ -1,6 +1,6 @@
-# Deployment Guide
+# Lightness Platform Deployment Guide
 
-This app is designed to deploy on `Vercel`.
+Lightness Platform is designed to deploy on `Vercel`.
 
 ## Current Status
 - App builds successfully locally
@@ -20,7 +20,7 @@ This app is designed to deploy on `Vercel`.
 ## Before Vercel
 - Make sure the code is in a Git provider Vercel can import
 - Keep the reference mockup in place:
-  - [`homepage-mockup.html`](/Users/magicalbeing/Desktop/gohighlevel/homepage-mockup.html)
+  - [`homepage-mockup.html`](/Users/magicalbeing/Desktop/lightness-platform/homepage-mockup.html)
 - Confirm the production domain to use at first deploy:
   - `bethelightness.com`
   - optional later: `www.bethelightness.com`
@@ -51,6 +51,14 @@ SUPABASE_SERVICE_ROLE_KEY=
 
 NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/thelightnessofbeing
 
+NEXT_PUBLIC_GOOGLE_TAG_ID=
+NEXT_PUBLIC_GA_MEASUREMENT_ID=
+NEXT_PUBLIC_GOOGLE_ADS_ID=
+NEXT_PUBLIC_GOOGLE_ADS_CONTACT_CONVERSION_LABEL=
+NEXT_PUBLIC_GOOGLE_ADS_EMAIL_SIGNUP_CONVERSION_LABEL=
+NEXT_PUBLIC_GOOGLE_ADS_CALENDLY_CONVERSION_LABEL=
+NEXT_PUBLIC_GOOGLE_ADS_PURCHASE_CONVERSION_LABEL=
+
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
@@ -69,6 +77,7 @@ STRIPE_PRICE_GIFT_CERTIFICATE_500=
 
 Notes:
 - Supabase values are required for login, account access, password reset, and the contact form
+- Google values are optional until Ads/GA4 conversion tracking is ready, but should be added before paid traffic is optimized
 - Stripe values can stay blank until payment launch, but checkout will remain staged until then
 - `NEXT_PUBLIC_SITE_URL` must be changed from localhost to the real production domain before live password reset or Stripe redirect testing
 

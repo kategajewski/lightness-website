@@ -12,6 +12,27 @@ Rule for future sessions:
 
 ## Current Note
 ### Latest Save Point
+- Google Ads sync:
+  - dormant Google tag / Ads sync layer was added to the root app and legacy `web` copy
+  - production Google env vars were added in Vercel for the active `lightness-website` project
+  - Google Ads account is `514-076-4033`
+  - Google tag / Ads ID is `AW-10836891194`
+  - contact form lead label is `5sSzCKvMr6scELqst68o`
+  - email signup label is `vWuvCOnnx6scELqst68o`
+  - ready events include contact form success, email signup success, Calendly clicks, email clicks, phone clicks, and checkout success
+  - Calendly and purchase conversion labels still need dedicated Ads conversion actions before those two events can send Ads conversion hits
+  - enhanced conversions were left unchecked because finalizing that requires the account owner to accept Google's policy/data-processing language
+  - setup notes live in `GOOGLE_ADS_SYNC.md`
+
+### Previous Save Point
+- Project naming:
+  - active project name is now `Lightness Platform`
+  - package metadata now uses `lightness-platform`
+  - local project folder was renamed to `/Users/magicalbeing/Desktop/lightness-platform`
+  - this is the same self-hosted `bethelightness.com` project, just no longer framed as a GoHighLevel migration
+  - historical GoHighLevel references remain only where they describe old systems, migration context, or cleanup notes
+
+### Earlier Save Point
 - Mobile and interior-page layout polish:
   - shared interior page intro layout was widened in:
     - `src/components/page-shell.tsx`
@@ -1022,16 +1043,16 @@ Rule for future sessions:
 
 ### Latest Save Point - Reiki 2 Portal PDF
 - Reiki 2 luxury printable PDF was finalized and saved locally:
-  - `/Users/magicalbeing/Desktop/gohighlevel/reiki-workbook/ReikiLevel2TrainingLuxuryPrintable.pdf`
+  - `/Users/magicalbeing/Desktop/lightness-platform/reiki-workbook/ReikiLevel2TrainingLuxuryPrintable.pdf`
 - Reiki 2 PDF was also saved into Kate's synced Google Drive:
   - `/Users/magicalbeing/Library/CloudStorage/GoogleDrive-kategajewski@gmail.com/My Drive/reiki level 2/ReikiLevel2TrainingLuxuryPrintable.pdf`
 - The PDF was added to the live app asset folder:
-  - `/Users/magicalbeing/Desktop/gohighlevel/web/public/reiki-rising/ReikiLevel2TrainingLuxuryPrintable.pdf`
+  - `/Users/magicalbeing/Desktop/lightness-platform/web/public/reiki-rising/ReikiLevel2TrainingLuxuryPrintable.pdf`
 - Reiki Rising portal downloads now include:
   - `Holy Fire III Reiki Level 1 Manual`
   - `Holy Fire III Reiki Level 2 Manual`
 - Portal code updated in:
-  - `/Users/magicalbeing/Desktop/gohighlevel/web/src/app/library/reiki-rising/page.tsx`
+  - `/Users/magicalbeing/Desktop/lightness-platform/web/src/app/library/reiki-rising/page.tsx`
 - Commit and push completed:
   - `414a5fe Add Reiki Level 2 manual to portal`
   - pushed to `origin/main`
@@ -1103,7 +1124,7 @@ Rule for future sessions:
   - `/reset-password` copy no longer says Supabase in the student-facing language
   - reset/setup form now has separate language for `reset` and `setup` modes
 - Helper script added for future setup links:
-  - `/Users/magicalbeing/Desktop/gohighlevel/scripts/generate-portal-setup-links.mjs`
+  - `/Users/magicalbeing/Desktop/lightness-platform/scripts/generate-portal-setup-links.mjs`
   - usage:
     - `node scripts/generate-portal-setup-links.mjs student@email.com`
   - outputs a branded `https://bethelightness.com/portal-setup?...` link

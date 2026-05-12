@@ -1,6 +1,6 @@
-# The Lightness of Being Web App
+# Lightness Platform
 
-Self-hosted rebuild of `bethelightness.com` using:
+Self-hosted platform for `bethelightness.com` using:
 - Next.js
 - Vercel
 - Supabase
@@ -30,7 +30,7 @@ NEXT_PUBLIC_SITE_URL=https://bethelightness.com
 ```
 
 Deployment guide:
-- [`../DEPLOYMENT.md`](/Users/magicalbeing/Desktop/gohighlevel/DEPLOYMENT.md)
+- [`../DEPLOYMENT.md`](/Users/magicalbeing/Desktop/lightness-platform/DEPLOYMENT.md)
 
 ## Current Build Phase
 

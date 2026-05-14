@@ -33,11 +33,25 @@ const courseWeeks = [
     href: "https://drive.google.com/file/d/1sVSugV8LEGj3yWely8NP1KW-FEgOHT7m/view?usp=sharing",
   },
   {
-    title: "Week 5",
+    title: "Week 5 · April 29, 2026",
     focus: "How to Share Reiki with Others & Self-Reiki Practice",
     summary:
       "Continue building confidence with self-Reiki while learning how to share Reiki with others in a grounded and respectful way.",
     href: "https://drive.google.com/file/d/16xmSRPgAoQuxEnNCKB7qgJxn5cyCv_dE/view?usp=sharing",
+  },
+  {
+    title: "Week 6 · May 6, 2026",
+    focus: "Stepping Into Level 2: Chokurei & The Holy Love I Experience",
+    summary:
+      "Begin Level 2 with the Chokurei power symbol, practical ways to use it for Reiki, protection, clearing, and blessing, and receive the Holy Love I experience.",
+    href: "https://drive.google.com/file/d/1FhP0zepY5MbVAlGz5G4o9VyOah4vtCQ-/view?usp=sharing",
+  },
+  {
+    title: "Week 7 · May 13, 2026",
+    focus: "Reiki Level 2 Placement and the Sei He Ki",
+    summary:
+      "Receive the Reiki Level 2 placement and deepen into the Sei He Ki symbol, including its role in emotional healing, harmony, and energetic support.",
+    href: "https://drive.google.com/file/d/1W_gWo2Fn6tg2llaEh62OtBTHAgGZHBiU/view?usp=sharing",
   },
 ] as const;
 

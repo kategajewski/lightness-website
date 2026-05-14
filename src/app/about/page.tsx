@@ -1,4 +1,3 @@
-import { BookingCard } from "@/components/booking-card";
 import { PageShell } from "@/components/page-shell";
 
 const credentials = [
@@ -142,8 +141,6 @@ export default function AboutPage() {
           ))}
         </ul>
       </div>
-
-      <BookingCard />
     </PageShell>
   );
 }

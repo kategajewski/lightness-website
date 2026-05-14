@@ -72,15 +72,17 @@ export default function Home() {
       </section>
 
       <section className="px-4 pb-0 pt-5 sm:px-6 sm:pt-8">
-        <div className="mx-auto w-full max-w-[1180px] overflow-hidden rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(248,242,235,0.88),rgba(239,229,217,0.82)),linear-gradient(0deg,rgba(248,242,235,0.48),rgba(248,242,235,0.48)),url('/homepage-images/space-detail-2.jpeg')] bg-cover bg-center px-6 py-7 sm:rounded-[30px] sm:px-10 sm:py-11">
-          <div className="mx-auto flex max-w-[52rem] flex-col items-center text-center">
-            <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-              A Place To Begin
-            </span>
-            <h2 className="relative z-[1] mb-4 max-w-[18ch] display-section-title">
-              Choose the kind of support you&apos;re looking for.
-            </h2>
-            <p className="relative z-[1] max-w-[44rem] text-[1.04rem] text-[var(--color-muted)]">
+        <div className="mx-auto w-full max-w-[1180px] overflow-hidden rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(248,242,235,0.88),rgba(239,229,217,0.82)),linear-gradient(0deg,rgba(248,242,235,0.48),rgba(248,242,235,0.48)),url('/homepage-images/space-detail-2.jpeg')] bg-cover bg-center px-6 py-8 sm:rounded-[30px] sm:px-10 sm:py-12 lg:px-14">
+          <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+            <div>
+              <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+                A Place To Begin
+              </span>
+              <h2 className="relative z-[1] max-w-[14ch] display-section-title">
+                Choose the kind of support you&apos;re looking for.
+              </h2>
+            </div>
+            <p className="relative z-[1] max-w-[36rem] text-[1.04rem] leading-relaxed text-[var(--color-muted)] lg:justify-self-end">
               Whether you&apos;re seeking private healing sessions, sound bath
               experiences, or deeper training and mentorship, you can begin with
               the path that feels most aligned.

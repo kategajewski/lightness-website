@@ -41,7 +41,7 @@ export function SiteFooter() {
               <Link href={site.social.instagram}>Instagram</Link>
               <Link href={site.links.emailUpdates}>Email Updates</Link>
               <Link href={site.links.login}>Member Login</Link>
-              <Link href={site.links.contact}>Email</Link>
+              <Link href={site.links.contact}>Send a Message</Link>
             </div>
           </div>
         </div>

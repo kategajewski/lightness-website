@@ -1,48 +1,66 @@
 import Link from "next/link";
-import { footerNavigation, site } from "@/lib/site";
+import { site } from "@/lib/site";
+
+const footerLinks = [
+  { label: "Gift Certificate", href: site.links.giftCertificate },
+  { label: "Instagram", href: site.social.instagram },
+  { label: "Email Updates", href: site.links.emailUpdates },
+  { label: "Send a Message", href: site.links.contact },
+  { label: "Member Login", href: site.links.login },
+] as const;
+
+const legalLinks = [
+  { label: "Privacy", href: site.links.privacyPolicy },
+  { label: "Terms", href: site.links.terms },
+  { label: "Refunds", href: site.links.refundPolicy },
+] as const;
 
 export function SiteFooter() {
   return (
-    <footer className="px-4 pb-5 pt-8 sm:px-6 sm:pt-10">
-      <div className="mx-auto w-full max-w-[1180px] rounded-[2rem] border border-[rgba(76,58,48,0.14)] bg-[rgba(235,223,210,0.96)]">
-        <div className="grid gap-4 px-5 py-4 text-[var(--color-muted)] sm:grid-cols-2 sm:items-start sm:gap-x-6 sm:gap-y-5 sm:px-6 sm:py-5 md:grid-cols-[1.05fr_0.8fr_0.9fr] md:px-7 md:py-6">
-          <div className="space-y-2 sm:col-span-2 md:col-span-1">
+    <footer className="px-4 pb-5 pt-7 sm:px-6 sm:pt-9">
+      <div className="mx-auto w-full max-w-[1180px] rounded-[1.5rem] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,251,246,0.72)] px-5 py-6 text-[var(--color-muted)] sm:rounded-[2rem] sm:px-8 sm:py-7">
+        <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
+          <div className="flex flex-col items-center gap-3 text-center md:items-start md:text-left">
             <div className="flex items-center gap-3">
               <img
                 src="/homepage-images/hand-logo.png"
                 alt={`${site.name} logo`}
                 className="h-9 w-9 rounded-full object-cover opacity-90"
               />
-              <strong className="block text-[var(--color-text)]">
-                {site.name}
-              </strong>
+              <div>
+                <strong className="block text-[var(--color-text)]">
+                  {site.name}
+                </strong>
+                <span className="block text-[0.86rem]">{site.subtitle}</span>
+              </div>
             </div>
+            <p className="max-w-[28rem] text-[0.9rem] leading-relaxed">
+              Patchogue, NY and remote healing sessions.
+            </p>
           </div>
 
-          <div className="space-y-2">
-            <strong className="block text-[var(--color-text)]">
-              Navigate
-            </strong>
-            <div className="grid gap-1">
-              {footerNavigation.map((item) => (
-                <Link key={item.label} href={item.href}>
-                  {item.label}
-                </Link>
-              ))}
-            </div>
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[0.92rem] md:justify-end">
+            {footerLinks.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel={item.href.startsWith("http") ? "noreferrer" : undefined}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
+        </div>
 
-          <div className="space-y-2">
-            <strong className="block text-[var(--color-text)]">
-              Connect
-            </strong>
-            <div className="grid gap-1">
-              <p className="max-w-[15rem] leading-relaxed">{site.contact.address}</p>
-              <Link href={site.social.instagram}>Instagram</Link>
-              <Link href={site.links.emailUpdates}>Email Updates</Link>
-              <Link href={site.links.login}>Member Login</Link>
-              <Link href={site.links.contact}>Send a Message</Link>
-            </div>
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-[rgba(76,58,48,0.08)] pt-4 text-[0.78rem] md:justify-between">
+          <span>98 Medford Ave, Patchogue, NY 11772</span>
+          <div className="flex flex-wrap justify-center gap-x-3 gap-y-1">
+            {legalLinks.map((item) => (
+              <Link key={item.label} href={item.href}>
+                {item.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

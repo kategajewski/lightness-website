@@ -45,7 +45,8 @@ export const site = {
     meditation: "https://root-and-shield.bethelightness.com/about",
     specialBlessing: "/special-blessing",
     sacredSoundsUnderTheSky: "/sacred-sounds-under-the-sky",
-    rosaries: "https://bethelightness.com/rosary-custom-order-form",
+    divineRoseFrequencies: "/divine-rose-frequencies",
+    rosaries: "/divine-rose-frequencies",
   },
 };
 
@@ -73,6 +74,7 @@ export const primaryNavigation = [
   { label: "Healing Sessions", href: site.links.services },
   { label: "About", href: site.links.about },
   { label: "Training", href: site.links.courses },
+  { label: "Rosaries", href: site.links.rosaries },
   { label: "Events", href: site.links.events },
   { label: "Contact", href: site.links.contact },
 ] as const;
@@ -81,6 +83,7 @@ export const footerNavigation = [
   { label: "Healing Sessions", href: site.links.services },
   { label: "About", href: site.links.about },
   { label: "Training", href: site.links.courses },
+  { label: "Rosaries", href: site.links.rosaries },
   { label: "Events", href: site.links.events },
   { label: "Gift Certificate", href: site.links.giftCertificate },
   { label: "Privacy Policy", href: site.links.privacyPolicy },

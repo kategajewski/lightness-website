@@ -83,7 +83,6 @@ export const footerNavigation = [
   { label: "Healing Sessions", href: site.links.services },
   { label: "About", href: site.links.about },
   { label: "Training", href: site.links.courses },
-  { label: "Rosaries", href: site.links.rosaries },
   { label: "Events", href: site.links.events },
   { label: "Gift Certificate", href: site.links.giftCertificate },
   { label: "Privacy Policy", href: site.links.privacyPolicy },

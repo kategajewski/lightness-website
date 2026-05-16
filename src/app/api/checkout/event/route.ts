@@ -9,14 +9,6 @@ const eventCheckoutConfig = {
     successPath: "/checkout/success",
     cancelPath: "/sacred-sounds-under-the-sky",
   },
-  "soothing-sunday-may-17-2026": {
-    name: "Soothing Sunday - May 17, 2026",
-    description:
-      "Ticket for the Sunday, May 17, 2026 Soothing Sunday gathering in Lindenhurst.",
-    amountCents: 4500,
-    successPath: "/checkout/success",
-    cancelPath: "/soothing-sunday",
-  },
   "soothing-sunday-june-14-2026": {
     name: "Soothing Sunday - June 14, 2026",
     description:

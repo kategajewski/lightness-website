@@ -4,13 +4,6 @@ import { site } from "@/lib/site";
 
 const soothingSundayDates = [
   {
-    title: "Sunday, May 17, 2026",
-    details:
-      "Lindenhurst Village Square Gazebo · Outdoors weather permitting, otherwise indoors at Island Kava, Lindenhurst",
-    priceLabel: "$45",
-    eventSlug: "soothing-sunday-may-17-2026",
-  },
-  {
     title: "Sunday, June 14, 2026",
     details:
       "Lindenhurst Village Square Gazebo · Outdoors weather permitting, otherwise indoors at Island Kava, Lindenhurst",
@@ -161,7 +154,7 @@ export default async function SoothingSundayPage({
             <li>Dress comfortably and in layers</li>
             <li>Your body may naturally cool down during the sound bath</li>
             <li>Bring a yoga mat and blanket</li>
-            <li>May and June are planned for the Lindenhurst Village Square gazebo, with an indoor move to Island Kava if weather shifts</li>
+            <li>June is planned for the Lindenhurst Village Square gazebo, with an indoor move to Island Kava if weather shifts</li>
           </ul>
         </div>
       </section>

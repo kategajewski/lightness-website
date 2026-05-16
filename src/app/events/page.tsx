@@ -4,13 +4,13 @@ import { site } from "@/lib/site";
 
 const upcomingEvents = [
   {
-    isActive: true,
+    isActive: false,
     eyebrow: "Recurring Series",
     title: "Soothing Sunday at Island Kava",
     description:
       "A monthly Island Kava gathering with stretch, sound bath, and kava to help you reset for the week ahead.",
     details:
-      "Upcoming dates: May 17, 2026 and June 14, 2026 · Outside weather permitting, otherwise indoors at Island Kava in Lindenhurst",
+      "Upcoming date: June 14, 2026 · Outside weather permitting, otherwise indoors at Island Kava in Lindenhurst",
     href: "/soothing-sunday",
     cta: "Explore Soothing Sunday",
   },

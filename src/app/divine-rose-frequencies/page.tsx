@@ -45,7 +45,7 @@ const galleryItems: readonly GalleryItem[] = [
   },
   {
     image: "/divine-rose-frequency/gold-marian-rosary-full.jpeg",
-    title: "Gold Marian rosary",
+    title: "Catholic Rosary with Rose Quartz & Rose accents",
     description: "A full Catholic-style rosary with rose-petal beads, pale stone accents, and gold sacred details.",
     size: "contain",
   },

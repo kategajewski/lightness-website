@@ -9,7 +9,7 @@ const trainingPaths = [
     description:
       "A 10-week online Reiki journey designed to help students build confidence, deepen their understanding, and integrate Reiki into daily life and healing work.",
     details:
-      "This live group container runs about three times each year. The current round is underway, and the next cohort is expected in approximately 3-4 months.",
+      "The next live cohort begins September 23, 2026. Join the waitlist to receive details when enrollment opens.",
     cta: "Join the Waitlist",
     href: site.links.reikiTraining,
   },

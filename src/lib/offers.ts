@@ -65,6 +65,7 @@ export const offers: Offer[] = [
       "Best for students who want a dedicated training container rather than a casual workshop.",
     cta: "Reserve Your Spot",
     features: [
+      "Next live cohort begins September 23, 2026",
       "Dedicated course landing page",
       "Student login and private content area",
       "Checkout flow ready for Stripe once price IDs are added",
@@ -89,7 +90,7 @@ export const offers: Offer[] = [
       "Best for practitioners, space holders, and heart-led students who feel called to bring sound more intentionally into healing work, classes, ceremonies, or private sessions.",
     cta: "Reserve Your Spot",
     features: [
-      "Live in-person training held October 2-4, 2026",
+      "Live in-person training held September 18-20, 2026",
       "Full payment option of $1,344",
       "Payment plan option of 5 monthly payments of $288",
       "Hands-on learning with instruments, facilitation, and practitioner presence",
@@ -105,7 +106,7 @@ export const offers: Offer[] = [
         label: "Full Payment",
         priceLabel: "$1,344 one-time",
         description:
-          "Pay in full to reserve your place in the October 2-4, 2026 training.",
+          "Pay in full to reserve your place in the September 18-20, 2026 training.",
         mode: "payment",
         stripePriceId:
           env.stripePriceSoundTrainingFull || env.stripePriceSoundTraining,

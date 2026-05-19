@@ -95,6 +95,10 @@ type InquiryEmailInput = {
   phone?: string | null;
   inquiryType: string;
   message: string;
+  customOrderDetails?: {
+    label: string;
+    value: string;
+  }[];
 };
 
 export async function sendInquiryForwardEmail(input: InquiryEmailInput) {
@@ -102,14 +106,51 @@ export async function sendInquiryForwardEmail(input: InquiryEmailInput) {
     return { skipped: true };
   }
 
-  const subject = `New website inquiry: ${input.name}`;
+  const isCustomRoseOrder = input.inquiryType === "rose-frequency";
+  const inquiryLabel = isCustomRoseOrder
+    ? "Divine Rose Frequency custom order"
+    : input.inquiryType || "general";
+  const customOrderLines = input.customOrderDetails?.length
+    ? [
+        "",
+        "Custom Order Details:",
+        ...input.customOrderDetails.map(
+          (detail) => `${detail.label}: ${detail.value}`,
+        ),
+      ]
+    : [];
+  const customOrderHtml = input.customOrderDetails?.length
+    ? `
+      <div style="margin-top: 24px;">
+        <strong>Custom order details:</strong>
+        <table style="border-collapse: collapse; margin-top: 10px; width: 100%;">
+          <tbody>
+            ${input.customOrderDetails
+              .map(
+                (detail) => `
+                  <tr>
+                    <td style="border-top: 1px solid #eadfd5; padding: 8px 12px 8px 0; font-weight: bold; vertical-align: top;">${escapeHtml(detail.label)}</td>
+                    <td style="border-top: 1px solid #eadfd5; padding: 8px 0; vertical-align: top; white-space: pre-line;">${escapeHtml(detail.value)}</td>
+                  </tr>
+                `,
+              )
+              .join("")}
+          </tbody>
+        </table>
+      </div>
+    `
+    : "";
+  const subject = isCustomRoseOrder
+    ? `New custom rosary order: ${input.name}`
+    : `New website inquiry: ${input.name}`;
   const text = [
     "A new inquiry was submitted on bethelightness.com.",
     "",
     `Name: ${input.name}`,
     `Email: ${input.email}`,
     `Phone: ${input.phone || "Not provided"}`,
-    `Inquiry Type: ${input.inquiryType || "general"}`,
+    `Inquiry Type: ${inquiryLabel}`,
+    ...customOrderLines,
     "",
     "Message:",
     input.message,
@@ -121,7 +162,8 @@ export async function sendInquiryForwardEmail(input: InquiryEmailInput) {
       <p><strong>Name:</strong> ${escapeHtml(input.name)}</p>
       <p><strong>Email:</strong> ${escapeHtml(input.email)}</p>
       <p><strong>Phone:</strong> ${escapeHtml(input.phone || "Not provided")}</p>
-      <p><strong>Inquiry Type:</strong> ${escapeHtml(input.inquiryType || "general")}</p>
+      <p><strong>Inquiry Type:</strong> ${escapeHtml(inquiryLabel)}</p>
+      ${customOrderHtml}
       <div style="margin-top: 24px;">
         <strong>Message:</strong>
         <p style="white-space: pre-line;">${escapeHtml(input.message)}</p>

@@ -1142,3 +1142,30 @@ Rule for future sessions:
   - `node --check scripts/generate-portal-setup-links.mjs` passed
   - local `npm run build --prefix web` is still blocked by unrelated untracked extensionless scratch files in `web/src`
   - those scratch files were not staged or pushed
+
+### Latest Save Point - Training Dates + Rosary Form Email Details
+- Updated active root app training dates:
+  - `/sound-training` now shows Sound Practitioner Training as September 18-20, 2026 instead of October 2-4, 2026
+  - `/checkout/sound-training` and shared offer data also now use September 18-20, 2026
+  - Stripe test mode product and price labels were updated:
+    - product: `Sound Practitioner Training September 2026`
+    - full payment price nickname: `Full Payment - September 18-20, 2026`
+    - payment plan price nickname: `Payment Plan - September 18-20, 2026`
+- Updated Reiki Rising cohort date:
+  - `/courses` now says the next Reiki Rising cohort begins September 23, 2026
+  - `/reiki-rising` now says the next cohort begins September 23, 2026
+  - shared offer data includes `Next live cohort begins September 23, 2026`
+- Investigated sparse custom rosary order email from Lisa:
+  - Supabase row existed for `lisadetoxdiva@gmail.com`
+  - saved row only contained the same short message as the email
+  - no separate table columns or metadata existed to recover the missing custom-order answers
+- Improved future Divine Rose Frequency custom order forwarding:
+  - custom rosary emails now use subject `New custom rosary order: Name`
+  - email now includes a `Custom order details` table/list with preferred style, rose petals, story/occasion, intention, colors/accents, quantity, delivery preference, and shipping address
+  - database message still stores the combined custom order details for future private inbox review
+- Verification:
+  - `/sound-training`, `/checkout/sound-training`, `/courses`, and `/reiki-rising` were checked locally after edits
+  - `npm run lint` passed with existing image optimization warnings only
+- Working tree note:
+  - there are still many unrelated modified/untracked files in the repository
+  - only the active root app files edited in this session should be staged for this live push

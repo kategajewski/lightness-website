@@ -23,7 +23,7 @@ const reikiRisingSections = [
   {
     title: "Enrollment rhythm",
     description:
-      "Reiki Rising is offered approximately three times each year. The current round is in progress, and the next cohort is expected in roughly 3-4 months.",
+      "Reiki Rising is offered approximately three times each year. The next live cohort begins September 23, 2026.",
   },
 ] as const;
 
@@ -99,7 +99,7 @@ export default function ReikiRisingPage() {
             Current Enrollment
           </span>
           <h2 className="display-section-title">
-            The current round is underway, and the next cohort will open in the coming months.
+            The next Reiki Rising cohort begins September 23, 2026.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
             If Reiki Rising is calling to you, this is the perfect time to join
@@ -115,7 +115,7 @@ export default function ReikiRisingPage() {
             <li>10 weeks of guided online learning and practice</li>
             <li>A supportive container for healing and integration</li>
             <li>Live cohort rhythm rather than a self-paced course</li>
-            <li>Waitlist now, with the next opening expected in 3-4 months</li>
+            <li>Next cohort begins September 23, 2026</li>
           </ul>
         </div>
       </section>

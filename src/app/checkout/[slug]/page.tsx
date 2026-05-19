@@ -94,7 +94,7 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
                 : isMembership
                   ? "This page is being prepared for live recurring checkout. In the meantime, you can review the membership details and return to the membership page for the full offer overview."
                   : isSoundTraining
-                    ? "This registration page is fully prepared for the October 2-4, 2026 training. The final payment step will be connected here when Stripe is ready."
+                    ? "This registration page is fully prepared for the September 18-20, 2026 training. The final payment step will be connected here when Stripe is ready."
                     : isGiftCertificate
                       ? "This gift certificate checkout is being finalized. In the meantime, you can return to the gift certificate page for more details."
                   : "This checkout page is being prepared for live payment. In the meantime, you can return to the main offer page for full details."}

@@ -30,7 +30,7 @@ const pricingOptions = [
   {
     title: "Pay in Full",
     price: "$1,344",
-    details: "One-time payment for the full October 2-4, 2026 training.",
+    details: "One-time payment for the full September 18-20, 2026 training.",
   },
   {
     title: "Payment Plan",
@@ -44,7 +44,7 @@ export default function SoundTrainingPage() {
     <PageShell
       eyebrow="Sound Training"
       title="Sound Practitioner Training"
-      description="Led by Kate Gajewski and Raquel Vamos, this in-person training takes place October 2-4, 2026 and explores instruments, facilitation, and grounded sound practice."
+      description="Led by Kate Gajewski and Raquel Vamos, this in-person training takes place September 18-20, 2026 and explores instruments, facilitation, and grounded sound practice."
     >
       <section className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
         <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
@@ -99,7 +99,7 @@ export default function SoundTrainingPage() {
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Next Training Dates
           </span>
-          <h2 className="display-section-title">October 2-4, 2026</h2>
+          <h2 className="display-section-title">September 18-20, 2026</h2>
           <p className="mt-4 text-[var(--color-muted)]">
             Registration is open for the next in-person Sound Practitioner
             Training. Reserve your place now, or reach out if you want to feel
@@ -130,7 +130,7 @@ export default function SoundTrainingPage() {
           Choose the payment path that feels most supportive.
         </h2>
         <p className="mt-5 max-w-[42rem] text-[var(--color-muted)]">
-          Both options reserve your place in the October training.
+          Both options reserve your place in the September training.
         </p>
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {pricingOptions.map((item) => (

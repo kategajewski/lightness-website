@@ -25,8 +25,8 @@ export default async function MentorshipApplicationPage({
       title="Apply for The Embodied Healer."
       description="Share where you are, what is calling you, and what kind of support you are seeking. No prior Reiki experience is required."
     >
-      <section className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+      <section className="grid min-w-0 gap-6 sm:gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="min-w-0 overflow-hidden rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-5 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:rounded-[34px] sm:p-10">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Before You Apply
           </span>
@@ -53,7 +53,7 @@ export default async function MentorshipApplicationPage({
 
         <form
           action={submitMentorshipApplication}
-          className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(248,242,235,0.9),rgba(239,229,217,0.86))] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10"
+          className="min-w-0 overflow-hidden rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(248,242,235,0.9),rgba(239,229,217,0.86))] p-5 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:rounded-[34px] sm:p-10"
         >
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Application Form
@@ -89,7 +89,7 @@ export default async function MentorshipApplicationPage({
                 type="text"
                 name="name"
                 required
-                className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
+                className="w-full min-w-0 rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
               />
             </label>
 
@@ -102,7 +102,7 @@ export default async function MentorshipApplicationPage({
                   type="email"
                   name="email"
                   required
-                  className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
+                  className="w-full min-w-0 rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
                 />
               </label>
 
@@ -113,7 +113,7 @@ export default async function MentorshipApplicationPage({
                 <input
                   type="tel"
                   name="phone"
-                  className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
+                  className="w-full min-w-0 rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
                 />
               </label>
             </div>
@@ -125,7 +125,7 @@ export default async function MentorshipApplicationPage({
               <select
                 name="experienceLevel"
                 defaultValue=""
-                className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
+                className="w-full min-w-0 truncate rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
               >
                 <option value="" disabled>
                   Select one
@@ -143,7 +143,7 @@ export default async function MentorshipApplicationPage({
               <select
                 name="focus"
                 defaultValue=""
-                className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
+                className="w-full min-w-0 truncate rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
               >
                 <option value="" disabled>
                   Select one
@@ -162,7 +162,7 @@ export default async function MentorshipApplicationPage({
                 name="interest"
                 required
                 rows={4}
-                className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
+                className="w-full min-w-0 rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
               />
             </label>
 
@@ -173,7 +173,7 @@ export default async function MentorshipApplicationPage({
               <textarea
                 name="currentSeason"
                 rows={4}
-                className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
+                className="w-full min-w-0 rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
               />
             </label>
 
@@ -185,7 +185,7 @@ export default async function MentorshipApplicationPage({
                 name="intentions"
                 required
                 rows={5}
-                className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
+                className="w-full min-w-0 rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
               />
             </label>
 
@@ -196,7 +196,7 @@ export default async function MentorshipApplicationPage({
               <select
                 name="startTiming"
                 defaultValue=""
-                className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
+                className="w-full min-w-0 truncate rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
               >
                 <option value="" disabled>
                   Select one
@@ -214,14 +214,14 @@ export default async function MentorshipApplicationPage({
               <textarea
                 name="additionalNotes"
                 rows={4}
-                className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
+                className="w-full min-w-0 rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
               />
             </label>
           </div>
 
           <TurnstileWidget action="mentorship_application" />
 
-          <button type="submit" className="button-pill mt-6">
+          <button type="submit" className="button-pill mt-6 w-full sm:w-auto">
             Submit Application
           </button>
         </form>

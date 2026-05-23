@@ -25,7 +25,6 @@ const details = [
 const experienceHighlights = [
   "Crystal bowls, gong, chimes, and open-air rest beneath the evening sky",
   "A tender seasonal ritual for meeting the fullness of summer with intention",
-  "A welcoming outdoor circle where no previous sound bath experience is needed",
 ] as const;
 
 const bringItems = [

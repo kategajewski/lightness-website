@@ -12,6 +12,92 @@ Rule for future sessions:
 
 ## Current Note
 ### Latest Save Point
+- Golden Hour event is live:
+  - public event page still uses the existing route:
+    - `https://bethelightness.com/sacred-sounds-under-the-sky`
+  - Events page:
+    - `https://bethelightness.com/events`
+  - event title:
+    - `Golden Hour: A Summer Solstice Sound Journey`
+  - subtitle / framing:
+    - sunset ceremony to honor the turning of the season
+  - date:
+    - Wednesday, June 24, 2026 at 7:30 PM
+  - rain date:
+    - Thursday, June 25, 2026 at 7:30 PM
+  - price:
+    - `$30` advance online
+    - `$35` day-of if space remains
+- Golden Hour copy / layout updates completed:
+  - public wording was softened to sound more poetic and welcoming
+  - the word `threshold` was replaced with softer wording
+  - the duplicated third / Summer Solstice block was removed
+  - the “gentle outdoor ceremony” paragraph was blended into the first hero paragraph
+  - the first hero block was tightened to reduce empty space:
+    - smaller desktop hero image height
+    - less padding / gap
+    - smaller desktop hero title
+    - no extra button top margin
+  - “What To Bring” now says:
+    - Yoga mat or blanket
+    - Layers, socks, and anything cozy
+    - Water and simple comfort items
+    - A camping chair is welcome if you would rather sit
+  - the journal line was removed
+- Golden Hour checkout / Stripe workflow:
+  - event checkout route is:
+    - `/api/checkout/event`
+  - active event slug:
+    - `golden-hour-summer-solstice-sound-journey`
+  - old Sacred Sounds checkout/email fallback copy was removed from deployable workflow
+  - checkout success URL now includes:
+    - `session_id={CHECKOUT_SESSION_ID}`
+  - this gives email notification a backup path from the success page if the Stripe webhook is delayed or missed
+  - Stripe production env vars exist in Vercel:
+    - `STRIPE_SECRET_KEY`
+    - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+    - `STRIPE_WEBHOOK_SECRET`
+  - email production env vars exist in Vercel:
+    - `RESEND_API_KEY`
+    - `GMAIL_AUTH_USER`
+    - `GMAIL_APP_PASSWORD`
+    - `EMAIL_FROM`
+    - `CONTACT_FORWARD_TO`
+- Purchase email behavior:
+  - customer confirmation email uses Golden Hour details
+  - owner notification email should be sent for completed website checkout purchases
+  - owner notification includes:
+    - purchase title
+    - amount
+    - customer name/email
+    - purchase time
+    - Stripe session
+    - payment intent
+  - owner notification recipients include `CONTACT_FORWARD_TO` plus `site.adminEmails`
+- Deployment / validation:
+  - latest event-related commit pushed:
+    - `7034699 Update Golden Hour bring list`
+  - prior related commits:
+    - `78ef044 Merge Golden Hour ceremony copy into hero`
+    - `aba868f Trim Golden Hour highlight copy`
+    - `24fff4b Reduce Golden Hour hero whitespace`
+    - `82f3548 Tighten Golden Hour hero layout`
+    - `f15bf4f Soften Golden Hour event wording`
+    - `09d4da2 Add checkout session fallback for event emails`
+    - `0f03354 Clean Golden Hour ticket workflow copy`
+    - `36e1a7a Add Golden Hour sound journey event`
+  - Vercel production deployments reached `Ready`
+  - live page checks confirmed the new wording and bring-list updates
+  - `npm run lint` passed with the same existing `<img>` warnings only
+- Current workspace note:
+  - website event files for Golden Hour are committed and pushed
+  - worktree still has many unrelated older modified / deleted / untracked files and generated assets; do not revert or sweep them into an event commit without reviewing
+- Next recommended starting point:
+  - visually review Golden Hour on desktop and mobile
+  - if the reused URL feels confusing, consider adding a cleaner route such as `/golden-hour-summer-solstice-sound-journey` and redirecting the old Sacred Sounds URL
+  - optionally do a tiny live Stripe test purchase if Kate wants to confirm the owner notification email lands as expected
+
+### Latest Save Point
 - Google Ads sync:
   - dormant Google tag / Ads sync layer was added to the root app and legacy `web` copy
   - production Google env vars were added in Vercel for the active `lightness-website` project

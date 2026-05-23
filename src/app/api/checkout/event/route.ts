@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     eventSlug as keyof typeof eventCheckoutConfig
   ];
 
-  if (!event) {
+  if (!event || eventSlug === "sacred-sounds-under-the-sky") {
     return NextResponse.redirect(`${origin}/events`, { status: 303 });
   }
 

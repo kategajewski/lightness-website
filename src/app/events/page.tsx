@@ -15,15 +15,15 @@ const upcomingEvents = [
     cta: "Explore Soothing Sunday",
   },
   {
-    isActive: true,
-    eyebrow: "New Outdoor Event",
+    isActive: false,
+    eyebrow: "Canceled",
     title: "Sacred Sounds Under the Sky",
     description:
-      "An outdoor sound bath experience at The Lightness Grounds in Bayport designed for rest, reset, and open-air healing.",
+      "The May 23 outdoor sound bath has been canceled due to the cold weather forecast.",
     details:
-      "Saturday, May 23, 2026 · 11:00 AM-12:00 PM · $30 in advance · Rain date Sunday, May 24",
+      "Canceled for Saturday, May 23, 2026 · Updates for future outdoor sound gatherings will be shared soon.",
     href: site.links.sacredSoundsUnderTheSky,
-    cta: "Purchase Ticket",
+    cta: "View Cancellation Notice",
   },
   {
     isActive: true,

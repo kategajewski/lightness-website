@@ -107,7 +107,7 @@ export async function POST(request: Request) {
       "metadata[eventSlug]": eventSlug,
       success_url: `${origin}${event.successPath}?type=event&eventSlug=${encodeURIComponent(
         eventSlug,
-      )}`,
+      )}&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout/cancel?type=event&eventSlug=${encodeURIComponent(
         eventSlug,
       )}`,

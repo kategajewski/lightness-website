@@ -22,11 +22,6 @@ const details = [
   },
 ] as const;
 
-const experienceHighlights = [
-  "Crystal bowls, gong, chimes, and open-air rest beneath the evening sky",
-  "A tender seasonal ritual for meeting the fullness of summer with intention",
-] as const;
-
 const bringItems = [
   "Yoga mat or blanket",
   "Layers, socks, and anything cozy",
@@ -41,29 +36,6 @@ const goodToKnow = [
   "No bathroom facilities are available on site",
   "If weather shifts, the rain date is Thursday, June 25 at 7:30 PM",
 ] as const;
-
-function CheckoutBox() {
-  return (
-    <div className="rounded-[24px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.86)] p-5 text-[var(--color-text)] shadow-[0_18px_60px_rgba(59,41,31,0.08)]">
-      <strong className="block text-[1.05rem]">
-        Save your place in the circle for $30
-      </strong>
-      <p className="mt-2 text-[var(--color-muted)]">
-        Day-of tickets are $35 if there is still room to gather.
-      </p>
-      <form action="/api/checkout/event" method="post" className="mt-4">
-        <input
-          type="hidden"
-          name="eventSlug"
-          value="golden-hour-summer-solstice-sound-journey"
-        />
-        <button type="submit" className="button-pill">
-          Reserve Your Place
-        </button>
-      </form>
-    </div>
-  );
-}
 
 const eventJsonLd = {
   "@context": "https://schema.org",
@@ -130,7 +102,11 @@ export default function SacredSoundsUnderTheSkyPage() {
                 Come gather at golden hour, as the day softens and the season
                 begins to turn. This summer solstice sound journey is an
                 invitation to slow down, breathe with the evening air, and be
-                held by crystal bowls, gong, chimes, and the open sky.
+                held by crystal bowls, gong, chimes, and the open sky. Golden
+                Hour is a gentle outdoor ceremony for anyone craving a pause, a
+                breath, and a little space to be with what is changing. Come as
+                you are, let the day unwind, and allow the evening light to hold
+                the transition with you.
               </p>
             </div>
 
@@ -184,37 +160,6 @@ export default function SacredSoundsUnderTheSkyPage() {
             </p>
           </article>
         ))}
-      </section>
-
-      <section className="grid gap-6 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(255,252,248,0.88),rgba(239,230,217,0.82))] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-9 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-        <div>
-          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            Summer Solstice
-          </span>
-          <h2 className="display-section-title">
-            Meet the turning of summer with sound, sunset, and intention.
-          </h2>
-          <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            Golden Hour is a gentle outdoor ceremony for anyone craving a pause,
-            a breath, and a little space to be with what is changing. Come as
-            you are, let the day unwind, and allow the evening light to hold the
-            transition with you.
-          </p>
-          <div className="mt-7">
-            <CheckoutBox />
-          </div>
-        </div>
-
-        <div className="grid gap-3">
-          {experienceHighlights.map((item) => (
-            <div
-              key={item}
-              className="rounded-[20px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.76)] p-5 text-[1rem] font-semibold leading-7 text-[var(--color-text)]"
-            >
-              {item}
-            </div>
-          ))}
-        </div>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[0.88fr_1.12fr]">

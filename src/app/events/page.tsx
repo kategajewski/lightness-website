@@ -19,11 +19,11 @@ const upcomingEvents = [
     eyebrow: "Summer Solstice",
     title: "Golden Hour: A Summer Solstice Sound Journey",
     description:
-      "A sunset ceremony to honor the turning of the season with outdoor sound, intention, and open-sky rest.",
+      "A welcoming sunset ceremony to soften into summer with sound, stillness, and open-sky rest.",
     details:
       "Wednesday, June 24, 2026 · 7:30 PM · Rain date Thursday, June 25 · $30 advance / $35 day of",
     href: site.links.sacredSoundsUnderTheSky,
-    cta: "Reserve Advance Ticket",
+    cta: "Reserve Your Place",
   },
   {
     isActive: true,

@@ -209,7 +209,7 @@ const eventEmailContent = {
   "golden-hour-summer-solstice-sound-journey": {
     title: "Golden Hour: A Summer Solstice Sound Journey",
     intro:
-      "Your advance ticket is confirmed. I’m so glad you’ll be joining this sunset summer solstice sound journey.",
+      "Your place is confirmed. I’m so glad you’ll be joining this golden-hour summer solstice sound journey.",
     detailLines: [
       "Date: Wednesday, June 24, 2026",
       "Time: 7:30 PM",
@@ -218,7 +218,7 @@ const eventEmailContent = {
       "Day-of tickets: $35 if space is still available",
     ],
     reminderLines: [
-      "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy and supported.",
+      "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy, settled, and supported.",
       "This is a fully outdoor gathering and there are no bathroom facilities on site.",
     ],
     href: `${env.siteUrl}${site.links.sacredSoundsUnderTheSky}`,

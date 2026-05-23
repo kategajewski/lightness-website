@@ -6,12 +6,14 @@ const details = [
   {
     label: "Date",
     value: "Wed, Jun 24",
-    description: "7:30 PM at The Lightness Grounds in Bayport, NY.",
+    description:
+      "Arrive as the day begins to soften, 7:30 PM at The Lightness Grounds in Bayport, NY.",
   },
   {
     label: "Rain Date",
     value: "Thu, Jun 25",
-    description: "Same time if weather asks us to shift by one evening.",
+    description:
+      "If the sky asks us to wait, we will gather the following evening at the same time.",
   },
   {
     label: "Exchange",
@@ -21,9 +23,9 @@ const details = [
 ] as const;
 
 const experienceHighlights = [
-  "A sunset sound journey with crystal bowls, gong, chimes, and open-air rest",
-  "A soft seasonal ritual to honor the turn toward summer",
-  "A grounding outdoor circle with no previous sound bath experience needed",
+  "Crystal bowls, gong, chimes, and open-air rest beneath the evening sky",
+  "A tender seasonal ritual for meeting the fullness of summer with intention",
+  "A welcoming outdoor circle where no previous sound bath experience is needed",
 ] as const;
 
 const bringItems = [
@@ -45,10 +47,10 @@ function CheckoutBox() {
   return (
     <div className="rounded-[24px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.86)] p-5 text-[var(--color-text)] shadow-[0_18px_60px_rgba(59,41,31,0.08)]">
       <strong className="block text-[1.05rem]">
-        Reserve in advance for $30
+        Save your place in the circle for $30
       </strong>
       <p className="mt-2 text-[var(--color-muted)]">
-        Day-of tickets are $35 if there is still space available.
+        Day-of tickets are $35 if there is still room to gather.
       </p>
       <form action="/api/checkout/event" method="post" className="mt-4">
         <input
@@ -57,7 +59,7 @@ function CheckoutBox() {
           value="golden-hour-summer-solstice-sound-journey"
         />
         <button type="submit" className="button-pill">
-          Purchase Advance Ticket
+          Reserve Your Place
         </button>
       </form>
     </div>
@@ -69,7 +71,7 @@ const eventJsonLd = {
   "@type": "Event",
   name: "Golden Hour: A Summer Solstice Sound Journey",
   description:
-    "A sunset ceremony to honor the turning of the season with an outdoor sound journey at The Lightness Grounds in Bayport, NY.",
+    "A welcoming sunset ceremony to honor the turning of the season with sound, stillness, and open-air rest at The Lightness Grounds in Bayport, NY.",
   startDate: "2026-06-24T19:30:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
@@ -99,7 +101,7 @@ export default function SacredSoundsUnderTheSkyPage() {
     <PageShell
       eyebrow="Outdoor Sound Bath"
       title="Golden Hour: A Summer Solstice Sound Journey"
-      description="A sunset ceremony to honor the turning of the season."
+      description="A sunset ceremony to honor the turning of the season, soften into summer, and let sound carry you home to yourself."
     >
       <script
         type="application/ld+json"
@@ -126,10 +128,10 @@ export default function SacredSoundsUnderTheSkyPage() {
                 Golden Hour.
               </h2>
               <p className="mt-6 max-w-[36rem] text-[1.08rem] leading-8 text-[var(--color-muted)]">
-                A sunset ceremony to honor the turning of the season. Gather
-                outside as the light softens, settle into your body, and receive
-                a summer solstice sound journey with crystal bowls, gong,
-                chimes, and open-sky rest.
+                Come gather at golden hour, as the day softens and the season
+                begins to turn. This summer solstice sound journey is an
+                invitation to slow down, breathe with the evening air, and be
+                held by crystal bowls, gong, chimes, and the open sky.
               </p>
             </div>
 
@@ -141,7 +143,7 @@ export default function SacredSoundsUnderTheSkyPage() {
                   value="golden-hour-summer-solstice-sound-journey"
                 />
                 <button type="submit" className="button-pill">
-                  Purchase Advance Ticket
+                  Reserve Your Place
                 </button>
               </form>
               <Link href={site.links.events} className="button-pill">
@@ -158,8 +160,8 @@ export default function SacredSoundsUnderTheSkyPage() {
             />
             <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(0deg,rgba(47,37,32,0.58),transparent)] p-6 text-[#fffaf5] sm:p-8">
               <p className="max-w-[28rem] text-[1.05rem] font-semibold leading-7">
-                Bring a mat, a blanket, and a little room in your evening to
-                receive.
+                Bring a mat, a blanket, and a willingness to let the evening
+                meet you gently.
               </p>
             </div>
           </div>
@@ -191,12 +193,13 @@ export default function SacredSoundsUnderTheSkyPage() {
             Summer Solstice
           </span>
           <h2 className="display-section-title">
-            Mark the season with sound, sunset, and intention.
+            Meet the threshold of summer with sound, sunset, and intention.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            Golden Hour is a gentle outdoor sound ceremony for pausing at the
-            threshold of summer. Come as you are, let the day unwind, and allow
-            the evening light to hold the transition.
+            Golden Hour is a gentle outdoor ceremony for anyone craving a pause,
+            a breath, and a little space to be with what is changing. Come as
+            you are, let the day unwind, and allow the evening light to hold the
+            transition with you.
           </p>
           <div className="mt-7">
             <CheckoutBox />
@@ -229,7 +232,7 @@ export default function SacredSoundsUnderTheSkyPage() {
             What To Bring
           </span>
           <h2 className="display-section-title">
-            Cozy, simple, and easy.
+            Come cozy. Come simple. Come as you are.
           </h2>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {bringItems.map((item) => (
@@ -242,7 +245,7 @@ export default function SacredSoundsUnderTheSkyPage() {
             ))}
           </div>
           <p className="mt-6 max-w-[38rem] text-[var(--color-muted)]">
-            Dress in layers so you can stay comfortable as the sun goes down.
+            Dress in layers so your body can stay warm as the sun slips lower.
             This gathering is fully outdoors at The Lightness Grounds, on the
             corner of Gillette Avenue and Academy Street.
           </p>
@@ -255,11 +258,12 @@ export default function SacredSoundsUnderTheSkyPage() {
             Good To Know
           </span>
           <h2 className="display-section-title">
-            Rest outdoors, breathe deeply, and let the evening sky hold the mood.
+            Rest outdoors, breathe deeply, and let the evening sky do some of the holding.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
             Advance tickets are $30. If space remains, day-of tickets are $35.
-            Weather updates will be shared if the rain date is needed.
+            If weather asks us to shift, the rain date will be Thursday, June
+            25 at 7:30 PM.
           </p>
         </div>
         <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">

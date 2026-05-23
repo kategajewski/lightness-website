@@ -206,24 +206,6 @@ export async function sendInquiryForwardEmail(input: InquiryEmailInput) {
 }
 
 const eventEmailContent = {
-  "sacred-sounds-under-the-sky": {
-    title: "Sacred Sounds Under the Sky",
-    intro:
-      "Your ticket is confirmed. I’m so glad you’ll be joining this outdoor sound bath experience.",
-    detailLines: [
-      "Date: Saturday, May 23, 2026",
-      "Time: 11:00 AM-12:00 PM",
-      "Location: The Lightness Grounds, Bayport, NY",
-      "Rain date: Sunday, May 24, 2026",
-      "Weather updates: shared by 9:00 AM if the rain date is needed",
-    ],
-    reminderLines: [
-      "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy and supported.",
-      "This is a fully outdoor gathering and there are no bathroom facilities on site.",
-    ],
-    href: `${env.siteUrl}${site.links.sacredSoundsUnderTheSky}`,
-    hrefLabel: "View event details",
-  },
   "golden-hour-summer-solstice-sound-journey": {
     title: "Golden Hour: A Summer Solstice Sound Journey",
     intro:

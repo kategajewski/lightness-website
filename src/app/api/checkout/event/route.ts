@@ -2,13 +2,6 @@ import { NextResponse } from "next/server";
 import { env, integrations } from "@/lib/env";
 
 const eventCheckoutConfig = {
-  "sacred-sounds-under-the-sky": {
-    name: "Sacred Sounds Under the Sky",
-    description: "Advance ticket for the outdoor sound bath experience.",
-    amountCents: 3000,
-    successPath: "/checkout/success",
-    cancelPath: "/sacred-sounds-under-the-sky",
-  },
   "golden-hour-summer-solstice-sound-journey": {
     name: "Golden Hour: A Summer Solstice Sound Journey",
     description:
@@ -35,7 +28,7 @@ export async function POST(request: Request) {
     eventSlug as keyof typeof eventCheckoutConfig
   ];
 
-  if (!event || eventSlug === "sacred-sounds-under-the-sky") {
+  if (!event) {
     return NextResponse.redirect(`${origin}/events`, { status: 303 });
   }
 

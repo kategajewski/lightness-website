@@ -11,10 +11,6 @@ type CheckoutCancelPageProps = {
 };
 
 const eventCancelContent = {
-  "sacred-sounds-under-the-sky": {
-    primaryHref: site.links.sacredSoundsUnderTheSky,
-    primaryLabel: "Back to Event Details",
-  },
   "soothing-sunday-june-14-2026": {
     primaryHref: "/soothing-sunday",
     primaryLabel: "Back to Soothing Sunday",

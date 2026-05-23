@@ -13,15 +13,6 @@ type CheckoutSuccessPageProps = {
 };
 
 const eventContent = {
-  "sacred-sounds-under-the-sky": {
-    title: "Your ticket is reserved.",
-    description:
-      "Your place for Sacred Sounds Under the Sky has been received. You can watch your email for your Stripe confirmation and any event updates.",
-    primaryHref: site.links.sacredSoundsUnderTheSky,
-    primaryLabel: "Back to Event Details",
-    secondaryHref: site.links.events,
-    secondaryLabel: "Browse Events",
-  },
   "soothing-sunday-june-14-2026": {
     title: "You're booked for Soothing Sunday.",
     description:

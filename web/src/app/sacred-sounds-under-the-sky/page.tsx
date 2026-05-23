@@ -26,7 +26,7 @@ const bringItems = [
   "Yoga mat or blanket",
   "Layers, socks, and anything cozy",
   "Water and simple comfort items",
-  "A journal if you want to reflect after the journey",
+  "A camping chair is welcome if you would rather sit",
 ] as const;
 
 const goodToKnow = [

@@ -110,7 +110,7 @@ export default function SacredSoundsUnderTheSkyPage() {
 
       <section className="overflow-hidden rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(255,249,239,0.95),rgba(239,225,205,0.86)_48%,rgba(206,217,190,0.54))] shadow-[0_28px_90px_rgba(59,41,31,0.12)]">
         <div className="grid gap-0 lg:grid-cols-[1.02fr_0.98fr] lg:items-stretch">
-          <div className="flex flex-col gap-8 p-7 sm:p-9 lg:min-h-[31rem]">
+          <div className="flex flex-col gap-6 p-7 sm:p-8 lg:min-h-0">
             <div>
               <div className="flex flex-wrap gap-2">
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
@@ -124,10 +124,10 @@ export default function SacredSoundsUnderTheSkyPage() {
                 </span>
               </div>
 
-              <h2 className="mt-7 max-w-[12ch] font-display text-[3rem] leading-[0.96] tracking-[0] text-[var(--color-text)] sm:text-[4.2rem] lg:text-[5.1rem]">
+              <h2 className="mt-5 max-w-[12ch] font-display text-[3rem] leading-[0.96] tracking-[0] text-[var(--color-text)] sm:text-[4rem] lg:text-[4.8rem]">
                 Golden Hour.
               </h2>
-              <p className="mt-6 max-w-[36rem] text-[1.08rem] leading-8 text-[var(--color-muted)]">
+              <p className="mt-5 max-w-[36rem] text-[1.04rem] leading-8 text-[var(--color-muted)]">
                 Come gather at golden hour, as the day softens and the season
                 begins to turn. This summer solstice sound journey is an
                 invitation to slow down, breathe with the evening air, and be
@@ -135,7 +135,7 @@ export default function SacredSoundsUnderTheSkyPage() {
               </p>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3">
               <form action="/api/checkout/event" method="post">
                 <input
                   type="hidden"
@@ -152,11 +152,11 @@ export default function SacredSoundsUnderTheSkyPage() {
             </div>
           </div>
 
-          <div className="relative min-h-[22rem] overflow-hidden bg-[#e7dccd] sm:min-h-[28rem] lg:min-h-full">
+          <div className="relative min-h-[22rem] overflow-hidden bg-[#e7dccd] sm:min-h-[28rem] lg:h-[30rem] lg:min-h-0">
             <img
               src="/homepage-images/sacred-sounds-outdoor.jpeg"
               alt="Outdoor sound bath setup for a summer solstice sound journey"
-              className="h-full min-h-[22rem] w-full object-cover object-center sm:min-h-[28rem] lg:min-h-full"
+              className="h-full min-h-[22rem] w-full object-cover object-center sm:min-h-[28rem] lg:min-h-0"
             />
             <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(0deg,rgba(47,37,32,0.58),transparent)] p-6 text-[#fffaf5] sm:p-8">
               <p className="max-w-[28rem] text-[1.05rem] font-semibold leading-7">

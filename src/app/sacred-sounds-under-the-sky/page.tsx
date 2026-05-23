@@ -4,34 +4,33 @@ import { site } from "@/lib/site";
 
 const details = [
   {
-    label: "Status",
-    value: "Canceled",
-    description:
-      "The May 23 gathering has been canceled due to the cold weather forecast.",
+    label: "Date",
+    value: "Wed, Jun 24",
+    description: "7:30 PM at The Lightness Grounds in Bayport, NY.",
   },
   {
-    label: "Original Date",
-    value: "Sat, May 23",
-    description: "Originally planned for 11:00 AM-12:00 PM in Bayport, NY.",
+    label: "Rain Date",
+    value: "Thu, Jun 25",
+    description: "Same time if weather asks us to shift by one evening.",
   },
   {
-    label: "Next Gathering",
-    value: "Soon",
-    description: "A future outdoor sound date will be shared when it is set.",
+    label: "Exchange",
+    value: "$30",
+    description: "$30 in advance or $35 day of, space permitting.",
   },
 ] as const;
 
 const experienceHighlights = [
-  "Crystal bowls, gong, chimes, and open-air sound",
-  "A soft reset for your nervous system before summer begins",
-  "A welcoming outdoor circle with no experience needed",
+  "A sunset sound journey with crystal bowls, gong, chimes, and open-air rest",
+  "A soft seasonal ritual to honor the turn toward summer",
+  "A grounding outdoor circle with no previous sound bath experience needed",
 ] as const;
 
 const bringItems = [
   "Yoga mat or blanket",
   "Layers, socks, and anything cozy",
   "Water and simple comfort items",
-  "A relaxed, come-as-you-are mindset",
+  "A journal if you want to reflect after the journey",
 ] as const;
 
 const goodToKnow = [
@@ -39,19 +38,28 @@ const goodToKnow = [
   "No previous sound bath experience is needed",
   "The Lightness Grounds is on the corner of Gillette Avenue and Academy Street",
   "No bathroom facilities are available on site",
-  "If weather shifts, a rain-date update will be shared by 9:00 AM",
+  "If weather shifts, the rain date is Thursday, June 25 at 7:30 PM",
 ] as const;
 
-function CancellationNotice() {
+function CheckoutBox() {
   return (
-    <div className="rounded-[24px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.82)] p-5 text-[var(--color-text)]">
+    <div className="rounded-[24px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.86)] p-5 text-[var(--color-text)] shadow-[0_18px_60px_rgba(59,41,31,0.08)]">
       <strong className="block text-[1.05rem]">
-        Canceled due to cold weather
+        Reserve in advance for $30
       </strong>
       <p className="mt-2 text-[var(--color-muted)]">
-        Sacred Sounds Under the Sky for Saturday, May 23 has been canceled.
-        Thank you for understanding and keeping comfort and care at the center.
+        Day-of tickets are $35 if there is still space available.
       </p>
+      <form action="/api/checkout/event" method="post" className="mt-4">
+        <input
+          type="hidden"
+          name="eventSlug"
+          value="golden-hour-summer-solstice-sound-journey"
+        />
+        <button type="submit" className="button-pill">
+          Purchase Advance Ticket
+        </button>
+      </form>
     </div>
   );
 }
@@ -59,13 +67,12 @@ function CancellationNotice() {
 const eventJsonLd = {
   "@context": "https://schema.org",
   "@type": "Event",
-  name: "Sacred Sounds Under the Sky",
+  name: "Golden Hour: A Summer Solstice Sound Journey",
   description:
-    "An outdoor sound bath experience at The Lightness Grounds in Bayport, NY with crystal bowls, gong, chimes, fresh air, and open-sky rest.",
-  startDate: "2026-05-23T11:00:00-04:00",
-  endDate: "2026-05-23T12:00:00-04:00",
+    "A sunset ceremony to honor the turning of the season with an outdoor sound journey at The Lightness Grounds in Bayport, NY.",
+  startDate: "2026-06-24T19:30:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-  eventStatus: "https://schema.org/EventCancelled",
+  eventStatus: "https://schema.org/EventScheduled",
   image: "https://bethelightness.com/homepage-images/sacred-sounds-outdoor.jpeg",
   location: {
     "@type": "Place",
@@ -82,7 +89,7 @@ const eventJsonLd = {
     "@type": "Offer",
     price: "30",
     priceCurrency: "USD",
-    availability: "https://schema.org/SoldOut",
+    availability: "https://schema.org/InStock",
     url: "https://bethelightness.com/sacred-sounds-under-the-sky",
   },
 };
@@ -91,8 +98,8 @@ export default function SacredSoundsUnderTheSkyPage() {
   return (
     <PageShell
       eyebrow="Outdoor Sound Bath"
-      title="Sacred Sounds Under the Sky"
-      description="The Saturday, May 23 outdoor sound bath has been canceled due to the cold weather forecast."
+      title="Golden Hour: A Summer Solstice Sound Journey"
+      description="A sunset ceremony to honor the turning of the season."
     >
       <script
         type="application/ld+json"
@@ -105,27 +112,38 @@ export default function SacredSoundsUnderTheSkyPage() {
             <div>
               <div className="flex flex-wrap gap-2">
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
-                  Canceled
+                  Wednesday, June 24
+                </span>
+                <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
+                  7:30 PM
                 </span>
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
                   Bayport, NY
                 </span>
-                <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
-                  May 23
-                </span>
               </div>
 
               <h2 className="mt-7 max-w-[12ch] font-display text-[3rem] leading-[0.96] tracking-[0] text-[var(--color-text)] sm:text-[4.2rem] lg:text-[5.1rem]">
-                This gathering has been canceled.
+                Golden Hour.
               </h2>
               <p className="mt-6 max-w-[36rem] text-[1.08rem] leading-8 text-[var(--color-muted)]">
-                Because of the cold weather forecast, Sacred Sounds Under the
-                Sky for Saturday, May 23 will not be held. Future outdoor sound
-                gatherings will be shared once a new date is set.
+                A sunset ceremony to honor the turning of the season. Gather
+                outside as the light softens, settle into your body, and receive
+                a summer solstice sound journey with crystal bowls, gong,
+                chimes, and open-sky rest.
               </p>
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
+              <form action="/api/checkout/event" method="post">
+                <input
+                  type="hidden"
+                  name="eventSlug"
+                  value="golden-hour-summer-solstice-sound-journey"
+                />
+                <button type="submit" className="button-pill">
+                  Purchase Advance Ticket
+                </button>
+              </form>
               <Link href={site.links.events} className="button-pill">
                 Back to Events
               </Link>
@@ -135,12 +153,13 @@ export default function SacredSoundsUnderTheSkyPage() {
           <div className="relative min-h-[24rem] overflow-hidden bg-[#e7dccd] sm:min-h-[32rem] lg:min-h-full">
             <img
               src="/homepage-images/sacred-sounds-outdoor.jpeg"
-              alt="Outdoor sound bath setup for Sacred Sounds Under the Sky"
+              alt="Outdoor sound bath setup for a summer solstice sound journey"
               className="h-full min-h-[24rem] w-full object-cover object-center sm:min-h-[32rem] lg:min-h-full"
             />
             <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(0deg,rgba(47,37,32,0.58),transparent)] p-6 text-[#fffaf5] sm:p-8">
               <p className="max-w-[28rem] text-[1.05rem] font-semibold leading-7">
-                Bring a mat, a blanket, and a little room in your day to receive.
+                Bring a mat, a blanket, and a little room in your evening to
+                receive.
               </p>
             </div>
           </div>
@@ -169,18 +188,18 @@ export default function SacredSoundsUnderTheSkyPage() {
       <section className="grid gap-6 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(255,252,248,0.88),rgba(239,230,217,0.82))] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-9 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            Weather Update
+            Summer Solstice
           </span>
           <h2 className="display-section-title">
-            Comfort comes first.
+            Mark the season with sound, sunset, and intention.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            This gathering was created as a peaceful outdoor sound bath, and the
-            weather is simply too cold for the kind of settled, cozy rest it was
-            meant to offer.
+            Golden Hour is a gentle outdoor sound ceremony for pausing at the
+            threshold of summer. Come as you are, let the day unwind, and allow
+            the evening light to hold the transition.
           </p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <CancellationNotice />
+          <div className="mt-7">
+            <CheckoutBox />
           </div>
         </div>
 
@@ -223,9 +242,9 @@ export default function SacredSoundsUnderTheSkyPage() {
             ))}
           </div>
           <p className="mt-6 max-w-[38rem] text-[var(--color-muted)]">
-            Dress in layers so you can stay comfortable as you settle in. This
-            gathering is fully outdoors at The Lightness Grounds, on the corner
-            of Gillette Avenue and Academy Street.
+            Dress in layers so you can stay comfortable as the sun goes down.
+            This gathering is fully outdoors at The Lightness Grounds, on the
+            corner of Gillette Avenue and Academy Street.
           </p>
         </div>
       </section>
@@ -236,11 +255,11 @@ export default function SacredSoundsUnderTheSkyPage() {
             Good To Know
           </span>
           <h2 className="display-section-title">
-            Rest outdoors, breathe deeply, and let the sky hold the mood.
+            Rest outdoors, breathe deeply, and let the evening sky hold the mood.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            Come as you are. No experience is needed, just a willingness to
-            pause, receive, and let sound do what sound does best.
+            Advance tickets are $30. If space remains, day-of tickets are $35.
+            Weather updates will be shared if the rain date is needed.
           </p>
         </div>
         <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">

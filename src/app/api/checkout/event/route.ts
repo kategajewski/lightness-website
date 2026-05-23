@@ -9,6 +9,14 @@ const eventCheckoutConfig = {
     successPath: "/checkout/success",
     cancelPath: "/sacred-sounds-under-the-sky",
   },
+  "golden-hour-summer-solstice-sound-journey": {
+    name: "Golden Hour: A Summer Solstice Sound Journey",
+    description:
+      "Advance ticket for the Wednesday, June 24, 2026 sunset summer solstice sound journey.",
+    amountCents: 3000,
+    successPath: "/checkout/success",
+    cancelPath: "/sacred-sounds-under-the-sky",
+  },
   "soothing-sunday-june-14-2026": {
     name: "Soothing Sunday - June 14, 2026",
     description:

@@ -36,6 +36,10 @@ type WebsiteEmailAttachment = {
   contentType: string;
 };
 
+export function canSendPurchaseOwnerNotification() {
+  return Boolean(getOwnerNotificationRecipients().length) && canSendWebsiteEmail();
+}
+
 function createTransport() {
   return nodemailer.createTransport({
     service: "gmail",
@@ -44,6 +48,24 @@ function createTransport() {
       pass: env.gmailAppPassword,
     },
   });
+}
+
+function canSendWebsiteEmail() {
+  return (
+    Boolean(env.emailFrom) &&
+    (Boolean(env.resendApiKey) ||
+      (Boolean(env.gmailAuthUser || env.emailFrom) &&
+        Boolean(env.gmailAppPassword)))
+  );
+}
+
+function getOwnerNotificationRecipients() {
+  const configuredRecipients = env.contactForwardTo
+    .split(",")
+    .map((email) => email.trim())
+    .filter(Boolean);
+
+  return Array.from(new Set([...configuredRecipients, ...site.adminEmails]));
 }
 
 async function sendWebsiteEmail(input: WebsiteEmailInput) {
@@ -202,6 +224,24 @@ const eventEmailContent = {
     href: `${env.siteUrl}${site.links.sacredSoundsUnderTheSky}`,
     hrefLabel: "View event details",
   },
+  "golden-hour-summer-solstice-sound-journey": {
+    title: "Golden Hour: A Summer Solstice Sound Journey",
+    intro:
+      "Your advance ticket is confirmed. I’m so glad you’ll be joining this sunset summer solstice sound journey.",
+    detailLines: [
+      "Date: Wednesday, June 24, 2026",
+      "Time: 7:30 PM",
+      "Location: The Lightness Grounds, Bayport, NY",
+      "Rain date: Thursday, June 25, 2026 at 7:30 PM",
+      "Day-of tickets: $35 if space is still available",
+    ],
+    reminderLines: [
+      "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy and supported.",
+      "This is a fully outdoor gathering and there are no bathroom facilities on site.",
+    ],
+    href: `${env.siteUrl}${site.links.sacredSoundsUnderTheSky}`,
+    hrefLabel: "View event details",
+  },
   "soothing-sunday-may-17-2026": {
     title: "Soothing Sunday - May 17, 2026",
     intro:
@@ -347,7 +387,9 @@ export async function sendPurchaseConfirmationEmail(
 export async function sendPurchaseOwnerNotificationEmail(
   session: StripeCheckoutSession,
 ) {
-  if (!integrations.emailForwarding) {
+  const recipients = getOwnerNotificationRecipients();
+
+  if (!recipients.length || !canSendWebsiteEmail()) {
     return { skipped: true };
   }
 
@@ -413,7 +455,7 @@ export async function sendPurchaseOwnerNotificationEmail(
 
   await sendWebsiteEmail({
     from: env.emailFrom,
-    to: env.contactForwardTo,
+    to: recipients.join(", "),
     replyTo:
       customerEmail === "Not provided" ? undefined : session.customer_details?.email ?? undefined,
     subject: `New website purchase: ${purchase}`,

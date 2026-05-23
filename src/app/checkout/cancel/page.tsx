@@ -19,6 +19,10 @@ const eventCancelContent = {
     primaryHref: "/soothing-sunday",
     primaryLabel: "Back to Soothing Sunday",
   },
+  "golden-hour-summer-solstice-sound-journey": {
+    primaryHref: site.links.sacredSoundsUnderTheSky,
+    primaryLabel: "Back to Event Details",
+  },
 } as const;
 
 export default async function CheckoutCancelPage({

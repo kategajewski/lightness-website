@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { processCheckoutSessionConfirmation } from "@/lib/checkout-confirmation";
 import { getOfferBySlug } from "@/lib/offers";
 import { site } from "@/lib/site";
 
@@ -7,6 +8,7 @@ type CheckoutSuccessPageProps = {
     type?: string;
     slug?: string;
     eventSlug?: string;
+    session_id?: string;
   }>;
 };
 
@@ -29,12 +31,24 @@ const eventContent = {
     secondaryHref: site.links.events,
     secondaryLabel: "Browse Events",
   },
+  "golden-hour-summer-solstice-sound-journey": {
+    title: "You're booked for Golden Hour.",
+    description:
+      "Your advance ticket for Golden Hour: A Summer Solstice Sound Journey has been received. You can watch your email for your Stripe confirmation and any event reminders.",
+    primaryHref: site.links.sacredSoundsUnderTheSky,
+    primaryLabel: "Back to Event Details",
+    secondaryHref: site.links.events,
+    secondaryLabel: "Browse Events",
+  },
 } as const;
 
 export default async function CheckoutSuccessPage({
   searchParams,
 }: CheckoutSuccessPageProps) {
-  const { type, slug, eventSlug } = await searchParams;
+  const { type, slug, eventSlug, session_id: sessionId } = await searchParams;
+  const confirmationResult = sessionId
+    ? await processCheckoutSessionConfirmation(sessionId, "success_page")
+    : undefined;
   const offer = slug ? getOfferBySlug(slug) : undefined;
   const event =
     type === "event" && eventSlug
@@ -47,7 +61,10 @@ export default async function CheckoutSuccessPage({
     event?.description ??
     (offer
       ? offer.slug === "gift-certificate"
-        ? "Your gift certificate purchase has been received. A printable certificate PDF with its unique code should be on its way to your email now."
+        ? confirmationResult?.customerEmail === "sent" ||
+          confirmationResult?.customerEmail === "already_sent"
+          ? "Your gift certificate purchase has been received. A printable certificate PDF with its unique code should be on its way to your email now."
+          : "Your gift certificate purchase has been received. If the printable certificate PDF does not arrive shortly, please contact Kate and she will send it personally."
         : `Your payment for ${offer.name} has been received. A Stripe confirmation should be on its way to your email now.`
       : "Your payment has been received. A Stripe confirmation should be on its way to your email now.");
   const primaryHref =

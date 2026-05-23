@@ -15,15 +15,15 @@ const upcomingEvents = [
     cta: "Explore Soothing Sunday",
   },
   {
-    isActive: false,
-    eyebrow: "Canceled",
-    title: "Sacred Sounds Under the Sky",
+    isActive: true,
+    eyebrow: "Summer Solstice",
+    title: "Golden Hour: A Summer Solstice Sound Journey",
     description:
-      "The May 23 outdoor sound bath has been canceled due to the cold weather forecast.",
+      "A sunset ceremony to honor the turning of the season with outdoor sound, intention, and open-sky rest.",
     details:
-      "Canceled for Saturday, May 23, 2026 · Updates for future outdoor sound gatherings will be shared soon.",
+      "Wednesday, June 24, 2026 · 7:30 PM · Rain date Thursday, June 25 · $30 advance / $35 day of",
     href: site.links.sacredSoundsUnderTheSky,
-    cta: "View Cancellation Notice",
+    cta: "Reserve Advance Ticket",
   },
   {
     isActive: true,

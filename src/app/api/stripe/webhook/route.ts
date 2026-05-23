@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
-import {
-  sendPurchaseConfirmationEmail,
-  sendPurchaseOwnerNotificationEmail,
-} from "@/lib/email";
-import { env, integrations } from "@/lib/env";
+import { processCheckoutSessionConfirmation } from "@/lib/checkout-confirmation";
+import { env } from "@/lib/env";
 import { getStripe } from "@/lib/stripe/server";
 
 export async function POST(request: Request) {
@@ -54,21 +51,7 @@ export async function POST(request: Request) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
 
-    if (integrations.emailDelivery) {
-      try {
-        await sendPurchaseConfirmationEmail(session);
-      } catch (error) {
-        console.error("Purchase confirmation email failed", error);
-      }
-    }
-
-    if (integrations.emailForwarding) {
-      try {
-        await sendPurchaseOwnerNotificationEmail(session);
-      } catch (error) {
-        console.error("Purchase owner notification email failed", error);
-      }
-    }
+    await processCheckoutSessionConfirmation(session.id, "webhook");
   }
 
   return NextResponse.json({ received: true });

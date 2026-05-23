@@ -9,16 +9,18 @@ const eventCheckoutConfig = {
     successPath: "/checkout/success",
     cancelPath: "/sacred-sounds-under-the-sky",
   },
-  "soothing-sunday-may-17-2026": {
-    name: "Soothing Sunday at Island Kava - May 17, 2026",
-    description: "Ticket for the May 17 gentle stretching, sound bath, and kava gathering.",
-    amountCents: 4500,
+  "golden-hour-summer-solstice-sound-journey": {
+    name: "Golden Hour: A Summer Solstice Sound Journey",
+    description:
+      "Advance ticket for the Wednesday, June 24, 2026 sunset summer solstice sound journey.",
+    amountCents: 3000,
     successPath: "/checkout/success",
-    cancelPath: "/soothing-sunday",
+    cancelPath: "/sacred-sounds-under-the-sky",
   },
   "soothing-sunday-june-14-2026": {
-    name: "Soothing Sunday at Island Kava - June 14, 2026",
-    description: "Ticket for the June 14 gentle stretching, sound bath, and kava gathering.",
+    name: "Soothing Sunday - June 14, 2026",
+    description:
+      "Ticket for the Sunday, June 14, 2026 Soothing Sunday gathering in Lindenhurst.",
     amountCents: 4500,
     successPath: "/checkout/success",
     cancelPath: "/soothing-sunday",
@@ -26,6 +28,7 @@ const eventCheckoutConfig = {
 } as const;
 
 export async function POST(request: Request) {
+  const origin = env.siteUrl.replace(/\/$/, "");
   const formData = await request.formData();
   const eventSlug = String(formData.get("eventSlug") ?? "");
   const event = eventCheckoutConfig[
@@ -33,44 +36,127 @@ export async function POST(request: Request) {
   ];
 
   if (!event || eventSlug === "sacred-sounds-under-the-sky") {
-    return NextResponse.redirect(`${env.siteUrl}/events`, { status: 303 });
+    return NextResponse.redirect(`${origin}/events`, { status: 303 });
   }
 
   if (!integrations.stripe || !env.stripeSecretKey) {
-    return NextResponse.redirect(`${env.siteUrl}${event.cancelPath}`, {
-      status: 303,
-    });
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=stripe_not_configured`,
+      {
+        status: 303,
+      },
+    );
   }
 
-  const body = new URLSearchParams({
-    mode: "payment",
-    "line_items[0][price_data][currency]": "usd",
-    "line_items[0][price_data][unit_amount]": String(event.amountCents),
-    "line_items[0][price_data][product_data][name]": event.name,
-    "line_items[0][price_data][product_data][description]": event.description,
-    "line_items[0][quantity]": "1",
-    success_url: `${env.siteUrl}${event.successPath}`,
-    cancel_url: `${env.siteUrl}${event.cancelPath}`,
-  });
-
-  const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.stripeSecretKey}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body,
-  });
-
-  if (!response.ok) {
-    return NextResponse.redirect(`${env.siteUrl}${event.cancelPath}`, {
-      status: 303,
-    });
+  if (!env.stripePublishableKey) {
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=publishable_key_missing`,
+      {
+        status: 303,
+      },
+    );
   }
 
-  const session = (await response.json()) as { url?: string };
+  if (!env.stripeSecretKey.startsWith("sk_")) {
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=secret_key_invalid`,
+      {
+        status: 303,
+      },
+    );
+  }
 
-  return NextResponse.redirect(session.url ?? `${env.siteUrl}${event.cancelPath}`, {
-    status: 303,
-  });
+  if (
+    !env.stripePublishableKey.startsWith("pk_test_") &&
+    !env.stripePublishableKey.startsWith("pk_live_")
+  ) {
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=publishable_key_invalid`,
+      {
+        status: 303,
+      },
+    );
+  }
+
+  if (
+    env.stripeSecretKey.startsWith("sk_test_") &&
+    !env.stripePublishableKey.startsWith("pk_test_")
+  ) {
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=key_mode_mismatch`,
+      {
+        status: 303,
+      },
+    );
+  }
+
+  if (
+    env.stripeSecretKey.startsWith("sk_live_") &&
+    !env.stripePublishableKey.startsWith("pk_live_")
+  ) {
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=key_mode_mismatch`,
+      {
+        status: 303,
+      },
+    );
+  }
+
+  try {
+    const body = new URLSearchParams({
+      mode: "payment",
+      "line_items[0][price_data][currency]": "usd",
+      "line_items[0][price_data][unit_amount]": String(event.amountCents),
+      "line_items[0][price_data][product_data][name]": event.name,
+      "line_items[0][price_data][product_data][description]": event.description,
+      "line_items[0][quantity]": "1",
+      "metadata[purchaseType]": "event",
+      "metadata[eventSlug]": eventSlug,
+      success_url: `${origin}${event.successPath}?type=event&eventSlug=${encodeURIComponent(
+        eventSlug,
+      )}`,
+      cancel_url: `${origin}/checkout/cancel?type=event&eventSlug=${encodeURIComponent(
+        eventSlug,
+      )}`,
+    });
+
+    const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.stripeSecretKey}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body,
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Stripe event checkout session creation failed", errorText);
+
+      return NextResponse.redirect(
+        `${origin}${event.cancelPath}?checkoutError=stripe_session_failed`,
+        {
+          status: 303,
+        },
+      );
+    }
+
+    const session = (await response.json()) as { url?: string };
+
+    return NextResponse.redirect(
+      session.url ?? `${origin}${event.cancelPath}?checkoutError=session_url_missing`,
+      {
+        status: 303,
+      },
+    );
+  } catch (error) {
+    console.error("Unexpected Stripe event checkout error", error);
+
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=unexpected_error`,
+      {
+        status: 303,
+      },
+    );
+  }
 }

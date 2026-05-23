@@ -110,7 +110,7 @@ export default function SacredSoundsUnderTheSkyPage() {
 
       <section className="overflow-hidden rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(255,249,239,0.95),rgba(239,225,205,0.86)_48%,rgba(206,217,190,0.54))] shadow-[0_28px_90px_rgba(59,41,31,0.12)]">
         <div className="grid gap-0 lg:grid-cols-[1.02fr_0.98fr] lg:items-stretch">
-          <div className="flex flex-col justify-between p-7 sm:p-10 lg:min-h-[38rem]">
+          <div className="flex flex-col gap-8 p-7 sm:p-9 lg:min-h-[31rem]">
             <div>
               <div className="flex flex-wrap gap-2">
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
@@ -152,11 +152,11 @@ export default function SacredSoundsUnderTheSkyPage() {
             </div>
           </div>
 
-          <div className="relative min-h-[24rem] overflow-hidden bg-[#e7dccd] sm:min-h-[32rem] lg:min-h-full">
+          <div className="relative min-h-[22rem] overflow-hidden bg-[#e7dccd] sm:min-h-[28rem] lg:min-h-full">
             <img
               src="/homepage-images/sacred-sounds-outdoor.jpeg"
               alt="Outdoor sound bath setup for a summer solstice sound journey"
-              className="h-full min-h-[24rem] w-full object-cover object-center sm:min-h-[32rem] lg:min-h-full"
+              className="h-full min-h-[22rem] w-full object-cover object-center sm:min-h-[28rem] lg:min-h-full"
             />
             <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(0deg,rgba(47,37,32,0.58),transparent)] p-6 text-[#fffaf5] sm:p-8">
               <p className="max-w-[28rem] text-[1.05rem] font-semibold leading-7">
@@ -193,7 +193,7 @@ export default function SacredSoundsUnderTheSkyPage() {
             Summer Solstice
           </span>
           <h2 className="display-section-title">
-            Meet the threshold of summer with sound, sunset, and intention.
+            Meet the turning of summer with sound, sunset, and intention.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
             Golden Hour is a gentle outdoor ceremony for anyone craving a pause,

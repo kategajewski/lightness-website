@@ -13,6 +13,15 @@ type CheckoutSuccessPageProps = {
 };
 
 const eventContent = {
+  "rise-into-light": {
+    title: "You're booked for Rise into Light.",
+    description:
+      "Your ticket for Rise into Light has been received. You can watch your email for your Stripe receipt and event confirmation.",
+    primaryHref: site.links.riseIntoLight,
+    primaryLabel: "Back to Event Details",
+    secondaryHref: site.links.events,
+    secondaryLabel: "Browse Events",
+  },
   "soothing-sunday-june-14-2026": {
     title: "You're booked for Soothing Sunday.",
     description:

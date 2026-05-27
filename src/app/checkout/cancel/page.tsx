@@ -11,6 +11,10 @@ type CheckoutCancelPageProps = {
 };
 
 const eventCancelContent = {
+  "rise-into-light": {
+    primaryHref: site.links.riseIntoLight,
+    primaryLabel: "Back to Event Details",
+  },
   "soothing-sunday-june-14-2026": {
     primaryHref: "/soothing-sunday",
     primaryLabel: "Back to Soothing Sunday",

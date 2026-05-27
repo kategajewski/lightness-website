@@ -2,6 +2,14 @@ import { NextResponse } from "next/server";
 import { env, integrations } from "@/lib/env";
 
 const eventCheckoutConfig = {
+  "rise-into-light": {
+    name: "Rise into Light",
+    description:
+      "Ticket for Rise into Light, a 75-minute summer solstice yoga and sound journey at The Lightness Grounds.",
+    amountCents: 3000,
+    successPath: "/checkout/success",
+    cancelPath: "/rise-into-light",
+  },
   "golden-hour-summer-solstice-sound-journey": {
     name: "Golden Hour: A Summer Solstice Sound Journey",
     description:

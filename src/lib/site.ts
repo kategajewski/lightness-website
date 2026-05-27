@@ -45,6 +45,7 @@ export const site = {
     meditation: "https://root-and-shield.bethelightness.com/about",
     specialBlessing: "/special-blessing",
     sacredSoundsUnderTheSky: "/sacred-sounds-under-the-sky",
+    riseIntoLight: "/rise-into-light",
     divineRoseFrequencies: "/divine-rose-frequencies",
     rosaries: "/divine-rose-frequencies",
   },

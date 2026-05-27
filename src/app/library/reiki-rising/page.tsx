@@ -53,6 +53,12 @@ const courseWeeks = [
       "Receive the Reiki Level 2 placement and deepen into the Sei He Ki symbol, including its role in emotional healing, harmony, and energetic support.",
     href: "https://drive.google.com/file/d/1W_gWo2Fn6tg2llaEh62OtBTHAgGZHBiU/view?usp=sharing",
   },
+  {
+    title: "Week 8 · May 20, 2026",
+    focus: "The Hon Sha Ze Sho Nen, Healing the Past, Present & Future",
+    summary:
+      "Deepen into the distance healing symbol and explore Reiki support across the past, present, and future.",
+  },
 ] as const;
 
 const downloads = [
@@ -148,14 +154,20 @@ export default async function ReikiRisingLibraryPage() {
                   {week.summary}
                 </p>
                 <div className="mt-5">
-                  <Link
-                    href={week.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="button-pill"
-                  >
-                    Watch Class Replay
-                  </Link>
+                  {"href" in week ? (
+                    <Link
+                      href={week.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="button-pill"
+                    >
+                      Watch Class Replay
+                    </Link>
+                  ) : (
+                    <span className="inline-flex rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,248,242,0.72)] px-5 py-3 text-[0.82rem] font-bold uppercase tracking-[0.12em] text-[var(--color-muted)]">
+                      Replay link coming soon
+                    </span>
+                  )}
                 </div>
               </article>
             ))}

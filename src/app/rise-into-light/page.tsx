@@ -47,7 +47,7 @@ const eventJsonLd = {
   startDate: "2026-06-21",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
-  image: "https://bethelightness.com/homepage-images/sacred-sounds-outdoor.jpeg",
+  image: "https://bethelightness.com/homepage-images/rise-into-light-sound-bowl-cropped.jpeg",
   location: {
     "@type": "Place",
     name: "The Lightness Grounds",
@@ -133,11 +133,11 @@ export default function RiseIntoLightPage() {
             </div>
           </div>
 
-          <div className="relative min-h-[24rem] overflow-hidden bg-[#e7dccd] sm:min-h-[30rem] lg:h-auto">
+          <div className="relative min-h-[24rem] overflow-hidden bg-[#e7dccd] sm:min-h-[30rem] lg:h-[34rem] lg:min-h-0">
             <img
-              src="/homepage-images/sacred-sounds-outdoor.jpeg"
-              alt="Outdoor sound bath setup at The Lightness Grounds"
-              className="h-full min-h-[24rem] w-full object-cover object-center sm:min-h-[30rem]"
+              src="/homepage-images/rise-into-light-sound-bowl-cropped.jpeg"
+              alt="Kate holding a crystal singing bowl in the woods"
+              className="h-full min-h-[24rem] w-full object-cover object-center sm:min-h-[30rem] lg:min-h-0"
             />
             <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(0deg,rgba(47,37,32,0.58),transparent)] p-6 text-[#fffaf5] sm:p-8">
               <p className="max-w-[30rem] text-[1.05rem] font-semibold leading-7">
@@ -171,8 +171,8 @@ export default function RiseIntoLightPage() {
       <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <img
-            src="/homepage-images/events-ceremony-outdoor.jpeg"
-            alt="Outdoor ceremonial gathering setup"
+            src="/homepage-images/rise-into-light-yoga-group.jpeg"
+            alt="Outdoor yoga gathering on the grass under a clear blue sky"
             className="h-full min-h-[24rem] w-full object-cover object-center"
           />
         </div>

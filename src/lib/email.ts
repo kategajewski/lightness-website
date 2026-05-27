@@ -212,7 +212,7 @@ const eventEmailContent = {
       "Your place is confirmed. I'm so glad you'll be joining Rise into Light for this summer solstice yoga and sound journey.",
     detailLines: [
       "Date: Sunday, June 21, 2026",
-      "Time: To be announced",
+      "Time: 8:00 AM",
       "Length: 75 minutes",
       "Location: The Lightness Grounds, corner of Gillette Avenue and Academy Street, Bayport, NY",
       "Refund policy: Refunds are available only if the event is cancelled due to rain.",

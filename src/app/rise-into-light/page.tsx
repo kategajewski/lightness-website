@@ -6,14 +6,13 @@ const details = [
   {
     label: "Date",
     value: "Sun, Jun 21",
-    description:
-      "Summer solstice 2026. The exact gathering time will be announced soon.",
+    description: "Gather at 8:00 AM at The Lightness Grounds in Bayport, NY.",
   },
   {
     label: "Experience",
     value: "75 minutes",
     description:
-      "Gentle yoga, sound bath meditation, and intentional rest to welcome the sun.",
+      "Yoga, sound bath meditation, and intentional rest to welcome the sun.",
   },
   {
     label: "Exchange",
@@ -31,10 +30,9 @@ const bringItems = [
 ] as const;
 
 const goodToKnow = [
-  "This event takes place outdoors at The Lightness Grounds",
-  "The grounds are on the corner of Gillette Avenue and Academy Street in Bayport",
-  "There is no rain date",
-  "Refunds are available only if the event is cancelled due to rain",
+  "Sunday, June 21 at 8:00 AM",
+  "75-minute yoga and sound bath journey",
+  "The Lightness Grounds, corner of Gillette Avenue and Academy Street in Bayport",
   "All levels are welcome",
 ] as const;
 
@@ -44,7 +42,7 @@ const eventJsonLd = {
   name: "Rise into Light",
   description:
     "A 75-minute summer solstice yoga and sound bath meditation to welcome the sun for solstice at The Lightness Grounds in Bayport, NY.",
-  startDate: "2026-06-21",
+  startDate: "2026-06-21T08:00:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
   image: "https://bethelightness.com/homepage-images/rise-into-light-sound-bowl-cropped.jpeg",
@@ -92,6 +90,9 @@ export default function RiseIntoLightPage() {
               <div className="flex flex-wrap gap-2">
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
                   Sunday, June 21
+                </span>
+                <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
+                  8:00 AM
                 </span>
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
                   75 Minutes
@@ -206,12 +207,11 @@ export default function RiseIntoLightPage() {
             Weather & Refunds
           </span>
           <h2 className="display-section-title">
-            No rain date. Refunds only if rain cancels the event.
+            Outdoor event policy.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            Rise into Light is planned as an outdoor solstice gathering. If the
-            event needs to be cancelled because of rain, ticket refunds will be
-            issued. Otherwise, purchases are final.
+            Rise into Light has no rain date. If the event is cancelled due to
+            rain, ticket refunds will be issued. Otherwise, purchases are final.
           </p>
         </div>
         <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">

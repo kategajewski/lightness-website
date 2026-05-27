@@ -21,7 +21,7 @@ const upcomingEvents = [
     description:
       "A 75-minute summer solstice yoga and sound journey to welcome the sun and begin the season with intention.",
     details:
-      "Sunday, June 21, 2026 · Time to be announced · The Lightness Grounds in Bayport · $30",
+      "Sunday, June 21, 2026 · 8:00 AM · The Lightness Grounds in Bayport · $30",
     href: site.links.riseIntoLight,
     cta: "Reserve Your Place",
   },

@@ -105,15 +105,14 @@ export default function RiseIntoLightPage() {
                 Rise into Light.
               </h2>
               <p className="mt-5 max-w-[36rem] text-[1.04rem] leading-8 text-[var(--color-muted)]">
-                A 75-minute yoga and sound bath meditation to welcome the sun
-                for solstice. We will gather outdoors at The Lightness Grounds
-                for gentle movement, breath, deep listening, and a sound journey
-                created to help you arrive in the energy of summer with softness
-                and intention.
+                A 75-minute outdoor yoga and sound bath experience created to
+                welcome the light of the Summer Solstice. Together we&apos;ll move
+                gently, breathe deeply, and settle into an immersive sound
+                journey beneath the open sky.
               </p>
               <p className="mt-4 max-w-[36rem] text-[1.04rem] leading-8 text-[var(--color-muted)]">
-                Come as you are. Let the ground hold you, let the morning of the
-                season open, and let your body remember how to receive light.
+                Come as you are. Let the earth hold you, let the season soften
+                you open, and let your body remember how to receive light.
               </p>
             </div>
 

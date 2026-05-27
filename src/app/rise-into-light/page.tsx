@@ -76,7 +76,7 @@ export default function RiseIntoLightPage() {
     <PageShell
       eyebrow="Summer Solstice Event"
       title="Rise into Light"
-      description="summer solstice yoga and sound journey"
+      description="Summer Solstice Yoga & Sound Journey"
     >
       <script
         type="application/ld+json"

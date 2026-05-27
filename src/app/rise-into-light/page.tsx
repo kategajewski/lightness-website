@@ -194,10 +194,6 @@ export default function RiseIntoLightPage() {
               </div>
             ))}
           </div>
-          <p className="mt-6 max-w-[38rem] text-[var(--color-muted)]">
-            The Lightness Grounds are located on the corner of Gillette Avenue
-            and Academy Street in Bayport, NY.
-          </p>
         </div>
       </section>
 

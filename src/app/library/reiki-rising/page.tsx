@@ -58,6 +58,7 @@ const courseWeeks = [
     focus: "The Hon Sha Ze Sho Nen, Healing the Past, Present & Future",
     summary:
       "Deepen into the distance healing symbol and explore Reiki support across the past, present, and future.",
+    href: "https://drive.google.com/file/d/1CVqEUjbVY5uapzm3eAqFDKm0igESFTRS/view?usp=drive_web",
   },
 ] as const;
 

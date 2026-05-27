@@ -9,8 +9,9 @@
 }
 
 @theme inline {
-  --font-sans: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
-  --font-display: Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-lightness-sans), "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+  --font-display: var(--font-lightness-display), Georgia, "Times New Roman", serif;
+  --font-brand: var(--font-lightness-brand), var(--font-lightness-display), Georgia, "Times New Roman", serif;
 }
 
 * {
@@ -25,7 +26,7 @@ body {
   margin: 0;
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+  font-family: var(--font-lightness-sans), "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
 }
 
 a {
@@ -34,28 +35,37 @@ a {
 }
 
 .font-display {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-lightness-display), Georgia, "Times New Roman", serif;
+  font-weight: 300;
+}
+
+.font-brand {
+  font-family: var(--font-lightness-brand), var(--font-lightness-display), Georgia, "Times New Roman", serif;
+  font-weight: 400;
 }
 
 .display-page-title {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-lightness-display), Georgia, "Times New Roman", serif;
   font-size: clamp(2.8rem, 6vw, 4.6rem);
   line-height: 0.98;
   letter-spacing: 0;
+  font-weight: 300;
 }
 
 .display-section-title {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-lightness-display), Georgia, "Times New Roman", serif;
   font-size: clamp(2rem, 3.6vw, 3rem);
   line-height: 1.02;
   letter-spacing: 0;
+  font-weight: 300;
 }
 
 .display-card-title {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-lightness-display), Georgia, "Times New Roman", serif;
   font-size: clamp(1.7rem, 2.6vw, 2.2rem);
   line-height: 1.04;
   letter-spacing: 0;
+  font-weight: 300;
 }
 
 .button-pill {

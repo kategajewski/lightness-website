@@ -1,15 +1,16 @@
 # The Lightness of Being Brand Guide
 
-Last updated: May 3, 2026
+Last updated: May 25, 2026
 
 ## Typography
 
-The website uses a simple two-font system.
+The website uses a soft three-font system that matches the newer Canva direction.
 
-- Body / navigation / forms: `"Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif`
-- Display headings: `Georgia, "Times New Roman", serif`
+- Body / navigation / forms: `Lato`, with `"Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif` as fallbacks
+- Display headings: `Cormorant Garamond`, with `Georgia, "Times New Roman", serif` as fallbacks
+- Brand accent / wordmark moments: `Belleza`, with `Cormorant Garamond` as fallback
 
-Use the display font for page titles, section titles, testimonial quotes, and moments that should feel more soulful or editorial. Use the body font for navigation, buttons, paragraphs, forms, labels, and practical information.
+Use the display font for page titles, section titles, testimonial quotes, and moments that should feel more soulful or editorial. Use the body font for navigation, buttons, paragraphs, forms, labels, and practical information. Use Belleza sparingly for the site wordmark or small brand accents so the site feels enchanted without becoming overly decorative.
 
 ## Core Colors
 
@@ -53,8 +54,8 @@ Keep using:
 - rounded cards and buttons
 - soft shadows
 - gentle sage, peach, and rose accents
-- Georgia for emotional/editorial emphasis
-- Avenir Next for clarity and ease
+- Cormorant Garamond for emotional/editorial emphasis
+- Belleza for restrained brand accents
+- Lato / Avenir Next for clarity and ease
 
 Avoid introducing strong cool colors, bright white blocks, sharp black text, heavy gradients, or overly modern tech-style typography unless the whole system is being intentionally redesigned.
-

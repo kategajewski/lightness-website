@@ -16,7 +16,7 @@ export function SiteHeader() {
             className="h-11 w-11 rounded-full object-cover opacity-90"
           />
           <span className="flex min-w-0 flex-col gap-0.5">
-            <span className="truncate font-display text-[1.15rem] leading-none tracking-[0.02em] sm:text-[1.45rem] lg:text-[1.9rem]">
+            <span className="truncate font-brand text-[1.15rem] leading-none tracking-[0.02em] sm:text-[1.45rem] lg:text-[1.9rem]">
               {site.name}
             </span>
             <span className="truncate text-[0.62rem] uppercase tracking-[0.18em] text-[var(--color-muted)] sm:text-[0.68rem]">

@@ -16,6 +16,17 @@ const upcomingEvents = [
   },
   {
     isActive: true,
+    eyebrow: "Featured Event",
+    title: "Gallery Reading with Don Schaefer",
+    description:
+      "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
+    details:
+      "Thursday, June 18, 2026 · 7-8:30 PM · Limited to 8 people",
+    href: "/gallery-reading-with-don-schaefer",
+    cta: "View Event Details",
+  },
+  {
+    isActive: true,
     eyebrow: "Summer Solstice",
     title: "Rise into Light",
     description:
@@ -35,17 +46,6 @@ const upcomingEvents = [
       "Wednesday, June 24, 2026 · 7:30 PM · Rain date Thursday, June 25 · $30 advance / $35 day of",
     href: site.links.sacredSoundsUnderTheSky,
     cta: "Reserve Your Place",
-  },
-  {
-    isActive: true,
-    eyebrow: "Featured Event",
-    title: "Gallery Reading with Don Schaefer",
-    description:
-      "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
-    details:
-      "Tuesday, May 26, 2026 · 7-8:30 PM · Limited to 8 people",
-    href: "https://venmo.com/u/donald-schaefer-12",
-    cta: "Register Through Venmo",
   },
 ] as const;
 

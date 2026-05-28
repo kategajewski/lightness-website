@@ -60,6 +60,13 @@ const courseWeeks = [
       "Deepen into the distance healing symbol and explore Reiki support across the past, present, and future.",
     href: "https://drive.google.com/file/d/1CVqEUjbVY5uapzm3eAqFDKm0igESFTRS/view?usp=drive_web",
   },
+  {
+    title: "Week 9 · May 27, 2026",
+    focus: "Grounding Meditation and Break Out Rooms for Practice",
+    summary:
+      "Settle into grounding and shielding meditation, then review the group practice experience from the breakout rooms.",
+    href: "https://drive.google.com/file/d/1XNDhPzVKJDpEdJjCYCwgI4ncSi0R6GkL/view?usp=drive_web",
+  },
 ] as const;
 
 const downloads = [

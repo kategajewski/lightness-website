@@ -22,15 +22,6 @@ const eventContent = {
     secondaryHref: site.links.events,
     secondaryLabel: "Browse Events",
   },
-  "soothing-sunday-june-14-2026": {
-    title: "You're booked for Soothing Sunday.",
-    description:
-      "Your Soothing Sunday ticket has been received. You can watch your email for your Stripe confirmation and any reminders for the June 14 gathering.",
-    primaryHref: "/soothing-sunday",
-    primaryLabel: "Back to Soothing Sunday",
-    secondaryHref: site.links.events,
-    secondaryLabel: "Browse Events",
-  },
   "golden-hour-summer-solstice-sound-journey": {
     title: "You're booked for Golden Hour.",
     description:

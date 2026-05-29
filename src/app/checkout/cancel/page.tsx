@@ -15,10 +15,6 @@ const eventCancelContent = {
     primaryHref: site.links.riseIntoLight,
     primaryLabel: "Back to Event Details",
   },
-  "soothing-sunday-june-14-2026": {
-    primaryHref: "/soothing-sunday",
-    primaryLabel: "Back to Soothing Sunday",
-  },
   "golden-hour-summer-solstice-sound-journey": {
     primaryHref: site.links.sacredSoundsUnderTheSky,
     primaryLabel: "Back to Event Details",

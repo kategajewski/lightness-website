@@ -18,14 +18,6 @@ const eventCheckoutConfig = {
     successPath: "/checkout/success",
     cancelPath: "/sacred-sounds-under-the-sky",
   },
-  "soothing-sunday-june-14-2026": {
-    name: "Soothing Sunday - June 14, 2026",
-    description:
-      "Ticket for the Sunday, June 14, 2026 Soothing Sunday gathering in Lindenhurst.",
-    amountCents: 4500,
-    successPath: "/checkout/success",
-    cancelPath: "/soothing-sunday",
-  },
 } as const;
 
 export async function POST(request: Request) {

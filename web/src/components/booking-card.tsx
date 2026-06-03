@@ -14,12 +14,9 @@ export function BookingCard() {
         {booking.primaryDescription}
       </p>
       <div className="mt-6 flex flex-wrap gap-3">
-        <form action="/api/checkout" method="post">
-          <input type="hidden" name="slug" value="monthly-membership" />
-          <button type="submit" className="button-pill">
-            {booking.primaryLabel}
-          </button>
-        </form>
+        <Link href={booking.primaryHref} className="button-pill">
+          {booking.primaryLabel}
+        </Link>
         {booking.secondaryOptions.map((option) => (
           <Link
             key={option.label}

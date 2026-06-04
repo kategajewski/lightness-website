@@ -67,6 +67,13 @@ const courseWeeks = [
       "Settle into grounding and shielding meditation, then review the group practice experience from the breakout rooms.",
     href: "https://drive.google.com/file/d/1XNDhPzVKJDpEdJjCYCwgI4ncSi0R6GkL/view?usp=drive_web",
   },
+  {
+    title: "Week 10 · June 3, 2026",
+    focus: "Koki-Ho Gyoshi-Ho & Where To Go From Here? Final Class",
+    summary:
+      "Close the Reiki Rising journey with Koki-Ho, Gyoshi-Ho, final class guidance, and support for where to go from here.",
+    href: "https://drive.google.com/file/d/1SdyWu61zo7I61Y8lBS2rItQ5B2Z8hDRM/view?usp=drive_web",
+  },
 ] as const;
 
 const downloads = [

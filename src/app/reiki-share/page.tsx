@@ -15,7 +15,6 @@ const goodToKnow = [
   "The Lightness of Being, 98 Medford Ave, Patchogue, NY 11772",
   "$25 per person",
   "Practitioners only",
-  "Maximum of 7 people",
 ] as const;
 
 const eventJsonLd = {

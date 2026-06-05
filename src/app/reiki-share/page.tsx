@@ -2,24 +2,6 @@ import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { site } from "@/lib/site";
 
-const details = [
-  {
-    label: "Date",
-    value: "Wed, Jul 1",
-    description: "Gather from 7:00-9:00 PM.",
-  },
-  {
-    label: "Exchange",
-    value: "$25",
-    description: "Advance registration through secure Stripe checkout.",
-  },
-  {
-    label: "Space",
-    value: "Max 7",
-    description: "A small gathering for Reiki practitioners only.",
-  },
-] as const;
-
 const gatheringIntentions = [
   "Form community with other Reiki practitioners",
   "Talk all things Reiki in a supportive space",
@@ -130,25 +112,6 @@ export default function ReikiSharePage() {
             className="h-full min-h-[28rem] w-full object-cover object-center"
           />
         </div>
-      </section>
-
-      <section className="grid gap-4 lg:grid-cols-3">
-        {details.map((item) => (
-          <article
-            key={item.label}
-            className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.86)] p-6 shadow-[0_18px_60px_rgba(59,41,31,0.08)]"
-          >
-            <span className="text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-              {item.label}
-            </span>
-            <h3 className="mt-3 font-display text-[2.25rem] leading-none tracking-[0] text-[var(--color-text)]">
-              {item.value}
-            </h3>
-            <p className="mt-4 text-[var(--color-muted)]">
-              {item.description}
-            </p>
-          </article>
-        ))}
       </section>
 
       <section className="grid gap-6 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] lg:grid-cols-[1fr_0.95fr]">

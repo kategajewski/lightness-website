@@ -5,6 +5,17 @@ import { site } from "@/lib/site";
 const upcomingEvents = [
   {
     isActive: true,
+    eyebrow: "Practitioner Gathering",
+    title: "Reiki Share",
+    description:
+      "A small practitioner-only gathering to form community, talk all things Reiki, and share with one another.",
+    details:
+      "Wednesday, July 1, 2026 · 7-9 PM · The Lightness of Being, Patchogue · $25 · Max 7 people",
+    href: site.links.reikiShare,
+    cta: "Reserve Your Spot",
+  },
+  {
+    isActive: true,
     eyebrow: "Featured Event",
     title: "Gallery Reading with Don Schaefer",
     description:

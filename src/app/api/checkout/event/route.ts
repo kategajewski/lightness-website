@@ -18,6 +18,14 @@ const eventCheckoutConfig = {
     successPath: "/checkout/success",
     cancelPath: "/sacred-sounds-under-the-sky",
   },
+  "reiki-share-july-1-2026": {
+    name: "Reiki Share",
+    description:
+      "Ticket for Reiki Share, a practitioner-only community gathering at The Lightness of Being.",
+    amountCents: 2500,
+    successPath: "/checkout/success",
+    cancelPath: "/reiki-share",
+  },
 } as const;
 
 export async function POST(request: Request) {

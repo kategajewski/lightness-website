@@ -46,6 +46,7 @@ export const site = {
     specialBlessing: "/special-blessing",
     sacredSoundsUnderTheSky: "/sacred-sounds-under-the-sky",
     riseIntoLight: "/rise-into-light",
+    reikiShare: "/reiki-share",
     divineRoseFrequencies: "/divine-rose-frequencies",
     rosaries: "/divine-rose-frequencies",
   },

@@ -19,6 +19,10 @@ const eventCancelContent = {
     primaryHref: site.links.sacredSoundsUnderTheSky,
     primaryLabel: "Back to Event Details",
   },
+  "reiki-share-july-1-2026": {
+    primaryHref: site.links.reikiShare,
+    primaryLabel: "Back to Event Details",
+  },
 } as const;
 
 export default async function CheckoutCancelPage({

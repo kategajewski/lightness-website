@@ -31,6 +31,15 @@ const eventContent = {
     secondaryHref: site.links.events,
     secondaryLabel: "Browse Events",
   },
+  "reiki-share-july-1-2026": {
+    title: "You're booked for Reiki Share.",
+    description:
+      "Your Reiki Share ticket has been received. You can watch your email for your Stripe receipt and event confirmation.",
+    primaryHref: site.links.reikiShare,
+    primaryLabel: "Back to Event Details",
+    secondaryHref: site.links.events,
+    secondaryLabel: "Browse Events",
+  },
 } as const;
 
 export default async function CheckoutSuccessPage({

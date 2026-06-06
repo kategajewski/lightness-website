@@ -198,36 +198,6 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
-        <div className="grid gap-0 lg:grid-cols-[0.85fr_1.15fr]">
-          <div className="flex min-h-[18rem] items-center justify-center bg-[linear-gradient(135deg,rgba(255,252,248,0.94),rgba(249,228,219,0.72))] p-8">
-            <div
-              aria-label="Divine Rose Frequency handmade rosaries and sacred adornments mark"
-              className="aspect-square w-full max-w-[11rem] bg-[url('/divine-rose-frequency/divine-rose-frequency-mark.png')] bg-contain bg-center bg-no-repeat"
-              role="img"
-            />
-          </div>
-          <div className="p-8 sm:p-10">
-            <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-              Divine Rose Frequency
-            </span>
-            <h2 className="display-section-title">
-              Custom rose-petal prayer beads and sacred strands.
-            </h2>
-            <p className="mt-4 max-w-[44rem] text-[var(--color-muted)]">
-              Handmade rosaries, malas, and personal prayer strands created
-              from real rose petals and crafted around your intention.
-            </p>
-            <Link
-              href={site.links.divineRoseFrequencies}
-              className="button-pill mt-6"
-            >
-              Start a Custom Order
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <div id="monthly-membership" className="scroll-mt-28">
         <BookingCard />
       </div>

@@ -5,17 +5,6 @@ import { site } from "@/lib/site";
 const upcomingEvents = [
   {
     isActive: true,
-    eyebrow: "Practitioner Gathering",
-    title: "Reiki Share",
-    description:
-      "A small practitioner-only gathering to form community, talk all things Reiki, and share with one another.",
-    details:
-      "Wednesday, July 1, 2026 · 7-9 PM · The Lightness of Being, Patchogue · $25 · Max 7 people",
-    href: site.links.reikiShare,
-    cta: "Reserve Your Spot",
-  },
-  {
-    isActive: true,
     eyebrow: "Featured Event",
     title: "Gallery Reading with Don Schaefer",
     description:
@@ -46,6 +35,17 @@ const upcomingEvents = [
       "Wednesday, June 24, 2026 · 7:30 PM · Rain date Thursday, June 25 · $30 advance / $35 day of",
     href: site.links.sacredSoundsUnderTheSky,
     cta: "Reserve Your Place",
+  },
+  {
+    isActive: true,
+    eyebrow: "Practitioner Gathering",
+    title: "Reiki Share",
+    description:
+      "A small practitioner-only gathering to form community, talk all things Reiki, and share with one another.",
+    details:
+      "Wednesday, July 1, 2026 · 7-9 PM · The Lightness of Being, Patchogue · $25 · Max 7 people",
+    href: site.links.reikiShare,
+    cta: "Reserve Your Spot",
   },
 ] as const;
 

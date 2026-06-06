@@ -141,6 +141,15 @@ export default function AboutPage() {
             </li>
           ))}
         </ul>
+        <div className="mt-8 rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,248,242,0.72)] p-6">
+          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+            Recognition
+          </span>
+          <ul className="grid gap-3 text-[var(--color-text)]">
+            <li>Bethpage Best of Long Island: Best Reiki 2024</li>
+            <li>Four Leaf Best of Long Island: Best Reiki 2025</li>
+          </ul>
+        </div>
       </div>
     </PageShell>
   );

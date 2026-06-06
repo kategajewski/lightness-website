@@ -7,6 +7,7 @@ const credentials = [
   "Holy Fire® III Reiki Master Teacher",
   "Gong and Sound Resonance Teacher & Practitioner",
   "Ordained Minister",
+  "Sacred Rose Rosary & Prayer Bead Artisan",
   "Animal & Pet Reiki Master Teacher",
   "Sekhem Energy Master",
   "Certified & Registered Clinical Hypnotherapist & Regression Therapist",

@@ -18,7 +18,7 @@ const serviceSections = [
           "A 60-minute Reiki and energy healing session to help you pause, soften, and receive support for nervous system regulation, energetic balance, and restoration.",
         pricing:
           "$140, or $130 for Monthly Rest & Reset members. Learn more about the monthly membership below.",
-        membershipHref: "#monthly-membership",
+        membershipHref: site.links.membership,
         href: "https://calendly.com/thelightnessofbeing/restandreceiveenergy",
         cta: "Book Rest & Receive",
       },
@@ -35,7 +35,8 @@ const serviceSections = [
         title: "Gentle Energy Support (for Children)",
         description:
           "A calm and nurturing 30-minute energy healing session designed to support children with emotional balance, relaxation, grounding, and gentle overall well-being.",
-        pricing: "$50.",
+        pricing:
+          "$50. See the full service description through the booking link below.",
         href: "https://calendly.com/thelightnessofbeing/childrensreiki",
         cta: "Book Gentle Energy Support",
       },
@@ -154,7 +155,7 @@ export default function ServicesPage() {
                         {" "}
                         <Link
                           href={service.membershipHref}
-                          className="text-[#5d5148] underline underline-offset-4"
+                          className="font-bold text-[#5d5148] underline decoration-2 underline-offset-4"
                         >
                           View membership details
                         </Link>

@@ -5,6 +5,8 @@ const credentials = [
   "M.A. in Childhood Education",
   "Usui Ryoho Reiki Master Teacher",
   "Holy Fire® III Reiki Master Teacher",
+  "Gong and Sound Resonance Teacher & Practitioner",
+  "Ordained Minister",
   "Animal & Pet Reiki Master Teacher",
   "Sekhem Energy Master",
   "Certified & Registered Clinical Hypnotherapist & Regression Therapist",
@@ -16,8 +18,6 @@ const credentials = [
   "Certified Yin Yoga Instructor",
   "Certified Restorative Yoga Instructor",
   "Certified Dharma Wheel Yoga Instructor",
-  "Gong and Sound Resonance Teacher & Practitioner",
-  "Ordained Minister",
 ] as const;
 
 export default function AboutPage() {
@@ -30,8 +30,8 @@ export default function AboutPage() {
       <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
         <div className="overflow-hidden rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(180deg,rgba(255,250,245,0.96),rgba(243,232,222,0.92))] p-6 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-8">
           <img
-            src="/homepage-images/about-pinkbowlsmile.jpeg"
-            alt="Kate smiling with singing bowls"
+            src="/homepage-images/about-roses-kate-flipped.jpeg"
+            alt="Kate smiling with roses"
             className="block h-auto max-h-[36rem] w-full rounded-[24px] object-contain object-center"
           />
         </div>

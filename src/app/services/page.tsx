@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BookingCard } from "@/components/booking-card";
 import { PageShell } from "@/components/page-shell";
+import { site } from "@/lib/site";
 
 const serviceSections = [
   {
@@ -15,6 +16,9 @@ const serviceSections = [
         title: "Rest & Receive",
         description:
           "A 60-minute Reiki and energy healing session to help you pause, soften, and receive support for nervous system regulation, energetic balance, and restoration.",
+        pricing:
+          "$140, or $130 for Monthly Rest & Reset members. Learn more about the monthly membership below.",
+        membershipHref: "#monthly-membership",
         href: "https://calendly.com/thelightnessofbeing/restandreceiveenergy",
         cta: "Book Rest & Receive",
       },
@@ -22,6 +26,8 @@ const serviceSections = [
         title: "Return to Self: Sacred Reset",
         description:
           "A two-hour guided healing experience that blends spiritual guidance, life coaching, Holy Fire healing, and Reiki to help you release, realign, and return to yourself.",
+        pricing:
+          "$250, with a discounted rate available when purchased as a package. See the full service description through the booking link below.",
         href: "https://calendly.com/thelightnessofbeing/sacredreset",
         cta: "Book Sacred Reset",
       },
@@ -29,6 +35,7 @@ const serviceSections = [
         title: "Gentle Energy Support (for Children)",
         description:
           "A calm and nurturing 30-minute energy healing session designed to support children with emotional balance, relaxation, grounding, and gentle overall well-being.",
+        pricing: "$50.",
         href: "https://calendly.com/thelightnessofbeing/childrensreiki",
         cta: "Book Gentle Energy Support",
       },
@@ -47,6 +54,8 @@ const serviceSections = [
         title: "The Inner Journey",
         description:
           "A guided hypnotherapy and regression session designed to help you explore the subconscious, uncover root patterns, and support deep inner healing and recalibration.",
+        pricing:
+          "Starts at $150. See the full service description through the booking link below.",
         href: "https://calendly.com/thelightnessofbeing/innerjourney",
         cta: "Book The Inner Journey",
       },
@@ -65,6 +74,8 @@ const serviceSections = [
         title: "Private Sound Immersion",
         description:
           "A private sound healing experience using crystal bowls, gong, chimes, and other instruments to calm the nervous system, support energetic release, and invite deep restoration.",
+        pricing:
+          "Starts at $150. See the full service description through the booking link below.",
         href: "https://calendly.com/thelightnessofbeing/private-sound-healing",
         cta: "Book Sound Immersion",
       },
@@ -83,6 +94,8 @@ const serviceSections = [
         title: "Personalized Guidance",
         description:
           "A one-on-one session for clarity, direction, and grounded support through coaching, Reiki mentorship, or sound guidance.",
+        pricing:
+          "$150, with a discounted rate for former students. Read more through the booking link below.",
         href: "https://calendly.com/thelightnessofbeing/mentorship",
         cta: "Book Personalized Guidance",
       },
@@ -134,6 +147,20 @@ export default function ServicesPage() {
                   <p className="mb-5 mt-3 text-[var(--color-muted)]">
                     {service.description}
                   </p>
+                  <p className="mb-5 rounded-[18px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.66)] p-4 text-sm font-semibold leading-6 text-[var(--color-text)]">
+                    {service.pricing}
+                    {"membershipHref" in service ? (
+                      <>
+                        {" "}
+                        <Link
+                          href={service.membershipHref}
+                          className="text-[#5d5148] underline underline-offset-4"
+                        >
+                          View membership details
+                        </Link>
+                      </>
+                    ) : null}
+                  </p>
                   <Link href={service.href} className="font-bold text-[#5d5148]">
                     {service.cta}
                   </Link>
@@ -170,7 +197,39 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <BookingCard />
+      <section className="overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
+        <div className="grid gap-0 lg:grid-cols-[0.85fr_1.15fr]">
+          <div className="flex min-h-[18rem] items-center justify-center bg-[linear-gradient(135deg,rgba(255,252,248,0.94),rgba(249,228,219,0.72))] p-8">
+            <div
+              aria-label="Divine Rose Frequency handmade rosaries and sacred adornments mark"
+              className="aspect-square w-full max-w-[11rem] bg-[url('/divine-rose-frequency/divine-rose-frequency-mark.png')] bg-contain bg-center bg-no-repeat"
+              role="img"
+            />
+          </div>
+          <div className="p-8 sm:p-10">
+            <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+              Divine Rose Frequency
+            </span>
+            <h2 className="display-section-title">
+              Custom rose-petal prayer beads and sacred strands.
+            </h2>
+            <p className="mt-4 max-w-[44rem] text-[var(--color-muted)]">
+              Handmade rosaries, malas, and personal prayer strands created
+              from real rose petals and crafted around your intention.
+            </p>
+            <Link
+              href={site.links.divineRoseFrequencies}
+              className="button-pill mt-6"
+            >
+              Start a Custom Order
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <div id="monthly-membership" className="scroll-mt-28">
+        <BookingCard />
+      </div>
     </PageShell>
   );
 }

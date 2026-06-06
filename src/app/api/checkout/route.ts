@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     "metadata[optionKey]": selectedOption?.key ?? "",
     success_url: `${origin}/checkout/success?type=offer&slug=${encodeURIComponent(
       offer.slug,
-    )}`,
+    )}&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/checkout/cancel?type=offer&slug=${encodeURIComponent(
       offer.slug,
     )}`,

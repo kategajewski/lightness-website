@@ -50,12 +50,17 @@ function createTransport() {
   });
 }
 
+function canSendGmailEmail() {
+  return (
+    Boolean(env.gmailAuthUser || env.emailFrom) &&
+    Boolean(env.gmailAppPassword)
+  );
+}
+
 function canSendWebsiteEmail() {
   return (
     Boolean(env.emailFrom) &&
-    (Boolean(env.resendApiKey) ||
-      (Boolean(env.gmailAuthUser || env.emailFrom) &&
-        Boolean(env.gmailAppPassword)))
+    (Boolean(env.resendApiKey) || canSendGmailEmail())
   );
 }
 
@@ -70,32 +75,40 @@ function getOwnerNotificationRecipients() {
 
 async function sendWebsiteEmail(input: WebsiteEmailInput) {
   if (env.resendApiKey) {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${env.resendApiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: input.from,
-        to: input.to,
-        reply_to: input.replyTo,
-        subject: input.subject,
-        text: input.text,
-        html: input.html,
-        attachments: input.attachments?.map((attachment) => ({
-          filename: attachment.filename,
-          content: attachment.content.toString("base64"),
-        })),
-      }),
-    });
+    try {
+      const response = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${env.resendApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: input.from,
+          to: input.to,
+          reply_to: input.replyTo,
+          subject: input.subject,
+          text: input.text,
+          html: input.html,
+          attachments: input.attachments?.map((attachment) => ({
+            filename: attachment.filename,
+            content: attachment.content.toString("base64"),
+          })),
+        }),
+      });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Resend email failed: ${response.status} ${errorText}`);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Resend email failed: ${response.status} ${errorText}`);
+      }
+
+      return;
+    } catch (error) {
+      if (!canSendGmailEmail()) {
+        throw error;
+      }
+
+      console.error("Resend email failed; falling back to Gmail", error);
     }
-
-    return;
   }
 
   const transporter = createTransport();

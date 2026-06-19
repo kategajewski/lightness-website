@@ -1,40 +1,12 @@
 import { NextResponse } from "next/server";
 import { env, integrations } from "@/lib/env";
-
-const eventCheckoutConfig = {
-  "rise-into-light": {
-    name: "Rise into Light",
-    description:
-      "Ticket for Rise into Light, a 75-minute summer solstice yoga and sound journey at The Lightness Grounds.",
-    amountCents: 3000,
-    successPath: "/checkout/success",
-    cancelPath: "/rise-into-light",
-  },
-  "golden-hour-summer-solstice-sound-journey": {
-    name: "Golden Hour: A Summer Solstice Sound Journey",
-    description:
-      "Advance ticket for the Wednesday, June 24, 2026 sunset summer solstice sound journey.",
-    amountCents: 3000,
-    successPath: "/checkout/success",
-    cancelPath: "/sacred-sounds-under-the-sky",
-  },
-  "reiki-share-july-1-2026": {
-    name: "Reiki Share",
-    description:
-      "Ticket for Reiki Share, a practitioner-only community gathering at The Lightness of Being.",
-    amountCents: 2500,
-    successPath: "/checkout/success",
-    cancelPath: "/reiki-share",
-  },
-} as const;
+import { getEventBySlug } from "@/lib/events";
 
 export async function POST(request: Request) {
   const origin = env.siteUrl.replace(/\/$/, "");
   const formData = await request.formData();
   const eventSlug = String(formData.get("eventSlug") ?? "");
-  const event = eventCheckoutConfig[
-    eventSlug as keyof typeof eventCheckoutConfig
-  ];
+  const event = getEventBySlug(eventSlug);
 
   if (!event) {
     return NextResponse.redirect(`${origin}/events`, { status: 303 });

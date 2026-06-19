@@ -2,6 +2,7 @@ import Link from "next/link";
 import { signOutAction } from "@/app/login/actions";
 import { PageShell } from "@/components/page-shell";
 import { getCurrentUserWithAccess, hasActiveAccess } from "@/lib/member-access";
+import { isAdminEmail } from "@/lib/site";
 
 const portalSpaces = [
   {
@@ -32,6 +33,7 @@ const portalSpaces = [
 
 export default async function AccountPage() {
   const { user, accessRows } = await getCurrentUserWithAccess();
+  const isAdmin = isAdminEmail(user?.email);
 
   return (
     <PageShell
@@ -76,6 +78,25 @@ export default async function AccountPage() {
           </div>
         </section>
       )}
+
+      {isAdmin ? (
+        <section className="rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
+          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+            Admin Tools
+          </span>
+          <h2 className="display-section-title">
+            Keep track of website activity.
+          </h2>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/event-attendance" className="button-pill">
+              Event Attendance
+            </Link>
+            <Link href="/inquiries" className="button-pill">
+              Website Inquiries
+            </Link>
+          </div>
+        </section>
+      ) : null}
 
       <section className="rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">

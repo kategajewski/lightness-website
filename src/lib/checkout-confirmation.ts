@@ -5,6 +5,7 @@ import {
   sendPurchaseConfirmationEmail,
   sendPurchaseOwnerNotificationEmail,
 } from "@/lib/email";
+import { recordEventAttendanceFromSession } from "@/lib/event-attendance";
 import { integrations } from "@/lib/env";
 import { getStripe } from "@/lib/stripe/server";
 
@@ -53,6 +54,10 @@ export async function processCheckoutSessionConfirmation(
 
   const metadata = session.metadata ?? {};
   const metadataUpdates: Stripe.MetadataParam = {};
+
+  if (metadata.purchaseType === "event") {
+    await recordEventAttendanceFromSession(session);
+  }
 
   if (integrations.emailDelivery) {
     if (metadata[CUSTOMER_EMAIL_SENT_KEY]) {

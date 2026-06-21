@@ -65,7 +65,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative min-h-[540px] overflow-hidden rounded-[28px] bg-[linear-gradient(180deg,rgba(88,72,62,0.1),rgba(88,72,62,0.24)),url('/homepage-images/hero-img-0509.jpeg')] bg-cover bg-center shadow-[0_24px_80px_rgba(59,41,31,0.08)] max-md:min-h-[340px] sm:rounded-[34px]">
+          <div className="relative min-h-[540px] overflow-hidden rounded-[28px] bg-[linear-gradient(180deg,rgba(88,72,62,0.1),rgba(88,72,62,0.24)),url('/homepage-images/hero-img-0509.jpeg')] bg-cover bg-[position:80%_center] shadow-[0_24px_80px_rgba(59,41,31,0.08)] max-md:min-h-[340px] sm:rounded-[34px]">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,247,240,0.3),_transparent_30%),linear-gradient(180deg,rgba(255,251,247,0.06),rgba(62,46,38,0.28))]" />
           </div>
         </div>

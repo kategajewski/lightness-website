@@ -5,7 +5,7 @@ import { site } from "@/lib/site";
 const eventDetails = [
   {
     label: "Date",
-    value: "Thursday, June 18",
+    value: "Tuesday, July 14",
     description: "Gather from 7:00-8:30 PM.",
   },
   {
@@ -18,6 +18,11 @@ const eventDetails = [
     value: "Limited to 8",
     description: "A small, intimate group setting.",
   },
+  {
+    label: "Payment",
+    value: "No refunds",
+    description: "All event payments are final and non-refundable.",
+  },
 ] as const;
 
 const eventJsonLd = {
@@ -26,8 +31,8 @@ const eventJsonLd = {
   name: "Gallery Reading with Don Schaefer",
   description:
     "An intimate group mediumship reading with evidential psychic medium Don Schaefer at The Lightness of Being in Patchogue.",
-  startDate: "2026-06-18T19:00:00-04:00",
-  endDate: "2026-06-18T20:30:00-04:00",
+  startDate: "2026-07-14T19:00:00-04:00",
+  endDate: "2026-07-14T20:30:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
   location: {

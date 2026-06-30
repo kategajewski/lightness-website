@@ -34,6 +34,7 @@ const goodToKnow = [
   "75-minute yoga and sound bath journey",
   "The Lightness Grounds, corner of Gillette Avenue and Academy Street in Bayport",
   "All levels are welcome",
+  "All purchases are final and non-refundable",
 ] as const;
 
 const eventJsonLd = {
@@ -206,8 +207,8 @@ export default function RiseIntoLightPage() {
             Outdoor event policy.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            Rise into Light has no rain date. If the event is cancelled due to
-            rain, ticket refunds will be issued. Otherwise, purchases are final.
+            Rise into Light has no rain date. All purchases are final and
+            non-refundable.
           </p>
         </div>
         <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">

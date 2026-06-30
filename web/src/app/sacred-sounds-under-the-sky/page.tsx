@@ -5,15 +5,15 @@ import { site } from "@/lib/site";
 const details = [
   {
     label: "Date",
-    value: "Wed, Jun 24",
+    value: "Tue, Jul 28",
     description:
       "Arrive as the day begins to soften, 7:30 PM at The Lightness Grounds in Bayport, NY.",
   },
   {
     label: "Rain Date",
-    value: "Thu, Jun 25",
+    value: "Wed, Jul 29",
     description:
-      "If the sky asks us to wait, we will gather the following evening at the same time.",
+      "If weather shifts the event, tickets move to the rain date and remain non-refundable.",
   },
   {
     label: "Exchange",
@@ -34,19 +34,20 @@ const goodToKnow = [
   "No previous sound bath experience is needed",
   "The Lightness Grounds is on the corner of Gillette Avenue and Academy Street",
   "No bathroom facilities are available on site",
-  "If weather shifts, the rain date is Thursday, June 25 at 7:30 PM",
+  "If weather shifts the event, tickets move to Wednesday, July 29 at 7:30 PM",
+  "Tickets are non-refundable",
 ] as const;
 
 const eventJsonLd = {
   "@context": "https://schema.org",
   "@type": "Event",
-  name: "Golden Hour: A Summer Solstice Sound Journey",
+  name: "Golden Hour: An Outdoor Sound Journey",
   description:
-    "A welcoming sunset ceremony to honor the turning of the season with sound, stillness, and open-air rest at The Lightness Grounds in Bayport, NY.",
-  startDate: "2026-06-24T19:30:00-04:00",
+    "A welcoming sunset sound journey with stillness and open-air rest at The Lightness Grounds in Bayport, NY.",
+  startDate: "2026-07-28T19:30:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
-  image: "https://bethelightness.com/homepage-images/sacred-sounds-outdoor.jpeg",
+  image: "https://bethelightness.com/homepage-images/golden-hour-july-kate.jpeg",
   location: {
     "@type": "Place",
     name: "The Lightness Grounds",
@@ -71,8 +72,8 @@ export default function SacredSoundsUnderTheSkyPage() {
   return (
     <PageShell
       eyebrow="Outdoor Sound Bath"
-      title="Golden Hour: A Summer Solstice Sound Journey"
-      description="A sunset ceremony to honor the turning of the season, soften into summer, and let sound carry you home to yourself."
+      title="Golden Hour: An Outdoor Sound Journey"
+      description="A sunset ceremony to soften into the evening, receive sound beneath the open sky, and let the day unwind."
     >
       <script
         type="application/ld+json"
@@ -85,7 +86,7 @@ export default function SacredSoundsUnderTheSkyPage() {
             <div>
               <div className="flex flex-wrap gap-2">
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
-                  Wednesday, June 24
+                  Tuesday, July 28
                 </span>
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
                   7:30 PM
@@ -99,14 +100,12 @@ export default function SacredSoundsUnderTheSkyPage() {
                 Golden Hour.
               </h2>
               <p className="mt-5 max-w-[36rem] text-[1.04rem] leading-8 text-[var(--color-muted)]">
-                Come gather at golden hour, as the day softens and the season
-                begins to turn. This summer solstice sound journey is an
-                invitation to slow down, breathe with the evening air, and be
+                Come gather at golden hour, as the day softens and the evening
+                light begins to settle. This outdoor sound journey is an
+                invitation to slow down, breathe with the summer air, and be
                 held by crystal bowls, gong, chimes, and the open sky. Golden
-                Hour is a gentle outdoor ceremony for anyone craving a pause, a
-                breath, and a little space to be with what is changing. Come as
-                you are, let the day unwind, and allow the evening light to hold
-                the transition with you.
+                Hour is a gentle ceremony for anyone craving a pause, a breath,
+                and a little space to let the day unwind.
               </p>
             </div>
 
@@ -115,7 +114,7 @@ export default function SacredSoundsUnderTheSkyPage() {
                 <input
                   type="hidden"
                   name="eventSlug"
-                  value="golden-hour-summer-solstice-sound-journey"
+                  value="golden-hour-july-28-2026"
                 />
                 <button type="submit" className="button-pill">
                   Reserve Your Place
@@ -129,9 +128,9 @@ export default function SacredSoundsUnderTheSkyPage() {
 
           <div className="relative min-h-[22rem] overflow-hidden bg-[#e7dccd] sm:min-h-[28rem] lg:h-[30rem] lg:min-h-0">
             <img
-              src="/homepage-images/sacred-sounds-outdoor.jpeg"
-              alt="Outdoor sound bath setup for a summer solstice sound journey"
-              className="h-full min-h-[22rem] w-full object-cover object-center sm:min-h-[28rem] lg:min-h-0"
+              src="/homepage-images/golden-hour-july-kate.jpeg"
+              alt="Kate leading a golden hour sound bath outdoors"
+              className="h-full min-h-[22rem] w-full object-cover object-[center_60%] sm:min-h-[28rem] lg:min-h-0"
             />
             <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(0deg,rgba(47,37,32,0.58),transparent)] p-6 text-[#fffaf5] sm:p-8">
               <p className="max-w-[28rem] text-[1.05rem] font-semibold leading-7">
@@ -165,8 +164,8 @@ export default function SacredSoundsUnderTheSkyPage() {
       <section className="grid gap-6 lg:grid-cols-[0.88fr_1.12fr]">
         <div className="overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <img
-            src="/homepage-images/events-ceremony-outdoor.jpeg"
-            alt="Outdoor ceremony setup in nature"
+            src="/homepage-images/golden-hour-july-sun.jpeg"
+            alt="Golden hour sound bath setup beneath the evening sun"
             className="h-full min-h-[24rem] w-full object-cover object-center"
           />
         </div>
@@ -206,8 +205,9 @@ export default function SacredSoundsUnderTheSkyPage() {
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
             Advance tickets are $30. If space remains, day-of tickets are $35.
-            If weather asks us to shift, the rain date will be Thursday, June
-            25 at 7:30 PM.
+            If weather asks us to shift, the rain date will be Wednesday, July
+            29 at 7:30 PM. Tickets are non-refundable and will move to the rain
+            date if needed.
           </p>
         </div>
         <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">

@@ -228,11 +228,11 @@ const eventEmailContent = {
       "Time: 8:00 AM",
       "Length: 75 minutes",
       "Location: The Lightness Grounds, corner of Gillette Avenue and Academy Street, Bayport, NY",
-      "Refund policy: Refunds are available only if the event is cancelled due to rain.",
+      "Refund policy: All purchases are final and non-refundable.",
     ],
     reminderLines: [
       "Please bring a yoga mat, blanket, water, and anything that helps you feel comfortable outdoors.",
-      "There is no rain date for this event. If rain cancels the gathering, your ticket will be refunded.",
+      "There is no rain date for this event. All purchases are final and non-refundable.",
     ],
     href: `${env.siteUrl}${site.links.riseIntoLight}`,
     hrefLabel: "View event details",
@@ -251,6 +251,26 @@ const eventEmailContent = {
     reminderLines: [
       "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy, settled, and supported.",
       "This is a fully outdoor gathering and there are no bathroom facilities on site.",
+      "If weather shifts the event, tickets move to the rain date and remain non-refundable.",
+    ],
+    href: `${env.siteUrl}${site.links.sacredSoundsUnderTheSky}`,
+    hrefLabel: "View event details",
+  },
+  "golden-hour-july-28-2026": {
+    title: "Golden Hour: An Outdoor Sound Journey",
+    intro:
+      "Your place is confirmed. I'm so glad you'll be joining this golden-hour outdoor sound journey.",
+    detailLines: [
+      "Date: Tuesday, July 28, 2026",
+      "Time: 7:30 PM",
+      "Location: The Lightness Grounds, Bayport, NY",
+      "Rain date: Wednesday, July 29, 2026 at 7:30 PM",
+      "Day-of tickets: $35 if space is still available",
+    ],
+    reminderLines: [
+      "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy, settled, and supported.",
+      "This is a fully outdoor gathering and there are no bathroom facilities on site.",
+      "If weather shifts the event, tickets move to the rain date and remain non-refundable.",
     ],
     href: `${env.siteUrl}${site.links.sacredSoundsUnderTheSky}`,
     hrefLabel: "View event details",
@@ -269,8 +289,46 @@ const eventEmailContent = {
     reminderLines: [
       "We will gather to form community, talk all things Reiki, and share practice with one another.",
       "Please come as you are, ready to connect, practice, and receive.",
+      "All purchases are final and non-refundable.",
+    ],
+    href: `${env.siteUrl}${site.links.reikiShareJuly}`,
+    hrefLabel: "View event details",
+  },
+  "reiki-share-august-6-2026": {
+    title: "Reiki Share",
+    intro:
+      "Your place is confirmed. I'm so glad you'll be joining Reiki Share.",
+    detailLines: [
+      "Date: Thursday, August 6, 2026",
+      "Time: 7:00-9:00 PM",
+      "Location: The Lightness of Being, 98 Medford Ave, Patchogue, NY 11772",
+      "This gathering is for Reiki practitioners only.",
+      "Space is limited to 7 people.",
+    ],
+    reminderLines: [
+      "We will gather to form community, talk all things Reiki, and share practice with one another.",
+      "Please come as you are, ready to connect, practice, and receive.",
+      "All purchases are final and non-refundable.",
     ],
     href: `${env.siteUrl}${site.links.reikiShare}`,
+    hrefLabel: "View event details",
+  },
+  "the-weekend-reset-july-11-2026": {
+    title: "The Weekend Reset",
+    intro:
+      "Your place is confirmed. I'm so glad you'll be joining The Weekend Reset for this gentle morning of yoga and sound healing.",
+    detailLines: [
+      "Date: Saturday, July 11, 2026",
+      "Time: 8:00-9:15 AM",
+      "Length: 75 minutes",
+      "Location: The Lightness Grounds, corner of Gillette Avenue and Academy Street, Bayport, NY",
+      "Rain date: Sunday, July 12, 2026",
+    ],
+    reminderLines: [
+      "Please bring a yoga mat, blanket, water, and anything that helps you feel comfortable outdoors.",
+      "If rain moves the gathering, tickets move to the Sunday, July 12, 2026 rain date and remain non-refundable.",
+    ],
+    href: `${env.siteUrl}${site.links.theWeekendReset}`,
     hrefLabel: "View event details",
   },
   "soothing-sunday-may-17-2026": {

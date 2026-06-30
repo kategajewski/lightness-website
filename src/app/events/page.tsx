@@ -5,36 +5,55 @@ import { site } from "@/lib/site";
 const upcomingEvents = [
   {
     isActive: true,
+    eyebrow: "Practitioner Gathering",
+    title: "Reiki Share",
+    description:
+      "A small practitioner-only gathering to form community, talk all things Reiki, and share with one another.",
+    details:
+      "Wednesday, July 1, 2026 · 7-9 PM · The Lightness of Being, Patchogue · $25 · Max 7 people",
+    href: site.links.reikiShareJuly,
+    cta: "Reserve Your Spot",
+    cardClass:
+      "border-[rgba(168,178,159,0.64)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(168,178,159,0.38))]",
+  },
+  {
+    isActive: true,
+    eyebrow: "Outdoor Morning Practice",
+    title: "The Weekend Reset",
+    description:
+      "A morning of gentle yoga and sound healing to help you reconnect with yourself before the week ahead.",
+    details:
+      "Saturday, July 11, 2026 · 8:00-9:15 AM · Rain date Sunday, July 12 · The Lightness Grounds in Bayport · $30",
+    href: site.links.theWeekendReset,
+    cta: "Reserve Your Place",
+    cardClass:
+      "border-[rgba(230,194,162,0.58)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.34)_46%,rgba(168,178,159,0.26))]",
+  },
+  {
+    isActive: true,
     eyebrow: "Featured Event",
     title: "Gallery Reading with Don Schaefer",
     description:
       "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
     details:
-      "Thursday, June 18, 2026 · 7-8:30 PM · Limited to 8 people",
+      "Tuesday, July 14, 2026 · 7-8:30 PM · Limited to 8 people",
     href: "/gallery-reading-with-don-schaefer",
     cta: "View Event Details",
+    cardClass:
+      "border-[rgba(201,167,156,0.6)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(201,167,156,0.34))]",
   },
   {
     isActive: true,
-    eyebrow: "Summer Solstice",
-    title: "Rise into Light",
+    eyebrow: "Outdoor Sound Bath",
+    title: "Golden Hour: An Outdoor Sound Journey",
     description:
-      "A 75-minute summer solstice yoga and sound journey to welcome the sun and begin the season with intention.",
+      "A welcoming sunset ceremony to soften into the evening with sound, stillness, and open-sky rest.",
     details:
-      "Sunday, June 21, 2026 · 8:00 AM · The Lightness Grounds in Bayport · $30",
-    href: site.links.riseIntoLight,
-    cta: "Reserve Your Place",
-  },
-  {
-    isActive: true,
-    eyebrow: "Summer Solstice",
-    title: "Golden Hour: A Summer Solstice Sound Journey",
-    description:
-      "A welcoming sunset ceremony to soften into summer with sound, stillness, and open-sky rest.",
-    details:
-      "Wednesday, June 24, 2026 · 7:30 PM · Rain date Thursday, June 25 · $30 advance / $35 day of",
+      "Tuesday, July 28, 2026 · 7:30 PM · Rain date Wednesday, July 29 · $30 advance / $35 day of",
     href: site.links.sacredSoundsUnderTheSky,
     cta: "Reserve Your Place",
+    cardClass:
+      "border-[rgba(230,194,162,0.64)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.42)_54%,rgba(201,167,156,0.26))]",
   },
   {
     isActive: true,
@@ -43,9 +62,24 @@ const upcomingEvents = [
     description:
       "A small practitioner-only gathering to form community, talk all things Reiki, and share with one another.",
     details:
-      "Wednesday, July 1, 2026 · 7-9 PM · The Lightness of Being, Patchogue · $25 · Max 7 people",
+      "Thursday, August 6, 2026 · 7-9 PM · The Lightness of Being, Patchogue · $25 · Max 7 people",
     href: site.links.reikiShare,
     cta: "Reserve Your Spot",
+    cardClass:
+      "border-[rgba(168,178,159,0.68)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(168,178,159,0.28)_40%,rgba(201,167,156,0.22))]",
+  },
+  {
+    isActive: false,
+    eyebrow: "Past Event",
+    title: "Rise into Light",
+    description:
+      "A 75-minute summer solstice yoga and sound journey to welcome the sun and begin the season with intention.",
+    details:
+      "Sunday, June 21, 2026 · 8:00 AM · The Lightness Grounds in Bayport · $30",
+    href: site.links.riseIntoLight,
+    cta: "Reserve Your Place",
+    cardClass:
+      "border-[rgba(230,194,162,0.52)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.32))]",
   },
 ] as const;
 
@@ -132,7 +166,7 @@ export default function EventsPage() {
         {visibleUpcomingEvents.map((item) => (
           <article
             key={item.title}
-            className="rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(180deg,rgba(249,244,237,0.9),rgba(243,234,224,0.95))] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
+            className={`rounded-[26px] border p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)] ${item.cardClass}`}
           >
             <span className="mb-3 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               {item.eyebrow}

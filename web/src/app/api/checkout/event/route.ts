@@ -5,7 +5,15 @@ const eventCheckoutConfig = {
   "reiki-share-july-1-2026": {
     name: "Reiki Share",
     description:
-      "Ticket for Reiki Share, a practitioner-only community gathering at The Lightness of Being.",
+      "Ticket for Reiki Share, a practitioner-only community gathering at The Lightness of Being. All purchases are final and non-refundable.",
+    amountCents: 2500,
+    successPath: "/checkout/success",
+    cancelPath: "/reiki-share-july-1",
+  },
+  "reiki-share-august-6-2026": {
+    name: "Reiki Share",
+    description:
+      "Ticket for Reiki Share, a practitioner-only community gathering at The Lightness of Being. All purchases are final and non-refundable.",
     amountCents: 2500,
     successPath: "/checkout/success",
     cancelPath: "/reiki-share",
@@ -13,10 +21,26 @@ const eventCheckoutConfig = {
   "golden-hour-summer-solstice-sound-journey": {
     name: "Golden Hour: A Summer Solstice Sound Journey",
     description:
-      "Advance ticket for the Wednesday, June 24, 2026 sunset summer solstice sound journey.",
+      "Advance ticket for the Wednesday, June 24, 2026 sunset summer solstice sound journey. Tickets move to the rain date if needed and are non-refundable.",
     amountCents: 3000,
     successPath: "/checkout/success",
     cancelPath: "/sacred-sounds-under-the-sky",
+  },
+  "golden-hour-july-28-2026": {
+    name: "Golden Hour: An Outdoor Sound Journey",
+    description:
+      "Advance ticket for the Tuesday, July 28, 2026 golden hour outdoor sound journey. Tickets move to the rain date if needed and are non-refundable.",
+    amountCents: 3000,
+    successPath: "/checkout/success",
+    cancelPath: "/sacred-sounds-under-the-sky",
+  },
+  "the-weekend-reset-july-11-2026": {
+    name: "The Weekend Reset",
+    description:
+      "Ticket for The Weekend Reset, a 75-minute outdoor gentle yoga and sound bath experience at The Lightness Grounds. Tickets move to the rain date if needed and are non-refundable.",
+    amountCents: 3000,
+    successPath: "/checkout/success",
+    cancelPath: "/the-weekend-reset",
   },
 } as const;
 

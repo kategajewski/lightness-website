@@ -10,12 +10,49 @@ const gatheringIntentions = [
 ] as const;
 
 const goodToKnow = [
-  "Wednesday, July 1, 2026",
+  "Thursday, August 6, 2026",
   "7:00-9:00 PM",
   "The Lightness of Being, 98 Medford Ave, Patchogue, NY 11772",
   "$25 per person",
   "Practitioners only",
+  "All purchases are final and non-refundable",
 ] as const;
+
+const eventJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  name: "Reiki Share",
+  description:
+    "A practitioner-only Reiki gathering to form community, talk all things Reiki, and share practice with one another at The Lightness of Being in Patchogue.",
+  startDate: "2026-08-06T19:00:00-04:00",
+  endDate: "2026-08-06T21:00:00-04:00",
+  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  eventStatus: "https://schema.org/EventScheduled",
+  location: {
+    "@type": "Place",
+    name: "The Lightness of Being",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "98 Medford Ave",
+      addressLocality: "Patchogue",
+      addressRegion: "NY",
+      postalCode: "11772",
+      addressCountry: "US",
+    },
+  },
+  organizer: {
+    "@type": "Organization",
+    name: site.name,
+    url: "https://bethelightness.com",
+  },
+  offers: {
+    "@type": "Offer",
+    price: "25",
+    priceCurrency: "USD",
+    availability: "https://schema.org/LimitedAvailability",
+    url: "https://bethelightness.com/reiki-share",
+  },
+};
 
 export default function ReikiSharePage() {
   return (
@@ -24,6 +61,11 @@ export default function ReikiSharePage() {
       title="Reiki Share"
       description="A small Reiki practitioner gathering to form community, talk all things Reiki, and share with one another."
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd) }}
+      />
+
       <section className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
         <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(255,250,244,0.95),rgba(241,231,220,0.92))] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
@@ -48,7 +90,7 @@ export default function ReikiSharePage() {
               <input
                 type="hidden"
                 name="eventSlug"
-                value="reiki-share-july-1-2026"
+                value="reiki-share-august-6-2026"
               />
               <button type="submit" className="button-pill">
                 Reserve Your Spot

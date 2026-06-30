@@ -39,7 +39,9 @@ export const site = {
     meditation: "https://root-and-shield.bethelightness.com/about",
     specialBlessing: "/special-blessing",
     sacredSoundsUnderTheSky: "/sacred-sounds-under-the-sky",
+    reikiShareJuly: "/reiki-share-july-1",
     reikiShare: "/reiki-share",
+    theWeekendReset: "/the-weekend-reset",
     rosaries: "https://bethelightness.com/rosary-custom-order-form",
   },
 };

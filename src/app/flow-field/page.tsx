@@ -207,13 +207,6 @@ export default function FlowFieldPage() {
           <h2 className="display-section-title">
             An open-air field for energy, movement, and rest.
           </h2>
-          <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            This outdoor morning practice begins with active vinyasa movement
-            and ends with sound healing so your body can soften into the day.
-            In case of rain, tickets will be refunded and everyone will be
-            alerted by email the night before. Otherwise, tickets are
-            non-refundable, but they may be transferred to someone else.
-          </p>
         </div>
         <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">
           <strong className="block text-[1.05rem] text-[var(--color-text)]">

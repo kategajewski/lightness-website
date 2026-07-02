@@ -19,6 +19,11 @@ const eventDetails = [
     description: "A small, intimate group setting.",
   },
   {
+    label: "Exchange",
+    value: "$50",
+    description: "Register directly through Venmo to reserve your seat.",
+  },
+  {
     label: "Payment",
     value: "No refunds",
     description: "All event payments are final and non-refundable.",

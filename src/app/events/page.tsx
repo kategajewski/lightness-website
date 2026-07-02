@@ -36,7 +36,7 @@ const upcomingEvents = [
     description:
       "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
     details:
-      "Tuesday, July 14, 2026 · 7-8:30 PM · Limited to 8 people",
+      "Tuesday, July 14, 2026 · 7-8:30 PM · Limited to 8 people · $50",
     href: "/gallery-reading-with-don-schaefer",
     cta: "View Event Details",
     cardClass:

@@ -97,6 +97,34 @@ const upcomingEvents = [
 
 const visibleUpcomingEvents = upcomingEvents.filter((event) => event.isActive);
 
+const connectionPaths = [
+  {
+    title: "1:1 Sessions",
+    description: "Private healing sessions, sound, Reiki, and intuitive care.",
+    href: site.links.services,
+  },
+  {
+    title: "Education Programs",
+    description: "Training, mentorship, and deeper study for your practice.",
+    href: site.links.courses,
+  },
+  {
+    title: "Community Events",
+    description: "Seasonal gatherings, sound journeys, readings, and circles.",
+    href: "#community-events",
+  },
+  {
+    title: "Weekly Classes",
+    description: "Ongoing yoga, meditation, movement, and sound offerings.",
+    href: "#weekly-classes",
+  },
+  {
+    title: "Private & Corporate",
+    description: "Custom ceremonies, private events, and workplace wellness.",
+    href: "#private-events",
+  },
+] as const;
+
 const yogaSchedule = [
   {
     day: "Monday",
@@ -153,7 +181,35 @@ export default function EventsPage() {
       title="Join a community event or organize your own special experience."
       description="Explore upcoming gatherings, weekly yoga classes, seasonal rituals, sound journeys, readings, and private event options."
     >
-      <section className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+      <section className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(255,252,248,0.9),rgba(230,194,162,0.2),rgba(168,178,159,0.16))] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+        <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+          Start Here
+        </span>
+        <h2 className="display-section-title">
+          How would you like to connect?
+        </h2>
+        <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+          {connectionPaths.map((item) => (
+            <Link
+              key={item.title}
+              href={item.href}
+              className="rounded-[20px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.7)] p-5 shadow-[0_14px_44px_rgba(59,41,31,0.06)] transition hover:-translate-y-0.5 hover:bg-[rgba(255,252,248,0.9)]"
+            >
+              <strong className="block text-[1.02rem] text-[var(--color-text)]">
+                {item.title}
+              </strong>
+              <span className="mt-2 block text-[0.92rem] leading-6 text-[var(--color-muted)]">
+                {item.description}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section
+        id="community-events"
+        className="scroll-mt-28 rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10"
+      >
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
           Community Offerings
         </span>
@@ -189,7 +245,10 @@ export default function EventsPage() {
         ))}
       </section>
 
-      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.72)] p-6 shadow-[0_18px_56px_rgba(59,41,31,0.06)] sm:p-8">
+      <section
+        id="weekly-classes"
+        className="scroll-mt-28 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.72)] p-6 shadow-[0_18px_56px_rgba(59,41,31,0.06)] sm:p-8"
+      >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="mb-3 inline-block text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
@@ -225,7 +284,10 @@ export default function EventsPage() {
         </div>
       </section>
 
-      <section className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+      <section
+        id="private-events"
+        className="scroll-mt-28 rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10"
+      >
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
           Private Events & Ceremonies
         </span>

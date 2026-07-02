@@ -45,7 +45,7 @@ const eventCheckoutConfig = {
   "flow-field-august-16-2026": {
     name: "Flow Field",
     description:
-      "Ticket for Flow Field, a 90-minute open-air vinyasa flow and restorative sound healing experience at The Lightness Grounds. All purchases are final and non-refundable.",
+      "Ticket for Flow Field, a 90-minute open-air vinyasa flow and restorative sound healing experience at The Lightness Grounds. If rain cancels the gathering, tickets will be refunded. Otherwise, tickets are non-refundable but transferable.",
     amountCents: 4500,
     successPath: "/checkout/success",
     cancelPath: "/flow-field",

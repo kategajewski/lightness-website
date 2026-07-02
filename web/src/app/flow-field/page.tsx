@@ -34,7 +34,8 @@ const goodToKnow = [
   "Led by Kate + Kelly",
   "The Lightness Grounds, corner of Gillette Avenue and Academy Street in Bayport",
   "$45 exchange",
-  "All purchases are final and non-refundable",
+  "If rain cancels the gathering, tickets will be refunded",
+  "Otherwise, tickets are non-refundable but may be transferred to someone else",
 ] as const;
 
 const eventJsonLd = {
@@ -209,7 +210,9 @@ export default function FlowFieldPage() {
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
             This outdoor morning practice begins with active vinyasa movement
             and ends with sound healing so your body can soften into the day.
-            All purchases are final and non-refundable.
+            In case of rain, tickets will be refunded and everyone will be
+            alerted by email the night before. Otherwise, tickets are
+            non-refundable, but they may be transferred to someone else.
           </p>
         </div>
         <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">

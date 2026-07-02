@@ -344,7 +344,8 @@ const eventEmailContent = {
     ],
     reminderLines: [
       "Please bring a yoga mat, blanket or towel, water, and layers for the sound healing portion.",
-      "All purchases are final and non-refundable.",
+      "If rain cancels the gathering, tickets will be refunded and everyone will be alerted by email the night before.",
+      "Otherwise, tickets are non-refundable, but they may be transferred to someone else.",
     ],
     href: `${env.siteUrl}${site.links.flowField}`,
     hrefLabel: "View event details",

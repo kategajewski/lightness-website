@@ -163,7 +163,7 @@ export const eventCheckoutConfig = {
     slug: "flow-field-august-16-2026",
     name: "Flow Field",
     description:
-      "Ticket for Flow Field, a 90-minute open-air vinyasa flow and restorative sound healing experience at The Lightness Grounds. All purchases are final and non-refundable.",
+      "Ticket for Flow Field, a 90-minute open-air vinyasa flow and restorative sound healing experience at The Lightness Grounds. If rain cancels the gathering, tickets will be refunded. Otherwise, tickets are non-refundable but transferable.",
     amountCents: 4500,
     successPath: "/checkout/success",
     cancelPath: site.links.flowField,
@@ -182,7 +182,8 @@ export const eventCheckoutConfig = {
     ],
     emailReminderLines: [
       "Please bring a yoga mat, blanket or towel, water, and layers for the sound healing portion.",
-      "All purchases are final and non-refundable.",
+      "If rain cancels the gathering, tickets will be refunded and everyone will be alerted by email the night before.",
+      "Otherwise, tickets are non-refundable, but they may be transferred to someone else.",
     ],
   },
 } as const satisfies Record<string, EventCheckoutConfig>;

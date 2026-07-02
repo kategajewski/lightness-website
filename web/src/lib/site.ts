@@ -42,6 +42,7 @@ export const site = {
     reikiShareJuly: "/reiki-share-july-1",
     reikiShare: "/reiki-share",
     theWeekendReset: "/the-weekend-reset",
+    flowField: "/flow-field",
     rosaries: "https://bethelightness.com/rosary-custom-order-form",
   },
 };

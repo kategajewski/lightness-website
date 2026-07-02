@@ -42,6 +42,14 @@ const eventCheckoutConfig = {
     successPath: "/checkout/success",
     cancelPath: "/the-weekend-reset",
   },
+  "flow-field-august-16-2026": {
+    name: "Flow Field",
+    description:
+      "Ticket for Flow Field, a 90-minute open-air vinyasa flow and restorative sound healing experience at The Lightness Grounds. All purchases are final and non-refundable.",
+    amountCents: 4500,
+    successPath: "/checkout/success",
+    cancelPath: "/flow-field",
+  },
 } as const;
 
 export async function POST(request: Request) {

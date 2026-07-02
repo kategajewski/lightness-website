@@ -23,6 +23,10 @@ const eventCancelContent = {
     primaryHref: site.links.reikiShareJuly,
     primaryLabel: "Back to Event Details",
   },
+  "flow-field-august-16-2026": {
+    primaryHref: site.links.flowField,
+    primaryLabel: "Back to Event Details",
+  },
 } as const;
 
 export default async function CheckoutCancelPage({

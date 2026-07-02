@@ -159,6 +159,32 @@ export const eventCheckoutConfig = {
       "If rain moves the gathering, tickets move to the Sunday, July 12, 2026 rain date and remain non-refundable.",
     ],
   },
+  "flow-field-august-16-2026": {
+    slug: "flow-field-august-16-2026",
+    name: "Flow Field",
+    description:
+      "Ticket for Flow Field, a 90-minute open-air vinyasa flow and restorative sound healing experience at The Lightness Grounds. All purchases are final and non-refundable.",
+    amountCents: 4500,
+    successPath: "/checkout/success",
+    cancelPath: site.links.flowField,
+    detailHref: site.links.flowField,
+    confirmationTitle: "You're booked for Flow Field.",
+    confirmationDescription:
+      "Your ticket for Flow Field has been received. You can watch your email for your Stripe receipt and event confirmation.",
+    emailIntro:
+      "Your place is confirmed. I'm so glad you'll be joining Flow Field with Kate + Kelly.",
+    emailDetailLines: [
+      "Date: Sunday, August 16, 2026",
+      "Time: 8:00-9:30 AM",
+      "Length: 90 minutes",
+      "Location: The Lightness Grounds, corner of Gillette Avenue and Academy Street, Bayport, NY",
+      "Exchange: $45",
+    ],
+    emailReminderLines: [
+      "Please bring a yoga mat, blanket or towel, water, and layers for the sound healing portion.",
+      "All purchases are final and non-refundable.",
+    ],
+  },
 } as const satisfies Record<string, EventCheckoutConfig>;
 
 export type EventSlug = keyof typeof eventCheckoutConfig;

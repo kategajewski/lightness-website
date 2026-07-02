@@ -4,6 +4,7 @@ import { site } from "@/lib/site";
 
 const upcomingEvents = [
   {
+    isActive: false,
     eyebrow: "Practitioner Gathering",
     title: "Reiki Share",
     description:
@@ -16,6 +17,7 @@ const upcomingEvents = [
       "border-[rgba(168,178,159,0.64)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(168,178,159,0.38))]",
   },
   {
+    isActive: true,
     eyebrow: "Outdoor Morning Practice",
     title: "The Weekend Reset",
     description:
@@ -28,6 +30,7 @@ const upcomingEvents = [
       "border-[rgba(230,194,162,0.58)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.34)_46%,rgba(168,178,159,0.26))]",
   },
   {
+    isActive: true,
     eyebrow: "Featured Event",
     title: "Gallery Reading with Don Schaefer",
     description:
@@ -39,6 +42,7 @@ const upcomingEvents = [
       "border-[rgba(201,167,156,0.6)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(201,167,156,0.34))]",
   },
   {
+    isActive: true,
     eyebrow: "Outdoor Sound Bath",
     title: "Golden Hour: An Outdoor Sound Journey",
     description:
@@ -51,6 +55,7 @@ const upcomingEvents = [
       "border-[rgba(230,194,162,0.64)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.42)_54%,rgba(201,167,156,0.26))]",
   },
   {
+    isActive: true,
     eyebrow: "Practitioner Gathering",
     title: "Reiki Share",
     description:
@@ -63,6 +68,20 @@ const upcomingEvents = [
       "border-[rgba(168,178,159,0.68)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(168,178,159,0.28)_40%,rgba(201,167,156,0.22))]",
   },
   {
+    isActive: true,
+    eyebrow: "Outdoor Morning Practice",
+    title: "Flow Field",
+    description:
+      "An open-air vinyasa flow and restorative sound healing experience led by Kate + Kelly.",
+    details:
+      "Sunday, August 16, 2026 · 8:00-9:30 AM · The Lightness Grounds in Bayport · $45",
+    href: site.links.flowField,
+    cta: "Reserve Your Place",
+    cardClass:
+      "border-[rgba(230,194,162,0.62)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.34)_42%,rgba(168,178,159,0.28))]",
+  },
+  {
+    isActive: false,
     eyebrow: "Past Event",
     title: "Rise into Light",
     description:
@@ -75,6 +94,8 @@ const upcomingEvents = [
       "border-[rgba(230,194,162,0.52)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.32))]",
   },
 ] as const;
+
+const visibleUpcomingEvents = upcomingEvents.filter((event) => event.isActive);
 
 const yogaSchedule = [
   {
@@ -146,7 +167,7 @@ export default function EventsPage() {
       </section>
 
       <section className="grid gap-5 xl:grid-cols-2">
-        {upcomingEvents.map((item) => (
+        {visibleUpcomingEvents.map((item) => (
           <article
             key={item.title}
             className={`rounded-[26px] border p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)] ${item.cardClass}`}

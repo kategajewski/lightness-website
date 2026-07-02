@@ -4,7 +4,7 @@ import { site } from "@/lib/site";
 
 const upcomingEvents = [
   {
-    isActive: true,
+    isActive: false,
     eyebrow: "Practitioner Gathering",
     title: "Reiki Share",
     description:
@@ -67,6 +67,19 @@ const upcomingEvents = [
     cta: "Reserve Your Spot",
     cardClass:
       "border-[rgba(168,178,159,0.68)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(168,178,159,0.28)_40%,rgba(201,167,156,0.22))]",
+  },
+  {
+    isActive: true,
+    eyebrow: "Outdoor Morning Practice",
+    title: "Flow Field",
+    description:
+      "An open-air vinyasa flow and restorative sound healing experience led by Kate + Kelly.",
+    details:
+      "Sunday, August 16, 2026 · 8:00-9:30 AM · The Lightness Grounds in Bayport · $45",
+    href: site.links.flowField,
+    cta: "Reserve Your Place",
+    cardClass:
+      "border-[rgba(230,194,162,0.62)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.34)_42%,rgba(168,178,159,0.28))]",
   },
   {
     isActive: false,

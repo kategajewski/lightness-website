@@ -331,6 +331,24 @@ const eventEmailContent = {
     href: `${env.siteUrl}${site.links.theWeekendReset}`,
     hrefLabel: "View event details",
   },
+  "flow-field-august-16-2026": {
+    title: "Flow Field",
+    intro:
+      "Your place is confirmed. I'm so glad you'll be joining Flow Field with Kate + Kelly.",
+    detailLines: [
+      "Date: Sunday, August 16, 2026",
+      "Time: 8:00-9:30 AM",
+      "Length: 90 minutes",
+      "Location: The Lightness Grounds, corner of Gillette Avenue and Academy Street, Bayport, NY",
+      "Exchange: $45",
+    ],
+    reminderLines: [
+      "Please bring a yoga mat, blanket or towel, water, and layers for the sound healing portion.",
+      "All purchases are final and non-refundable.",
+    ],
+    href: `${env.siteUrl}${site.links.flowField}`,
+    hrefLabel: "View event details",
+  },
   "soothing-sunday-may-17-2026": {
     title: "Soothing Sunday - May 17, 2026",
     intro:

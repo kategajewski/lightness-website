@@ -49,6 +49,7 @@ export const site = {
     reikiShareJuly: "/reiki-share-july-1",
     reikiShare: "/reiki-share",
     theWeekendReset: "/the-weekend-reset",
+    flowField: "/flow-field",
     divineRoseFrequencies: "/divine-rose-frequencies",
     rosaries: "/divine-rose-frequencies",
   },

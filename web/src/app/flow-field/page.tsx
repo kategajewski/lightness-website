@@ -47,7 +47,7 @@ const eventJsonLd = {
   endDate: "2026-08-16T09:30:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
-  image: "https://bethelightness.com/homepage-images/weekend-reset-group.jpeg",
+  image: "https://bethelightness.com/homepage-images/flow-field-kate.jpeg",
   location: {
     "@type": "Place",
     name: "The Lightness Grounds",
@@ -137,9 +137,9 @@ export default function FlowFieldPage() {
 
           <div className="relative min-h-[24rem] overflow-hidden bg-[#e7dccd] sm:min-h-[30rem] lg:h-[34rem] lg:min-h-0">
             <img
-              src="/homepage-images/weekend-reset-group.jpeg"
-              alt="Outdoor morning yoga and sound healing group gathered on the grass"
-              className="h-full min-h-[24rem] w-full object-cover object-center sm:min-h-[30rem] lg:min-h-0"
+              src="/homepage-images/flow-field-kate.jpeg"
+              alt="Kate seated outdoors with crystal singing bowls beneath a summer tree"
+              className="h-full min-h-[24rem] w-full object-cover object-[center_58%] sm:min-h-[30rem] lg:min-h-0"
             />
             <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(0deg,rgba(47,37,32,0.58),transparent)] p-6 text-[#fffaf5] sm:p-8">
               <p className="max-w-[30rem] text-[1.05rem] font-semibold leading-7">
@@ -172,9 +172,9 @@ export default function FlowFieldPage() {
       <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <img
-            src="/homepage-images/golden-hour-july-sun.jpeg"
-            alt="Golden morning light over The Lightness Grounds"
-            className="h-full min-h-[24rem] w-full object-cover object-center"
+            src="/homepage-images/flow-field-kelly.jpeg"
+            alt="Kelly standing outdoors in greenery"
+            className="h-full min-h-[24rem] w-full object-cover object-[center_38%]"
           />
         </div>
 

@@ -106,11 +106,6 @@ export default function FlowFieldPage() {
                 Flow Field.
               </h2>
               <p className="mt-5 max-w-[36rem] text-[1.04rem] leading-8 text-[var(--color-muted)]">
-                Flow Field is an open-air experience beginning with an
-                invigorating vinyasa flow and ending with deeply restorative
-                sound healing.
-              </p>
-              <p className="mt-4 max-w-[36rem] text-[1.04rem] leading-8 text-[var(--color-muted)]">
                 Led by Kate + Kelly, this morning gathering invites you to
                 move, breathe, and unwind beneath the summer sky.
               </p>

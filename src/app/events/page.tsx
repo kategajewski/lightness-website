@@ -100,16 +100,6 @@ const visibleUpcomingEvents = upcomingEvents.filter((event) => event.isActive);
 
 const connectionPaths = [
   {
-    title: "1:1 Sessions",
-    description: "Private healing sessions, sound, Reiki, and intuitive care.",
-    href: site.links.services,
-  },
-  {
-    title: "Education Programs",
-    description: "Training, mentorship, and deeper study for your practice.",
-    href: site.links.courses,
-  },
-  {
     title: "Community Events",
     description: "Seasonal gatherings, sound journeys, readings, and circles.",
     href: "#community-events",
@@ -189,7 +179,7 @@ export default function EventsPage() {
         <h2 className="display-section-title">
           How would you like to connect?
         </h2>
-        <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+        <div className="mt-6 grid gap-3 md:grid-cols-3">
           {connectionPaths.map((item) => (
             <Link
               key={item.title}

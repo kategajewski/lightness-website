@@ -31,7 +31,7 @@ const bringItems = [
 
 const goodToKnow = [
   "Sunday, August 16 from 8:00-9:30 AM",
-  "Led by Kate + Kelly",
+  "Led by Kate Gajewski and Kelly Fitzsimons",
   "The Lightness Grounds, corner of Gillette Avenue and Academy Street in Bayport",
   "$45 exchange",
   "If rain cancels the gathering, tickets will be refunded",
@@ -79,7 +79,7 @@ export default function FlowFieldPage() {
     <PageShell
       eyebrow="Outdoor Morning Practice"
       title="Flow Field"
-      description="An open-air vinyasa flow and restorative sound healing experience led by Kate + Kelly."
+      description="An open-air vinyasa flow and restorative sound healing experience led by Kate Gajewski and Kelly Fitzsimons."
     >
       <script
         type="application/ld+json"
@@ -106,8 +106,9 @@ export default function FlowFieldPage() {
                 Flow Field.
               </h2>
               <p className="mt-5 max-w-[36rem] text-[1.04rem] leading-8 text-[var(--color-muted)]">
-                Led by Kate + Kelly, this morning gathering invites you to
-                move, breathe, and unwind beneath the summer sky.
+                Led by Kate Gajewski and Kelly Fitzsimons, this morning
+                gathering invites you to move, breathe, and unwind beneath the
+                summer sky.
               </p>
             </div>
 

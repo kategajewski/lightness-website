@@ -172,7 +172,7 @@ export const eventCheckoutConfig = {
     confirmationDescription:
       "Your ticket for Flow Field has been received. You can watch your email for your Stripe receipt and event confirmation.",
     emailIntro:
-      "Your place is confirmed. I'm so glad you'll be joining Flow Field with Kate + Kelly.",
+      "Your place is confirmed. I'm so glad you'll be joining Flow Field with Kate Gajewski and Kelly Fitzsimons.",
     emailDetailLines: [
       "Date: Sunday, August 16, 2026",
       "Time: 8:00-9:30 AM",

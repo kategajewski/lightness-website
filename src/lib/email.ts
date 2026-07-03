@@ -334,7 +334,7 @@ const eventEmailContent = {
   "flow-field-august-16-2026": {
     title: "Flow Field",
     intro:
-      "Your place is confirmed. I'm so glad you'll be joining Flow Field with Kate + Kelly.",
+      "Your place is confirmed. I'm so glad you'll be joining Flow Field with Kate Gajewski and Kelly Fitzsimons.",
     detailLines: [
       "Date: Sunday, August 16, 2026",
       "Time: 8:00-9:30 AM",

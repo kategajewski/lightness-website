@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { PageShell } from "@/components/page-shell";
 import { getCurrentUserWithAccess } from "@/lib/member-access";
-import { activeEventSlugs } from "@/lib/events";
+import { activeEventSlugs, getEventBySlug } from "@/lib/events";
 import { isAdminEmail } from "@/lib/site";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
@@ -18,6 +18,12 @@ type EventAttendanceRow = {
   stripe_session_id: string;
   purchased_at: string;
 };
+
+// Keep archived/past event lists out of the current admin roster.
+const hiddenRosterEventSlugs = new Set<string>(["reiki-share-july-1-2026"]);
+const rosterEventSlugs = activeEventSlugs.filter(
+  (slug) => !hiddenRosterEventSlugs.has(slug),
+);
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en-US", {
@@ -37,6 +43,23 @@ function formatAmount(amount: number | null, currency: string | null) {
   }).format(amount / 100);
 }
 
+function getEventDateLabel(eventSlug: string) {
+  const event = getEventBySlug(eventSlug);
+  const dateLine = event?.emailDetailLines.find((line) =>
+    line.toLowerCase().startsWith("date:"),
+  );
+
+  return dateLine?.replace(/^date:\s*/i, "") ?? null;
+}
+
+function getRosterEventTitle(eventSlug: string, fallbackName?: string | null) {
+  const event = getEventBySlug(eventSlug);
+  const eventName = event?.name || fallbackName || eventSlug;
+  const dateLabel = getEventDateLabel(eventSlug);
+
+  return dateLabel ? `${eventName} - ${dateLabel}` : eventName;
+}
+
 export default async function EventAttendancePage() {
   const { user } = await getCurrentUserWithAccess();
 
@@ -54,14 +77,14 @@ export default async function EventAttendancePage() {
     .select(
       "id, event_slug, event_name, customer_name, customer_email, amount_total, currency, payment_status, stripe_session_id, purchased_at",
     )
-    .in("event_slug", activeEventSlugs)
+    .in("event_slug", rosterEventSlugs)
     .order("purchased_at", { ascending: false })
     .limit(300);
 
   const attendees = (data ?? []) as EventAttendanceRow[];
   const groupedAttendees = attendees.reduce<Record<string, EventAttendanceRow[]>>(
     (groups, attendee) => {
-      const key = attendee.event_name || attendee.event_slug;
+      const key = attendee.event_slug || attendee.event_name;
       groups[key] = [...(groups[key] ?? []), attendee];
       return groups;
     },
@@ -113,9 +136,9 @@ export default async function EventAttendancePage() {
       ) : null}
 
       {!error
-        ? Object.entries(groupedAttendees).map(([eventName, rows]) => (
+        ? Object.entries(groupedAttendees).map(([eventSlug, rows]) => (
             <section
-              key={eventName}
+              key={eventSlug}
               className="rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
             >
               <div className="flex flex-wrap items-end justify-between gap-4">
@@ -123,7 +146,9 @@ export default async function EventAttendancePage() {
                   <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
                     {rows.length} ticket{rows.length === 1 ? "" : "s"}
                   </span>
-                  <h2 className="display-section-title">{eventName}</h2>
+                  <h2 className="display-section-title">
+                    {getRosterEventTitle(eventSlug, rows[0]?.event_name)}
+                  </h2>
                 </div>
               </div>
 

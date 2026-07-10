@@ -9,6 +9,11 @@ Rule for future sessions:
   - important links or portal resources added
   - any important Supabase / Vercel / auth / Stripe state
   - the next recommended starting point
+- Brand rule:
+  - Keep all future website pages, checkout flows, portals, emails, PDFs, previews, and decks on brand by default.
+  - Use `BRAND_GUIDE.md` as the source of truth.
+  - Current primary fonts are `Lato` for body/practical text, `Cormorant Garamond` for display and italic warmth, and `Belleza` only for restrained brand/wordmark accents.
+  - Current brand colors are warm cream, cacao/deep brown, soft brown, sage, peach, and rose. Avoid random fonts, harsh black/white styling, strong cool colors, and off-brand palettes unless Kate explicitly asks.
 
 ## Current Note
 ### Latest Save Point

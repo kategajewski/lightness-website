@@ -1,6 +1,12 @@
 # The Lightness of Being Brand Guide
 
-Last updated: May 25, 2026
+Last updated: July 10, 2026
+
+## Standing Brand Rule
+
+Everything created for The Lightness of Being going forward should stay on brand by default. This applies to website pages, checkout flows, confirmation pages, student portals, emails, PDFs, previews, decks, and any public or client-facing copy/design.
+
+Use the approved fonts, colors, spacing, and tone below unless Kate specifically asks for a different direction. Do not introduce new dominant colors, random fonts, harsh black/white contrast, tech-style UI, or bright/cool palettes without an intentional brand reason.
 
 ## Typography
 
@@ -8,6 +14,7 @@ The website uses a soft three-font system that matches the newer Canva direction
 
 - Body / navigation / forms: `Lato`, with `"Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif` as fallbacks
 - Display headings: `Cormorant Garamond`, with `Georgia, "Times New Roman", serif` as fallbacks
+- Italic display / signature moments: `Cormorant Garamond Italic`, used sparingly for warmth and intimacy
 - Brand accent / wordmark moments: `Belleza`, with `Cormorant Garamond` as fallback
 
 Use the display font for page titles, section titles, testimonial quotes, and moments that should feel more soulful or editorial. Use the body font for navigation, buttons, paragraphs, forms, labels, and practical information. Use Belleza sparingly for the site wordmark or small brand accents so the site feels enchanted without becoming overly decorative.
@@ -20,8 +27,14 @@ Use the display font for page titles, section titles, testimonial quotes, and mo
 | Main text | `#2f2520` | Deep cacao brown |
 | Muted text | `#554842` | Warm gray-brown |
 | Button / strong border | `#4a3d36` | Grounded brown |
+| Email / deep CTA brown | `#4c3a30` | Rich warm brown |
 | Secondary accent brown | `#5d5148` | Soft brown |
+| Soft label brown | `#7b6c62` | Muted clay-brown |
 | Button background | `#fffaf5` | Warm off-white |
+| Email/card background | `#fffaf4` | Warm ivory |
+| Email inset surface | `#fff4eb` | Peach-cream |
+| Soft email/footer surface | `#f8eee4` | Warm blush-cream |
+| Email page background | `#f6eee5` | Warm sand-cream |
 | Button hover | `#f7efe6` | Pale beige |
 
 ## Surface Colors
@@ -59,3 +72,10 @@ Keep using:
 - Lato / Avenir Next for clarity and ease
 
 Avoid introducing strong cool colors, bright white blocks, sharp black text, heavy gradients, or overly modern tech-style typography unless the whole system is being intentionally redesigned.
+
+## Implementation Notes
+
+- Website code should prefer existing CSS variables in `src/app/globals.css`: `--color-bg`, `--color-surface`, `--color-text`, `--color-muted`, and `--color-line`.
+- New reusable UI should use the existing `font-display`, `font-brand`, `display-page-title`, `display-section-title`, `display-card-title`, and `button-pill` patterns before inventing new styles.
+- Emails should use `Lato` for details/body/buttons and `Cormorant Garamond` for greeting, headings, or signature moments. Because some email clients block web fonts, always include practical fallbacks.
+- When creating previews or local HTML files, load/request the brand fonts so Kate can review the piece as close to final as possible.

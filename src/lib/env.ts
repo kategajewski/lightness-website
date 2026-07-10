@@ -24,6 +24,9 @@ export const env = {
     "STRIPE_PRICE_MEMBERSHIP_MONTHLY",
   ),
   stripePriceReikiRising: readOptionalEnv("STRIPE_PRICE_REIKI_RISING"),
+  stripePriceReikiRisingEarlyBirdPlan: readOptionalEnv(
+    "STRIPE_PRICE_REIKI_RISING_EARLY_BIRD_PLAN",
+  ),
   stripePriceSoundTraining: readOptionalEnv("STRIPE_PRICE_SOUND_TRAINING"),
   stripePriceSoundTrainingFull: readOptionalEnv(
     "STRIPE_PRICE_SOUND_TRAINING_FULL",

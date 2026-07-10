@@ -5,6 +5,7 @@ import {
   createGiftCertificatePdf,
 } from "@/lib/gift-certificates";
 import { getOfferBySlug } from "@/lib/offers";
+import type { PortalProvisioningResult } from "@/lib/portal-access";
 import { site } from "@/lib/site";
 
 type StripeCheckoutSession = {
@@ -386,6 +387,7 @@ const eventEmailContent = {
 
 export async function sendPurchaseConfirmationEmail(
   session: StripeCheckoutSession,
+  portalAccess?: PortalProvisioningResult,
 ) {
   if (!integrations.emailDelivery) {
     return { skipped: true };
@@ -422,6 +424,7 @@ export async function sendPurchaseConfirmationEmail(
           metadata.optionKey,
           amountLabel,
           giftCertificate?.certificateCode,
+          portalAccess,
         );
 
   const text = [
@@ -612,6 +615,7 @@ function getOfferPurchaseEmailContent(
   optionKey: string | undefined,
   amountLabel: string,
   giftCertificateCode?: string,
+  portalAccess?: PortalProvisioningResult,
 ) {
   const offer = offerSlug ? getOfferBySlug(offerSlug) : undefined;
   const option = offer?.purchaseOptions?.find((item) => item.key === optionKey);
@@ -671,16 +675,34 @@ function getOfferPurchaseEmailContent(
   }
 
   if (offer?.slug === "reiki-rising") {
+    const setupHref =
+      portalAccess?.setupUrl ??
+      `${env.siteUrl.replace(/\/$/, "")}/login?mode=forgot-password`;
+
     return {
-      subject: "Your Reiki Rising purchase is confirmed",
+      subject: "Welcome to Reiki Rising Fall 2026",
       intro:
-        "Your Reiki Rising purchase has been received. Thank you for joining this training path.",
-      detailLines,
+        "Your Reiki Rising enrollment has been received. I'm so glad you'll be part of this Fall 2026 cohort.",
+      detailLines: [
+        ...detailLines,
+        "Program dates: September 27 - December 5, 2026",
+        "Weekly modules: Released on Sundays",
+        "Live calls: Wednesdays at 7:00 PM ET",
+        "Telegram support: Open through Saturday, December 5, 2026",
+        option ? `Selected option: ${option.label}` : null,
+      ].filter(Boolean) as string[],
       reminderLines: [
-        "A Stripe receipt should arrive separately, and additional next-step details can be shared directly with you.",
+        "Your portal access will be created automatically after enrollment, so you do not need to wait for manual setup. Use the portal password link below with the same email address you enrolled with.",
+        "Please purchase the Reiki Level 1 & 2 textbook here: https://www.reiki.org/store/books/reiki-healing-touch",
+        "Make sure you select whether you want a hard copy, digital copy, or both. The site automatically selects the digital copy, so please take a moment to choose the option that feels right before purchasing.",
+        "This book has all the information you'll need for the training, and it's a wonderful companion for the Reiki Rising journey.",
+        "You may also want a special notebook or journal dedicated to your Reiki journey for reflections, practice notes, and questions that come up between modules and live calls.",
+        "Live call links, replays, placement details, and make-up call information will be shared through the student portal as the cohort gets closer.",
       ],
-      href: `${env.siteUrl}${site.links.reikiTraining}`,
-      hrefLabel: "View Reiki Rising details",
+      href: setupHref,
+      hrefLabel: portalAccess?.setupUrl
+        ? "Set Your Portal Password"
+        : "Open Portal Login",
     };
   }
 

@@ -12,6 +12,161 @@ Rule for future sessions:
 
 ## Current Note
 ### Latest Save Point
+- Reiki Rising Fall 2026 enrollment / portal automation work is in progress in:
+  - `/Users/magicalbeing/Documents/Codex/2026-06-29/hii/work/july-events`
+- User-approved direction:
+  - Fall 2026 must use a brand-new portal/cohort access space, separate from the older `/library/reiki-rising` portal.
+  - Textbook purchase link:
+    - `https://www.reiki.org/store/books/reiki-healing-touch`
+  - Portal access should be automated after purchase:
+    - create/find Supabase Auth user from checkout email
+    - grant a `member_access` row for `reiki-rising-fall-2026`
+    - send a secure password setup link instead of emailing a random password
+    - students can use Forgot Password with the enrollment email if the setup link expires
+  - Certification still needs final clarification, but current working requirements are:
+    - receive Level 1 and Level 2 placements live
+    - complete core weekly modules
+    - practice self-Reiki at least 5 times
+    - share remote Reiki at least 2 times
+    - share Reiki in person with consent at least 1 time
+    - submit a short final reflection or practice log
+    - each level includes one additional group make-up placement call
+    - private placement during office hours may be offered for an additional fee
+- Code changes made locally:
+  - added `src/lib/portal-access.ts` to provision Supabase portal access from completed Stripe checkout sessions
+  - checkout confirmation now provisions portal access before sending the customer email
+  - Reiki Rising purchase email now sends the Fall 2026 welcome/details and a portal password setup link when Supabase generates one
+  - added active routes:
+    - `/create-password`
+    - `/portal-setup`
+    - `/library/reiki-rising-fall-2026`
+  - account page now recognizes the new `reiki-rising-fall-2026` portal space
+  - checkout success page has Reiki Rising-specific next-step copy
+  - checkout readiness now treats inline Stripe amounts as valid checkout options
+  - env docs now include:
+    - `STRIPE_PRICE_REIKI_RISING_EARLY_BIRD_PLAN`
+- Validation:
+  - `npm run lint` passed with existing `<img>` warnings only
+  - `npx next build --webpack` passed and confirmed the new portal/setup routes are included
+- Important live blocker / dashboard follow-up:
+  - `$888` pay-in-full can use the inline amount fallback when Stripe is configured.
+  - `3 payments of $333` still needs `STRIPE_PRICE_REIKI_RISING_EARLY_BIRD_PLAN` in Vercel.
+  - A normal recurring Stripe price can continue indefinitely unless we add cancellation/schedule handling or configure the billing setup correctly, so do not launch the payment plan blindly.
+- Next recommended starting point:
+  - review the Reiki Rising welcome email wording with Kate before final publish if there are copy concerns
+  - confirm the Stripe payment plan setup
+  - commit/push/deploy once Kate confirms the copy and payment-plan behavior
+  - run a small live test purchase or Stripe test checkout before announcing enrollment
+
+### Latest Save Point
+- July / August events update is live and pushed through the active website repo:
+  - repo:
+    - `/Users/magicalbeing/Documents/Codex/2026-06-29/hii/work/july-events`
+  - branch:
+    - `july-events`
+  - remote:
+    - `https://github.com/kategajewski/lightness-website.git`
+  - latest pushed main commit:
+    - `daf1a7e Use full Flow Field host names`
+- Main Events page:
+  - public URL:
+    - `https://bethelightness.com/events`
+  - July 1 Reiki Share was archived from the active events list after it passed
+  - active chronological event list should now run from:
+    - August 6 Reiki Share
+    - Flow Field on August 16
+    - plus any still-current July events until their dates pass
+  - event cards were given distinct brand-based colors
+  - top navigation section now says:
+    - `How would you like to connect?`
+  - top navigation now has exactly three options:
+    - `Community Events`
+    - `Weekly Classes`
+    - `Private & Corporate`
+  - `1:1 Sessions` and `Education Programs` were intentionally removed from that top section because those offerings already appear elsewhere
+- Event pages / Stripe checkouts updated:
+  - July 1 Reiki Share remained its own separate Stripe checkout before being archived from active display
+  - August 6 Reiki Share was added as a separate event with its own Stripe checkout/admin list
+  - Gallery Reading date was updated to July 14 and price added as `$50`
+  - The Weekend Reset was added using the Rise Into Light style/framework:
+    - Saturday, July 11, 2026
+    - 8:00-9:15 AM
+    - rain date July 12
+    - `$30`
+    - separate Stripe checkout/admin list
+  - Golden Hour was updated for July 28 with rain date July 29:
+    - new photos added
+    - separate Stripe checkout/admin list
+  - All event checkout/detail copy includes no-refunds language where appropriate
+  - Rain-date events say tickets are non-refundable and move to the rain date
+- Flow Field event:
+  - public URL:
+    - `https://bethelightness.com/flow-field`
+  - event date/time:
+    - Sunday, August 16, 2026
+    - 8:00-9:30 AM
+  - location:
+    - The Lightness Grounds, Bayport
+    - corner of Gillette Avenue and Academy Street
+  - exchange:
+    - `$45`
+  - checkout slug:
+    - `flow-field-august-16-2026`
+  - Stripe checkout/admin list is separate from all other events
+  - final host wording uses full names:
+    - `Kate Gajewski and Kelly Fitzsimons`
+  - Kelly's photo is intentionally featured above Kate's photo because Kelly is the guest/special host
+  - repeated intro copy was removed from the direct Flow Field page
+  - Good To Know section no longer includes the repetitive paragraph beginning with:
+    - `This outdoor morning practice begins with active vinyasa movement`
+  - rain policy:
+    - if rain cancels the gathering, tickets will be refunded
+    - everyone will be alerted the night before by email
+    - otherwise tickets are non-refundable but transferable to someone else
+  - Flow Field confirmation/checkout email copy also uses:
+    - `Kate Gajewski and Kelly Fitzsimons`
+- Files most often touched in this pass:
+  - `src/app/events/page.tsx`
+  - `web/src/app/events/page.tsx`
+  - `src/app/flow-field/page.tsx`
+  - `web/src/app/flow-field/page.tsx`
+  - `src/lib/events.ts`
+  - `src/lib/email.ts`
+  - `src/lib/site.ts`
+  - `web/src/lib/site.ts`
+  - event images under `public/homepage-images/` and `web/public/homepage-images/`
+- Recent commit trail for this events push:
+  - `1fa62bf Update July and August event offerings`
+  - `04d242c Add Flow Field event`
+  - `0027ab0 Add Flow Field photos`
+  - `1e152b7 Add gallery reading price`
+  - `07627fa Update Flow Field rain policy`
+  - `c5206db Tighten Flow Field good to know copy`
+  - `091ad29 Feature Kelly on Flow Field page`
+  - `645d19e Add events page path navigation`
+  - `c2a791e Refine events page path navigation`
+  - `f6ac2ad Remove repeated Flow Field intro copy`
+  - `daf1a7e Use full Flow Field host names`
+- Validation / deploy notes:
+  - `npm run lint` passed after the Events navigation cleanup with only existing `<img>` warnings
+  - `npm run build` passed after the Flow Field updates
+  - one build temporarily hung and left a stale `.next/server`; clearing `.next` fixed it
+  - latest commits were pushed to both:
+    - `origin/july-events`
+    - `origin/july-events:main`
+  - deploy watcher verified the three-card Events navigation and Flow Field image order before it was deleted
+- Current workspace note:
+  - tracked changes should be clean after this save
+  - there is an unrelated untracked `work/` folder inside the worktree; do not stage it casually
+- Next recommended starting point:
+  - if the user says another event has passed, archive it from `upcomingEvents` rather than deleting the route
+  - if adding a new event, create a separate Stripe checkout slug/admin list unless the user explicitly wants to reuse one
+  - visually check public pages after deploy:
+    - `https://bethelightness.com/events`
+    - `https://bethelightness.com/flow-field`
+  - keep mirroring changes in both `src/` and `web/` until the old `web/` copy is intentionally retired
+
+### Latest Save Point
 - Golden Hour event is live:
   - public event page still uses the existing route:
     - `https://bethelightness.com/sacred-sounds-under-the-sky`

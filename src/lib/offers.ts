@@ -14,6 +14,8 @@ export type Offer = {
   detail: string;
   image: string;
   href: string;
+  accessSlug?: string;
+  portalHref?: string;
   stripePriceId?: string;
   purchaseOptions?: {
     key: string;
@@ -55,28 +57,51 @@ export const offers: Offer[] = [
   },
   {
     slug: "reiki-rising",
-    name: "Reiki Rising",
+    name: "Reiki Rising Fall 2026",
     category: "course",
     format: "one_time",
-    priceLabel: "One-time enrollment",
+    priceLabel: "Early Bird $888 or 3 payments of $333",
     description:
-      "A guided Reiki training experience for students ready to deepen their practice and step into healing work with structure.",
+      "A 10-week Reiki 1 and Reiki 2 certification journey with weekly prerecorded teachings, live support calls, placements, practice, and community integration.",
     audience:
-      "Best for students who want a dedicated training container rather than a casual workshop.",
-    cta: "Reserve Your Spot",
+      "Best for students who want a spacious, supported Reiki training experience rather than a quick weekend class.",
+    cta: "Enroll in Reiki Rising",
     features: [
-      "Next live cohort begins September 23, 2026",
-      "Dedicated course landing page",
-      "Student login and private content area",
-      "Checkout flow ready for Stripe once price IDs are added",
-      "Follow-up welcome and confirmation pages",
+      "Fall 2026 cohort runs September 27 - December 5",
+      "Weekly modules drop on Sundays",
+      "Live calls are Wednesdays at 7:00 PM ET",
+      "Telegram support remains open through the final week",
+      "Certification requires live Level 1 and Level 2 placements",
     ],
     detail:
-      "This offer is a strong candidate for the first full course migration because it already exists as a separate registration flow on the current site.",
+      "Early Bird enrollment is available through September 1, 2026.",
     image:
       "/homepage-images/ghl-reiki-rising.webp",
     href: "/checkout/reiki-rising",
+    accessSlug: "reiki-rising-fall-2026",
+    portalHref: "/library/reiki-rising-fall-2026",
     stripePriceId: env.stripePriceReikiRising,
+    purchaseOptions: [
+      {
+        key: "early-bird-full",
+        label: "Early Bird Pay in Full",
+        priceLabel: "$888 one-time",
+        description:
+          "Pay in full to reserve your place in Reiki Rising Fall 2026.",
+        mode: "payment",
+        stripePriceId: env.stripePriceReikiRising,
+        amountCents: 88800,
+      },
+      {
+        key: "early-bird-plan",
+        label: "Early Bird Payment Plan",
+        priceLabel: "3 payments of $333",
+        description:
+          "Choose a three-payment rhythm while still reserving your place in the cohort.",
+        mode: "subscription",
+        stripePriceId: env.stripePriceReikiRisingEarlyBirdPlan,
+      },
+    ],
   },
   {
     slug: "sound-training",
@@ -210,13 +235,16 @@ export function getCheckoutReadiness(offer: Offer) {
     offer.purchaseOptions?.map((option) => option.stripePriceId).filter(Boolean) ??
     [];
   const hasAnyOptionPrice = optionPriceIds.length > 0;
+  const hasAnyInlinePrice =
+    offer.purchaseOptions?.some((option) => Boolean(option.amountCents)) ?? false;
 
   return {
     stripeConfigured: integrations.stripe,
-    hasPriceId: Boolean(offer.stripePriceId) || hasAnyOptionPrice,
+    hasPriceId:
+      Boolean(offer.stripePriceId) || hasAnyOptionPrice || hasAnyInlinePrice,
     checkoutReady:
       integrations.stripe &&
-      (Boolean(offer.stripePriceId) || hasAnyOptionPrice),
+      (Boolean(offer.stripePriceId) || hasAnyOptionPrice || hasAnyInlinePrice),
     currentFallbackHref:
       offer.slug === "monthly-membership"
         ? site.links.membership

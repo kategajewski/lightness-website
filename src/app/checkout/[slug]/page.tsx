@@ -23,6 +23,7 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
   const isMembership = offer.slug === "monthly-membership";
   const isSoundTraining = offer.slug === "sound-training";
   const isGiftCertificate = offer.slug === "gift-certificate";
+  const isReikiRising = offer.slug === "reiki-rising";
   const hasOptions = Boolean(offer.purchaseOptions?.length);
 
   return (
@@ -75,7 +76,9 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
                     ? "Ready to reserve your training spot"
                     : isGiftCertificate
                       ? "Choose the gift amount that feels right"
-                    : "Ready to complete your purchase"
+                    : isReikiRising
+                      ? "Ready to reserve your Reiki Rising place"
+                      : "Ready to complete your purchase"
                 : isMembership
                   ? "Checkout will open here soon"
                   : isSoundTraining
@@ -90,7 +93,9 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
                   ? "Your secure registration and payment flow is connected and ready."
                   : isGiftCertificate
                     ? "Choose one of the gift amounts below to purchase a certificate for someone you love."
-                  : "Your secure payment flow is connected and ready."
+                  : isReikiRising
+                    ? "Choose the Early Bird enrollment option that feels best for you."
+                    : "Your secure payment flow is connected and ready."
                 : isMembership
                   ? "This page is being prepared for live recurring checkout. In the meantime, you can review the membership details and return to the membership page for the full offer overview."
                   : isSoundTraining
@@ -118,7 +123,8 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
                     {option.description}
                   </p>
                   <div className="mt-4">
-                    {readiness.checkoutReady && option.stripePriceId ? (
+                    {readiness.checkoutReady &&
+                    (option.stripePriceId || option.amountCents) ? (
                       <form action="/api/checkout" method="post">
                         <input type="hidden" name="slug" value={offer.slug} />
                         <input type="hidden" name="optionKey" value={option.key} />

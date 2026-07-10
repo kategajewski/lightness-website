@@ -33,12 +33,25 @@ export default async function CheckoutSuccessPage({
           confirmationResult?.customerEmail === "already_sent"
           ? "Your gift certificate purchase has been received. A printable certificate PDF with its unique code should be on its way to your email now."
           : "Your gift certificate purchase has been received. If the printable certificate PDF does not arrive shortly, please contact Kate and she will send it personally."
+        : offer.slug === "reiki-rising"
+          ? "Your Reiki Rising enrollment has been received. A Stripe receipt should arrive separately, and your welcome email will include next steps, including how to prepare, what to purchase, and how to access the student portal."
         : `Your payment for ${offer.name} has been received. A Stripe confirmation should be on its way to your email now.`
       : "Your payment has been received. A Stripe confirmation should be on its way to your email now.");
   const primaryHref =
-    event?.detailHref ?? (offer ? `/checkout/${offer.slug}` : "/account");
+    event?.detailHref ??
+    (offer?.slug === "reiki-rising"
+      ? "/account"
+      : offer
+        ? `/checkout/${offer.slug}`
+        : "/account");
   const primaryLabel =
-    event ? "Back to Event Details" : offer ? "Back to Offer Details" : "Go to Member Area";
+    event
+      ? "Back to Event Details"
+      : offer?.slug === "reiki-rising"
+        ? "Go to Student Portal"
+      : offer
+        ? "Back to Offer Details"
+        : "Go to Member Area";
   const secondaryHref =
     event ? site.links.events : offer ? site.links.courses : site.links.courses;
   const secondaryLabel = event ? "Browse Events" : "Back to Catalog";

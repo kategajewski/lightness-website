@@ -6,6 +6,14 @@ import { isAdminEmail } from "@/lib/site";
 
 const portalSpaces = [
   {
+    slug: "reiki-rising-fall-2026",
+    title: "Reiki Rising Fall 2026",
+    description:
+      "Open your Fall 2026 cohort portal for weekly modules, live call details, replays, materials, and certification requirements.",
+    href: "/library/reiki-rising-fall-2026",
+    cta: "Enter Fall 2026 Portal",
+  },
+  {
     slug: "reiki-rising",
     title: "Reiki Rising",
     description:

@@ -7,6 +7,10 @@ import {
 } from "@/lib/email";
 import { recordEventAttendanceFromSession } from "@/lib/event-attendance";
 import { integrations } from "@/lib/env";
+import {
+  provisionOfferPortalAccessFromSession,
+  type PortalProvisioningResult,
+} from "@/lib/portal-access";
 import { getStripe } from "@/lib/stripe/server";
 
 const CUSTOMER_EMAIL_SENT_KEY = "customerEmailSentAt";
@@ -15,6 +19,7 @@ const OWNER_EMAIL_SENT_KEY = "ownerEmailSentAt";
 type ConfirmationResult = {
   customerEmail: "sent" | "skipped" | "already_sent" | "failed";
   ownerEmail: "sent" | "skipped" | "already_sent" | "failed";
+  portalAccess?: PortalProvisioningResult["status"];
 };
 
 export async function processCheckoutSessionConfirmation(
@@ -59,12 +64,18 @@ export async function processCheckoutSessionConfirmation(
     await recordEventAttendanceFromSession(session);
   }
 
+  const portalAccess = await provisionOfferPortalAccessFromSession(session);
+  result.portalAccess = portalAccess.status;
+
   if (integrations.emailDelivery) {
     if (metadata[CUSTOMER_EMAIL_SENT_KEY]) {
       result.customerEmail = "already_sent";
     } else {
       try {
-        const emailResult = await sendPurchaseConfirmationEmail(session);
+        const emailResult = await sendPurchaseConfirmationEmail(
+          session,
+          portalAccess,
+        );
         result.customerEmail = emailResult.skipped ? "skipped" : "sent";
 
         if (!emailResult.skipped) {

@@ -682,7 +682,7 @@ function getOfferPurchaseEmailContent(
     return {
       subject: "Welcome to Reiki Rising Fall 2026",
       intro:
-        "Your Reiki Rising enrollment has been received. I'm so glad you'll be part of this Fall 2026 cohort.",
+        "Your Reiki Rising enrollment has been received. I'm so grateful for your trust and so excited to welcome you into this Fall 2026 cohort.",
       detailLines: [
         ...detailLines,
         "Program dates: September 27 - December 5, 2026",

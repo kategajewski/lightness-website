@@ -453,7 +453,7 @@ export async function sendPurchaseConfirmationEmail(
       (line) => `
         <tr>
           <td style="padding: 10px 0; border-bottom: 1px solid rgba(76,58,48,0.08);">
-            <p style="margin: 0; color: #4c3a30; font-size: 15px; line-height: 1.55; font-weight: 600;">${escapeHtml(line)}</p>
+            <p style="margin: 0; color: #4c3a30; font-family: 'Lato', Arial, sans-serif; font-size: 15px; line-height: 1.55; font-weight: 600;">${escapeHtml(line)}</p>
           </td>
         </tr>
       `,
@@ -462,7 +462,7 @@ export async function sendPurchaseConfirmationEmail(
   const reminderHtml = emailContent.reminderLines
     .map(
       (line) => `
-        <li style="margin: 0 0 12px; padding-left: 2px; color: #6f625a; font-size: 15px; line-height: 1.65;">
+        <li style="margin: 0 0 12px; padding-left: 2px; color: #6f625a; font-family: 'Lato', Arial, sans-serif; font-size: 15px; line-height: 1.65;">
           ${escapeHtml(line)}
         </li>
       `,
@@ -470,31 +470,34 @@ export async function sendPurchaseConfirmationEmail(
     .join("");
 
   const html = `
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Lato:wght@300;400;700&display=swap');
+    </style>
     <div style="margin: 0; padding: 32px 16px; background: #f6eee5;">
-      <div style="max-width: 680px; margin: 0 auto; font-family: Georgia, 'Times New Roman', serif; color: #3e342e;">
+      <div style="max-width: 680px; margin: 0 auto; font-family: 'Lato', Arial, sans-serif; color: #3e342e;">
         <div style="text-align: center; padding: 8px 0 22px;">
           <img src="${escapeHtml(logoUrl)}" alt="The Lightness of Being" width="64" height="64" style="display: inline-block; width: 64px; height: 64px; border-radius: 999px; object-fit: cover; opacity: 0.95;" />
-          <p style="margin: 12px 0 0; color: #7b6c62; font-family: Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;">
+          <p style="margin: 12px 0 0; color: #7b6c62; font-family: 'Lato', Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;">
             The Lightness of Being
           </p>
         </div>
 
         <div style="overflow: hidden; border: 1px solid rgba(76,58,48,0.1); border-radius: 28px; background: #fffaf4; box-shadow: 0 20px 60px rgba(59,41,31,0.08);">
           <div style="padding: 34px 34px 26px; background: linear-gradient(135deg, #fffaf4 0%, #f2e3d5 100%); border-bottom: 1px solid rgba(76,58,48,0.08);">
-            <p style="margin: 0 0 10px; color: #7b6c62; font-family: Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;">
+            <p style="margin: 0 0 10px; color: #7b6c62; font-family: 'Lato', Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;">
               ${escapeHtml(emailContent.subject)}
             </p>
-            <h1 style="margin: 0; color: #342923; font-size: 30px; line-height: 1.16; font-weight: 400;">
+            <h1 style="margin: 0; color: #342923; font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 36px; line-height: 1.08; font-weight: 300;">
               Hi ${escapeHtml(customerName)},
             </h1>
-            <p style="margin: 18px 0 0; color: #5f524a; font-size: 17px; line-height: 1.7;">
+            <p style="margin: 18px 0 0; color: #5f524a; font-family: 'Lato', Arial, sans-serif; font-size: 16px; line-height: 1.7;">
               ${escapeHtml(emailContent.intro)}
             </p>
           </div>
 
           <div style="padding: 28px 34px 10px;">
             <div style="padding: 22px 22px 12px; border-radius: 22px; background: #fff4eb; border: 1px solid rgba(76,58,48,0.08);">
-              <p style="margin: 0 0 8px; color: #7b6c62; font-family: Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
+              <p style="margin: 0 0 8px; color: #7b6c62; font-family: 'Lato', Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
                 Details
               </p>
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
@@ -504,7 +507,7 @@ export async function sendPurchaseConfirmationEmail(
           </div>
 
           <div style="padding: 18px 34px 4px;">
-            <p style="margin: 0 0 14px; color: #7b6c62; font-family: Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
+            <p style="margin: 0 0 14px; color: #7b6c62; font-family: 'Lato', Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
               Next Steps
             </p>
             <ul style="margin: 0; padding-left: 20px;">
@@ -513,10 +516,10 @@ export async function sendPurchaseConfirmationEmail(
           </div>
 
           <div style="padding: 22px 34px 28px; text-align: center;">
-            <a href="${escapeHtml(emailContent.href)}" style="display: inline-block; border-radius: 999px; background: #4c3a30; color: #fffaf4; font-family: Arial, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; padding: 15px 24px;">
+            <a href="${escapeHtml(emailContent.href)}" style="display: inline-block; border-radius: 999px; background: #4c3a30; color: #fffaf4; font-family: 'Lato', Arial, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; padding: 15px 24px;">
               ${escapeHtml(emailContent.hrefLabel)}
             </a>
-            <p style="margin: 18px auto 0; max-width: 420px; color: #7b6c62; font-size: 14px; line-height: 1.65;">
+            <p style="margin: 18px auto 0; max-width: 420px; color: #7b6c62; font-family: 'Lato', Arial, sans-serif; font-size: 14px; line-height: 1.65;">
               ${
                 giftCertificate
                   ? "Your printable gift certificate PDF is attached to this email."
@@ -526,10 +529,12 @@ export async function sendPurchaseConfirmationEmail(
           </div>
 
           <div style="padding: 24px 34px 30px; background: #f8eee4; border-top: 1px solid rgba(76,58,48,0.08);">
-            <p style="margin: 0; color: #5f524a; font-size: 16px; line-height: 1.75;">
+            <p style="margin: 0; color: #5f524a; font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 22px; line-height: 1.35; font-style: italic;">
               With love,<br />
-              Kate<br />
-              <span style="color: #7b6c62;">The Lightness of Being</span>
+              Kate
+            </p>
+            <p style="margin: 8px 0 0; color: #7b6c62; font-family: 'Lato', Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
+              The Lightness of Being
             </p>
           </div>
         </div>

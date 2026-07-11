@@ -31,19 +31,6 @@ const upcomingEvents = [
   },
   {
     isActive: true,
-    eyebrow: "Featured Event",
-    title: "Gallery Reading with Don Schaefer",
-    description:
-      "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
-    details:
-      "Tuesday, July 14, 2026 · 7-8:30 PM · Limited to 8 people · $50",
-    href: "/gallery-reading-with-don-schaefer",
-    cta: "View Event Details",
-    cardClass:
-      "border-[rgba(201,167,156,0.6)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(201,167,156,0.34))]",
-  },
-  {
-    isActive: true,
     eyebrow: "Outdoor Sound Bath",
     title: "Golden Hour: An Outdoor Sound Journey",
     description:
@@ -67,6 +54,19 @@ const upcomingEvents = [
     cta: "Reserve Your Spot",
     cardClass:
       "border-[rgba(168,178,159,0.68)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(168,178,159,0.28)_40%,rgba(201,167,156,0.22))]",
+  },
+  {
+    isActive: true,
+    eyebrow: "Featured Event",
+    title: "Gallery Reading with Don Schaefer",
+    description:
+      "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
+    details:
+      "Thursday, August 13, 2026 · 7-8:30 PM · Limited to 8 people · $50",
+    href: "/gallery-reading-with-don-schaefer",
+    cta: "View Event Details",
+    cardClass:
+      "border-[rgba(201,167,156,0.6)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(201,167,156,0.34))]",
   },
   {
     isActive: true,

@@ -16,6 +16,79 @@ Rule for future sessions:
   - Current brand colors are warm cream, cacao/deep brown, soft brown, sage, peach, and rose. Avoid random fonts, harsh black/white styling, strong cool colors, and off-brand palettes unless Kate explicitly asks.
 
 ## Current Note
+### Latest Save Point - Events Cleanup on July 10, 2026
+- Kate moved back from Reiki Rising into current website events.
+- Repo/worktree:
+  - `/Users/magicalbeing/Documents/Codex/2026-06-29/hii/work/july-events`
+  - branch `july-events`
+  - pushed to both `origin/july-events` and `origin/main`
+- Commits from this pass:
+  - `85a5ee0` Cancel Weekend Reset registration
+  - `36aa707` Move gallery reading to August
+  - `d1dfa43` Add August Golden Hour event
+- Weekend Reset:
+  - public route remains:
+    - `/the-weekend-reset`
+  - event is cancelled because only two people signed up
+  - removed from the active Events page
+  - direct page now says cancelled/registration closed
+  - checkout is guarded with `registrationClosed: true`
+  - old slug retained for records/admin history:
+    - `the-weekend-reset-july-11-2026`
+- Gallery Reading with Don Schaefer:
+  - public route:
+    - `/gallery-reading-with-don-schaefer`
+  - current July reading was sold out, so page/card were moved to the next date:
+    - Thursday, August 13, 2026
+    - 7:00-8:30 PM
+    - Limited to 8 people
+    - $50
+  - registration remains via Don's Venmo link on the page
+- Events page order is now chronological for active events:
+  - Golden Hour: Tuesday, July 28, 2026
+  - Reiki Share: Thursday, August 6, 2026
+  - Gallery Reading with Don Schaefer: Thursday, August 13, 2026
+  - Flow Field: Sunday, August 16, 2026
+  - Golden Hour: Tuesday, August 25, 2026
+- Golden Hour events:
+  - both July and August Golden Hour events are active at the same time
+  - July route remains:
+    - `/sacred-sounds-under-the-sky`
+  - July checkout/admin slug remains:
+    - `golden-hour-july-28-2026`
+  - August route added:
+    - `/golden-hour-august-25`
+  - August checkout/admin slug added:
+    - `golden-hour-august-25-2026`
+  - August details:
+    - Tuesday, August 25, 2026
+    - 7:30 PM
+    - rain date Thursday, August 27, 2026 at 7:30 PM
+    - $30 advance / $35 day-of if space remains
+  - Stripe/admin behavior:
+    - July and August Golden Hour use separate event slugs, so completed purchases should appear as two separate roster groups in admin
+    - August confirmation email content was added with the correct date/rain date
+- Validation:
+  - `npm run lint` passed with only existing `<img>` warnings
+  - `npx next build --webpack` passed
+  - live site was checked after deploy:
+    - Events page shows both Golden Hour dates
+    - `/golden-hour-august-25` shows August 25 and rain date August 27
+    - `/the-weekend-reset` shows cancelled
+    - Gallery page shows August 13
+- Current known workspace note:
+  - unrelated untracked duplicate files still exist and were not touched:
+    - `src/app/checkout/[slug]/page 2.tsx`
+    - `src/app/checkout/success/page 2.tsx`
+    - `src/app/reiki-rising/page 2.tsx`
+    - `src/lib/email 2.ts`
+    - `src/lib/offers 2.ts`
+    - `work/`
+- Next recommended starting point:
+  - if Kate asks about admin rosters, confirm Event Attendance groups by event slug
+  - if adding another repeat event, create a new unique checkout slug/admin roster slug even when the public title stays the same
+  - if an event passes or sells out, archive/close registration while keeping old slugs for history
+
 ### Paused / Pinned on July 10, 2026
 - Kate asked to put the Reiki Rising project down for now and resume from this handoff next time.
 - When returning to this project, start by reminding Kate:

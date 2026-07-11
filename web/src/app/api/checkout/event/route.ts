@@ -39,6 +39,7 @@ const eventCheckoutConfig = {
     description:
       "Ticket for The Weekend Reset, a 75-minute outdoor gentle yoga and sound bath experience at The Lightness Grounds. Tickets move to the rain date if needed and are non-refundable.",
     amountCents: 3000,
+    registrationClosed: true,
     successPath: "/checkout/success",
     cancelPath: "/the-weekend-reset",
   },
@@ -62,6 +63,15 @@ export async function POST(request: Request) {
 
   if (!event) {
     return NextResponse.redirect(`${origin}/events`, { status: 303 });
+  }
+
+  if ("registrationClosed" in event && event.registrationClosed) {
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=registration_closed`,
+      {
+        status: 303,
+      },
+    );
   }
 
   if (!integrations.stripe || !env.stripeSecretKey) {

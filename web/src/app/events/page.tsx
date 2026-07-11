@@ -17,13 +17,13 @@ const upcomingEvents = [
       "border-[rgba(168,178,159,0.64)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(168,178,159,0.38))]",
   },
   {
-    isActive: true,
-    eyebrow: "Outdoor Morning Practice",
+    isActive: false,
+    eyebrow: "Cancelled Event",
     title: "The Weekend Reset",
     description:
       "A morning of gentle yoga and sound healing to help you reconnect with yourself before the week ahead.",
     details:
-      "Saturday, July 11, 2026 · 8:00-9:15 AM · Rain date Sunday, July 12 · The Lightness Grounds in Bayport · $30",
+      "Cancelled · Saturday, July 11, 2026 · 8:00-9:15 AM · The Lightness Grounds in Bayport",
     href: site.links.theWeekendReset,
     cta: "Reserve Your Place",
     cardClass:

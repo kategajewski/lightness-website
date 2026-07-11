@@ -12,6 +12,15 @@ export async function POST(request: Request) {
     return NextResponse.redirect(`${origin}/events`, { status: 303 });
   }
 
+  if ("registrationClosed" in event && event.registrationClosed) {
+    return NextResponse.redirect(
+      `${origin}${event.cancelPath}?checkoutError=registration_closed`,
+      {
+        status: 303,
+      },
+    );
+  }
+
   if (!integrations.stripe || !env.stripeSecretKey) {
     return NextResponse.redirect(
       `${origin}${event.cancelPath}?checkoutError=stripe_not_configured`,

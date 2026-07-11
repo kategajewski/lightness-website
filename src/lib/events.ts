@@ -14,6 +14,7 @@ export type EventCheckoutConfig = {
   emailIntro: string;
   emailDetailLines: string[];
   emailReminderLines: string[];
+  registrationClosed?: boolean;
 };
 
 export const eventCheckoutConfig = {
@@ -139,6 +140,7 @@ export const eventCheckoutConfig = {
     description:
       "Ticket for The Weekend Reset, a 75-minute outdoor gentle yoga and sound bath experience at The Lightness Grounds. Tickets move to the rain date if needed and are non-refundable.",
     amountCents: 3000,
+    registrationClosed: true,
     successPath: "/checkout/success",
     cancelPath: "/the-weekend-reset",
     detailHref: site.links.theWeekendReset,

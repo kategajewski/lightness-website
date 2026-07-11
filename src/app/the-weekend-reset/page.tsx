@@ -4,10 +4,10 @@ import { site } from "@/lib/site";
 
 const details = [
   {
-    label: "Date",
-    value: "Sat, Jul 11",
+    label: "Status",
+    value: "Cancelled",
     description:
-      "Gather from 8:00-9:15 AM at The Lightness Grounds in Bayport, NY.",
+      "Registration has been closed for this gathering.",
   },
   {
     label: "Experience",
@@ -17,9 +17,9 @@ const details = [
   },
   {
     label: "Exchange",
-    value: "$30",
+    value: "Closed",
     description:
-      "Advance registration through secure Stripe checkout.",
+      "No additional tickets are being accepted.",
   },
 ] as const;
 
@@ -31,12 +31,12 @@ const bringItems = [
 ] as const;
 
 const goodToKnow = [
-  "Saturday, July 11 from 8:00-9:15 AM",
-  "Rain date Sunday, July 12; tickets move to the rain date if needed",
+  "This July 11 gathering has been cancelled",
+  "Registration is closed and no additional tickets are being accepted",
   "75-minute gentle yoga and sound bath experience",
   "The Lightness Grounds, corner of Gillette Avenue and Academy Street in Bayport",
   "All levels are welcome",
-  "Tickets are non-refundable",
+  "Please contact Kate directly with any questions about an existing ticket",
 ] as const;
 
 const eventJsonLd = {
@@ -47,7 +47,7 @@ const eventJsonLd = {
     "A 75-minute outdoor gentle yoga and sound bath experience designed to help you slow down, reconnect, and create space before a new week begins.",
   startDate: "2026-07-11T08:00:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-  eventStatus: "https://schema.org/EventScheduled",
+  eventStatus: "https://schema.org/EventCancelled",
   image: "https://bethelightness.com/homepage-images/weekend-reset-kate-sound.jpeg",
   location: {
     "@type": "Place",
@@ -69,7 +69,7 @@ const eventJsonLd = {
     "@type": "Offer",
     price: "30",
     priceCurrency: "USD",
-    availability: "https://schema.org/InStock",
+    availability: "https://schema.org/SoldOut",
     url: "https://bethelightness.com/the-weekend-reset",
   },
 };
@@ -77,9 +77,9 @@ const eventJsonLd = {
 export default function TheWeekendResetPage() {
   return (
     <PageShell
-      eyebrow="Outdoor Morning Practice"
+      eyebrow="Cancelled Event"
       title="The Weekend Reset"
-      description="A Morning of Gentle Yoga & Sound Healing"
+      description="This July gathering has been cancelled."
     >
       <script
         type="application/ld+json"
@@ -109,35 +109,23 @@ export default function TheWeekendResetPage() {
                 The Weekend Reset.
               </h2>
               <p className="mt-5 max-w-[36rem] text-[1.04rem] leading-8 text-[var(--color-muted)]">
-                The Weekend Reset is a 75-minute outdoor gentle yoga and sound
-                bath experience designed to help you slow down, reconnect, and
-                create space before a new week begins.
+                The Weekend Reset has been cancelled, and registration is now
+                closed.
               </p>
               <p className="mt-4 max-w-[36rem] text-[1.04rem] leading-8 text-[var(--color-muted)]">
-                Together we&apos;ll move gently, breathe deeply, and settle into
-                an immersive sound journey beneath the open sky.
+                Thank you for understanding. If you already purchased a ticket,
+                please watch your email for any direct follow-up from Kate.
               </p>
               <p className="mt-4 max-w-[36rem] text-[1.04rem] leading-8 text-[var(--color-muted)]">
-                Come as you are. Let the earth support you, let your breath
-                guide you home, and leave feeling grounded, restored, and ready
-                for the days ahead.
+                You can still explore the current events calendar for upcoming
+                sound journeys, Reiki gatherings, and outdoor practices.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <form action="/api/checkout/event" method="post">
-                <input
-                  type="hidden"
-                  name="eventSlug"
-                  value="the-weekend-reset-july-11-2026"
-                />
-                <button type="submit" className="button-pill">
-                  Reserve Your Place
-                </button>
-              </form>
               <Link
                 href={site.links.events}
-                className="button-pill button-pill-secondary"
+                className="button-pill"
               >
                 Back to Events
               </Link>
@@ -152,7 +140,7 @@ export default function TheWeekendResetPage() {
             />
             <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(0deg,rgba(47,37,32,0.58),transparent)] p-6 text-[#fffaf5] sm:p-8">
               <p className="max-w-[30rem] text-[1.05rem] font-semibold leading-7">
-                Gentle yoga and sound healing at The Lightness Grounds.
+                This gathering has been cancelled.
               </p>
             </div>
           </div>
@@ -192,7 +180,7 @@ export default function TheWeekendResetPage() {
             What To Bring
           </span>
           <h2 className="display-section-title">
-            A simple outdoor practice to begin again.
+            A simple outdoor practice for another time.
           </h2>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {bringItems.map((item) => (
@@ -216,9 +204,9 @@ export default function TheWeekendResetPage() {
             Outdoor event policy.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            The Weekend Reset has a rain date of Sunday, July 12. If weather
-            asks us to shift, tickets will move to the rain date and remain
-            non-refundable.
+            The Weekend Reset has been cancelled and registration is closed. If
+            you already purchased a ticket, please watch your email for direct
+            follow-up from Kate.
           </p>
         </div>
         <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">

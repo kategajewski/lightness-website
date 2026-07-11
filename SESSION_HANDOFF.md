@@ -16,6 +16,27 @@ Rule for future sessions:
   - Current brand colors are warm cream, cacao/deep brown, soft brown, sage, peach, and rose. Avoid random fonts, harsh black/white styling, strong cool colors, and off-brand palettes unless Kate explicitly asks.
 
 ## Current Note
+### Paused / Pinned on July 10, 2026
+- Kate asked to put the Reiki Rising project down for now and resume from this handoff next time.
+- When returning to this project, start by reminding Kate:
+  - the Reiki Rising Fall 2026 sales page, checkout, confirmation page, portal setup routes, and automated portal access work have been built and pushed
+  - the Reiki Rising confirmation email preview is open locally at:
+    - `/Users/magicalbeing/Documents/Codex/2026-06-29/hii/work/july-events/outputs/email-previews/reiki-rising-confirmation-preview.html`
+  - the email design has been updated to use the current brand fonts:
+    - `Lato`
+    - `Cormorant Garamond`
+    - `Cormorant Garamond Italic`
+  - a standing brand rule has been added to `BRAND_GUIDE.md` and this handoff: future pages, emails, PDFs, previews, decks, portals, and client-facing materials should use the approved Lightness colors, fonts, spacing, and tone by default
+- Next recommended starting point when resuming:
+  - review the final Reiki Rising confirmation email preview with Kate one more time
+  - confirm whether the email copy needs any last wording changes before live use
+  - confirm Stripe payment plan handling before making the 3-payment option active
+  - confirm portal automation in a test checkout or controlled live test
+  - clarify final certification language before publishing any certificate/completion wording
+- Current known caution:
+  - do not launch the recurring payment-plan checkout until Stripe cancellation/schedule behavior is confirmed
+  - leave unrelated untracked duplicate files alone unless Kate asks to clean them up
+
 ### Latest Save Point
 - Reiki Rising Fall 2026 enrollment / portal automation work is in progress in:
   - `/Users/magicalbeing/Documents/Codex/2026-06-29/hii/work/july-events`

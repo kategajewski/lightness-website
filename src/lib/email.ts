@@ -276,6 +276,25 @@ const eventEmailContent = {
     href: `${env.siteUrl}${site.links.sacredSoundsUnderTheSky}`,
     hrefLabel: "View event details",
   },
+  "golden-hour-august-25-2026": {
+    title: "Golden Hour: An Outdoor Sound Journey",
+    intro:
+      "Your place is confirmed. I'm so glad you'll be joining this golden-hour outdoor sound journey.",
+    detailLines: [
+      "Date: Tuesday, August 25, 2026",
+      "Time: 7:30 PM",
+      "Location: The Lightness Grounds, Bayport, NY",
+      "Rain date: Thursday, August 27, 2026 at 7:30 PM",
+      "Day-of tickets: $35 if space is still available",
+    ],
+    reminderLines: [
+      "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy, settled, and supported.",
+      "This is a fully outdoor gathering and there are no bathroom facilities on site.",
+      "If weather shifts the event, tickets move to the rain date and remain non-refundable.",
+    ],
+    href: `${env.siteUrl}/golden-hour-august-25`,
+    hrefLabel: "View event details",
+  },
   "reiki-share-july-1-2026": {
     title: "Reiki Share",
     intro:

@@ -92,6 +92,33 @@ export const eventCheckoutConfig = {
       "If weather shifts the event, tickets move to the rain date and remain non-refundable.",
     ],
   },
+  "golden-hour-august-25-2026": {
+    slug: "golden-hour-august-25-2026",
+    name: "Golden Hour: An Outdoor Sound Journey",
+    description:
+      "Advance ticket for the Tuesday, August 25, 2026 golden hour outdoor sound journey. Tickets move to the rain date if needed and are non-refundable.",
+    amountCents: 3000,
+    successPath: "/checkout/success",
+    cancelPath: "/golden-hour-august-25",
+    detailHref: "/golden-hour-august-25",
+    confirmationTitle: "You're booked for Golden Hour.",
+    confirmationDescription:
+      "Your advance ticket for Golden Hour: An Outdoor Sound Journey has been received. You can watch your email for your Stripe confirmation and any event reminders.",
+    emailIntro:
+      "Your place is confirmed. I'm so glad you'll be joining this golden-hour outdoor sound journey.",
+    emailDetailLines: [
+      "Date: Tuesday, August 25, 2026",
+      "Time: 7:30 PM",
+      "Location: The Lightness Grounds, Bayport, NY",
+      "Rain date: Thursday, August 27, 2026 at 7:30 PM",
+      "Day-of tickets: $35 if space is still available",
+    ],
+    emailReminderLines: [
+      "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy, settled, and supported.",
+      "This is a fully outdoor gathering and there are no bathroom facilities on site.",
+      "If weather shifts the event, tickets move to the rain date and remain non-refundable.",
+    ],
+  },
   "reiki-share-july-1-2026": {
     slug: "reiki-share-july-1-2026",
     name: "Reiki Share",

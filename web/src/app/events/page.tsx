@@ -82,6 +82,19 @@ const upcomingEvents = [
       "border-[rgba(230,194,162,0.62)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.34)_42%,rgba(168,178,159,0.28))]",
   },
   {
+    isActive: true,
+    eyebrow: "Outdoor Sound Bath",
+    title: "Golden Hour: An Outdoor Sound Journey",
+    description:
+      "A welcoming sunset ceremony to soften into the evening with sound, stillness, and open-sky rest.",
+    details:
+      "Tuesday, August 25, 2026 · 7:30 PM · Rain date Thursday, August 27 · $30 advance / $35 day of",
+    href: "/golden-hour-august-25",
+    cta: "Reserve Your Place",
+    cardClass:
+      "border-[rgba(230,194,162,0.64)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.42)_54%,rgba(201,167,156,0.26))]",
+  },
+  {
     isActive: false,
     eyebrow: "Past Event",
     title: "Rise into Light",

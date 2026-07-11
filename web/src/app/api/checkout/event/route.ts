@@ -34,6 +34,14 @@ const eventCheckoutConfig = {
     successPath: "/checkout/success",
     cancelPath: "/sacred-sounds-under-the-sky",
   },
+  "golden-hour-august-25-2026": {
+    name: "Golden Hour: An Outdoor Sound Journey",
+    description:
+      "Advance ticket for the Tuesday, August 25, 2026 golden hour outdoor sound journey. Tickets move to the rain date if needed and are non-refundable.",
+    amountCents: 3000,
+    successPath: "/checkout/success",
+    cancelPath: "/golden-hour-august-25",
+  },
   "the-weekend-reset-july-11-2026": {
     name: "The Weekend Reset",
     description:

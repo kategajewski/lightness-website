@@ -29,8 +29,8 @@ const trainingPaths = [
     description:
       "A practitioner training for those who want to facilitate restorative, grounded sound experiences with intention, presence, and confidence.",
     details:
-      "This immersive training is offered two times each year and is best for those ready to deepen into sound as both a personal and professional practice.",
-    cta: "Learn About Sound Training",
+      "The next in-person training is planned for January 2027. Exact dates are still being finalized, and the waitlist is now open.",
+    cta: "Join the Waitlist",
     href: site.links.soundTraining,
   },
 ] as const;

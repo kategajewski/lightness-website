@@ -51,7 +51,11 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <strong className="text-[1.05rem]">{offer.priceLabel}</strong>
             <span className="rounded-full bg-[rgba(168,178,159,0.18)] px-3 py-1 text-[0.82rem] uppercase tracking-[0.12em] text-[var(--color-muted)]">
-              {offer.format === "subscription" ? "Recurring" : "One-time"}
+              {offer.format === "subscription"
+                ? "Recurring"
+                : offer.format === "inquiry"
+                  ? "Waitlist"
+                  : "One-time"}
             </span>
           </div>
 
@@ -79,7 +83,7 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
                 : isMembership
                   ? "Checkout will open here soon"
                   : isSoundTraining
-                    ? "Registration will open here soon"
+                    ? "Join the January 2027 waitlist"
                     : isGiftCertificate
                       ? "Gift checkout will open here soon"
                   : "Checkout will open here soon"}
@@ -94,7 +98,7 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
                 : isMembership
                   ? "This page is being prepared for live recurring checkout. In the meantime, you can review the membership details and return to the membership page for the full offer overview."
                   : isSoundTraining
-                    ? "This registration page is fully prepared for the October 2-4, 2026 training. The final payment step will be connected here when Stripe is ready."
+                    ? "Exact dates are still being finalized. No payment is being accepted yet; join the waitlist to receive the schedule and enrollment details first."
                     : isGiftCertificate
                       ? "This gift certificate checkout is being finalized. In the meantime, you can return to the gift certificate page for more details."
                   : "This checkout page is being prepared for live payment. In the meantime, you can return to the main offer page for full details."}
@@ -185,7 +189,7 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
                   {isMembership
                     ? "View Membership Details"
                     : isSoundTraining
-                      ? "Return to Training Details"
+                      ? "Join the Waitlist"
                       : isGiftCertificate
                         ? "Return to Gift Certificate Details"
                       : "Return to Offer Details"}

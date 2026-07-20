@@ -29,6 +29,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
   const subject = params?.subject;
   const draft = params?.draft;
   const isTrainingWaitlist = inquiryType === "training" && Boolean(subject);
+  const isSoundTrainingWaitlist =
+    isTrainingWaitlist && subject === "Sound Practitioner Training Waitlist";
   const isPrivateEventInquiry =
     inquiryType === "events" &&
     subject === "Private Event or Ceremony Inquiry";
@@ -47,7 +49,9 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
       eyebrow="Contact"
       title={
         isTrainingWaitlist
-          ? "Join the Reiki Rising waitlist."
+          ? isSoundTrainingWaitlist
+            ? "Join the Sound Practitioner Training waitlist."
+            : "Join the Reiki Rising waitlist."
           : isPrivateEventInquiry
             ? "Inquire about a private event or ceremony."
             : isUpcomingEventInquiry
@@ -58,7 +62,9 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
       }
       description={
         isTrainingWaitlist
-          ? "Share your details below and Kate will reach out when the next Reiki Rising cohort opens."
+          ? isSoundTrainingWaitlist
+            ? "Share your details below and Kate will send you the January 2027 dates and enrollment information as soon as they are confirmed."
+            : "Share your details below and Kate will reach out when the next Reiki Rising cohort opens."
           : isPrivateEventInquiry
             ? "Share what you are envisioning, and Kate will follow up about creating a personalized ceremony, blessing, or private gathering."
             : isUpcomingEventInquiry
@@ -91,7 +97,9 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
           {isTrainingWaitlist ? (
             <p className="mt-6 rounded-[18px] border border-[rgba(168,178,159,0.22)] bg-[rgba(255,251,246,0.72)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
-              This inquiry will be sent as a training request for the next Reiki Rising cohort.
+              {isSoundTrainingWaitlist
+                ? "This will add you to the Sound Practitioner Training waitlist. No payment is required."
+                : "This inquiry will be sent as a training request for the next Reiki Rising cohort."}
             </p>
           ) : null}
 
@@ -186,7 +194,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             type="submit"
             className="button-pill mt-6"
           >
-            Send Message
+            {isTrainingWaitlist ? "Join the Waitlist" : "Send Message"}
           </button>
         </form>
 

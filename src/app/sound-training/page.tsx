@@ -26,25 +26,15 @@ const soundTrainingSections = [
   },
 ] as const;
 
-const pricingOptions = [
-  {
-    title: "Pay in Full",
-    price: "$1,344",
-    details: "One-time payment for the full September 18-20, 2026 training.",
-  },
-  {
-    title: "Payment Plan",
-    price: "5 monthly payments of $288",
-    details: "A more spacious payment rhythm while still reserving your place in the training.",
-  },
-] as const;
+const waitlistHref =
+  "/contact?inquiryType=training&subject=Sound%20Practitioner%20Training%20Waitlist&draft=Hi%20Kate%2C%20I%27d%20love%20to%20join%20the%20waitlist%20for%20the%20January%202027%20Sound%20Practitioner%20Training.";
 
 export default function SoundTrainingPage() {
   return (
     <PageShell
       eyebrow="Sound Training"
       title="Sound Practitioner Training"
-      description="Led by Kate Gajewski and Raquel Vamos, this in-person training takes place September 18-20, 2026 and explores instruments, facilitation, and grounded sound practice."
+      description="Led by Kate Gajewski and Raquel Vamos, this immersive in-person training explores instruments, facilitation, and grounded sound practice. The next training is planned for January 2027, with exact dates to be announced."
     >
       <section className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
         <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
@@ -97,21 +87,21 @@ export default function SoundTrainingPage() {
       <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
         <div className="max-w-[46rem]">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            Next Training Dates
+            Next Training
           </span>
-          <h2 className="display-section-title">September 18-20, 2026</h2>
+          <h2 className="display-section-title">January 2027</h2>
           <p className="mt-4 text-[var(--color-muted)]">
-            Registration is open for the next in-person Sound Practitioner
-            Training. Reserve your place now, or reach out if you want to feel
-            into whether this is the right next step.
+            Exact dates are still being finalized, so registration and payment
+            are not open yet. Join the waitlist to be the first to receive the
+            full schedule and enrollment details when they are ready.
           </p>
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            href="/checkout/sound-training"
+            href={waitlistHref}
             className="button-pill"
           >
-            Reserve Your Spot
+            Join the Waitlist
           </Link>
           <Link
             href={site.links.contact}
@@ -122,35 +112,6 @@ export default function SoundTrainingPage() {
         </div>
       </section>
 
-      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
-        <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-          Investment
-        </span>
-        <h2 className="max-w-[20ch] display-section-title">
-          Choose the payment path that feels most supportive.
-        </h2>
-        <p className="mt-5 max-w-[42rem] text-[var(--color-muted)]">
-          Both options reserve your place in the September training.
-        </p>
-        <div className="mt-8 grid gap-5 lg:grid-cols-2">
-          {pricingOptions.map((item) => (
-            <article
-              key={item.title}
-              className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.84)] p-6 shadow-[0_12px_32px_rgba(59,41,31,0.08)]"
-            >
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <h3 className="display-card-title">
-                  {item.title}
-                </h3>
-                <strong className="text-[1.1rem] text-[var(--color-text)]">
-                  {item.price}
-                </strong>
-              </div>
-              <p className="mt-4 text-[var(--color-muted)]">{item.details}</p>
-            </article>
-          ))}
-        </div>
-      </section>
     </PageShell>
   );
 }

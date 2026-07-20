@@ -107,45 +107,23 @@ export const offers: Offer[] = [
     slug: "sound-training",
     name: "Sound Practitioner Training",
     category: "course",
-    format: "one_time",
-    priceLabel: "$1,344 or 5 monthly payments of $288",
+    format: "inquiry",
+    priceLabel: "January 2027 · Dates to be announced",
     description:
       "A live immersive training for those who want to facilitate sound experiences with intention, grounded presence, and embodied confidence.",
     audience:
       "Best for practitioners, space holders, and heart-led students who feel called to bring sound more intentionally into healing work, classes, ceremonies, or private sessions.",
-    cta: "Reserve Your Spot",
+    cta: "Join the Waitlist",
     features: [
-      "Live in-person training held September 18-20, 2026",
-      "Full payment option of $1,344",
-      "Payment plan option of 5 monthly payments of $288",
+      "Next in-person training planned for January 2027",
+      "Exact dates and enrollment details will be announced to the waitlist",
+      "No payment is being accepted until the dates are confirmed",
       "Hands-on learning with instruments, facilitation, and practitioner presence",
     ],
     detail:
-      "This checkout page is being prepared for live registration. The offer itself is fully defined now so the final Stripe step can simply be connected when you're ready.",
+      "Join the waitlist to receive the dates, schedule, and registration details as soon as they are confirmed.",
     image: "/homepage-images/moodysound.jpeg",
-    href: "/checkout/sound-training",
-    stripePriceId: env.stripePriceSoundTraining,
-    purchaseOptions: [
-      {
-        key: "full-payment",
-        label: "Full Payment",
-        priceLabel: "$1,344 one-time",
-        description:
-          "Pay in full to reserve your place in the September 18-20, 2026 training.",
-        mode: "payment",
-        stripePriceId:
-          env.stripePriceSoundTrainingFull || env.stripePriceSoundTraining,
-      },
-      {
-        key: "payment-plan",
-        label: "5-Month Payment Plan",
-        priceLabel: "5 monthly payments of $288",
-        description:
-          "Choose a monthly payment rhythm while still reserving your place in the training.",
-        mode: "subscription",
-        stripePriceId: env.stripePriceSoundTrainingPlan,
-      },
-    ],
+    href: "/contact?inquiryType=training&subject=Sound%20Practitioner%20Training%20Waitlist&draft=Hi%20Kate%2C%20I%27d%20love%20to%20join%20the%20waitlist%20for%20the%20January%202027%20Sound%20Practitioner%20Training.",
   },
   {
     slug: "gift-certificate",
@@ -246,7 +224,9 @@ export function getCheckoutReadiness(offer: Offer) {
       integrations.stripe &&
       (Boolean(offer.stripePriceId) || hasAnyOptionPrice || hasAnyInlinePrice),
     currentFallbackHref:
-      offer.slug === "monthly-membership"
+      offer.format === "inquiry"
+        ? offer.href
+        : offer.slug === "monthly-membership"
         ? site.links.membership
         : offer.slug === "sound-training"
           ? site.links.soundTraining

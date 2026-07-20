@@ -80,8 +80,16 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           <div className="overflow-hidden rounded-[34px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
             <div className="mx-auto w-full max-w-[20rem]">
               <img
-                src="/homepage-images/contact-page-magicbed.jpeg"
-                alt="A warm and welcoming healing space"
+                src={
+                  isSoundTrainingWaitlist
+                    ? "/homepage-images/services-lightnesssound.jpeg"
+                    : "/homepage-images/contact-page-magicbed.jpeg"
+                }
+                alt={
+                  isSoundTrainingWaitlist
+                    ? "Kate facilitating a sound healing experience with crystal singing bowls"
+                    : "A warm and welcoming healing space"
+                }
                 className="block h-auto w-full rounded-[34px] object-contain object-center"
               />
             </div>

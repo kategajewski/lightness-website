@@ -70,12 +70,12 @@ const upcomingEvents = [
   },
   {
     isActive: true,
-    eyebrow: "Outdoor Morning Practice",
+    eyebrow: "Outdoor Evening Practice",
     title: "Flow Field",
     description:
       "An open-air vinyasa flow and restorative sound healing experience led by Kate + Kelly.",
     details:
-      "Sunday, August 16, 2026 · 8:00-9:30 AM · The Lightness Grounds in Bayport · $45",
+      "Thursday, August 20, 2026 · 6:30-8:00 PM · The Lightness Grounds in Bayport · $45",
     href: site.links.flowField,
     cta: "Reserve Your Place",
     cardClass:

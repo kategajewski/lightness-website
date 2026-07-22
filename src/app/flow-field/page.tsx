@@ -5,9 +5,9 @@ import { site } from "@/lib/site";
 const details = [
   {
     label: "Date",
-    value: "Sun, Aug 16",
+    value: "Thu, Aug 20",
     description:
-      "Gather from 8:00-9:30 AM at The Lightness Grounds in Bayport, NY.",
+      "Gather from 6:30-8:00 PM at The Lightness Grounds in Bayport, NY.",
   },
   {
     label: "Experience",
@@ -30,7 +30,7 @@ const bringItems = [
 ] as const;
 
 const goodToKnow = [
-  "Sunday, August 16 from 8:00-9:30 AM",
+  "Thursday, August 20 from 6:30-8:00 PM",
   "Led by Kate Gajewski and Kelly Fitzsimons",
   "The Lightness Grounds, corner of Gillette Avenue and Academy Street in Bayport",
   "$45 exchange",
@@ -44,8 +44,8 @@ const eventJsonLd = {
   name: "Flow Field",
   description:
     "An open-air experience beginning with an invigorating vinyasa flow and ending with deeply restorative sound healing beneath the summer sky.",
-  startDate: "2026-08-16T08:00:00-04:00",
-  endDate: "2026-08-16T09:30:00-04:00",
+  startDate: "2026-08-20T18:30:00-04:00",
+  endDate: "2026-08-20T20:00:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
   image: "https://bethelightness.com/homepage-images/flow-field-kelly.jpeg",
@@ -77,7 +77,7 @@ const eventJsonLd = {
 export default function FlowFieldPage() {
   return (
     <PageShell
-      eyebrow="Outdoor Morning Practice"
+      eyebrow="Outdoor Evening Practice"
       title="Flow Field"
       description="An open-air vinyasa flow and restorative sound healing experience led by Kate Gajewski and Kelly Fitzsimons."
     >
@@ -92,10 +92,10 @@ export default function FlowFieldPage() {
             <div>
               <div className="flex flex-wrap gap-2">
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
-                  Sunday, August 16
+                  Thursday, August 20
                 </span>
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
-                  8:00-9:30 AM
+                  6:30-8:00 PM
                 </span>
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
                   Bayport, NY
@@ -106,7 +106,7 @@ export default function FlowFieldPage() {
                 Flow Field.
               </h2>
               <p className="mt-5 max-w-[36rem] text-[1.04rem] leading-8 text-[var(--color-muted)]">
-                Led by Kate Gajewski and Kelly Fitzsimons, this morning
+                Led by Kate Gajewski and Kelly Fitzsimons, this evening
                 gathering invites you to move, breathe, and unwind beneath the
                 summer sky.
               </p>

@@ -216,9 +216,9 @@ export default async function ReikiRisingFall2026LibraryPage() {
               ))}
             </ul>
             <p className="mt-5 text-[var(--color-muted)]">
-              Each placement includes one additional group make-up placement
-              call. Private placement appointments may be scheduled during
-              office hours for an additional fee.
+              For each level, one additional group make-up placement is
+              included. A personal private placement may be scheduled during
+              office hours for $50 remotely or $75 in person.
             </p>
           </section>
         </div>

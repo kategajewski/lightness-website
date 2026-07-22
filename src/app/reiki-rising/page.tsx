@@ -84,7 +84,7 @@ const faqs = [
   {
     question: "Will I receive certification?",
     answer:
-      "Yes. Reiki Rising is structured as a Reiki 1 and Reiki 2 certification path with placements, practice, and integration. To receive certification, students must receive the Level 1 and Level 2 placements live. For each level, there will be one additional group make-up placement call available if you cannot attend the Wednesday evening placement. If you need a different time, a private placement may be scheduled during office hours for an additional fee.",
+      "Yes. Reiki Rising is structured as a Reiki 1 and Reiki 2 certification path with placements, practice, and integration. To receive certification, students must receive the Level 1 and Level 2 placements live. For each level, one additional group make-up placement is included if you cannot attend the Wednesday evening placement. If you need a personal private placement instead, it may be scheduled during office hours for $50 remotely or $75 in person.",
   },
 ] as const;
 
@@ -269,10 +269,10 @@ export default function ReikiRisingPage() {
             ))}
           </ul>
           <p className="mt-5 text-[0.95rem] text-[var(--color-muted)]">
-            Each placement includes one additional group make-up placement call
-            if you cannot attend the Wednesday evening placement. Private
-            placement appointments may be scheduled during office hours for an
-            additional fee.
+            For each level, one additional group make-up placement is included
+            if you cannot attend the Wednesday evening placement. A personal
+            private placement may be scheduled during office hours for $50
+            remotely or $75 in person.
           </p>
         </div>
       </section>

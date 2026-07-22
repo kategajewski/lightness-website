@@ -19,12 +19,6 @@ type EventAttendanceRow = {
   purchased_at: string;
 };
 
-// Keep archived/past event lists out of the current admin roster.
-const hiddenRosterEventSlugs = new Set<string>(["reiki-share-july-1-2026"]);
-const rosterEventSlugs = activeEventSlugs.filter(
-  (slug) => !hiddenRosterEventSlugs.has(slug),
-);
-
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en-US", {
     dateStyle: "medium",
@@ -52,6 +46,34 @@ function getEventDateLabel(eventSlug: string) {
   return dateLine?.replace(/^date:\s*/i, "") ?? null;
 }
 
+function getEventDateKey(eventSlug: string) {
+  const dateLabel = getEventDateLabel(eventSlug);
+
+  if (!dateLabel) {
+    return null;
+  }
+
+  const date = new Date(dateLabel);
+
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  return date.toISOString().slice(0, 10);
+}
+
+function getTodayInNewYork() {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date());
+  const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+
+  return `${values.year}-${values.month}-${values.day}`;
+}
+
 function getRosterEventTitle(eventSlug: string, fallbackName?: string | null) {
   const event = getEventBySlug(eventSlug);
   const eventName = event?.name || fallbackName || eventSlug;
@@ -72,12 +94,17 @@ export default async function EventAttendancePage() {
   }
 
   const supabase = createSupabaseAdminClient();
+  const today = getTodayInNewYork();
+  const upcomingEventSlugs = activeEventSlugs.filter((slug) => {
+    const dateKey = getEventDateKey(slug);
+    return dateKey === null || dateKey >= today;
+  });
   const { data, error } = await supabase
     .from("event_attendance")
     .select(
       "id, event_slug, event_name, customer_name, customer_email, amount_total, currency, payment_status, stripe_session_id, purchased_at",
     )
-    .in("event_slug", rosterEventSlugs)
+    .in("event_slug", upcomingEventSlugs)
     .order("purchased_at", { ascending: false })
     .limit(300);
 
@@ -89,6 +116,16 @@ export default async function EventAttendancePage() {
       return groups;
     },
     {},
+  );
+  const upcomingEventGroups = Object.entries(groupedAttendees).sort(
+    ([firstSlug], [secondSlug]) => {
+      const firstDate = getEventDateKey(firstSlug);
+      const secondDate = getEventDateKey(secondSlug);
+
+      if (firstDate === null) return 1;
+      if (secondDate === null) return -1;
+      return firstDate.localeCompare(secondDate);
+    },
   );
 
   return (
@@ -126,9 +163,9 @@ export default async function EventAttendancePage() {
         </section>
       ) : null}
 
-      {!error && attendees.length === 0 ? (
+      {!error && upcomingEventGroups.length === 0 ? (
         <section className="rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
-          <h2 className="display-section-title">No event purchases yet.</h2>
+          <h2 className="display-section-title">No upcoming event purchases yet.</h2>
           <p className="mt-4 text-[var(--color-muted)]">
             Once someone completes an event checkout through Stripe, their name and email will appear here.
           </p>
@@ -136,7 +173,7 @@ export default async function EventAttendancePage() {
       ) : null}
 
       {!error
-        ? Object.entries(groupedAttendees).map(([eventSlug, rows]) => (
+        ? upcomingEventGroups.map(([eventSlug, rows]) => (
             <section
               key={eventSlug}
               className="rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"

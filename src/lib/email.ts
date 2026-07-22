@@ -778,12 +778,14 @@ function getOfferPurchaseEmailContent(
         option ? `Selected option: ${option.label}` : null,
       ].filter(Boolean) as string[],
       reminderLines: [
-        "Your portal access will be created automatically after enrollment, so you do not need to wait for manual setup. Use the portal password link below with the same email address you enrolled with.",
+        portalAccess?.setupUrl
+          ? "Your Reiki Rising student portal access has been created using the email address you enrolled with. Begin by selecting Set Your Portal Password below."
+          : "Your Reiki Rising student portal access is connected to the email address you enrolled with. Select Open Portal Login below and use Forgot Password if you still need to create your password.",
+        "Once your password is created, you'll be able to enter the Fall 2026 portal. Your welcome materials, weekly modules, live-call links, replays, placement information, and make-up-call details will be added there as the cohort approaches.",
         "Please purchase the Reiki Level 1 & 2 textbook here: https://www.reiki.org/store/books/reiki-healing-touch",
-        "Make sure you select whether you want a hard copy, digital copy, or both. The site automatically selects the digital copy, so please take a moment to choose the option that feels right before purchasing.",
-        "This book has all the information you'll need for the training, and it's a wonderful companion for the Reiki Rising journey.",
-        "You may also want a special notebook or journal dedicated to your Reiki journey for reflections, practice notes, and questions that come up between modules and live calls.",
-        "Live call links, replays, placement details, and make-up call information will be shared through the student portal as the cohort gets closer.",
+        "The bookstore automatically selects the digital edition, so please choose whether you would like the digital book, printed book, or both before completing your purchase.",
+        "You may also want to choose a special notebook or journal for reflections, practice notes, and questions throughout your Reiki Rising journey.",
+        "You'll receive another email closer to the start date with preparation guidance, the Telegram community link, and everything you need for your first week.",
       ],
       href: setupHref,
       hrefLabel: portalAccess?.setupUrl

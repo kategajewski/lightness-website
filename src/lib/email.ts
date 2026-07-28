@@ -262,16 +262,16 @@ const eventEmailContent = {
     intro:
       "Your place is confirmed. I'm so glad you'll be joining this golden-hour outdoor sound journey.",
     detailLines: [
-      "Date: Tuesday, July 28, 2026",
+      "Date: Wednesday, July 29, 2026",
       "Time: 7:30 PM",
       "Location: The Lightness Grounds, Bayport, NY",
-      "Rain date: Wednesday, July 29, 2026 at 7:30 PM",
+      "Rescheduled from: Tuesday, July 28, 2026",
       "Day-of tickets: $35 if space is still available",
     ],
     reminderLines: [
       "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy, settled, and supported.",
       "This is a fully outdoor gathering and there are no bathroom facilities on site.",
-      "If weather shifts the event, tickets move to the rain date and remain non-refundable.",
+      "This event has moved to Wednesday because of weather. Tickets are non-refundable.",
     ],
     href: `${env.siteUrl}${site.links.goldenHourJuly}`,
     hrefLabel: "View event details",

@@ -36,7 +36,7 @@ const upcomingEvents = [
     description:
       "A welcoming sunset ceremony to soften into the evening with sound, stillness, and open-sky rest.",
     details:
-      "Tuesday, July 28, 2026 · 7:30 PM · Rain date Wednesday, July 29 · $30 advance / $35 day of",
+      "Wednesday, July 29, 2026 · 7:30 PM · Rescheduled from Tuesday, July 28 · $30 advance / $35 day of",
     href: site.links.goldenHourJuly,
     cta: "Reserve Your Place",
     cardClass:

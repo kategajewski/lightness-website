@@ -17,8 +17,8 @@ const details = [
   },
   {
     label: "Exchange",
-    value: "$30",
-    description: "$30 in advance or $35 day of, space permitting.",
+    value: "$35",
+    description: "$35 day-of ticket for tonight's gathering.",
   },
 ] as const;
 
@@ -61,7 +61,7 @@ const eventJsonLd = {
   },
   offers: {
     "@type": "Offer",
-    price: "30",
+    price: "35",
     priceCurrency: "USD",
     availability: "https://schema.org/InStock",
     url: "https://bethelightness.com/golden-hour-july-28",
@@ -204,7 +204,7 @@ export default function SacredSoundsUnderTheSkyPage() {
             Rest outdoors, breathe deeply, and let the evening sky do some of the holding.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            Advance tickets are $30. If space remains, day-of tickets are $35.
+            Tickets are $35 today for this evening&apos;s gathering.
             If weather asks us to shift, the rain date will be Wednesday, July
             29 at 7:30 PM. Tickets are non-refundable and will move to the rain
             date if needed.

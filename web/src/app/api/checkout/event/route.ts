@@ -30,7 +30,7 @@ const eventCheckoutConfig = {
     name: "Golden Hour: An Outdoor Sound Journey",
     description:
       "Advance ticket for the Tuesday, July 28, 2026 golden hour outdoor sound journey. Tickets move to the rain date if needed and are non-refundable.",
-    amountCents: 3000,
+    amountCents: 3500,
     successPath: "/checkout/success",
     cancelPath: "/golden-hour-july-28",
   },

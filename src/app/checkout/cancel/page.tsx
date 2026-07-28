@@ -19,6 +19,10 @@ const eventCancelContent = {
     primaryHref: site.links.sacredSoundsUnderTheSky,
     primaryLabel: "Back to Event Details",
   },
+  "golden-hour-july-28-2026": {
+    primaryHref: site.links.goldenHourJuly,
+    primaryLabel: "Back to Event Details",
+  },
   "reiki-share-july-1-2026": {
     primaryHref: site.links.reikiShareJuly,
     primaryLabel: "Back to Event Details",

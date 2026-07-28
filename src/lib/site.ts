@@ -45,6 +45,7 @@ export const site = {
     meditation: "https://root-and-shield.bethelightness.com/about",
     specialBlessing: "/special-blessing",
     sacredSoundsUnderTheSky: "/sacred-sounds-under-the-sky",
+    goldenHourJuly: "/golden-hour-july-28",
     riseIntoLight: "/rise-into-light",
     reikiShareJuly: "/reiki-share-july-1",
     reikiShare: "/reiki-share",

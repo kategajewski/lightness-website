@@ -70,7 +70,7 @@ export const eventCheckoutConfig = {
     name: "Golden Hour: An Outdoor Sound Journey",
     description:
       "Advance ticket for the Tuesday, July 28, 2026 golden hour outdoor sound journey. Tickets move to the rain date if needed and are non-refundable.",
-    amountCents: 3000,
+    amountCents: 3500,
     successPath: "/checkout/success",
     cancelPath: site.links.goldenHourJuly,
     detailHref: site.links.goldenHourJuly,
@@ -84,7 +84,7 @@ export const eventCheckoutConfig = {
       "Time: 7:30 PM",
       "Location: The Lightness Grounds, Bayport, NY",
       "Rain date: Wednesday, July 29, 2026 at 7:30 PM",
-      "Day-of tickets: $35 if space is still available",
+      "Ticket price: $35",
     ],
     emailReminderLines: [
       "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy, settled, and supported.",

@@ -64,7 +64,7 @@ const eventJsonLd = {
     price: "30",
     priceCurrency: "USD",
     availability: "https://schema.org/InStock",
-    url: "https://bethelightness.com/sacred-sounds-under-the-sky",
+    url: "https://bethelightness.com/golden-hour-july-28",
   },
 };
 

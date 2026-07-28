@@ -273,7 +273,7 @@ const eventEmailContent = {
       "This is a fully outdoor gathering and there are no bathroom facilities on site.",
       "If weather shifts the event, tickets move to the rain date and remain non-refundable.",
     ],
-    href: `${env.siteUrl}${site.links.sacredSoundsUnderTheSky}`,
+    href: `${env.siteUrl}${site.links.goldenHourJuly}`,
     hrefLabel: "View event details",
   },
   "golden-hour-august-25-2026": {

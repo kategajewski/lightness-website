@@ -60,13 +60,16 @@ const pricingOptions = [
     title: "Early Bird Enrollment",
     price: "$888 paid in full",
     plan: "or 3 payments of $333",
-    note: "Available through September 1, 2026.",
+    note: "Available through August 31, 2026.",
+    bonus:
+      "Includes a complimentary 45-minute private Reiki support session with Kate.",
   },
   {
     title: "Regular Enrollment",
     price: "$1111 paid in full",
     plan: "or 3 payments of $404",
     note: "Begins after Early Bird closes.",
+    bonus: null,
   },
 ] as const;
 
@@ -198,8 +201,33 @@ export default function ReikiRisingPage() {
               <p className="mt-3 text-[0.92rem] text-[var(--color-muted)]">
                 {option.note}
               </p>
+              {option.bonus ? (
+                <p className="mt-3 rounded-[18px] bg-[rgba(231,206,177,0.32)] px-4 py-3 text-[0.92rem] font-medium text-[var(--color-text)]">
+                  {option.bonus}
+                </p>
+              ) : null}
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+        <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+          Early Bird Bonus
+        </span>
+        <h2 className="display-section-title">
+          Extra support inside the Reiki Rising container.
+        </h2>
+        <div className="mt-5 grid gap-4 text-[var(--color-muted)] lg:grid-cols-2">
+          <p>
+            Enroll by August 31 and receive a complimentary 45-minute private
+            Reiki support session with Kate to use anytime during Reiki Rising.
+          </p>
+          <p>
+            Use it for Reiki healing, Reiki coaching, practice questions,
+            energetic support, or integration as you move through the journey.
+            Bonus session expires December 12, 2026.
+          </p>
         </div>
       </section>
 

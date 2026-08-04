@@ -72,9 +72,10 @@ export const offers: Offer[] = [
       "Live calls are Wednesdays at 7:00 PM ET",
       "Telegram support remains open through the final week",
       "Certification requires live Level 1 and Level 2 placements",
+      "Early Bird enrollment includes a 45-minute Reiki support session with Kate",
     ],
     detail:
-      "Early Bird enrollment is available through September 1, 2026.",
+      "Early Bird enrollment is available through August 31, 2026 and includes a 45-minute Reiki support session bonus.",
     image:
       "/homepage-images/ghl-reiki-rising.webp",
     href: "/checkout/reiki-rising",
@@ -87,7 +88,7 @@ export const offers: Offer[] = [
         label: "Early Bird Pay in Full",
         priceLabel: "$888 one-time",
         description:
-          "Pay in full to reserve your place in Reiki Rising Fall 2026.",
+          "Pay in full by August 31 to reserve your place and receive the 45-minute Reiki support session bonus.",
         mode: "payment",
         stripePriceId: env.stripePriceReikiRising,
         amountCents: 88800,
@@ -97,7 +98,7 @@ export const offers: Offer[] = [
         label: "Early Bird Payment Plan",
         priceLabel: "3 payments of $333",
         description:
-          "Choose a three-payment rhythm while still reserving your place in the cohort.",
+          "Choose a three-payment rhythm by August 31 while still reserving your place and receiving the 45-minute Reiki support session bonus.",
         mode: "subscription",
         stripePriceId: env.stripePriceReikiRisingEarlyBirdPlan,
       },

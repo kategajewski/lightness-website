@@ -282,9 +282,9 @@ const eventEmailContent = {
       "Your place is confirmed. I'm so glad you'll be joining this golden-hour outdoor sound journey.",
     detailLines: [
       "Date: Tuesday, August 25, 2026",
-      "Time: 7:30 PM",
+      "Time: 7:00 PM",
       "Location: The Lightness Grounds, Bayport, NY",
-      "Rain date: Thursday, August 27, 2026 at 7:30 PM",
+      "Rain date: Thursday, August 27, 2026 at 7:00 PM",
       "Day-of tickets: $35 if space is still available",
     ],
     reminderLines: [

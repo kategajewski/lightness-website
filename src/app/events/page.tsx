@@ -88,7 +88,7 @@ const upcomingEvents = [
     description:
       "A welcoming sunset ceremony to soften into the evening with sound, stillness, and open-sky rest.",
     details:
-      "Tuesday, August 25, 2026 · 7:30 PM · Rain date Thursday, August 27 · $30 advance / $35 day of",
+      "Tuesday, August 25, 2026 · 7:00 PM · Rain date Thursday, August 27 · $30 advance / $35 day of",
     href: "/golden-hour-august-25",
     cta: "Reserve Your Place",
     cardClass:

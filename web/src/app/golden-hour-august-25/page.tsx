@@ -7,7 +7,7 @@ const details = [
     label: "Date",
     value: "Tue, Aug 25",
     description:
-      "Arrive as the day begins to soften, 7:30 PM at The Lightness Grounds in Bayport, NY.",
+      "Arrive as the day begins to soften, 7:00 PM at The Lightness Grounds in Bayport, NY.",
   },
   {
     label: "Rain Date",
@@ -34,7 +34,7 @@ const goodToKnow = [
   "No previous sound bath experience is needed",
   "The Lightness Grounds is on the corner of Gillette Avenue and Academy Street",
   "No bathroom facilities are available on site",
-  "If weather shifts the event, tickets move to Thursday, August 27 at 7:30 PM",
+  "If weather shifts the event, tickets move to Thursday, August 27 at 7:00 PM",
   "Tickets are non-refundable",
 ] as const;
 
@@ -44,7 +44,7 @@ const eventJsonLd = {
   name: "Golden Hour: An Outdoor Sound Journey",
   description:
     "A welcoming sunset sound journey with stillness and open-air rest at The Lightness Grounds in Bayport, NY.",
-  startDate: "2026-08-25T19:30:00-04:00",
+  startDate: "2026-08-25T19:00:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
   image: "https://bethelightness.com/homepage-images/golden-hour-july-kate.jpeg",
@@ -89,7 +89,7 @@ export default function SacredSoundsUnderTheSkyPage() {
                   Tuesday, August 25
                 </span>
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
-                  7:30 PM
+                  7:00 PM
                 </span>
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
                   Bayport, NY
@@ -206,7 +206,7 @@ export default function SacredSoundsUnderTheSkyPage() {
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
             Advance tickets are $30. If space remains, day-of tickets are $35.
             If weather asks us to shift, the rain date will be Thursday, August
-            27 at 7:30 PM. Tickets are non-refundable and will move to the rain
+            27 at 7:00 PM. Tickets are non-refundable and will move to the rain
             date if needed.
           </p>
         </div>

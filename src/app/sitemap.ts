@@ -21,6 +21,7 @@ const routes = [
   ["/gift-certificate", 0.75, "monthly"],
   ["/contact", 0.8, "monthly"],
   ["/email-updates", 0.65, "monthly"],
+  ["/writing", 0.8, "weekly"],
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {

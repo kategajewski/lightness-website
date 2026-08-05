@@ -40,6 +40,7 @@ export const site = {
     corporateWellness: "/corporate-wellness",
     events: "/events",
     emailUpdates: "/email-updates",
+    writing: "/writing",
     contact: "/contact",
     hypnotherapy:
       "https://bethelightness.com/hypnotherapy-past-life-regression-therapy",
@@ -85,6 +86,7 @@ export const primaryNavigation = [
   { label: "Healing Sessions", href: site.links.services },
   { label: "About", href: site.links.about },
   { label: "Training", href: site.links.courses },
+  { label: "Writing", href: site.links.writing },
   { label: "Rosaries", href: site.links.rosaries },
   { label: "Events", href: site.links.events },
   { label: "Contact", href: site.links.contact },
@@ -94,6 +96,7 @@ export const footerNavigation = [
   { label: "Healing Sessions", href: site.links.services },
   { label: "About", href: site.links.about },
   { label: "Training", href: site.links.courses },
+  { label: "Writing", href: site.links.writing },
   { label: "Events", href: site.links.events },
   { label: "Gift Certificate", href: site.links.giftCertificate },
   { label: "Privacy Policy", href: site.links.privacyPolicy },

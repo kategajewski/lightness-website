@@ -5,6 +5,7 @@ const footerLinks = [
   { label: "Gift Certificate", href: site.links.giftCertificate },
   { label: "Instagram", href: site.social.instagram },
   { label: "Email Updates", href: site.links.emailUpdates },
+  { label: "Writing", href: site.links.writing },
   { label: "Send a Message", href: site.links.contact },
   { label: "Member Login", href: site.links.login },
 ] as const;

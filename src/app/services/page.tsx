@@ -206,6 +206,22 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+        <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+          Explore by Offering
+        </span>
+        <h2 className="display-section-title">Learn more about local healing and training.</h2>
+        <p className="mt-4 max-w-[42rem] text-[var(--color-muted)]">
+          These guides answer common questions for people looking for Reiki, sound healing, training, and workplace wellness in Patchogue and across Long Island.
+        </p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link href="/reiki-healing-long-island" className="button-pill">Reiki Healing</Link>
+          <Link href="/sound-healing-long-island" className="button-pill">Sound Healing</Link>
+          <Link href="/reiki-training-long-island" className="button-pill">Reiki Training</Link>
+          <Link href="/corporate-wellness-long-island" className="button-pill">Corporate Wellness</Link>
+        </div>
+      </section>
+
       <div id="monthly-membership" className="scroll-mt-28">
         <BookingCard />
       </div>

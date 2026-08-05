@@ -110,16 +110,9 @@ export default function SacredSoundsUnderTheSkyPage() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <form action="/api/checkout/event" method="post">
-                <input
-                  type="hidden"
-                  name="eventSlug"
-                  value="golden-hour-july-28-2026"
-                />
-                <button type="submit" className="button-pill">
-                  Reserve Your Place
-                </button>
-              </form>
+              <span className="button-pill pointer-events-none opacity-75">
+                This Gathering Has Passed
+              </span>
               <Link href={site.links.events} className="button-pill">
                 Back to Events
               </Link>

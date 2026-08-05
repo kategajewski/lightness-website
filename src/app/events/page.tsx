@@ -30,7 +30,7 @@ const upcomingEvents = [
       "border-[rgba(230,194,162,0.58)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.34)_46%,rgba(168,178,159,0.26))]",
   },
   {
-    isActive: true,
+    isActive: false,
     eyebrow: "Outdoor Sound Bath",
     title: "Golden Hour: An Outdoor Sound Journey",
     description:

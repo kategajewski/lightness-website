@@ -86,9 +86,9 @@ export const primaryNavigation = [
   { label: "Healing Sessions", href: site.links.services },
   { label: "About", href: site.links.about },
   { label: "Training", href: site.links.courses },
-  { label: "Writing", href: site.links.writing },
   { label: "Rosaries", href: site.links.rosaries },
   { label: "Events", href: site.links.events },
+  { label: "Writing", href: site.links.writing },
   { label: "Contact", href: site.links.contact },
 ] as const;
 

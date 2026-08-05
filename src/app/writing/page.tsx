@@ -172,19 +172,11 @@ export default async function WritingPage() {
       </section>
 
       <section className="grid gap-5 md:grid-cols-2">
-        {articles.map((article, index) => (
+        {articles.map((article) => (
           <article
             key={article.url}
-            className="flex h-full flex-col overflow-hidden rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
+            className="flex h-full flex-col rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
           >
-            {article.image ? (
-              <img
-                src={article.image}
-                alt=""
-                className="aspect-[16/9] w-full object-cover"
-                loading={index === 0 ? "eager" : "lazy"}
-              />
-            ) : null}
             <div className="flex flex-1 flex-col p-7">
               <time
                 dateTime={article.publishedAt}

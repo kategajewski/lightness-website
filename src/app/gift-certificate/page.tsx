@@ -1,7 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
+import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+export const metadata = createPageMetadata({
+  title: "Healing & Wellness Gift Certificates",
+  description: "Give a flexible gift certificate for Reiki, energy healing, sound healing, guidance, events, training, and other offerings from The Lightness of Being.",
+  path: "/gift-certificate",
+  image: "/homepage-images/gift-certificate-lantern.jpeg",
+});
 
 const giftIdeas = [
   "A Reiki or energy healing session",

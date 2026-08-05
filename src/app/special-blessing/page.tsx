@@ -1,6 +1,14 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
+import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+export const metadata = createPageMetadata({
+  title: "Private Ceremonies, Blessings & Home Clearings",
+  description: "Custom mother blessingways, baby blessings, home clearings, sacred rituals, and private ceremonies created with intention by Kate Gajewski.",
+  path: "/special-blessing",
+  image: "/homepage-images/private-events-ceremony.jpeg",
+});
 
 const offerings = [
   {

@@ -3,7 +3,15 @@ import { submitContactInquiry } from "@/app/contact/actions";
 import { FormSecurityFields } from "@/components/form-security-fields";
 import { PageShell } from "@/components/page-shell";
 import { TurnstileWidget } from "@/components/turnstile-widget";
+import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+export const metadata = createPageMetadata({
+  title: "Custom Rose-Petal Rosaries, Malas & Prayer Beads",
+  description: "Commission handcrafted sacred rosaries, 108-bead malas, and custom prayer strands made from real rose petals by Kate Gajewski.",
+  path: "/divine-rose-frequencies",
+  image: "/divine-rose-frequency/divine-rose-frequency-flyer.png",
+});
 
 const strandOptions = [
   "Catholic-style rosary",

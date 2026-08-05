@@ -1,6 +1,14 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
+import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+export const metadata = createPageMetadata({
+  title: "Sound Practitioner Training on Long Island",
+  description: "Immersive sound healing practitioner training with Kate Gajewski for facilitating private sessions, classes, ceremonies, and restorative group experiences.",
+  path: "/sound-training",
+  image: "/homepage-images/moodysound.jpeg",
+});
 
 const soundTrainingFeatures = [
   "Instrument care, setup, and intuitive listening",

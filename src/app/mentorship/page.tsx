@@ -1,6 +1,14 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
+import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+export const metadata = createPageMetadata({
+  title: "Private Reiki Mentorship & Practitioner Development",
+  description: "Personalized one-to-one Reiki mentorship with Kate Gajewski, from foundational training through mastery, teaching, and embodied practitioner development.",
+  path: "/mentorship",
+  image: "/homepage-images/embodied-healer-mentorship.jpeg",
+});
 
 const mentorshipFeatures = [
   "No previous Reiki experience is required",

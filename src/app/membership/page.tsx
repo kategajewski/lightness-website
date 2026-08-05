@@ -1,6 +1,14 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
+import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+export const metadata = createPageMetadata({
+  title: "Monthly Rest & Reset Healing Membership",
+  description: "Receive one Rest & Receive energy healing session each month, ongoing support, member savings, and a steady rhythm of restorative care.",
+  path: "/membership",
+  image: "/homepage-images/ghl-healing-session.webp",
+});
 
 const membershipFeatures = [
   "One Rest & Receive session each month",

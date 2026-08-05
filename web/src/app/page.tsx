@@ -1,5 +1,8 @@
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+export const metadata = createPageMetadata({ title: "Holistic Healing, Training & Wellness in Patchogue, NY", description: "Explore Reiki, energy healing, hypnotherapy, sound healing, yoga, training, mentorship, events, corporate wellness, ceremonies, and sacred goods with Kate Gajewski.", path: "/", image: "/homepage-images/about-pinkbowlsmile.jpeg" });
 
 const testimonials = [
   {

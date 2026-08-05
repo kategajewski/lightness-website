@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { BookingCard } from "@/components/booking-card";
 import { PageShell } from "@/components/page-shell";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({ title: "Reiki, Hypnotherapy & Sound Healing Services in Patchogue", description: "Explore private Reiki and energy healing, hypnotherapy and regression, sound healing, and personalized guidance with Kate Gajewski in Patchogue, NY and remotely.", path: "/services", image: "/homepage-images/healing-session.jpeg" });
 
 const serviceSections = [
   {

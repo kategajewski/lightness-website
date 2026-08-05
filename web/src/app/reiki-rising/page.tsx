@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
+import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+export const metadata = createPageMetadata({ title: "Reiki Rising Online Reiki Training", description: "A 10-week online Reiki training with Kate Gajewski combining weekly modules, live support, personal healing, embodied practice, and practitioner development.", path: "/reiki-rising", image: "/homepage-images/ghl-reiki-rising.webp" });
 
 const reikiRisingFeatures = [
   "A 10-week live online Reiki training container",

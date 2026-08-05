@@ -1,8 +1,9 @@
 export const site = {
   name: "The Lightness of Being",
   subtitle: "Healing with Kate Gajewski",
+  url: "https://bethelightness.com",
   description:
-    "Private healing sessions, courses, and memberships for The Lightness of Being.",
+    "Holistic healing with Kate Gajewski in Patchogue, New York: Reiki and energy healing, hypnotherapy, sound healing, yoga, practitioner training, mentorship, events, corporate wellness, ceremonies, and handcrafted sacred prayer beads.",
   social: {
     instagram: "https://instagram.com/thelightness0fbeing",
     googleReviews:
@@ -10,6 +11,10 @@ export const site = {
   },
   contact: {
     address: "98 Medford Ave, Patchogue, NY 11772",
+    locality: "Patchogue",
+    region: "NY",
+    postalCode: "11772",
+    country: "US",
   },
   links: {
     home: "/",

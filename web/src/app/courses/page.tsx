@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
+import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+export const metadata = createPageMetadata({ title: "Reiki & Sound Healing Training with Kate Gajewski", description: "Explore Reiki Rising, private Reiki mentorship, and immersive sound practitioner training for personal growth and confident healing practice.", path: "/courses", image: "/homepage-images/services-lightnesssound.jpeg" });
 
 const trainingPaths = [
   {

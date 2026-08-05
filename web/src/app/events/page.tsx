@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
+import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+export const metadata = createPageMetadata({ title: "Wellness Events, Sound Journeys & Yoga in Patchogue", description: "Find sound journeys, Reiki gatherings, yoga and meditation classes, seasonal rituals, readings, private ceremonies, and community wellness events.", path: "/events", image: "/homepage-images/events-floating-flower.jpeg" });
 
 const upcomingEvents = [
   {

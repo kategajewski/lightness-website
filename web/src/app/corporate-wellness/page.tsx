@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
+import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+export const metadata = createPageMetadata({ title: "Corporate Wellness, Sound Baths & Yoga on Long Island", description: "Customized workplace sound baths, guided meditation, yoga, and restorative wellness experiences for teams, retreats, and organizations on Long Island.", path: "/corporate-wellness", image: "/homepage-images/corporate-wellness.jpeg" });
 
 const offerings = [
   {

@@ -1,4 +1,7 @@
 import { PageShell } from "@/components/page-shell";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({ title: "About Kate Gajewski, Holistic Practitioner & Teacher", description: "Meet Kate Gajewski, a Patchogue-based Reiki Master Teacher, sound healing practitioner, clinical hypnotherapist, yoga teacher, and holistic mentor.", path: "/about", image: "/homepage-images/about-roses-kate-flipped.jpeg" });
 
 const credentials = [
   "B.A. in Psychology",

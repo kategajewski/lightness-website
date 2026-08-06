@@ -35,7 +35,7 @@ const fallbackArticles: Article[] = [
   {
     title: "From Warrior to Queen",
     description:
-      "The shift from fighting for my place to knowing it is already mine—and growing into safety after years of survival mode.",
+      "The shift from fighting for my place to knowing it is already mine, and growing into safety after years of survival mode.",
     url: `${publicationUrl}/p/from-warrior-to-queen`,
     publishedAt: "2026-02-26T18:32:59.000Z",
   },
@@ -137,9 +137,9 @@ export default async function WritingPage() {
 
   return (
     <PageShell
-      eyebrow="Writing by Kate"
-      title="Honest reflections from inside healing, practice, and becoming."
-      description="Essays on Reiki, embodiment, spiritual growth, practitioner life, and the deeply human realities of transformation—published through Kate's Substack."
+      eyebrow="My Writing"
+      title="A place for the things I’m learning as I go."
+      description="I write about Reiki, healing, holding space, building a practice, and being human through all of it."
     >
       <script
         type="application/ld+json"
@@ -151,22 +151,22 @@ export default async function WritingPage() {
       <section className="grid gap-7 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] lg:grid-cols-[1.15fr_0.85fr] lg:items-center sm:p-10">
         <div>
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            The Lightness of Being on Substack
+            My Substack
           </span>
-          <h2 className="display-section-title">Writing that makes room for the real story.</h2>
+          <h2 className="display-section-title">The Lightness of Being</h2>
           <p className="mt-5 max-w-[42rem] text-[1.03rem] text-[var(--color-muted)]">
-            Kate writes at the intersection of healing, embodiment, truth, and the lived experience of holding space. Some pieces are teachings, some are personal reflections, and some are field notes from a practitioner who is still fully human.
+            Writing has not always come easily to me, but I wanted a place where I could share what this work really looks like. Some posts are teachings. Some are personal. Some are simply things I am learning as I go.
           </p>
         </div>
         <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">
           <strong className="block text-[1.05rem] text-[var(--color-text)]">
-            Receive new essays by email
+            Want to read along?
           </strong>
           <p className="mt-3 text-[var(--color-muted)]">
-            Subscribe free on Substack and each new piece will arrive directly in your inbox.
+            You can subscribe for free, and each new article will arrive in your inbox.
           </p>
           <Link href={`${publicationUrl}/subscribe`} className="button-pill mt-5 inline-flex">
-            Subscribe to Kate&apos;s Writing
+            Subscribe to My Writing
           </Link>
         </div>
       </section>
@@ -187,7 +187,7 @@ export default async function WritingPage() {
               <h2 className="mt-3 display-card-title">{article.title}</h2>
               <p className="mt-4 flex-1 text-[var(--color-muted)]">{article.description}</p>
               <Link href={article.url} className="mt-6 font-bold text-[#5d5148]">
-                Read on Substack →
+                Read on Substack
               </Link>
             </div>
           </article>
@@ -195,9 +195,9 @@ export default async function WritingPage() {
       </section>
 
       <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(246,229,214,0.9),rgba(238,226,218,0.78))] p-8 text-center shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
-        <h2 className="display-section-title">Let the writing meet you where you are.</h2>
+        <h2 className="display-section-title">Read what speaks to you.</h2>
         <p className="mx-auto mt-4 max-w-[40rem] text-[var(--color-muted)]">
-          Explore every essay, subscribe for new reflections, or return to the website to learn more about Kate&apos;s healing work.
+          Browse the latest articles, visit my full Substack, or learn more about working with me.
         </p>
         <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Link href={publicationUrl} className="button-pill">Visit the Full Publication</Link>

@@ -139,7 +139,6 @@ export default async function WritingPage() {
     <PageShell
       eyebrow="My Writing"
       title="Reiki, healing, and being human through all of it."
-      description="I share personal stories, teachings, and what I am still learning about Reiki, holding space, and building a healing practice."
     >
       <script
         type="application/ld+json"

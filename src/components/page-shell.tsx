@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 type PageShellProps = {
   eyebrow: string;
   title: string;
-  description: string;
+  description?: string;
   children: ReactNode;
 };
 
@@ -25,9 +25,11 @@ export function PageShell({
           <h1 className="mx-auto max-w-[22ch] display-page-title">
             {title}
           </h1>
-          <p className="mx-auto mt-5 max-w-[42rem] text-[1.05rem] text-[var(--color-muted)]">
-            {description}
-          </p>
+          {description ? (
+            <p className="mx-auto mt-5 max-w-[42rem] text-[1.05rem] text-[var(--color-muted)]">
+              {description}
+            </p>
+          ) : null}
         </div>
       </section>
 

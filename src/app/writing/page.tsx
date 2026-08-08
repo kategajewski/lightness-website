@@ -138,8 +138,8 @@ export default async function WritingPage() {
   return (
     <PageShell
       eyebrow="My Writing"
-      title="A place for the things I’m learning as I go."
-      description="I write about Reiki, healing, holding space, building a practice, and being human through all of it."
+      title="Reiki, healing, and being human through all of it."
+      description="I share personal stories, teachings, and what I am still learning about Reiki, holding space, and building a healing practice."
     >
       <script
         type="application/ld+json"

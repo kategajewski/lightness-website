@@ -220,8 +220,7 @@ export default function ReikiRisingPage() {
       </section>
 
       <section className="overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
-        <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="p-8 sm:p-10 lg:p-12">
+        <div className="p-8 sm:p-10 lg:p-12">
             <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               From a Reiki Rising Student
             </span>
@@ -235,39 +234,6 @@ export default function ReikiRisingPage() {
             <p className="mt-6 text-[0.78rem] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
               Janice, Reiki Rising student
             </p>
-          </div>
-
-          <div className="grid content-center gap-4 bg-[rgba(231,206,177,0.2)] p-8 sm:p-10">
-            <p className="text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-              Reflections from the first cohort
-            </p>
-            <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-              <div className="rounded-[22px] bg-[rgba(255,251,246,0.84)] p-5">
-                <p className="font-[var(--font-cormorant)] text-[2.2rem] font-light leading-none text-[var(--color-text)]">
-                  10 out of 10
-                </p>
-                <p className="mt-2 text-sm text-[var(--color-muted)]">
-                  Every student&apos;s overall rating
-                </p>
-              </div>
-              <div className="rounded-[22px] bg-[rgba(255,251,246,0.84)] p-5">
-                <p className="font-[var(--font-cormorant)] text-[2.2rem] font-light leading-none text-[var(--color-text)]">
-                  Just right
-                </p>
-                <p className="mt-2 text-sm text-[var(--color-muted)]">
-                  How every student described the pacing
-                </p>
-              </div>
-              <div className="rounded-[22px] bg-[rgba(255,251,246,0.84)] p-5">
-                <p className="font-[var(--font-cormorant)] text-[2.2rem] font-light leading-none text-[var(--color-text)]">
-                  Confident
-                </p>
-                <p className="mt-2 text-sm text-[var(--color-muted)]">
-                  How all three felt in their Reiki practice afterward
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

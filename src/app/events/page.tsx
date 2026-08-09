@@ -12,6 +12,7 @@ export const metadata = createPageMetadata({
 
 const upcomingEvents = [
   {
+    sortKey: "2026-07-01",
     isActive: false,
     eyebrow: "Practitioner Gathering",
     title: "Reiki Share",
@@ -25,6 +26,7 @@ const upcomingEvents = [
       "border-[rgba(168,178,159,0.64)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(168,178,159,0.38))]",
   },
   {
+    sortKey: "2026-07-11",
     isActive: false,
     eyebrow: "Cancelled Event",
     title: "The Weekend Reset",
@@ -38,6 +40,7 @@ const upcomingEvents = [
       "border-[rgba(230,194,162,0.58)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.34)_46%,rgba(168,178,159,0.26))]",
   },
   {
+    sortKey: "2026-07-28",
     isActive: false,
     eyebrow: "Outdoor Sound Bath",
     title: "Golden Hour: An Outdoor Sound Journey",
@@ -51,32 +54,35 @@ const upcomingEvents = [
       "border-[rgba(230,194,162,0.64)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.42)_54%,rgba(201,167,156,0.26))]",
   },
   {
+    sortKey: "2026-11-05",
     isActive: true,
     eyebrow: "Practitioner Gathering",
     title: "Reiki Share",
     description:
       "A small practitioner-only gathering to form community, talk all things Reiki, and share with one another.",
     details:
-      "Thursday, August 6, 2026 · 7-9 PM · The Lightness of Being, Patchogue · $25 · Max 7 people",
+      "Thursday, November 5, 2026 · 7-9 PM · The Lightness of Being, Patchogue · $25 · Max 7 people",
     href: site.links.reikiShare,
     cta: "Reserve Your Spot",
     cardClass:
       "border-[rgba(168,178,159,0.68)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(168,178,159,0.28)_40%,rgba(201,167,156,0.22))]",
   },
   {
+    sortKey: "2026-09-17",
     isActive: true,
     eyebrow: "Featured Event",
     title: "Gallery Reading with Don Schaefer",
     description:
       "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
     details:
-      "Thursday, August 13, 2026 · 7-8:30 PM · Limited to 8 people · $50",
+      "Thursday, September 17, 2026 · 7-8:30 PM · Limited to 8 people · $50",
     href: "/gallery-reading-with-don-schaefer",
     cta: "View Event Details",
     cardClass:
       "border-[rgba(201,167,156,0.6)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(201,167,156,0.34))]",
   },
   {
+    sortKey: "2026-08-20",
     isActive: true,
     eyebrow: "Outdoor Evening Practice",
     title: "Flow Field",
@@ -90,6 +96,7 @@ const upcomingEvents = [
       "border-[rgba(230,194,162,0.62)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.34)_42%,rgba(168,178,159,0.28))]",
   },
   {
+    sortKey: "2026-08-25",
     isActive: true,
     eyebrow: "Outdoor Sound Bath",
     title: "Golden Hour: An Outdoor Sound Journey",
@@ -103,6 +110,7 @@ const upcomingEvents = [
       "border-[rgba(230,194,162,0.64)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.42)_54%,rgba(201,167,156,0.26))]",
   },
   {
+    sortKey: "2026-06-21",
     isActive: false,
     eyebrow: "Past Event",
     title: "Rise into Light",
@@ -117,7 +125,9 @@ const upcomingEvents = [
   },
 ] as const;
 
-const visibleUpcomingEvents = upcomingEvents.filter((event) => event.isActive);
+const visibleUpcomingEvents = upcomingEvents
+  .filter((event) => event.isActive)
+  .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
 
 const connectionPaths = [
   {

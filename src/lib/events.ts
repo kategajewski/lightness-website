@@ -147,6 +147,7 @@ export const eventCheckoutConfig = {
     description:
       "Ticket for Reiki Share, a practitioner-only community gathering at The Lightness of Being. All purchases are final and non-refundable.",
     amountCents: 2500,
+    registrationClosed: true,
     successPath: "/checkout/success",
     cancelPath: "/reiki-share",
     detailHref: site.links.reikiShare,
@@ -156,6 +157,32 @@ export const eventCheckoutConfig = {
     emailIntro:
       "Your place is confirmed. I'm so glad you'll be joining Reiki Share.",
     emailDetailLines: ["Date: Thursday, August 6, 2026"],
+    emailReminderLines: [
+      "This gathering is intended for Reiki practitioners and students.",
+      "If you have any questions before the event, you are always welcome to reach out.",
+      "All purchases are final and non-refundable.",
+    ],
+  },
+  "reiki-share-november-5-2026": {
+    slug: "reiki-share-november-5-2026",
+    name: "Reiki Share",
+    description:
+      "Ticket for Reiki Share, a practitioner-only community gathering at The Lightness of Being. All purchases are final and non-refundable.",
+    amountCents: 2500,
+    successPath: "/checkout/success",
+    cancelPath: "/reiki-share",
+    detailHref: site.links.reikiShare,
+    confirmationTitle: "You're booked for Reiki Share.",
+    confirmationDescription:
+      "Your Reiki Share ticket has been received. You can watch your email for your Stripe receipt and event confirmation.",
+    emailIntro:
+      "Your place is confirmed. I'm so glad you'll be joining Reiki Share.",
+    emailDetailLines: [
+      "Date: Thursday, November 5, 2026",
+      "Time: 7:00-9:00 PM",
+      "Location: The Lightness of Being, 98 Medford Ave, Patchogue, NY 11772",
+      "Ticket price: $25",
+    ],
     emailReminderLines: [
       "This gathering is intended for Reiki practitioners and students.",
       "If you have any questions before the event, you are always welcome to reach out.",

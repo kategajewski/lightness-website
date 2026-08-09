@@ -111,9 +111,7 @@ const certificationRequirements = [
 export default function ReikiRisingPage() {
   return (
     <PageShell
-      eyebrow="Reiki Rising"
-      title="A 10-week Reiki 1 and Reiki 2 journey for healing, practice, and embodied confidence."
-      description="Reiki Rising Fall 2026 blends weekly prerecorded teachings, live support calls, community connection, and spacious integration inside a guided 10-week Reiki training experience."
+      title="Join The Reiki Rising Experience"
     >
       <section className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
         <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">

@@ -219,12 +219,12 @@ export default function ReikiRisingPage() {
         </div>
       </section>
 
-      <section className="overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
-        <div className="p-8 sm:p-10 lg:p-12">
+      <section className="mx-auto w-full max-w-[52rem] overflow-hidden rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] shadow-[0_18px_55px_rgba(59,41,31,0.07)]">
+        <div className="p-6 sm:p-8">
             <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               From a Reiki Rising Student
             </span>
-            <blockquote className="max-w-[48rem] font-[var(--font-cormorant)] text-[clamp(1.75rem,3vw,2.75rem)] font-light leading-[1.15] text-[var(--color-text)]">
+            <blockquote className="max-w-[44rem] font-[var(--font-cormorant)] text-[clamp(1.35rem,2.2vw,1.85rem)] font-light leading-[1.25] text-[var(--color-text)]">
               &ldquo;My Reiki experience has been life changing. I look at life
               differently, appreciate Mother Nature more, listen to my
               intuition, and take more time for myself. Reiki Rising meant

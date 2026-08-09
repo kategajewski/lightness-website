@@ -146,13 +146,11 @@ export default function ReikiRisingPage() {
         </div>
 
         <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
-          <div className="mx-auto w-full max-w-[20rem]">
-            <img
-              src="/homepage-images/ghl-reiki-rising.webp"
-              alt="Reiki Rising training"
-              className="block h-auto w-full rounded-[32px] object-contain object-center"
-            />
-          </div>
+          <img
+            src="/homepage-images/portal-login-handsup.jpeg"
+            alt="Kate Gajewski in a moment of grounded reflection"
+            className="block aspect-[4/5] w-full object-cover object-center"
+          />
         </div>
       </section>
 

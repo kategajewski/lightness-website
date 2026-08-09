@@ -269,16 +269,29 @@ export default function ReikiRisingPage() {
         </div>
       </section>
 
-      <section className="grid gap-5 lg:grid-cols-3">
-        {faqs.map((faq) => (
-          <article
-            key={faq.question}
-            className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
-          >
-            <h2 className="display-card-title">{faq.question}</h2>
-            <p className="mt-4 text-[var(--color-muted)]">{faq.answer}</p>
-          </article>
-        ))}
+      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+        <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+          FAQs
+        </span>
+        <h2 className="display-section-title">A few things you may be wondering.</h2>
+        <div className="mt-7 divide-y divide-[rgba(76,58,48,0.1)] border-y border-[rgba(76,58,48,0.1)]">
+          {faqs.map((faq) => (
+            <details key={faq.question} className="group py-1">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left [&::-webkit-details-marker]:hidden">
+                <span className="display-card-title">{faq.question}</span>
+                <span
+                  aria-hidden="true"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[rgba(231,206,177,0.32)] text-[1.35rem] font-light leading-none text-[var(--color-text)] transition-transform duration-300 group-open:rotate-45"
+                >
+                  +
+                </span>
+              </summary>
+              <p className="max-w-[52rem] pb-6 pr-12 text-[var(--color-muted)]">
+                {faq.answer}
+              </p>
+            </details>
+          ))}
+        </div>
       </section>
 
       <section className="grid gap-6 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] lg:grid-cols-[0.85fr_1.15fr]">

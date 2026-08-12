@@ -384,19 +384,19 @@ export function TrainingPathQuiz() {
         className="relative scroll-mt-36 overflow-hidden rounded-[32px] border border-[rgba(115,82,67,0.18)] bg-[#ead8cc] px-6 py-10 shadow-[0_28px_85px_rgba(89,59,45,0.14)] sm:px-10 sm:py-12 lg:px-14"
       >
         <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[rgba(255,247,239,0.5)] blur-3xl" />
-        <div className="relative max-w-[46rem]">
+        <div className="relative mx-auto max-w-[50rem] text-center">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Find Your Path
           </span>
-          <h2 id="training-path-quiz-title" className="display-section-title max-w-[19ch]">
+          <h2 id="training-path-quiz-title" className="mx-auto max-w-[30ch] display-section-title">
             Not sure which Reiki course or support is right for you?
           </h2>
-          <p className="mt-5 max-w-[39rem] text-[1.03rem] leading-[1.75] text-[var(--color-muted)]">
+          <p className="mx-auto mt-5 max-w-[42rem] text-[1.03rem] leading-[1.75] text-[var(--color-muted)]">
             Take this short quiz to discover which path best supports where you
             are right now: Reiki Rising, The Embodied Healer, or Personalized
             Guidance.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <button type="button" className="button-pill" onClick={() => setStarted(true)}>
               Take the 2-Minute Quiz
               <span aria-hidden="true" className="ml-2">→</span>
@@ -561,4 +561,3 @@ export function TrainingPathQuiz() {
     </section>
   );
 }
-

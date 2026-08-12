@@ -49,14 +49,14 @@ export default function CoursesPage() {
         />
       </section>
 
-      <section className="pt-4">
+      <section className="pt-4 text-center">
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
           Reiki Training and Mentorship
         </span>
-        <h2 className="display-section-title max-w-[22ch]">
+        <h2 className="mx-auto max-w-[30ch] display-section-title">
           Learn Reiki through a supportive group or a deeply personal path.
         </h2>
-        <p className="mt-5 max-w-[44rem] text-[1.03rem] leading-[1.75] text-[var(--color-muted)]">
+        <p className="mx-auto mt-5 max-w-[44rem] text-[1.03rem] leading-[1.75] text-[var(--color-muted)]">
           Choose a live online cohort or individualized mentorship shaped around
           your experience, pace and calling.
         </p>
@@ -87,15 +87,15 @@ export default function CoursesPage() {
 
       <TrainingPathQuiz />
 
-      <section className="mt-5 overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)] lg:grid lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
-        <div className="p-6 sm:p-8 lg:pr-0">
+      <section className="mt-5">
+        <div className="mx-auto w-full max-w-[44rem] overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <img
             src="/homepage-images/rise-into-light-sound-bowl-cropped.jpeg"
             alt="Kate playing a crystal sound bowl outdoors"
-            className="block h-[16rem] w-full rounded-[24px] object-cover object-center sm:h-[19rem] lg:h-[21rem]"
+            className="block h-[18rem] w-full object-cover object-center sm:h-[22rem]"
           />
         </div>
-        <div className="p-8 sm:p-10 lg:p-12">
+        <div className="mx-auto max-w-[48rem] pt-10 text-center sm:pt-12">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Seasonal In-Person Training
           </span>
@@ -105,7 +105,7 @@ export default function CoursesPage() {
             sound experiences with intention, presence and confidence. Learn
             through guided teaching, hands-on practice and embodied integration.
           </p>
-          <div className="mt-6 rounded-[22px] bg-[rgba(255,248,242,0.86)] p-5">
+          <div className="mx-auto mt-6 max-w-[38rem] rounded-[22px] bg-[rgba(255,248,242,0.86)] p-5">
             <strong className="block text-[var(--color-text)]">
               Next training: January 29 through 31, 2027
             </strong>
@@ -113,7 +113,7 @@ export default function CoursesPage() {
               Led by Kate Gajewski and Raquel Vamos on Long Island.
             </p>
           </div>
-          <div className="mt-7">
+          <div className="mt-7 flex justify-center">
             <Link href={site.links.soundTraining} className="button-pill">
               Explore Sound Practitioner Training
             </Link>

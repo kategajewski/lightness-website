@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 export const metadata = createPageMetadata({
   title: "Writing on Reiki, Healing & Embodiment by Kate Gajewski",
   description:
-    "Read Kate Gajewski's essays on Reiki, healing, embodiment, practitioner life, spiritual growth, and the honest realities of transformation.",
+    "Read Kate Gajewski's essays on Reiki, healing, embodiment, practitioner life, spiritual growth and the honest realities of transformation.",
   path: "/writing",
   image: "/homepage-images/about-pinkbowlsmile.jpeg",
 });
@@ -28,14 +28,14 @@ const fallbackArticles: Article[] = [
   {
     title: "Traditional Reiki vs Holy Fire® Reiki: Why I Believe This Evolution Changes Everything",
     description:
-      "A personal story about energy, Source, and why Holy Fire® Reiki is transforming the healing world.",
+      "A personal story about energy, Source and why Holy Fire® Reiki is transforming the healing world.",
     url: `${publicationUrl}/p/traditional-reiki-vs-holy-fire-reiki`,
     publishedAt: "2026-03-09T21:17:06.000Z",
   },
   {
     title: "From Warrior to Queen",
     description:
-      "The shift from fighting for my place to knowing it is already mine, and growing into safety after years of survival mode.",
+      "The shift from fighting for my place to knowing it is already mine and growing into safety after years of survival mode.",
     url: `${publicationUrl}/p/from-warrior-to-queen`,
     publishedAt: "2026-02-26T18:32:59.000Z",
   },
@@ -122,7 +122,7 @@ export default async function WritingPage() {
     "@id": `${site.url}/writing#collection`,
     name: "Writing by Kate Gajewski",
     description:
-      "Essays on Reiki, healing, embodiment, spiritual growth, and practitioner life.",
+      "Essays on Reiki, healing, embodiment, spiritual growth and practitioner life.",
     url: `${site.url}/writing`,
     author: { "@id": `${site.url}/#kate-gajewski` },
     hasPart: articles.map((article) => ({
@@ -138,7 +138,7 @@ export default async function WritingPage() {
   return (
     <PageShell
       eyebrow="My Writing"
-      title="Reiki, healing, and being human through all of it."
+      title="Reiki, healing and being human through all of it."
     >
       <script
         type="application/ld+json"
@@ -162,7 +162,7 @@ export default async function WritingPage() {
             Want to read along?
           </strong>
           <p className="mt-3 text-[var(--color-muted)]">
-            You can subscribe for free, and each new article will arrive in your inbox.
+            You can subscribe for free and each new article will arrive in your inbox.
           </p>
           <Link href={`${publicationUrl}/subscribe`} className="button-pill mt-5 inline-flex">
             Subscribe to My Writing
@@ -196,7 +196,7 @@ export default async function WritingPage() {
       <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(246,229,214,0.9),rgba(238,226,218,0.78))] p-8 text-center shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
         <h2 className="display-section-title">Read what speaks to you.</h2>
         <p className="mx-auto mt-4 max-w-[40rem] text-[var(--color-muted)]">
-          Browse the latest articles, visit my full Substack, or learn more about working with me.
+          Browse the latest articles, visit my full Substack or learn more about working with me.
         </p>
         <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Link href={publicationUrl} className="button-pill">Visit the Full Publication</Link>

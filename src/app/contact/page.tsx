@@ -64,14 +64,14 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
       description={
         isTrainingWaitlist
           ? isSoundTrainingWaitlist
-            ? "Share your details below and Kate will send you the January 2027 dates and enrollment information as soon as they are confirmed."
+            ? "Share your details below to receive the schedule and enrollment information for January 29 through 31, 2027."
             : "Share your details below and Kate will reach out when the next Reiki Rising cohort opens."
           : isPrivateEventInquiry
-            ? "Share what you are envisioning, and Kate will follow up about creating a personalized ceremony, blessing, or private gathering."
+            ? "Share what you are envisioning and Kate will follow up about creating a personalized ceremony, blessing, or private gathering."
             : isUpcomingEventInquiry
               ? "Use the form below to ask about an upcoming event, gathering, or registration detail."
               : isCorporateInquiry
-                ? "Share a little about your team, workplace, or event, and Kate will follow up about a tailored wellness offering."
+                ? "Share a little about your team, workplace, or event and Kate will follow up about a tailored wellness offering."
             : "Whether you want to ask about sessions, training, events, or corporate wellness, this is the place to begin."
       }
     >
@@ -273,7 +273,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           </h2>
           <p className="mt-4 max-w-[42rem] text-[var(--color-muted)]">
             Join the email list for events, yoga classes, Reiki trainings, sound
-            healing, private ceremonies, and membership updates. You can choose
+            healing, private ceremonies and membership updates. You can choose
             the topics that feel relevant to you.
           </p>
           <Link href={site.links.emailUpdates} className="button-pill mt-6">

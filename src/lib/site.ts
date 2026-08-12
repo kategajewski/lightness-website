@@ -3,7 +3,7 @@ export const site = {
   subtitle: "Healing with Kate Gajewski",
   url: "https://bethelightness.com",
   description:
-    "Holistic healing with Kate Gajewski in Patchogue, New York: Reiki and energy healing, hypnotherapy, sound healing, yoga, practitioner training, mentorship, events, corporate wellness, ceremonies, and handcrafted sacred prayer beads.",
+    "Holistic healing with Kate Gajewski in Patchogue, New York: Reiki and energy healing, hypnotherapy, sound healing, yoga, practitioner training, mentorship, events, corporate wellness, ceremonies and handcrafted sacred prayer beads.",
   adminEmails: [
     "kate@bethelightness.com",
     "kategajewski@gmail.com",
@@ -66,7 +66,7 @@ export const booking = {
   primaryLabel: "Join Monthly Membership",
   primaryHref: site.links.membership,
   primaryDescription:
-    "Monthly Rest & Reset offers ongoing support, built-in savings, and a steady rhythm of care for clients who want healing to be a regular part of life.",
+    "Monthly Rest & Reset offers ongoing support, built-in savings and a steady rhythm of care for clients who want healing to be a regular part of life.",
   secondaryOptions: [
     {
       label: "Book Appointment",
@@ -96,7 +96,6 @@ export const footerNavigation = [
   { label: "Healing Sessions", href: site.links.services },
   { label: "About", href: site.links.about },
   { label: "Training", href: site.links.courses },
-  { label: "Writing", href: site.links.writing },
   { label: "Events", href: site.links.events },
   { label: "Gift Certificate", href: site.links.giftCertificate },
   { label: "Privacy Policy", href: site.links.privacyPolicy },

@@ -36,7 +36,7 @@ export const offers: Offer[] = [
     format: "subscription",
     priceLabel: "$130 monthly",
     description:
-      "A recurring membership for clients who want one Rest & Receive session each month, consistent healing support, and built-in savings.",
+      "A recurring membership for clients who want one Rest & Receive session each month, consistent healing support and built-in savings.",
     audience:
       "Best for returning clients who benefit from regular support and want a steady, sustainable rhythm of care.",
     cta: "Join Monthly Membership",
@@ -49,7 +49,7 @@ export const offers: Offer[] = [
       "Membership may be paused with one month's notice",
     ],
     detail:
-      "This membership is designed to create a grounded monthly rhythm of healing, savings, and long-term support without overcomplicating the path.",
+      "This membership is designed to create a grounded monthly rhythm of healing, savings and long-term support without overcomplicating the path.",
     image:
       "/homepage-images/ghl-healing-session.webp",
     href: "/checkout/monthly-membership",
@@ -62,7 +62,7 @@ export const offers: Offer[] = [
     format: "one_time",
     priceLabel: "Early Bird $888 or 3 payments of $333",
     description:
-      "A 10-week Reiki 1 and Reiki 2 certification journey with weekly prerecorded teachings, live support calls, placements, practice, and community integration.",
+      "A 10-week Reiki 1 and Reiki 2 certification journey with weekly prerecorded teachings, live support calls, placements, practice and community integration.",
     audience:
       "Best for students who want a spacious, supported Reiki training experience rather than a quick weekend class.",
     cta: "Enroll in Reiki Rising",
@@ -109,20 +109,20 @@ export const offers: Offer[] = [
     name: "Sound Practitioner Training",
     category: "course",
     format: "inquiry",
-    priceLabel: "January 2027 · Dates to be announced",
+    priceLabel: "January 29 through 31, 2027",
     description:
-      "A live immersive training for those who want to facilitate sound experiences with intention, grounded presence, and embodied confidence.",
+      "A live immersive training for those who want to facilitate sound experiences with intention, grounded presence and embodied confidence.",
     audience:
-      "Best for practitioners, space holders, and heart-led students who feel called to bring sound more intentionally into healing work, classes, ceremonies, or private sessions.",
+      "Best for practitioners, space holders and heart-led students who feel called to bring sound more intentionally into healing work, classes, ceremonies, or private sessions.",
     cta: "Join the Waitlist",
     features: [
-      "Next in-person training planned for January 2027",
-      "Exact dates and enrollment details will be announced to the waitlist",
-      "No payment is being accepted until the dates are confirmed",
-      "Hands-on learning with instruments, facilitation, and practitioner presence",
+      "Live in-person training held January 29 through 31, 2027",
+      "Enrollment details will be announced to the waitlist",
+      "No payment is being accepted until registration opens",
+      "Hands-on learning with instruments, facilitation and practitioner presence",
     ],
     detail:
-      "Join the waitlist to receive the dates, schedule, and registration details as soon as they are confirmed.",
+      "Join the waitlist to receive the schedule and registration details as soon as enrollment opens.",
     image: "/homepage-images/moodysound.jpeg",
     href: "/contact?inquiryType=training&subject=Sound%20Practitioner%20Training%20Waitlist&draft=Hi%20Kate%2C%20I%27d%20love%20to%20join%20the%20waitlist%20for%20the%20January%202027%20Sound%20Practitioner%20Training.",
   },

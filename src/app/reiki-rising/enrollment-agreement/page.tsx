@@ -37,6 +37,7 @@ const sections = [
     body: [
       "One additional group make-up placement is included for each level if the student cannot attend the scheduled placement. A private placement may be scheduled during available office hours for an additional fee of $50 remotely or $75 in person.",
       "The certificate confirms completion of this educational program. It is not a government-issued professional license and does not guarantee employment, income or business results.",
+      "The Reiki 1 and Reiki 2 certificate will be mailed only after the student has completed all certification requirements and the full tuition balance has been received. If the student completes the program before the final scheduled payment, the certificate will be held until the remaining balance is paid in full.",
     ],
     list: [
       "Receive the Level 1 and Level 2 placements live and remotely",

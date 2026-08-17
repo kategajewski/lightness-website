@@ -5,7 +5,7 @@ const refundSections = [
   {
     title: "General Policy",
     body: [
-      "Because offerings may include scheduled services, live events, trainings, memberships, and digital materials, refund eligibility may vary by purchase type.",
+      "Because offerings may include scheduled services, live events, trainings, memberships and digital materials, refund eligibility may vary by purchase type.",
       "All refund requests are reviewed in good faith and in alignment with the nature of the offering purchased.",
     ],
   },
@@ -24,10 +24,20 @@ const refundSections = [
     ],
   },
   {
-    title: "Trainings, Workshops, and Events",
+    title: "Trainings, Workshops and Events",
     body: [
-      "Live trainings, workshops, ceremonies, and events may involve reserved space, preparation, or limited-capacity attendance. Because of this, refunds may be limited or unavailable after a certain point.",
+      "Live trainings, workshops, ceremonies and events may involve reserved space, preparation or limited-capacity attendance. Because of this, refunds may be limited or unavailable after a certain point.",
       "If an event is canceled by the business, attendees may be offered a refund, transfer, credit, or rescheduled option depending on the circumstances.",
+    ],
+  },
+  {
+    title: "Reiki Rising Fall 2026",
+    body: [
+      "To qualify for a full Reiki Rising refund, the request must be submitted within seven calendar days of purchase and received no later than September 20, 2026. Both conditions must be met.",
+      "After September 20, 2026, Reiki Rising tuition payments are non-refundable.",
+      "A Reiki Rising payment plan is a commitment to the full tuition amount. Choosing to withdraw, stop attending or discontinue portal use does not automatically cancel the remaining payments.",
+      "In a genuine hardship situation, a course credit or transfer to a future cohort may be considered individually. Credits and transfers are not guaranteed.",
+      "If The Lightness of Being cancels the entire training, the student may choose a refund of tuition paid or a transfer to a future cohort.",
     ],
   },
   {
@@ -45,7 +55,7 @@ const refundSections = [
   {
     title: "Requesting a Refund",
     body: [
-      "If you believe a refund, transfer, or credit should be considered, please contact the business with your name, purchase details, and reason for the request.",
+      "If you believe a refund, transfer or credit should be considered, please contact the business with your name, purchase details and reason for the request.",
       "Requests are reviewed individually and any exception remains at the discretion of the business unless otherwise required by law.",
     ],
   },
@@ -65,7 +75,7 @@ const refundSections = [
     title: "Contact",
     body: [
       `For refund or cancellation questions, you may contact ${site.name} at ${site.contact.address}.`,
-      "If you want, we can later replace this with your exact public support email and more specific cancellation windows.",
+      "You may also submit a written request through the website contact form.",
     ],
   },
 ] as const;
@@ -74,8 +84,8 @@ export default function RefundPolicyPage() {
   return (
     <PageShell
       eyebrow="Refund Policy"
-      title="How refunds, cancellations, and credits are handled."
-      description="Effective date: March 24, 2026. This is a practical working draft for The Lightness of Being and should be reviewed and customized to reflect your exact business policies before launch."
+      title="How refunds, cancellations and credits are handled."
+      description="Effective date: August 16, 2026. These terms explain how refund, cancellation and credit requests are handled by The Lightness of Being."
     >
       <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
         <div className="grid gap-8">

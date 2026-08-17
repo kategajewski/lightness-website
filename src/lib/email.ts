@@ -773,6 +773,11 @@ export async function sendPurchaseOwnerNotificationEmail(
         timeZone: "America/New_York",
       }).format(new Date(session.created * 1000))
     : "Not provided";
+  const agreementAccepted = metadata.agreementAccepted === "true";
+  const agreementFullName = metadata.agreementFullName?.trim() || "";
+  const agreementVersion = metadata.agreementVersion?.trim() || "";
+  const agreementAcceptedAt = metadata.agreementAcceptedAt?.trim() || "";
+  const mediaReleaseAccepted = metadata.mediaReleaseAccepted === "true";
   const giftCertificateCode =
     metadata.purchaseType === "offer" && metadata.offerSlug === "gift-certificate"
       ? createGiftCertificateCode(session.id)
@@ -786,6 +791,18 @@ export async function sendPurchaseOwnerNotificationEmail(
     `Customer: ${customerName}`,
     `Customer email: ${customerEmail}`,
     `Purchased at: ${purchasedAt}`,
+    agreementAccepted
+      ? `Enrollment agreement: Accepted by ${agreementFullName || customerName}`
+      : null,
+    agreementAccepted && agreementVersion
+      ? `Agreement version: ${agreementVersion}`
+      : null,
+    agreementAccepted && agreementAcceptedAt
+      ? `Agreement accepted at: ${agreementAcceptedAt}`
+      : null,
+    agreementAccepted
+      ? `Optional media permission: ${mediaReleaseAccepted ? "Yes" : "No"}`
+      : null,
     giftCertificateCode ? `Gift certificate code: ${giftCertificateCode}` : null,
     `Stripe session: ${session.id || "Not provided"}`,
     `Payment intent: ${paymentIntent || "Not provided"}`,
@@ -801,6 +818,14 @@ export async function sendPurchaseOwnerNotificationEmail(
       <p><strong>Customer:</strong> ${escapeHtml(customerName)}</p>
       <p><strong>Customer email:</strong> ${escapeHtml(customerEmail)}</p>
       <p><strong>Purchased at:</strong> ${escapeHtml(purchasedAt)}</p>
+      ${
+        agreementAccepted
+          ? `<p><strong>Enrollment agreement:</strong> Accepted by ${escapeHtml(agreementFullName || customerName)}</p>
+      <p><strong>Agreement version:</strong> ${escapeHtml(agreementVersion || "Not provided")}</p>
+      <p><strong>Agreement accepted at:</strong> ${escapeHtml(agreementAcceptedAt || "Not provided")}</p>
+      <p><strong>Optional media permission:</strong> ${mediaReleaseAccepted ? "Yes" : "No"}</p>`
+          : ""
+      }
       ${
         giftCertificateCode
           ? `<p><strong>Gift certificate code:</strong> ${escapeHtml(giftCertificateCode)}</p>`
@@ -942,6 +967,7 @@ function getOfferPurchaseEmailContent(
         option?.installmentCount
           ? `Your fixed payment plan includes ${option.installmentCount} monthly payments and ends automatically after the final payment.`
           : null,
+        `You can review the Reiki Rising Enrollment Agreement you accepted here: ${env.siteUrl.replace(/\/$/, "")}/reiki-rising/enrollment-agreement`,
         portalAccess?.setupUrl
           ? "Your Reiki Rising student portal access has been created using the email address you enrolled with. Begin by selecting Set Your Portal Password below."
           : "Your Reiki Rising student portal access is connected to the email address you enrolled with. Select Open Portal Login below and use Forgot Password if you still need to create your password.",

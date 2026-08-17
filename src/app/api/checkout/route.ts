@@ -1,12 +1,22 @@
 import { NextResponse } from "next/server";
 import { env, integrations } from "@/lib/env";
 import { getOfferBySlug, isPurchaseOptionAvailable } from "@/lib/offers";
+import { REIKI_RISING_AGREEMENT_VERSION } from "@/lib/reiki-rising-agreement";
 
 export async function POST(request: Request) {
   const origin = env.siteUrl.replace(/\/$/, "");
   const formData = await request.formData();
   const slug = String(formData.get("slug") ?? "");
   const optionKey = String(formData.get("optionKey") ?? "");
+  const agreementFullName = String(
+    formData.get("agreementFullName") ?? "",
+  )
+    .trim()
+    .replace(/\s+/g, " ")
+    .slice(0, 160);
+  const agreementAccepted = formData.get("agreementAccepted") === "yes";
+  const mediaReleaseAccepted =
+    formData.get("mediaReleaseAccepted") === "yes";
   const offer = getOfferBySlug(slug);
 
   if (!offer) {
@@ -19,9 +29,26 @@ export async function POST(request: Request) {
   );
 
   if (offer.purchaseOptions?.length && !selectedOption) {
-    return NextResponse.redirect(`${origin}/checkout/${offer.slug}`, {
+    const redirectPath =
+      offer.slug === "reiki-rising"
+        ? `${origin}/checkout/${offer.slug}?agreement=required`
+        : `${origin}/checkout/${offer.slug}`;
+
+    return NextResponse.redirect(redirectPath, {
       status: 303,
     });
+  }
+
+  const requiresEnrollmentAgreement = offer.slug === "reiki-rising";
+
+  if (
+    requiresEnrollmentAgreement &&
+    (!agreementAccepted || agreementFullName.length < 2)
+  ) {
+    return NextResponse.redirect(
+      `${origin}/checkout/${offer.slug}?agreement=required`,
+      { status: 303 },
+    );
   }
 
   const selectedPriceId = selectedOption?.stripePriceId || offer.stripePriceId;
@@ -54,6 +81,60 @@ export async function POST(request: Request) {
       offer.slug,
     )}`,
   });
+
+  if (requiresEnrollmentAgreement) {
+    const acceptedAt = new Date().toISOString();
+
+    body.set("metadata[agreementAccepted]", "true");
+    body.set(
+      "metadata[agreementVersion]",
+      REIKI_RISING_AGREEMENT_VERSION,
+    );
+    body.set("metadata[agreementAcceptedAt]", acceptedAt);
+    body.set("metadata[agreementFullName]", agreementFullName);
+    body.set(
+      "metadata[mediaReleaseAccepted]",
+      mediaReleaseAccepted ? "true" : "false",
+    );
+
+    if (checkoutMode === "subscription") {
+      body.set("subscription_data[metadata][agreementAccepted]", "true");
+      body.set(
+        "subscription_data[metadata][agreementVersion]",
+        REIKI_RISING_AGREEMENT_VERSION,
+      );
+      body.set(
+        "subscription_data[metadata][agreementAcceptedAt]",
+        acceptedAt,
+      );
+      body.set(
+        "subscription_data[metadata][agreementFullName]",
+        agreementFullName,
+      );
+      body.set(
+        "subscription_data[metadata][mediaReleaseAccepted]",
+        mediaReleaseAccepted ? "true" : "false",
+      );
+    } else {
+      body.set("payment_intent_data[metadata][agreementAccepted]", "true");
+      body.set(
+        "payment_intent_data[metadata][agreementVersion]",
+        REIKI_RISING_AGREEMENT_VERSION,
+      );
+      body.set(
+        "payment_intent_data[metadata][agreementAcceptedAt]",
+        acceptedAt,
+      );
+      body.set(
+        "payment_intent_data[metadata][agreementFullName]",
+        agreementFullName,
+      );
+      body.set(
+        "payment_intent_data[metadata][mediaReleaseAccepted]",
+        mediaReleaseAccepted ? "true" : "false",
+      );
+    }
+  }
 
   if (selectedOption?.installmentCount) {
     body.set(

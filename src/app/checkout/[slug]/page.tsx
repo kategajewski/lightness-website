@@ -5,16 +5,22 @@ import {
   getCheckoutReadiness,
   getOfferBySlug,
 } from "@/lib/offers";
+import { REIKI_RISING_AGREEMENT_PATH } from "@/lib/reiki-rising-agreement";
 import { site } from "@/lib/site";
 
 type CheckoutPageProps = {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ agreement?: string }>;
 };
 
 export const dynamic = "force-dynamic";
 
-export default async function CheckoutPage({ params }: CheckoutPageProps) {
+export default async function CheckoutPage({
+  params,
+  searchParams,
+}: CheckoutPageProps) {
   const { slug } = await params;
+  const query = await searchParams;
   const offer = getOfferBySlug(slug);
 
   if (!offer) {
@@ -131,43 +137,189 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
 
           {hasOptions ? (
             <div className="mt-6 grid gap-4">
-              {availableOptions.map((option) => (
-                <div
-                  key={option.key}
-                  className="rounded-[22px] bg-[rgba(255,248,242,0.86)] p-5"
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <strong className="text-[1.02rem]">{option.label}</strong>
-                    <span className="rounded-full bg-[rgba(168,178,159,0.18)] px-3 py-1 text-[0.82rem] uppercase tracking-[0.12em] text-[var(--color-muted)]">
-                      {option.priceLabel}
-                    </span>
-                  </div>
-                  <p className="mt-3 text-[var(--color-muted)]">
-                    {option.description}
-                  </p>
-                  <div className="mt-4">
-                    {readiness.checkoutReady &&
-                    (option.stripePriceId || option.amountCents) ? (
-                      <form action="/api/checkout" method="post">
-                        <input type="hidden" name="slug" value={offer.slug} />
-                        <input type="hidden" name="optionKey" value={option.key} />
-                        <button type="submit" className="button-pill">
-                          {isGiftCertificate
-                            ? `Choose ${option.priceLabel}`
-                            : `Continue with ${option.label}`}
-                        </button>
-                      </form>
-                    ) : (
-                      <Link
-                        href={readiness.currentFallbackHref}
-                        className="button-pill"
+              {isReikiRising ? (
+                <form action="/api/checkout" method="post" className="grid gap-5">
+                  <input type="hidden" name="slug" value={offer.slug} />
+
+                  <fieldset className="grid gap-4">
+                    <legend className="sr-only">Choose your tuition option</legend>
+                    {availableOptions.map((option) => (
+                      <label
+                        key={option.key}
+                        className="flex cursor-pointer gap-4 rounded-[22px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,248,242,0.86)] p-5 transition hover:border-[rgba(76,58,48,0.28)] has-[:checked]:border-[rgba(111,91,76,0.55)] has-[:checked]:shadow-[0_14px_35px_rgba(59,41,31,0.08)]"
                       >
-                        Review Offer Details
-                      </Link>
-                    )}
+                        <input
+                          type="radio"
+                          name="optionKey"
+                          value={option.key}
+                          required
+                          className="mt-1 h-5 w-5 shrink-0 accent-[var(--color-text)]"
+                        />
+                        <span className="min-w-0 flex-1">
+                          <span className="flex flex-wrap items-center justify-between gap-3">
+                            <strong className="text-[1.02rem]">
+                              {option.label}
+                            </strong>
+                            <span className="rounded-full bg-[rgba(168,178,159,0.18)] px-3 py-1 text-[0.78rem] font-medium uppercase tracking-[0.08em] text-[var(--color-muted)]">
+                              {option.priceLabel}
+                            </span>
+                          </span>
+                          <span className="mt-3 block text-[var(--color-muted)]">
+                            {option.description}
+                          </span>
+                        </span>
+                      </label>
+                    ))}
+                  </fieldset>
+
+                  <div className="rounded-[22px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,251,246,0.92)] p-5">
+                    <strong className="block text-[1.02rem]">
+                      Enrollment agreement
+                    </strong>
+                    <p className="mt-2 text-[0.94rem] leading-relaxed text-[var(--color-muted)]">
+                      Please review the agreement and enter your full name before
+                      continuing to secure payment.
+                    </p>
+
+                    <label className="mt-5 block text-[0.9rem] font-semibold text-[var(--color-text)]">
+                      Full name for your enrollment agreement
+                      <input
+                        type="text"
+                        name="agreementFullName"
+                        autoComplete="name"
+                        minLength={2}
+                        maxLength={160}
+                        required
+                        className="mt-2 w-full rounded-[14px] border border-[rgba(76,58,48,0.16)] bg-white px-4 py-3 text-[1rem] font-normal outline-none transition focus:border-[rgba(76,58,48,0.48)] focus:ring-2 focus:ring-[rgba(168,178,159,0.24)]"
+                      />
+                    </label>
+
+                    <label className="mt-5 flex cursor-pointer items-start gap-3 text-[0.9rem] leading-relaxed text-[var(--color-muted)]">
+                      <input
+                        type="checkbox"
+                        name="agreementAccepted"
+                        value="yes"
+                        required
+                        className="mt-1 h-5 w-5 shrink-0 accent-[var(--color-text)]"
+                      />
+                      <span>
+                        I have read and agree to the{" "}
+                        <Link
+                          href={REIKI_RISING_AGREEMENT_PATH}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="font-semibold text-[var(--color-text)] underline underline-offset-2"
+                        >
+                          Reiki Rising Enrollment Agreement
+                        </Link>
+                        ,{" "}
+                        <Link
+                          href={site.links.refundPolicy}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="font-semibold text-[var(--color-text)] underline underline-offset-2"
+                        >
+                          Refund Policy
+                        </Link>{" "}
+                        and{" "}
+                        <Link
+                          href={site.links.terms}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="font-semibold text-[var(--color-text)] underline underline-offset-2"
+                        >
+                          Terms
+                        </Link>
+                        . I understand the total tuition and authorize the
+                        payment option I selected. If I select a payment plan, I
+                        understand that it is a fixed installment commitment to
+                        the full tuition. It ends after the final payment and
+                        does not renew.
+                      </span>
+                    </label>
+
+                    <label className="mt-4 flex cursor-pointer items-start gap-3 text-[0.88rem] leading-relaxed text-[var(--color-muted)]">
+                      <input
+                        type="checkbox"
+                        name="mediaReleaseAccepted"
+                        value="yes"
+                        className="mt-1 h-5 w-5 shrink-0 accent-[var(--color-text)]"
+                      />
+                      <span>
+                        Optional: I give The Lightness of Being permission to
+                        use photographs, video clips or testimonials featuring
+                        me for educational or promotional purposes. Declining
+                        this permission does not affect my participation.
+                      </span>
+                    </label>
+
+                    {query.agreement === "required" ? (
+                      <p
+                        role="alert"
+                        className="mt-4 rounded-[14px] bg-[rgba(167,85,70,0.1)] px-4 py-3 text-[0.9rem] font-medium text-[rgb(126,61,51)]"
+                      >
+                        Please choose a tuition option, enter your full name and
+                        accept the enrollment terms before continuing.
+                      </p>
+                    ) : null}
                   </div>
-                </div>
-              ))}
+
+                  {readiness.checkoutReady ? (
+                    <button type="submit" className="button-pill justify-center">
+                      Continue to Secure Payment
+                    </button>
+                  ) : (
+                    <Link
+                      href={readiness.currentFallbackHref}
+                      className="button-pill justify-center"
+                    >
+                      Review Offer Details
+                    </Link>
+                  )}
+                </form>
+              ) : (
+                availableOptions.map((option) => (
+                  <div
+                    key={option.key}
+                    className="rounded-[22px] bg-[rgba(255,248,242,0.86)] p-5"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <strong className="text-[1.02rem]">{option.label}</strong>
+                      <span className="rounded-full bg-[rgba(168,178,159,0.18)] px-3 py-1 text-[0.82rem] uppercase tracking-[0.12em] text-[var(--color-muted)]">
+                        {option.priceLabel}
+                      </span>
+                    </div>
+                    <p className="mt-3 text-[var(--color-muted)]">
+                      {option.description}
+                    </p>
+                    <div className="mt-4">
+                      {readiness.checkoutReady &&
+                      (option.stripePriceId || option.amountCents) ? (
+                        <form action="/api/checkout" method="post">
+                          <input type="hidden" name="slug" value={offer.slug} />
+                          <input
+                            type="hidden"
+                            name="optionKey"
+                            value={option.key}
+                          />
+                          <button type="submit" className="button-pill">
+                            {isGiftCertificate
+                              ? `Choose ${option.priceLabel}`
+                              : `Continue with ${option.label}`}
+                          </button>
+                        </form>
+                      ) : (
+                        <Link
+                          href={readiness.currentFallbackHref}
+                          className="button-pill"
+                        >
+                          Review Offer Details
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
 
               <div className="flex flex-wrap gap-3">
                 <Link

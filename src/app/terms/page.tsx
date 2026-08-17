@@ -12,29 +12,29 @@ const termsSections = [
   {
     title: "Services and Educational Content",
     body: [
-      "This website may include information about healing services, memberships, courses, classes, events, and educational materials.",
+      "This website may include information about healing services, memberships, courses, classes, events and educational materials.",
       "All content is provided for informational, educational, or business purposes and is subject to change without notice.",
     ],
   },
   {
     title: "No Medical, Mental Health, or Legal Advice",
     body: [
-      "The services, teachings, content, and materials offered through this website are not a substitute for medical care, mental health treatment, legal advice, or other licensed professional services.",
+      "The services, teachings, content and materials offered through this website are not a substitute for medical care, mental health treatment, legal advice or other licensed professional services.",
       "You are responsible for seeking appropriate professional care when needed.",
     ],
   },
   {
-    title: "Bookings, Purchases, and Payments",
+    title: "Bookings, Purchases and Payments",
     body: [
-      "Appointments, courses, memberships, events, and other offerings may be booked or purchased through third-party platforms such as Calendly and Stripe.",
+      "Appointments, courses, memberships, events and other offerings may be booked or purchased through third-party platforms such as Calendly and Stripe.",
       "By making a purchase, you agree to provide accurate billing and account information and to pay all applicable charges associated with your order.",
     ],
   },
   {
     title: "Refunds and Cancellations",
     body: [
-      "Refund, cancellation, transfer, and rescheduling terms may vary depending on the service, course, membership, or event purchased.",
-      "Please review the dedicated Refund Policy page for additional details about how refund requests, cancellations, event transfers, and membership billing questions are handled.",
+      "Refund, cancellation, transfer and rescheduling terms may vary depending on the service, course, membership or event purchased.",
+      "Please review the dedicated Refund Policy page for additional details about how refund requests, cancellations, event transfers and membership billing questions are handled.",
     ],
   },
   {
@@ -47,7 +47,7 @@ const termsSections = [
   {
     title: "Intellectual Property",
     body: [
-      "All website content, branding, text, designs, graphics, course materials, downloads, audio, video, and related materials are owned by or licensed to The Lightness of Being unless otherwise stated.",
+      "All website content, branding, text, designs, graphics, course materials, downloads, audio, video and related materials are owned by or licensed to The Lightness of Being unless otherwise stated.",
       "You may not reproduce, distribute, modify, share, resell, or create derivative works from protected content without prior written permission.",
     ],
   },
@@ -86,7 +86,7 @@ const termsSections = [
     title: "Contact",
     body: [
       `If you have questions about these terms, you may contact ${site.name} at ${site.contact.address}.`,
-      "If you would like, we can later replace this section with your preferred public business email address.",
+      "You may also submit a written question through the website contact form.",
     ],
   },
 ] as const;
@@ -96,7 +96,7 @@ export default function TermsPage() {
     <PageShell
       eyebrow="Terms"
       title="The terms that govern use of this website and its services."
-      description="Effective date: March 22, 2026. This is a practical working draft for The Lightness of Being and should be reviewed by legal counsel if you want formal legal advice."
+      description="Effective date: August 16, 2026. These terms govern use of The Lightness of Being website, services and protected content."
     >
       <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
         <div className="grid gap-8">

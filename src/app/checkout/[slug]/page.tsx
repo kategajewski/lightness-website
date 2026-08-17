@@ -1,15 +1,17 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCheckoutReadiness, getOfferBySlug, offers } from "@/lib/offers";
+import {
+  getAvailablePurchaseOptions,
+  getCheckoutReadiness,
+  getOfferBySlug,
+} from "@/lib/offers";
 import { site } from "@/lib/site";
 
 type CheckoutPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return offers.map((offer) => ({ slug: offer.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function CheckoutPage({ params }: CheckoutPageProps) {
   const { slug } = await params;
@@ -24,7 +26,20 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
   const isSoundTraining = offer.slug === "sound-training";
   const isGiftCertificate = offer.slug === "gift-certificate";
   const isReikiRising = offer.slug === "reiki-rising";
-  const hasOptions = Boolean(offer.purchaseOptions?.length);
+  const availableOptions = getAvailablePurchaseOptions(offer);
+  const hasOptions = availableOptions.length > 0;
+  const isEarlyBirdEnrollment = availableOptions.some((option) =>
+    option.key.startsWith("early-bird"),
+  );
+  const checkoutFeatures =
+    isReikiRising && !isEarlyBirdEnrollment
+      ? offer.features.filter(
+          (feature) => !feature.startsWith("Early Bird enrollment"),
+        )
+      : offer.features;
+  const currentPriceLabel = isReikiRising
+    ? availableOptions.map((option) => option.priceLabel).join(" or ")
+    : offer.priceLabel;
 
   return (
     <main className="relative flex flex-col overflow-hidden bg-[var(--color-bg)] text-[var(--color-text)]">
@@ -50,10 +65,14 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
 
         <div className="self-start rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <strong className="text-[1.05rem]">{offer.priceLabel}</strong>
+            <strong className="text-[1.05rem]">
+              {currentPriceLabel || offer.priceLabel}
+            </strong>
             <span className="rounded-full bg-[rgba(168,178,159,0.18)] px-3 py-1 text-[0.82rem] uppercase tracking-[0.12em] text-[var(--color-muted)]">
-              {offer.format === "subscription"
-                ? "Recurring"
+              {isReikiRising
+                ? "Enrollment"
+                : offer.format === "subscription"
+                  ? "Recurring"
                 : offer.format === "inquiry"
                   ? "Waitlist"
                   : "One-time"}
@@ -63,7 +82,7 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
           <p className="mt-4 text-[var(--color-muted)]">{offer.audience}</p>
 
           <ul className="mt-6 grid gap-3 text-[var(--color-muted)]">
-            {offer.features.map((feature) => (
+            {checkoutFeatures.map((feature) => (
               <li key={feature} className="flex gap-3">
                 <span className="mt-2 h-2 w-2 rounded-full bg-[rgba(93,81,72,0.8)]" />
                 <span>{feature}</span>
@@ -98,7 +117,7 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
                   : isGiftCertificate
                     ? "Choose one of the gift amounts below to purchase a certificate for someone you love."
                   : isReikiRising
-                    ? "Choose the Early Bird enrollment option that feels best for you."
+                    ? "Choose the enrollment option that feels best for you."
                     : "Your secure payment flow is connected and ready."
                 : isMembership
                   ? "This page is being prepared for live recurring checkout. In the meantime, you can review the membership details and return to the membership page for the full offer overview."
@@ -112,7 +131,7 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
 
           {hasOptions ? (
             <div className="mt-6 grid gap-4">
-              {offer.purchaseOptions?.map((option) => (
+              {availableOptions.map((option) => (
                 <div
                   key={option.key}
                   className="rounded-[22px] bg-[rgba(255,248,242,0.86)] p-5"

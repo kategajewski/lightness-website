@@ -939,6 +939,9 @@ function getOfferPurchaseEmailContent(
         option ? `Selected option: ${option.label}` : null,
       ].filter(Boolean) as string[],
       reminderLines: [
+        option?.installmentCount
+          ? `Your fixed payment plan includes ${option.installmentCount} monthly payments and ends automatically after the final payment.`
+          : null,
         portalAccess?.setupUrl
           ? "Your Reiki Rising student portal access has been created using the email address you enrolled with. Begin by selecting Set Your Portal Password below."
           : "Your Reiki Rising student portal access is connected to the email address you enrolled with. Select Open Portal Login below and use Forgot Password if you still need to create your password.",
@@ -947,7 +950,7 @@ function getOfferPurchaseEmailContent(
         "The bookstore automatically selects the digital edition, so please choose whether you would like the digital book, printed book, or both before completing your purchase.",
         "You may also want to choose a special notebook or journal for reflections, practice notes, and questions throughout your Reiki Rising journey.",
         "You'll receive another email closer to the start date with preparation guidance, the Telegram community link, and everything you need for your first week.",
-      ],
+      ].filter(Boolean) as string[],
       href: setupHref,
       hrefLabel: portalAccess?.setupUrl
         ? "Set Your Portal Password"

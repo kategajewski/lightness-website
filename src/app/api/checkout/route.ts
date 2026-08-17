@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { env, integrations } from "@/lib/env";
-import { getOfferBySlug } from "@/lib/offers";
+import { getOfferBySlug, isPurchaseOptionAvailable } from "@/lib/offers";
 
 export async function POST(request: Request) {
   const origin = env.siteUrl.replace(/\/$/, "");
@@ -14,15 +14,22 @@ export async function POST(request: Request) {
   }
 
   const selectedOption = offer.purchaseOptions?.find(
-    (option) => option.key === optionKey,
+    (option) =>
+      option.key === optionKey && isPurchaseOptionAvailable(option),
   );
+
+  if (offer.purchaseOptions?.length && !selectedOption) {
+    return NextResponse.redirect(`${origin}/checkout/${offer.slug}`, {
+      status: 303,
+    });
+  }
+
   const selectedPriceId = selectedOption?.stripePriceId || offer.stripePriceId;
   const selectedAmountCents = selectedOption?.amountCents;
   const checkoutMode =
     selectedOption?.mode ||
     (offer.format === "subscription" ? "subscription" : "payment");
-  const canCreateInlinePrice =
-    checkoutMode === "payment" && Boolean(selectedAmountCents);
+  const canCreateInlinePrice = Boolean(selectedAmountCents);
 
   if (
     !integrations.stripe ||
@@ -48,6 +55,28 @@ export async function POST(request: Request) {
     )}`,
   });
 
+  if (selectedOption?.installmentCount) {
+    body.set(
+      "metadata[installmentCount]",
+      String(selectedOption.installmentCount),
+    );
+    body.set("metadata[fixedInstallmentPlan]", "true");
+    body.set("subscription_data[metadata][purchaseType]", "offer");
+    body.set("subscription_data[metadata][offerSlug]", offer.slug);
+    body.set(
+      "subscription_data[metadata][optionKey]",
+      selectedOption.key,
+    );
+    body.set(
+      "subscription_data[metadata][installmentCount]",
+      String(selectedOption.installmentCount),
+    );
+    body.set(
+      "subscription_data[metadata][fixedInstallmentPlan]",
+      "true",
+    );
+  }
+
   if (selectedPriceId) {
     body.set("line_items[0][price]", selectedPriceId);
   } else if (selectedAmountCents) {
@@ -60,6 +89,17 @@ export async function POST(request: Request) {
       "line_items[0][price_data][product_data][name]",
       selectedOption?.label || offer.name,
     );
+
+    if (checkoutMode === "subscription") {
+      body.set(
+        "line_items[0][price_data][recurring][interval]",
+        "month",
+      );
+      body.set(
+        "line_items[0][price_data][product_data][description]",
+        `${selectedOption?.installmentCount} monthly payments. Billing ends automatically after the final payment.`,
+      );
+    }
   }
 
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {

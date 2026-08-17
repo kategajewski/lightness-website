@@ -17,16 +17,23 @@ export type Offer = {
   accessSlug?: string;
   portalHref?: string;
   stripePriceId?: string;
-  purchaseOptions?: {
-    key: string;
-    label: string;
-    priceLabel: string;
-    description: string;
-    mode: "subscription" | "payment";
-    stripePriceId?: string;
-    amountCents?: number;
-  }[];
+  purchaseOptions?: PurchaseOption[];
 };
+
+export type PurchaseOption = {
+  key: string;
+  label: string;
+  priceLabel: string;
+  description: string;
+  mode: "subscription" | "payment";
+  stripePriceId?: string;
+  amountCents?: number;
+  installmentCount?: number;
+  availableFrom?: string;
+  availableUntil?: string;
+};
+
+const REIKI_REGULAR_ENROLLMENT_START = "2026-09-01T04:00:00.000Z";
 
 export const offers: Offer[] = [
   {
@@ -60,7 +67,7 @@ export const offers: Offer[] = [
     name: "Reiki Rising Fall 2026",
     category: "course",
     format: "one_time",
-    priceLabel: "Early Bird $888 or 3 payments of $333",
+    priceLabel: "Early Bird $888 or 5 monthly payments of $200",
     description:
       "A 10-week Reiki 1 and Reiki 2 certification journey with weekly prerecorded teachings, live support calls, placements, practice and community integration.",
     audience:
@@ -92,15 +99,39 @@ export const offers: Offer[] = [
         mode: "payment",
         stripePriceId: env.stripePriceReikiRising,
         amountCents: 88800,
+        availableUntil: REIKI_REGULAR_ENROLLMENT_START,
       },
       {
         key: "early-bird-plan",
         label: "Early Bird Payment Plan",
-        priceLabel: "3 payments of $333",
+        priceLabel: "5 monthly payments of $200 ($1,000 total)",
         description:
-          "Choose a three-payment rhythm by August 31 while still reserving your place and receiving the 45-minute Reiki support session bonus.",
+          "Choose this fixed five-payment plan by August 31 while still reserving your place and receiving the 45-minute Reiki support session bonus. Billing ends automatically after the fifth payment.",
         mode: "subscription",
-        stripePriceId: env.stripePriceReikiRisingEarlyBirdPlan,
+        amountCents: 20000,
+        installmentCount: 5,
+        availableUntil: REIKI_REGULAR_ENROLLMENT_START,
+      },
+      {
+        key: "regular-full",
+        label: "Regular Pay in Full",
+        priceLabel: "$1,111 one-time",
+        description:
+          "Pay the regular enrollment price in full to reserve your place in Reiki Rising.",
+        mode: "payment",
+        amountCents: 111100,
+        availableFrom: REIKI_REGULAR_ENROLLMENT_START,
+      },
+      {
+        key: "regular-plan",
+        label: "Regular Payment Plan",
+        priceLabel: "4 monthly payments of $303 ($1,212 total)",
+        description:
+          "Choose this fixed four-payment plan to reserve your place. Billing ends automatically after the fourth payment.",
+        mode: "subscription",
+        amountCents: 30300,
+        installmentCount: 4,
+        availableFrom: REIKI_REGULAR_ENROLLMENT_START,
       },
     ],
   },
@@ -207,6 +238,32 @@ export const featuredMemberships = offers.filter(
 
 export function getOfferBySlug(slug: string) {
   return offers.find((offer) => offer.slug === slug);
+}
+
+export function isPurchaseOptionAvailable(
+  option: PurchaseOption,
+  now = new Date(),
+) {
+  const timestamp = now.getTime();
+  const availableFrom = option.availableFrom
+    ? new Date(option.availableFrom).getTime()
+    : null;
+  const availableUntil = option.availableUntil
+    ? new Date(option.availableUntil).getTime()
+    : null;
+
+  return (
+    (availableFrom === null || timestamp >= availableFrom) &&
+    (availableUntil === null || timestamp < availableUntil)
+  );
+}
+
+export function getAvailablePurchaseOptions(offer: Offer, now = new Date()) {
+  return (
+    offer.purchaseOptions?.filter((option) =>
+      isPurchaseOptionAvailable(option, now),
+    ) ?? []
+  );
 }
 
 export function getCheckoutReadiness(offer: Offer) {

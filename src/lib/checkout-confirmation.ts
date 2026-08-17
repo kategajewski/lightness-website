@@ -8,6 +8,10 @@ import {
 import { recordEventAttendanceFromSession } from "@/lib/event-attendance";
 import { integrations } from "@/lib/env";
 import {
+  configureInstallmentScheduleFromSession,
+  type InstallmentScheduleStatus,
+} from "@/lib/installment-schedules";
+import {
   provisionOfferPortalAccessFromSession,
   type PortalProvisioningResult,
 } from "@/lib/portal-access";
@@ -20,6 +24,7 @@ type ConfirmationResult = {
   customerEmail: "sent" | "skipped" | "already_sent" | "failed";
   ownerEmail: "sent" | "skipped" | "already_sent" | "failed";
   portalAccess?: PortalProvisioningResult["status"];
+  installmentSchedule?: InstallmentScheduleStatus;
 };
 
 export async function processCheckoutSessionConfirmation(
@@ -59,6 +64,18 @@ export async function processCheckoutSessionConfirmation(
 
   const metadata = session.metadata ?? {};
   const metadataUpdates: Stripe.MetadataParam = {};
+
+  result.installmentSchedule =
+    await configureInstallmentScheduleFromSession(session, stripe);
+
+  if (
+    result.installmentSchedule === "configured" ||
+    result.installmentSchedule === "already_configured"
+  ) {
+    metadataUpdates.installmentScheduleStatus =
+      result.installmentSchedule;
+    metadataUpdates.installmentScheduleCheckedAt = new Date().toISOString();
+  }
 
   if (metadata.purchaseType === "event") {
     await recordEventAttendanceFromSession(session);

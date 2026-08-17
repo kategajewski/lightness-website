@@ -51,7 +51,17 @@ export async function POST(request: Request) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
 
-    await processCheckoutSessionConfirmation(session.id, "webhook");
+    const result = await processCheckoutSessionConfirmation(
+      session.id,
+      "webhook",
+    );
+
+    if (result.installmentSchedule === "failed") {
+      return NextResponse.json(
+        { error: "Fixed installment schedule configuration failed." },
+        { status: 500 },
+      );
+    }
   }
 
   return NextResponse.json({ received: true });

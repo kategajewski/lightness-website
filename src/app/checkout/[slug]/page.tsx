@@ -34,15 +34,7 @@ export default async function CheckoutPage({
   const isReikiRising = offer.slug === "reiki-rising";
   const availableOptions = getAvailablePurchaseOptions(offer);
   const hasOptions = availableOptions.length > 0;
-  const isEarlyBirdEnrollment = availableOptions.some((option) =>
-    option.key.startsWith("early-bird"),
-  );
-  const checkoutFeatures =
-    isReikiRising && !isEarlyBirdEnrollment
-      ? offer.features.filter(
-          (feature) => !feature.startsWith("Early Bird enrollment"),
-        )
-      : offer.features;
+  const checkoutFeatures = offer.features;
   const currentPriceLabel = isReikiRising
     ? availableOptions.map((option) => option.priceLabel).join(" or ")
     : offer.priceLabel;

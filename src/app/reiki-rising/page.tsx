@@ -79,7 +79,8 @@ const pricingOptions = [
     plan: "or 4 monthly payments of $303 ($1,212 total)",
     note:
       "Begins after Early Bird closes. The fixed payment plan ends automatically after the fourth payment.",
-    bonus: null,
+    bonus:
+      "Includes a complimentary 45-minute private Reiki support session with Kate.",
   },
 ] as const;
 
@@ -237,20 +238,21 @@ export default function ReikiRisingPage() {
 
       <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-          Early Bird Bonus
+          Private Support Included
         </span>
         <h2 className="display-section-title">
           Extra support inside the Reiki Rising container.
         </h2>
         <div className="mt-5 grid gap-4 text-[var(--color-muted)] lg:grid-cols-2">
           <p>
-            Enroll by August 31 and receive a complimentary 45-minute private
-            Reiki support session with Kate to use anytime during Reiki Rising.
+            Every Reiki Rising student receives a complimentary 45-minute
+            private Reiki support session with Kate.
           </p>
           <p>
             Use it for Reiki healing, Reiki coaching, practice questions,
             energetic support, or integration as you move through the journey.
-            Bonus session expires December 12, 2026.
+            Your session may be used during the training or within one week
+            after the program ends. The session expires December 12, 2026.
           </p>
         </div>
       </section>

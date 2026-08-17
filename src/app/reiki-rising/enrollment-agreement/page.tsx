@@ -132,10 +132,10 @@ const sections = [
     ],
   },
   {
-    title: "12. Early Bird Bonus",
+    title: "12. Private Support Session",
     body: [
-      "Students who enroll by August 31, 2026 receive one complimentary 45-minute private Reiki support session with Kate.",
-      "The session may be used during Reiki Rising and expires on December 12, 2026. The bonus has no cash value and is not transferable.",
+      "Every enrolled student receives one complimentary 45-minute private Reiki support session with Kate.",
+      "The session may be used during Reiki Rising or within one week after the program ends. It expires on December 12, 2026 and has no cash value. The session is not transferable.",
     ],
   },
   {

@@ -47,7 +47,7 @@ export default async function InquiriesPage() {
     <PageShell
       eyebrow="Private Inbox"
       title="Website inquiries in one calm place."
-      description="This private page pulls your latest contact form submissions from Supabase so you do not have to open the database every time someone reaches out."
+      description="This private page brings together contact forms, email signups and saved quiz results so you can see who is reaching out."
     >
       <section className="flex flex-wrap items-center justify-between gap-4 rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-6 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
         <div>
@@ -70,7 +70,7 @@ export default async function InquiriesPage() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-              Contact Form Inbox
+              Website Inbox
             </span>
             <h2 className="display-section-title">
               Latest submissions

@@ -5,7 +5,7 @@ const policySections = [
   {
     title: "Information We Collect",
     body: [
-      "We may collect personal information you provide directly to us, including your name, email address, phone number, billing details, and any information you submit through contact forms, booking requests, membership signups, or course enrollment.",
+      "We may collect personal information you provide directly to us, including your name, email address, phone number, billing details and any information you submit through contact forms, quiz result requests, booking requests, membership signups or course enrollment.",
       "We may also collect information related to your use of the website, such as IP address, browser type, device information, pages viewed, and referring website information.",
     ],
   },
@@ -26,7 +26,7 @@ const policySections = [
   {
     title: "Scheduling and Third-Party Services",
     body: [
-      "We may use third-party services such as Calendly for appointment scheduling, Supabase for authentication and account management, Vercel for site hosting, and other service providers that support the operation of the website and member experience.",
+      "We may use third-party services such as Calendly for appointment scheduling, Supabase for authentication and account management, Mailchimp for email marketing, Vercel for site hosting and other service providers that support the operation of the website and member experience.",
       "These providers may process your data according to their own privacy policies when necessary to deliver their services.",
     ],
   },
@@ -90,7 +90,7 @@ export default function PrivacyPolicyPage() {
     <PageShell
       eyebrow="Privacy Policy"
       title="How we collect, use, and protect information."
-      description="Effective date: March 22, 2026. This is a practical website privacy policy draft for The Lightness of Being and should be reviewed by legal counsel if you want formal legal advice for your business."
+      description="Effective date: August 16, 2026. This is a practical website privacy policy draft for The Lightness of Being and should be reviewed by legal counsel if you want formal legal advice for your business."
     >
       <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
         <div className="grid gap-8">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { TrainingPathQuiz } from "@/components/training-path-quiz";
+import { env } from "@/lib/env";
 import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -85,7 +86,7 @@ export default function CoursesPage() {
         ))}
       </section>
 
-      <TrainingPathQuiz />
+      <TrainingPathQuiz turnstileSiteKey={env.turnstileSiteKey} />
 
       <section className="mt-5">
         <div className="mx-auto w-full max-w-[44rem] overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">

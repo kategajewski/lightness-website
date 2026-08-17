@@ -6,6 +6,7 @@ import {
 } from "@/lib/gift-certificates";
 import { getOfferBySlug } from "@/lib/offers";
 import type { PortalProvisioningResult } from "@/lib/portal-access";
+import type { ReikiQuizResult } from "@/lib/reiki-quiz-results";
 import { site } from "@/lib/site";
 
 type StripeCheckoutSession = {
@@ -211,6 +212,147 @@ export async function sendInquiryForwardEmail(input: InquiryEmailInput) {
     from: env.emailFrom,
     to: env.contactForwardTo,
     replyTo: input.email,
+    subject,
+    text,
+    html,
+  });
+
+  return { skipped: false };
+}
+
+type ReikiQuizResultEmailInput = {
+  firstName: string;
+  email: string;
+  result: ReikiQuizResult;
+  reflection?: string;
+};
+
+function getAbsoluteWebsiteHref(href: string) {
+  if (href.startsWith("https://") || href.startsWith("http://")) {
+    return href;
+  }
+
+  return `${env.siteUrl.replace(/\/$/, "")}${href.startsWith("/") ? href : `/${href}`}`;
+}
+
+export async function sendReikiQuizResultEmail(
+  input: ReikiQuizResultEmailInput,
+) {
+  if (!integrations.emailDelivery) {
+    return { skipped: true };
+  }
+
+  const primaryHref = getAbsoluteWebsiteHref(input.result.href);
+  const links = [
+    { label: input.result.cta, href: primaryHref },
+    input.result.secondaryCta && input.result.secondaryHref
+      ? {
+          label: input.result.secondaryCta,
+          href: getAbsoluteWebsiteHref(input.result.secondaryHref),
+        }
+      : null,
+    input.result.tertiaryCta && input.result.tertiaryHref
+      ? {
+          label: input.result.tertiaryCta,
+          href: getAbsoluteWebsiteHref(input.result.tertiaryHref),
+        }
+      : null,
+  ].filter((link): link is { label: string; href: string } => Boolean(link));
+  const subject = `Your Reiki path quiz result: ${input.result.title}`;
+  const text = [
+    `Hi ${input.firstName},`,
+    "",
+    `Your Reiki path quiz result is ${input.result.title}.`,
+    "",
+    input.result.description,
+    "",
+    "Why this path may fit you:",
+    ...input.result.reasons.map((reason) => `- ${reason}`),
+    ...(input.reflection ? ["", input.reflection] : []),
+    "",
+    "This recommendation is here to offer clarity and support. Take time to explore the suggested path or paths and notice what feels most aligned for you.",
+    "",
+    ...links.map((link) => `${link.label}: ${link.href}`),
+    "",
+    "With love,",
+    "Kate",
+    "The Lightness of Being",
+  ].join("\n");
+  const logoUrl = `${env.siteUrl.replace(/\/$/, "")}/homepage-images/hand-logo.png`;
+  const reasonsHtml = input.result.reasons
+    .map(
+      (reason) => `
+        <li style="margin: 0 0 12px; color: #5f524a; font-family: 'Lato', Arial, sans-serif; font-size: 15px; line-height: 1.65;">
+          ${escapeHtml(reason)}
+        </li>
+      `,
+    )
+    .join("");
+  const linksHtml = links
+    .map(
+      (link, index) => `
+        <a href="${escapeHtml(link.href)}" style="display: inline-block; margin: 6px; border: 1px solid #4c3a30; border-radius: 999px; background: ${index === 0 ? "#4c3a30" : "#fffaf4"}; color: ${index === 0 ? "#fffaf4" : "#4c3a30"}; font-family: 'Lato', Arial, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; padding: 14px 22px; text-decoration: none; text-transform: uppercase;">
+          ${escapeHtml(link.label)}
+        </a>
+      `,
+    )
+    .join("");
+  const html = `
+    <div style="margin: 0; padding: 32px 16px; background: #f6eee5;">
+      <div style="max-width: 680px; margin: 0 auto; color: #3e342e;">
+        <div style="padding: 8px 0 22px; text-align: center;">
+          <img src="${escapeHtml(logoUrl)}" alt="The Lightness of Being" width="64" height="64" style="display: inline-block; width: 64px; height: 64px; border-radius: 999px; object-fit: cover;" />
+          <p style="margin: 12px 0 0; color: #7b6c62; font-family: 'Lato', Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;">
+            The Lightness of Being
+          </p>
+        </div>
+
+        <div style="overflow: hidden; border: 1px solid rgba(76,58,48,0.1); border-radius: 28px; background: #fffaf4; box-shadow: 0 20px 60px rgba(59,41,31,0.08);">
+          <div style="padding: 34px; background: linear-gradient(135deg, #fffaf4 0%, #ead8cc 100%); border-bottom: 1px solid rgba(76,58,48,0.08);">
+            <p style="margin: 0 0 10px; color: #7b6c62; font-family: 'Lato', Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;">
+              Your Reiki Path
+            </p>
+            <h1 style="margin: 0; color: #342923; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 38px; line-height: 1.08; font-weight: 400;">
+              ${escapeHtml(input.result.title)}
+            </h1>
+            <p style="margin: 18px 0 0; color: #5f524a; font-family: 'Lato', Arial, sans-serif; font-size: 16px; line-height: 1.7;">
+              Hi ${escapeHtml(input.firstName)}, ${escapeHtml(input.result.description)}
+            </p>
+          </div>
+
+          <div style="padding: 30px 34px 12px;">
+            <h2 style="margin: 0 0 16px; color: #342923; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 26px; font-weight: 400;">
+              Why this path may fit you
+            </h2>
+            <ul style="margin: 0; padding-left: 20px;">${reasonsHtml}</ul>
+            ${
+              input.reflection
+                ? `<p style="margin: 22px 0 0; border-radius: 18px; background: #f2e3d5; color: #5f524a; font-family: 'Lato', Arial, sans-serif; font-size: 15px; line-height: 1.7; padding: 18px;">${escapeHtml(input.reflection)}</p>`
+                : ""
+            }
+            <p style="margin: 22px 0 0; border-top: 1px solid rgba(76,58,48,0.1); color: #7b6c62; font-family: 'Lato', Arial, sans-serif; font-size: 14px; line-height: 1.65; padding-top: 20px;">
+              This recommendation is here to offer clarity and support. Take time to explore the suggested path or paths and notice what feels most aligned for you.
+            </p>
+          </div>
+
+          <div style="padding: 18px 28px 30px; text-align: center;">
+            ${linksHtml}
+          </div>
+
+          <div style="padding: 24px 34px 30px; background: #f8eee4; border-top: 1px solid rgba(76,58,48,0.08);">
+            <p style="margin: 0; color: #5f524a; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; line-height: 1.35; font-style: italic;">
+              With love,<br />Kate
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  await sendWebsiteEmail({
+    from: env.emailFrom,
+    to: input.email,
+    replyTo: env.contactForwardTo || undefined,
     subject,
     text,
     html,

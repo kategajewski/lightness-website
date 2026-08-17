@@ -1,9 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import Script from "next/script";
 import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  reikiQuizClosingReflections,
+  reikiQuizResults,
+  type ReikiQuizResultKey,
+  type ScoredReikiPathKey,
+} from "@/lib/reiki-quiz-results";
 
-type PathKey = "reikiRising" | "embodiedHealer" | "guidance";
+type PathKey = ScoredReikiPathKey;
 
 type QuizOption = {
   label: string;
@@ -15,80 +22,6 @@ type QuizOption = {
 type QuizQuestion = {
   question: string;
   options: QuizOption[];
-};
-
-type QuizResult = {
-  eyebrow: string;
-  title: string;
-  description: string;
-  reasons: string[];
-  cta: string;
-  href: string;
-  secondaryCta?: string;
-  secondaryHref?: string;
-  tertiaryCta?: string;
-  tertiaryHref?: string;
-};
-
-const paths: Record<PathKey, QuizResult> = {
-  reikiRising: {
-    eyebrow: "Your clearest match",
-    title: "Reiki Rising",
-    description:
-      "A live 10-week online journey where you can learn, practice and integrate Reiki within a steady group container.",
-    reasons: [
-      "You are drawn to a clear learning rhythm and shared experience.",
-      "You want meaningful depth without beginning with a fully private path.",
-      "You are ready to grow through live practice, reflection and community support.",
-    ],
-    cta: "Explore Reiki Rising",
-    href: "/reiki-rising",
-  },
-  embodiedHealer: {
-    eyebrow: "Your clearest match",
-    title: "The Embodied Healer",
-    description:
-      "A deeply personalized 1:1 Reiki mentorship that can meet you at the beginning and grow with you through practitioner or Master Teacher work.",
-    reasons: [
-      "You want guidance shaped around your experience, pace and calling.",
-      "You are seeking a more intimate and highly supported learning relationship.",
-      "You may be ready for a longer path toward embodied practice, mastery, or teaching.",
-    ],
-    cta: "Explore The Embodied Healer",
-    href: "/mentorship",
-  },
-  guidance: {
-    eyebrow: "Your clearest match",
-    title: "Personalized Guidance",
-    description:
-      "A focused one-on-one mentorship session for trained Reiki practitioners who want clarity, spiritual support or grounded direction without beginning another educational program.",
-    reasons: [
-      "You have already learned Reiki and want support as you continue growing in your practice.",
-      "You want perspective, mentorship or renewed confidence without furthering your education just yet.",
-      "A focused session feels more supportive than another structured curriculum right now.",
-    ],
-    cta: "Book Personalized Guidance",
-    href: "https://calendly.com/thelightnessofbeing/mentorship",
-  },
-};
-
-const closeTrainingResult: QuizResult = {
-  eyebrow: "Your next step",
-  title: "Explore both Reiki training paths",
-  description:
-    "Your answers reflect qualities found in both Reiki Rising and The Embodied Healer. Taking time to compare the two paths may help you feel which learning experience is right for you.",
-  reasons: [
-    "Some of your answers point toward the rhythm and connection of a live group experience.",
-    "Other answers reflect a desire for personalized support and room to move at your own pace.",
-    "You do not need to force a decision before you feel ready. Explore both paths and notice which one feels most supportive.",
-  ],
-  cta: "Explore Reiki Rising",
-  href: "/reiki-rising",
-  secondaryCta: "Explore The Embodied Healer",
-  secondaryHref: "/mentorship",
-  tertiaryCta: "Send Kate a Message",
-  tertiaryHref:
-    "/contact?inquiryType=training&subject=Help%20Choosing%20a%20Reiki%20Path",
 };
 
 const questions: QuizQuestion[] = [
@@ -242,40 +175,35 @@ const questions: QuizQuestion[] = [
         description:
           "I want to feel more present, centered and connected to myself.",
         scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
-        resultReflection:
-          "You shared that you want to feel grounded and connected. Keep that desire close as you explore this path. It can be a compass for the support you choose.",
+        resultReflection: reikiQuizClosingReflections[0],
       },
       {
         label: "Confident and capable",
         description:
           "I want to trust what I know and feel comfortable putting it into practice.",
         scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
-        resultReflection:
-          "You shared that you want to feel confident and capable. This path can help you build greater trust in what you know and how you carry it forward.",
+        resultReflection: reikiQuizClosingReflections[1],
       },
       {
         label: "Clear and aligned",
         description:
           "I want to understand my next step and feel peaceful about moving forward.",
         scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
-        resultReflection:
-          "You shared that you want to feel clear and aligned. Let this recommendation offer a grounded next step while you continue listening to what feels true for you.",
+        resultReflection: reikiQuizClosingReflections[2],
       },
       {
         label: "Supported and encouraged",
         description:
           "I want to feel held in my growth rather than figuring everything out alone.",
         scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
-        resultReflection:
-          "You shared that you want to feel supported and encouraged. You do not have to navigate your growth alone and this path offers a place to begin receiving support.",
+        resultReflection: reikiQuizClosingReflections[3],
       },
       {
         label: "All of the above",
         description:
           "I want to feel grounded, confident, clear and supported as I move forward.",
         scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
-        resultReflection:
-          "You shared that you want to feel grounded, confident, clear and supported. Keep these feelings close as you explore this path and consider what will best nurture your growth.",
+        resultReflection: reikiQuizClosingReflections[4],
       },
     ],
   },
@@ -283,14 +211,36 @@ const questions: QuizQuestion[] = [
 
 const pathOrder: PathKey[] = ["reikiRising", "embodiedHealer", "guidance"];
 
-export function TrainingPathQuiz() {
+declare global {
+  interface Window {
+    turnstile?: {
+      reset: () => void;
+    };
+  }
+}
+
+type TrainingPathQuizProps = {
+  turnstileSiteKey?: string;
+};
+
+type DeliveryState = {
+  status: "idle" | "submitting" | "success" | "error";
+  message: string;
+};
+
+export function TrainingPathQuiz({ turnstileSiteKey }: TrainingPathQuizProps) {
   const quizRef = useRef<HTMLElement>(null);
+  const [quizStartedAt, setQuizStartedAt] = useState(() => Date.now());
   const [started, setStarted] = useState(false);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(
     Array(questions.length).fill(null),
   );
   const [complete, setComplete] = useState(false);
+  const [deliveryState, setDeliveryState] = useState<DeliveryState>({
+    status: "idle",
+    message: "",
+  });
 
   const selectedOption = answers[step];
   const progress = complete ? 100 : ((step + 1) / questions.length) * 100;
@@ -370,10 +320,53 @@ export function TrainingPathQuiz() {
   }
 
   function restart() {
+    setQuizStartedAt(Date.now());
     setStarted(false);
     setStep(0);
     setAnswers(Array(questions.length).fill(null));
     setComplete(false);
+    setDeliveryState({ status: "idle", message: "" });
+  }
+
+  async function sendResult(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setDeliveryState({ status: "submitting", message: "" });
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("/api/quiz-result", {
+        method: "POST",
+        body: formData,
+      });
+      const payload = (await response.json()) as { message?: string };
+
+      if (!response.ok) {
+        window.turnstile?.reset();
+        setDeliveryState({
+          status: "error",
+          message:
+            payload.message ||
+            "Your result could not be sent right now. Please try again.",
+        });
+        return;
+      }
+
+      setDeliveryState({
+        status: "success",
+        message:
+          payload.message ||
+          "Your result is on its way. Please check your inbox.",
+      });
+      form.reset();
+    } catch {
+      window.turnstile?.reset();
+      setDeliveryState({
+        status: "error",
+        message: "Your result could not be sent right now. Please try again.",
+      });
+    }
   }
 
   if (!started) {
@@ -410,9 +403,10 @@ export function TrainingPathQuiz() {
     );
   }
 
-  const result = resultState.isCloseTrainingMatch
-    ? closeTrainingResult
-    : paths[resultState.resultKey];
+  const resultKey: ReikiQuizResultKey = resultState.isCloseTrainingMatch
+    ? "trainingMatch"
+    : resultState.resultKey;
+  const result = reikiQuizResults[resultKey];
   const question = questions[step];
 
   return (
@@ -430,62 +424,196 @@ export function TrainingPathQuiz() {
 
       <div className="px-6 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-12">
         {complete ? (
-          <div aria-live="polite" className="grid gap-9 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div>
-              <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-                {result.eyebrow}
-              </span>
-              <h2 id="training-path-quiz-title" className="display-section-title">
-                {result.title}
-              </h2>
-              <p className="mt-5 text-[1.05rem] leading-[1.75] text-[var(--color-muted)]">
-                {result.description}
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link href={result.href} className="button-pill">
-                  {result.cta}
-                  <span aria-hidden="true" className="ml-2">→</span>
-                </Link>
-                {result.secondaryCta && result.secondaryHref ? (
-                  <Link href={result.secondaryHref} className="button-pill">
-                    {result.secondaryCta}
+          <div aria-live="polite">
+            <div className="grid gap-9 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+              <div>
+                <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+                  {result.eyebrow}
+                </span>
+                <h2 id="training-path-quiz-title" className="display-section-title">
+                  {result.title}
+                </h2>
+                <p className="mt-5 text-[1.05rem] leading-[1.75] text-[var(--color-muted)]">
+                  {result.description}
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <Link href={result.href} className="button-pill">
+                    {result.cta}
                     <span aria-hidden="true" className="ml-2">→</span>
                   </Link>
+                  {result.secondaryCta && result.secondaryHref ? (
+                    <Link href={result.secondaryHref} className="button-pill">
+                      {result.secondaryCta}
+                      <span aria-hidden="true" className="ml-2">→</span>
+                    </Link>
+                  ) : null}
+                  {result.tertiaryCta && result.tertiaryHref ? (
+                    <Link href={result.tertiaryHref} className="button-pill">
+                      {result.tertiaryCta}
+                      <span aria-hidden="true" className="ml-2">→</span>
+                    </Link>
+                  ) : null}
+                  <button type="button" onClick={restart} className="button-pill">
+                    Retake the Quiz
+                  </button>
+                </div>
+              </div>
+
+              <div className="rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,255,255,0.48)] p-6 sm:p-8">
+                <h3 className="font-display text-[1.65rem] leading-tight">
+                  Why this path may fit you
+                </h3>
+                <ul className="mt-5 grid gap-4 text-[var(--color-muted)]">
+                  {result.reasons.map((reason) => (
+                    <li key={reason} className="flex gap-3 leading-[1.65]">
+                      <span aria-hidden="true" className="mt-[0.65rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[#8b6f60]" />
+                      <span>{reason}</span>
+                    </li>
+                  ))}
+                </ul>
+                {closingReflection ? (
+                  <p className="mt-6 rounded-[20px] bg-[rgba(235,218,205,0.42)] p-5 leading-[1.7] text-[var(--color-muted)]">
+                    {closingReflection}
+                  </p>
                 ) : null}
-                {result.tertiaryCta && result.tertiaryHref ? (
-                  <Link href={result.tertiaryHref} className="button-pill">
-                    {result.tertiaryCta}
-                    <span aria-hidden="true" className="ml-2">→</span>
-                  </Link>
-                ) : null}
-                <button type="button" onClick={restart} className="button-pill">
-                  Retake the Quiz
-                </button>
+                <p className="mt-6 border-t border-[rgba(76,58,48,0.1)] pt-5 text-sm leading-[1.65] text-[var(--color-muted)]">
+                  This recommendation is here to offer clarity and support. Take
+                  time to explore the suggested path or paths and notice what
+                  feels most aligned for you.
+                </p>
               </div>
             </div>
 
-            <div className="rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,255,255,0.48)] p-6 sm:p-8">
-              <h3 className="font-display text-[1.65rem] leading-tight">
-                Why this path may fit you
-              </h3>
-              <ul className="mt-5 grid gap-4 text-[var(--color-muted)]">
-                {result.reasons.map((reason) => (
-                  <li key={reason} className="flex gap-3 leading-[1.65]">
-                    <span aria-hidden="true" className="mt-[0.65rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[#8b6f60]" />
-                    <span>{reason}</span>
-                  </li>
-                ))}
-              </ul>
-              {closingReflection ? (
-                <p className="mt-6 rounded-[20px] bg-[rgba(235,218,205,0.42)] p-5 leading-[1.7] text-[var(--color-muted)]">
-                  {closingReflection}
-                </p>
-              ) : null}
-              <p className="mt-6 border-t border-[rgba(76,58,48,0.1)] pt-5 text-sm leading-[1.65] text-[var(--color-muted)]">
-                This recommendation is here to offer clarity and support. Take
-                time to explore the suggested path or paths and notice what
-                feels most aligned for you.
-              </p>
+            <div className="mt-9 rounded-[26px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,250,245,0.7)] p-6 sm:p-8">
+              {deliveryState.status === "success" ? (
+                <div role="status">
+                  <span className="mb-3 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+                    Saved for Later
+                  </span>
+                  <h3 className="font-display text-[1.75rem] leading-tight">
+                    Your result is on its way.
+                  </h3>
+                  <p className="mt-3 max-w-[42rem] leading-[1.7] text-[var(--color-muted)]">
+                    {deliveryState.message}
+                  </p>
+                </div>
+              ) : (
+                <div className="grid gap-7 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+                  <div>
+                    <span className="mb-3 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+                      Completely Optional
+                    </span>
+                    <h3 className="font-display text-[1.75rem] leading-tight">
+                      Would you like to keep your result?
+                    </h3>
+                    <p className="mt-3 leading-[1.7] text-[var(--color-muted)]">
+                      Your full result is already here. If you would like a copy
+                      for later, I can send it to your inbox.
+                    </p>
+                  </div>
+
+                  <form onSubmit={sendResult} className="grid gap-4">
+                    <input type="hidden" name="resultKey" value={resultKey} />
+                    <input
+                      type="hidden"
+                      name="reflectionIndex"
+                      value={closingAnswer ?? ""}
+                    />
+                    <input type="hidden" name="startedAt" value={quizStartedAt} />
+                    <label
+                      aria-hidden="true"
+                      className="absolute left-[-10000px] top-auto h-px w-px overflow-hidden"
+                    >
+                      Website
+                      <input
+                        type="text"
+                        name="website"
+                        tabIndex={-1}
+                        autoComplete="off"
+                      />
+                    </label>
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <label className="grid gap-2 text-sm font-bold text-[var(--color-text)]">
+                        First name
+                        <input
+                          type="text"
+                          name="firstName"
+                          required
+                          autoComplete="given-name"
+                          maxLength={80}
+                          className="min-h-12 rounded-[16px] border border-[rgba(76,58,48,0.16)] bg-[rgba(255,255,255,0.72)] px-4 font-normal outline-none transition focus:border-[#8b6f60] focus:ring-2 focus:ring-[rgba(139,111,96,0.18)]"
+                        />
+                      </label>
+                      <label className="grid gap-2 text-sm font-bold text-[var(--color-text)]">
+                        Email address
+                        <input
+                          type="email"
+                          name="email"
+                          required
+                          autoComplete="email"
+                          maxLength={254}
+                          className="min-h-12 rounded-[16px] border border-[rgba(76,58,48,0.16)] bg-[rgba(255,255,255,0.72)] px-4 font-normal outline-none transition focus:border-[#8b6f60] focus:ring-2 focus:ring-[rgba(139,111,96,0.18)]"
+                        />
+                      </label>
+                    </div>
+
+                    <label className="flex cursor-pointer items-start gap-3 rounded-[18px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,255,255,0.42)] p-4 text-sm leading-[1.6] text-[var(--color-muted)]">
+                      <input
+                        type="checkbox"
+                        name="reikiUpdates"
+                        value="yes"
+                        className="mt-1 h-4 w-4 shrink-0 accent-[#72594c]"
+                      />
+                      <span>
+                        Yes, I would also like occasional Reiki course and
+                        support updates from Kate. I can unsubscribe at any
+                        time.
+                      </span>
+                    </label>
+
+                    {turnstileSiteKey ? (
+                      <>
+                        <Script
+                          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                          async
+                          defer
+                          strategy="afterInteractive"
+                        />
+                        <div className="overflow-hidden rounded-[18px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.72)] p-3">
+                          <div
+                            className="cf-turnstile"
+                            data-sitekey={turnstileSiteKey}
+                            data-action="quiz_result"
+                            data-theme="light"
+                          />
+                        </div>
+                      </>
+                    ) : null}
+
+                    {deliveryState.status === "error" ? (
+                      <p role="alert" className="text-sm font-semibold text-[#7f3f36]">
+                        {deliveryState.message}
+                      </p>
+                    ) : null}
+
+                    <div className="flex flex-wrap items-center gap-4">
+                      <button
+                        type="submit"
+                        disabled={deliveryState.status === "submitting"}
+                        className="button-pill disabled:cursor-wait disabled:opacity-65"
+                      >
+                        {deliveryState.status === "submitting"
+                          ? "Sending..."
+                          : "Send My Result"}
+                      </button>
+                      <span className="text-sm text-[var(--color-muted)]">
+                        No signup required
+                      </span>
+                    </div>
+                  </form>
+                </div>
+              )}
             </div>
           </div>
         ) : (

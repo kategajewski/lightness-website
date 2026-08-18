@@ -959,7 +959,7 @@ function getOfferPurchaseEmailContent(
         ...detailLines,
         "Program dates: September 27 - December 5, 2026",
         "Weekly modules: Released on Sundays",
-        "Live calls: Wednesdays at 7:00 PM ET",
+        "Live calls: Wednesdays at 7:00 PM (Eastern Time)",
         "Telegram support: Open through Saturday, December 5, 2026",
         option ? `Selected option: ${option.label}` : null,
       ].filter(Boolean) as string[],

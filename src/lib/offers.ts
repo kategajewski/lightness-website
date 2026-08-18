@@ -76,7 +76,7 @@ export const offers: Offer[] = [
     features: [
       "Fall 2026 cohort runs September 27 - December 5",
       "Weekly modules drop on Sundays",
-      "Live calls are Wednesdays at 7:00 PM ET",
+      "Live calls are Wednesdays at 7:00 PM (Eastern Time)",
       "Telegram support remains open through the final week",
       "Certification requires live Level 1 and Level 2 placements",
       "Every student receives a complimentary 45-minute private Reiki support session with Kate",

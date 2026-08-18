@@ -12,7 +12,7 @@ export const metadata = createPageMetadata({
 
 const programFeatures = [
   "10 prerecorded weekly modules released every Sunday",
-  "Live support calls on Wednesdays at 7:00 PM ET",
+  "Live support calls on Wednesdays at 7:00 PM (Eastern Time)",
   "A private student portal with replays, materials, and weekly guidance",
   "Telegram community support through Saturday, December 5, 2026",
   "A grounded Reiki 1 and Reiki 2 learning path with time for integration",
@@ -29,7 +29,7 @@ const scheduleItems = [
   },
   {
     label: "Live Calls",
-    value: "Wednesdays at 7:00 PM ET, September 30 - December 2",
+    value: "Wednesdays at 7:00 PM (Eastern Time), September 30 - December 2",
   },
   {
     label: "Call Length",

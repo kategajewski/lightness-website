@@ -23,7 +23,7 @@ const sections = [
     ],
     list: [
       "Ten prerecorded weekly modules released on Sundays",
-      "Live support calls on Wednesdays at 7:00 PM Eastern Time",
+      "Live support calls on Wednesdays at 7:00 PM (Eastern Time)",
       "Remote Reiki Level 1 and Level 2 placements",
       "Student portal access with materials and replays",
       "Telegram community support through December 5, 2026",

@@ -16,6 +16,68 @@ Rule for future sessions:
   - Current brand colors are warm cream, cacao/deep brown, soft brown, sage, peach, and rose. Avoid random fonts, harsh black/white styling, strong cool colors, and off-brand palettes unless Kate explicitly asks.
 
 ## Current Note
+### Latest Save Point - Reiki Quiz, Enrollment and Google Ads on August 18, 2026
+- Live website source of truth:
+  - clean release worktree: `/private/tmp/lightness-release-20260817`
+  - branch: `codex/reiki-quiz-launch`
+  - current live commit: `dc1d075 Clarify Reiki Rising time zone`
+  - `origin/main` was confirmed at the same commit before this handoff note was added
+  - the primary workspace at `/Users/magicalbeing/Desktop/lightness-platform` remains intentionally dirty with older and unrelated work; do not sweep, reset or commit it wholesale
+- Courses page and Reiki path quiz:
+  - the Reiki path quiz is live on `/courses`
+  - it recommends Reiki Rising, The Embodied Healer or Personalized Guidance
+  - the opening and closing heart-centered reflection questions do not affect scoring
+  - result language is invitational and avoids presenting the result as a rigid rule
+  - first name is collected and email delivery is optional so the quiz does not feel like an email trap
+  - with consent, first name, email, quiz result and consent choice are stored in Supabase
+  - the website can email the result and adds the person to Mailchimp only when the Reiki updates box is checked
+  - saved quiz results appear in the private `/inquiries` page
+  - implementation lives in `src/components/training-path-quiz.tsx`, `src/app/api/quiz-result/route.ts` and `src/lib/reiki-quiz-results.ts`
+- Courses page presentation:
+  - Reiki and sound training sections were visually separated so Sound Practitioner Training does not get lost beneath Reiki content
+  - the sound section includes Personalized Guidance as a secondary option
+  - course headings and image spacing were centered and corrected
+  - the quiz block has a stronger contrasting background
+  - Writing remains in the top navigation and was removed from the footer
+  - the next Sound Practitioner Training date is January 29 through 31, 2027 across the active pages
+- Reiki Rising enrollment:
+  - Early Bird pay in full: `$888`
+  - Early Bird fixed plan: `5 monthly payments of $200`, `$1,000 total`
+  - Regular pay in full: `$1,111`
+  - Regular fixed plan: `4 monthly payments of $303`, `$1,212 total`
+  - fixed payment plans end automatically after the stated installment count
+  - every enrollment option includes one complimentary 45-minute private Reiki support session with Kate
+  - live call timing now states Eastern Time
+- Reiki Rising agreement:
+  - enrollment agreement is live at `/reiki-rising/enrollment-agreement`
+  - checkout requires agreement acceptance and the student's typed full name
+  - virtual group work is described as remote and hands-off
+  - students may pause or decline optional exercises and withdraw consent during guided practices
+  - payment, refund, confidentiality, recording, course material and wellness terms are included
+  - the Reiki I and II certificate is mailed only after all certification requirements are complete and the full tuition balance has been received
+- Google Ads account `514-076-4033`:
+  - Search campaign renamed `Reiki Rising Online Training | Nationwide`
+  - final URL changed to `https://bethelightness.com/reiki-rising`
+  - campaign location changed from Suffolk County to the United States
+  - Search campaign conversion goals now focus on form submissions and phone leads
+  - 8 broad or local-intent Reiki keywords were paused
+  - phrase keywords added: `holy fire reiki training online`, `holy fire reiki certification` and `reiki level 1 and 2 online`
+  - 10 campaign negatives were added for irrelevant searches including crystals, conferences, hospice, meditation, qigong, psychic development, Karuna Reiki, sound baths, free Reiki and Reiki jobs
+  - four sitelinks, four callouts, one Courses structured snippet and one Reiki image were added and were pending Google review
+  - AI Max, Performance Max, Display Expansion and Search Partners were not enabled
+  - budget was not increased: local Reiki `$4/day`, Sound Therapy `$2/day` and nationwide Reiki Rising `$2/day`, totaling `$8/day`
+  - Smart campaign conversion reporting still includes softer actions such as directions and clicks to call because Google locks those controls; do not describe all Smart conversions as true inquiries
+  - Google displayed a passkey requirement for sensitive account actions beginning August 19, 2026; no passkey was created because Kate did not authorize that separate security change
+- Writing rules from Kate:
+  - never use em dashes
+  - do not place a comma before `and`
+  - apply these rules to future website copy, emails and conversation drafts
+- Next recommended starting point:
+  - use the clean release branch or a fresh worktree from `origin/main`, not the dirty primary workspace
+  - allow Google review to finish before judging the new Search campaign
+  - after enough genuine leads arrive, compare form and phone leads against spend rather than relying on Smart campaign direction counts
+  - if editing pricing, preserve the fixed five-payment Early Bird and four-payment Regular schedules unless Kate asks to change them
+
 ### Latest Save Point - Events Cleanup on July 10, 2026
 - Kate moved back from Reiki Rising into current website events.
 - Repo/worktree:

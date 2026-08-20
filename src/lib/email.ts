@@ -517,8 +517,8 @@ const eventEmailContent = {
     intro:
       "Your place is confirmed. I'm so glad you'll be joining Flow Field with Kate Gajewski and Kelly Fitzsimons.",
     detailLines: [
-      "Date: Thursday, August 20, 2026",
-      "Time: 6:30-8:00 PM",
+      "Date: Wednesday, September 2, 2026",
+      "Time: 6:00-7:30 PM",
       "Length: 90 minutes",
       "Location: The Lightness Grounds, corner of Gillette Avenue and Academy Street, Bayport, NY",
       "Exchange: $45",

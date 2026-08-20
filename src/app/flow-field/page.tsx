@@ -5,9 +5,9 @@ import { site } from "@/lib/site";
 const details = [
   {
     label: "Date",
-    value: "Thu, Aug 20",
+    value: "Wed, Sep 2",
     description:
-      "Gather from 6:30-8:00 PM at The Lightness Grounds in Bayport, NY.",
+      "Gather from 6:00-7:30 PM at The Lightness Grounds in Bayport, NY.",
   },
   {
     label: "Experience",
@@ -30,7 +30,7 @@ const bringItems = [
 ] as const;
 
 const goodToKnow = [
-  "Thursday, August 20 from 6:30-8:00 PM",
+  "Wednesday, September 2 from 6:00-7:30 PM",
   "Led by Kate Gajewski and Kelly Fitzsimons",
   "The Lightness Grounds, corner of Gillette Avenue and Academy Street in Bayport",
   "$45 exchange",
@@ -44,8 +44,8 @@ const eventJsonLd = {
   name: "Flow Field",
   description:
     "An open-air experience beginning with an invigorating vinyasa flow and ending with deeply restorative sound healing beneath the summer sky.",
-  startDate: "2026-08-20T18:30:00-04:00",
-  endDate: "2026-08-20T20:00:00-04:00",
+  startDate: "2026-09-02T18:00:00-04:00",
+  endDate: "2026-09-02T19:30:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
   image: "https://bethelightness.com/homepage-images/flow-field-kelly.jpeg",
@@ -92,10 +92,10 @@ export default function FlowFieldPage() {
             <div>
               <div className="flex flex-wrap gap-2">
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
-                  Thursday, August 20
+                  Wednesday, September 2
                 </span>
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
-                  6:30-8:00 PM
+                  6:00-7:30 PM
                 </span>
                 <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
                   Bayport, NY

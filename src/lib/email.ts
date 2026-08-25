@@ -427,7 +427,7 @@ const eventEmailContent = {
       "Time: 7:00 PM",
       "Location: The Lightness Grounds, Bayport, NY",
       "Rain date: Thursday, August 27, 2026 at 7:00 PM",
-      "Day-of tickets: $35 if space is still available",
+      "Ticket price: $35",
     ],
     reminderLines: [
       "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy, settled, and supported.",

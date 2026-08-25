@@ -97,14 +97,14 @@ export const eventCheckoutConfig = {
     slug: "golden-hour-august-25-2026",
     name: "Golden Hour: An Outdoor Sound Journey",
     description:
-      "Advance ticket for the Tuesday, August 25, 2026 golden hour outdoor sound journey. Tickets move to the rain date if needed and are non-refundable.",
-    amountCents: 3000,
+      "Day-of ticket for the Tuesday, August 25, 2026 golden hour outdoor sound journey. Tickets move to the rain date if needed and are non-refundable.",
+    amountCents: 3500,
     successPath: "/checkout/success",
     cancelPath: "/golden-hour-august-25",
     detailHref: "/golden-hour-august-25",
     confirmationTitle: "You're booked for Golden Hour.",
     confirmationDescription:
-      "Your advance ticket for Golden Hour: An Outdoor Sound Journey has been received. You can watch your email for your Stripe confirmation and any event reminders.",
+      "Your ticket for Golden Hour: An Outdoor Sound Journey has been received. You can watch your email for your Stripe confirmation and any event reminders.",
     emailIntro:
       "Your place is confirmed. I'm so glad you'll be joining this golden-hour outdoor sound journey.",
     emailDetailLines: [
@@ -112,7 +112,7 @@ export const eventCheckoutConfig = {
       "Time: 7:00 PM",
       "Location: The Lightness Grounds, Bayport, NY",
       "Rain date: Thursday, August 27, 2026 at 7:00 PM",
-      "Day-of tickets: $35 if space is still available",
+      "Ticket price: $35",
     ],
     emailReminderLines: [
       "Please dress in layers and bring a yoga mat, blanket, or anything else that helps you feel cozy, settled, and supported.",

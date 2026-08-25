@@ -17,8 +17,8 @@ const details = [
   },
   {
     label: "Exchange",
-    value: "$30",
-    description: "$30 in advance or $35 day of, space permitting.",
+    value: "$35",
+    description: "$35 day-of registration, space permitting.",
   },
 ] as const;
 
@@ -61,7 +61,7 @@ const eventJsonLd = {
   },
   offers: {
     "@type": "Offer",
-    price: "30",
+    price: "35",
     priceCurrency: "USD",
     availability: "https://schema.org/InStock",
     url: "https://bethelightness.com/golden-hour-august-25",
@@ -201,13 +201,12 @@ export default function SacredSoundsUnderTheSkyPage() {
             Good To Know
           </span>
           <h2 className="display-section-title">
-            Rest outdoors, breathe deeply, and let the evening sky do some of the holding.
+            Rest outdoors, breathe deeply and let the evening sky do some of the holding.
           </h2>
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            Advance tickets are $30. If space remains, day-of tickets are $35.
-            If weather asks us to shift, the rain date will be Thursday, August
-            27 at 7:00 PM. Tickets are non-refundable and will move to the rain
-            date if needed.
+            Day-of tickets are $35, space permitting. If weather asks us to
+            shift, the rain date will be Thursday, August 27 at 7:00 PM.
+            Tickets are non-refundable and will move to the rain date if needed.
           </p>
         </div>
         <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">

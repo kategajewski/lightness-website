@@ -5,7 +5,7 @@ export const metadata = createPageMetadata({
   title: "About Kate Gajewski, Holistic Practitioner & Teacher",
   description: "Meet Kate Gajewski, a Patchogue-based Reiki Master Teacher, sound healing practitioner, clinical hypnotherapist, yoga teacher, and holistic mentor.",
   path: "/about",
-  image: "/homepage-images/about-roses-kate-flipped.jpeg",
+  image: "/homepage-images/kate-about-current.jpeg",
 });
 
 const credentials = [
@@ -39,8 +39,8 @@ export default function AboutPage() {
       <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
         <div className="overflow-hidden rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(180deg,rgba(255,250,245,0.96),rgba(243,232,222,0.92))] p-6 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-8">
           <img
-            src="/homepage-images/about-roses-kate-flipped.jpeg"
-            alt="Kate smiling with roses"
+            src="/homepage-images/kate-about-current.jpeg"
+            alt="Kate Gajewski smiling in The Lightness of Being healing space"
             className="block h-auto max-h-[36rem] w-full rounded-[24px] object-contain object-center"
           />
         </div>
@@ -102,8 +102,8 @@ export default function AboutPage() {
 
           <div className="mx-auto w-full max-w-[19rem] overflow-hidden rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,248,242,0.8)] p-3">
             <img
-              src="/homepage-images/portal-login-handsup.jpeg"
-              alt="Kate in her healing space"
+              src="/homepage-images/kate-about-path-hands-heart.jpeg"
+              alt="Kate Gajewski centered with her hands at her heart"
               className="block h-auto w-full rounded-[22px] object-contain object-center"
             />
           </div>

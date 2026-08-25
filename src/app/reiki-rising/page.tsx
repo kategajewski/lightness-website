@@ -150,8 +150,8 @@ export default function ReikiRisingPage() {
 
         <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <img
-            src="/homepage-images/portal-login-handsup.jpeg"
-            alt="Kate Gajewski in a moment of grounded reflection"
+            src="/homepage-images/reiki-rising-kate-hands-raised.jpeg"
+            alt="Kate Gajewski offering Reiki with both hands raised"
             className="block aspect-[4/5] w-full object-cover object-center"
           />
         </div>

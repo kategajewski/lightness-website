@@ -201,10 +201,12 @@ export default function ReikiRisingPage() {
               <span className="mb-3 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
                 {option.title}
               </span>
-              <strong className="block text-[2rem] font-semibold text-[var(--color-text)]">
+              <strong className="block text-[1.5rem] font-semibold leading-tight text-[var(--color-text)]">
                 {option.price}
               </strong>
-              <p className="mt-2 text-[var(--color-muted)]">{option.plan}</p>
+              <p className="mt-2 text-[0.95rem] text-[var(--color-muted)]">
+                {option.plan}
+              </p>
               <p className="mt-3 text-[0.92rem] text-[var(--color-muted)]">
                 {option.note}
               </p>

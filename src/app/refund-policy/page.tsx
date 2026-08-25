@@ -26,8 +26,8 @@ const refundSections = [
   {
     title: "Trainings, Workshops and Events",
     body: [
-      "Live trainings, workshops, ceremonies and events may involve reserved space, preparation or limited-capacity attendance. Because of this, refunds may be limited or unavailable after a certain point.",
-      "If an event is canceled by the business, attendees may be offered a refund, transfer, credit, or rescheduled option depending on the circumstances.",
+      "All payments for live events, workshops, ceremonies and gallery readings are final and non-refundable.",
+      "If weather or other circumstances require a date change, event tickets will transfer to the rescheduled date. If an event is canceled without a new date, attendees may be offered a transfer or credit at the discretion of the business.",
     ],
   },
   {
@@ -85,7 +85,7 @@ export default function RefundPolicyPage() {
     <PageShell
       eyebrow="Refund Policy"
       title="How refunds, cancellations and credits are handled."
-      description="Effective date: August 16, 2026. These terms explain how refund, cancellation and credit requests are handled by The Lightness of Being."
+      description="Effective date: August 24, 2026. These terms explain how refund, cancellation and credit requests are handled by The Lightness of Being."
     >
       <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
         <div className="grid gap-8">

@@ -34,8 +34,8 @@ const goodToKnow = [
   "Led by Kate Gajewski and Kelly Fitzsimons",
   "The Lightness Grounds, corner of Gillette Avenue and Academy Street in Bayport",
   "$45 exchange",
-  "If rain cancels the gathering, tickets will be refunded",
-  "Otherwise, tickets are non-refundable but may be transferred to someone else",
+  "All event payments are final and non-refundable",
+  "If weather requires another date change, tickets will transfer to the rescheduled date",
 ] as const;
 
 const eventJsonLd = {

@@ -239,8 +239,11 @@ export default function EventsPage() {
             Explore upcoming gatherings and seasonal experiences.
           </h2>
           <p className="mt-4 text-[var(--color-muted)]">
-            Browse the latest readings, sound journeys, and community events
+            Browse the latest readings, sound journeys and community events
             currently open for registration.
+          </p>
+          <p className="mt-3 text-[0.92rem] font-semibold text-[var(--color-text)]">
+            All event payments are final and non-refundable.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link

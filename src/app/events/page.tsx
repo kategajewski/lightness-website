@@ -97,8 +97,8 @@ const upcomingEvents = [
   },
   {
     sortKey: "2026-08-25",
-    isActive: true,
-    eyebrow: "Outdoor Sound Bath",
+    isActive: false,
+    eyebrow: "Past Event",
     title: "Golden Hour: An Outdoor Sound Journey",
     description:
       "A welcoming sunset ceremony to soften into the evening with sound, stillness and open-sky rest.",

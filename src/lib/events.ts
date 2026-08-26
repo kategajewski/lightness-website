@@ -102,6 +102,7 @@ export const eventCheckoutConfig = {
     successPath: "/checkout/success",
     cancelPath: "/golden-hour-august-25",
     detailHref: "/golden-hour-august-25",
+    registrationClosed: true,
     confirmationTitle: "You're booked for Golden Hour.",
     confirmationDescription:
       "Your ticket for Golden Hour: An Outdoor Sound Journey has been received. You can watch your email for your Stripe confirmation and any event reminders.",

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { EventCheckoutForm } from "@/components/event-checkout-form";
 import { PageShell } from "@/components/page-shell";
 import { site } from "@/lib/site";
 
@@ -47,7 +46,7 @@ const eventJsonLd = {
     "A welcoming sunset sound journey with stillness and open-air rest at The Lightness Grounds in Bayport, NY.",
   startDate: "2026-08-25T19:00:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-  eventStatus: "https://schema.org/EventScheduled",
+  eventStatus: "https://schema.org/EventCompleted",
   image: "https://bethelightness.com/homepage-images/golden-hour-july-kate.jpeg",
   location: {
     "@type": "Place",
@@ -111,10 +110,10 @@ export default function SacredSoundsUnderTheSkyPage() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <EventCheckoutForm
-                eventSlug="golden-hour-august-25-2026"
-                buttonLabel="Reserve Your Place"
-              />
+              <p className="max-w-[28rem] text-[0.92rem] font-semibold leading-6 text-[var(--color-muted)]">
+                This season&apos;s Golden Hour has come to a close. It will
+                return next spring.
+              </p>
               <Link href={site.links.events} className="button-pill">
                 Back to Events
               </Link>

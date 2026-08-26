@@ -6,6 +6,7 @@ export async function POST(request: Request) {
   const origin = env.siteUrl.replace(/\/$/, "");
   const formData = await request.formData();
   const eventSlug = String(formData.get("eventSlug") ?? "");
+  const marketingConsent = formData.get("marketingConsent") === "yes";
   const event = getEventBySlug(eventSlug);
 
   if (!event) {
@@ -94,6 +95,9 @@ export async function POST(request: Request) {
       "line_items[0][quantity]": "1",
       "metadata[purchaseType]": "event",
       "metadata[eventSlug]": eventSlug,
+      "metadata[marketingConsent]": marketingConsent ? "yes" : "no",
+      "metadata[marketingConsentSource]": "event_checkout_v1",
+      "metadata[marketingConsentCapturedAt]": new Date().toISOString(),
       success_url: `${origin}${event.successPath}?type=event&eventSlug=${encodeURIComponent(
         eventSlug,
       )}&session_id={CHECKOUT_SESSION_ID}`,

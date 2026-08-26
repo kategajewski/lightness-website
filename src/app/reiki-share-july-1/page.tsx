@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EventCheckoutForm } from "@/components/event-checkout-form";
 import { PageShell } from "@/components/page-shell";
 import { site } from "@/lib/site";
 
@@ -86,16 +87,10 @@ export default function ReikiSharePage() {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <form action="/api/checkout/event" method="post">
-              <input
-                type="hidden"
-                name="eventSlug"
-                value="reiki-share-july-1-2026"
-              />
-              <button type="submit" className="button-pill">
-                Reserve Your Spot
-              </button>
-            </form>
+            <EventCheckoutForm
+              eventSlug="reiki-share-july-1-2026"
+              buttonLabel="Reserve Your Spot"
+            />
             <Link
               href={site.links.events}
               className="button-pill button-pill-secondary"

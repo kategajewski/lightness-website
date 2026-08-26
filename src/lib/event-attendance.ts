@@ -2,6 +2,7 @@ import "server-only";
 import type Stripe from "stripe";
 import { getEventBySlug } from "@/lib/events";
 import { integrations } from "@/lib/env";
+import { syncEmailSignupToMailchimp } from "@/lib/mailchimp";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 function getPaymentIntentId(session: Stripe.Checkout.Session) {
@@ -58,6 +59,25 @@ export async function recordEventAttendanceFromSession(
   if (error) {
     console.error("Event attendance recording failed", error);
     return { skipped: false, error };
+  }
+
+  const customerEmail = session.customer_details?.email?.trim();
+  const customerName = session.customer_details?.name?.trim();
+
+  if (
+    metadata.marketingConsent === "yes" &&
+    customerEmail &&
+    integrations.mailchimp
+  ) {
+    try {
+      await syncEmailSignupToMailchimp({
+        name: customerName || "Event attendee",
+        email: customerEmail,
+        tags: ["Event attendees", event.name],
+      });
+    } catch (mailchimpError) {
+      console.error("Event attendee Mailchimp sync failed", mailchimpError);
+    }
   }
 
   return { skipped: false };

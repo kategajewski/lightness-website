@@ -190,6 +190,32 @@ export const eventCheckoutConfig = {
       "All purchases are final and non-refundable.",
     ],
   },
+  "reiki-share-october-15-2026": {
+    slug: "reiki-share-october-15-2026",
+    name: "Reiki Share",
+    description:
+      "Ticket for Reiki Share, a practitioner-only community gathering at The Lightness of Being. All purchases are final and non-refundable.",
+    amountCents: 2500,
+    successPath: "/checkout/success",
+    cancelPath: site.links.reikiShareOctober,
+    detailHref: site.links.reikiShareOctober,
+    confirmationTitle: "You're booked for Reiki Share.",
+    confirmationDescription:
+      "Your Reiki Share ticket has been received. You can watch your email for your Stripe receipt and event confirmation.",
+    emailIntro:
+      "Your place is confirmed. I'm so glad you'll be joining Reiki Share.",
+    emailDetailLines: [
+      "Date: Thursday, October 15, 2026",
+      "Time: 7:00-9:00 PM",
+      "Location: The Lightness of Being, 98 Medford Ave, Patchogue, NY 11772",
+      "Ticket price: $25",
+    ],
+    emailReminderLines: [
+      "This gathering is intended for Reiki practitioners and students.",
+      "If you have any questions before the event, you are always welcome to reach out.",
+      "All purchases are final and non-refundable.",
+    ],
+  },
   "the-weekend-reset-july-11-2026": {
     slug: "the-weekend-reset-july-11-2026",
     name: "The Weekend Reset",
@@ -223,9 +249,10 @@ export const eventCheckoutConfig = {
     description:
       "Ticket for Flow Field, a 90-minute open-air vinyasa flow and restorative sound healing experience at The Lightness Grounds. All event payments are final and non-refundable.",
     amountCents: 4500,
+    registrationClosed: true,
     successPath: "/checkout/success",
-    cancelPath: site.links.flowField,
-    detailHref: site.links.flowField,
+    cancelPath: site.links.events,
+    detailHref: site.links.events,
     confirmationTitle: "You're booked for Flow Field.",
     confirmationDescription:
       "Your ticket for Flow Field has been received. You can watch your email for your Stripe receipt and event confirmation.",
@@ -248,7 +275,9 @@ export const eventCheckoutConfig = {
 
 export type EventSlug = keyof typeof eventCheckoutConfig;
 
-export const activeEventSlugs = Object.keys(eventCheckoutConfig) as EventSlug[];
+export const activeEventSlugs = Object.values(eventCheckoutConfig)
+  .filter((event) => !("registrationClosed" in event && event.registrationClosed))
+  .map((event) => event.slug) as EventSlug[];
 
 export function getEventBySlug(slug: string | undefined) {
   if (!slug) {

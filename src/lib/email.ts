@@ -494,6 +494,25 @@ const eventEmailContent = {
     href: `${env.siteUrl}${site.links.reikiShare}`,
     hrefLabel: "View event details",
   },
+  "reiki-share-october-15-2026": {
+    title: "Reiki Share",
+    intro:
+      "Your place is confirmed. I'm so glad you'll be joining Reiki Share.",
+    detailLines: [
+      "Date: Thursday, October 15, 2026",
+      "Time: 7:00-9:00 PM",
+      "Location: The Lightness of Being, 98 Medford Ave, Patchogue, NY 11772",
+      "This gathering is for Reiki practitioners only.",
+      "Space is limited to 7 people.",
+    ],
+    reminderLines: [
+      "We will gather to form community, talk all things Reiki, and share practice with one another.",
+      "Please come as you are, ready to connect, practice, and receive.",
+      "All purchases are final and non-refundable.",
+    ],
+    href: `${env.siteUrl}${site.links.reikiShareOctober}`,
+    hrefLabel: "View event details",
+  },
   "the-weekend-reset-july-11-2026": {
     title: "The Weekend Reset",
     intro:
@@ -528,8 +547,8 @@ const eventEmailContent = {
       "All event payments are final and non-refundable.",
       "If weather requires another date change, tickets will transfer to the rescheduled date and everyone will be alerted by email.",
     ],
-    href: `${env.siteUrl}${site.links.flowField}`,
-    hrefLabel: "View event details",
+    href: `${env.siteUrl}${site.links.events}`,
+    hrefLabel: "View current events",
   },
   "soothing-sunday-may-17-2026": {
     title: "Soothing Sunday - May 17, 2026",

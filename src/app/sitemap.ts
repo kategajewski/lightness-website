@@ -11,6 +11,8 @@ const routes = [
   ["/reiki-rising", 0.85, "monthly"],
   ["/sound-training", 0.85, "monthly"],
   ["/sound-journeys-at-sanctuary", 0.9, "weekly"],
+  ["/reiki-share-october-15", 0.8, "weekly"],
+  ["/reiki-share", 0.8, "weekly"],
   ["/mentorship", 0.85, "monthly"],
   ["/corporate-wellness", 0.85, "monthly"],
   ["/reiki-healing-long-island", 0.9, "monthly"],

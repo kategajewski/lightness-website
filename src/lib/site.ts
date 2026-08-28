@@ -55,6 +55,7 @@ export const site = {
     goldenHourJuly: "/golden-hour-july-28",
     riseIntoLight: "/rise-into-light",
     reikiShareJuly: "/reiki-share-july-1",
+    reikiShareOctober: "/reiki-share-october-15",
     reikiShare: "/reiki-share",
     theWeekendReset: "/the-weekend-reset",
     flowField: "/flow-field",

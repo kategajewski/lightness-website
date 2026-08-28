@@ -68,6 +68,20 @@ const upcomingEvents = [
       "border-[rgba(230,194,162,0.64)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.42)_54%,rgba(201,167,156,0.26))]",
   },
   {
+    sortKey: "2026-10-15",
+    isActive: true,
+    eyebrow: "Practitioner Gathering",
+    title: "Reiki Share",
+    description:
+      "A small practitioner-only gathering to form community, talk all things Reiki, and share with one another.",
+    details:
+      "Thursday, October 15, 2026 · 7-9 PM · The Lightness of Being, Patchogue · $25 · Max 7 people",
+    href: site.links.reikiShareOctober,
+    cta: "Reserve Your Spot",
+    cardClass:
+      "border-[rgba(168,178,159,0.68)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(168,178,159,0.28)_40%,rgba(201,167,156,0.22))]",
+  },
+  {
     sortKey: "2026-11-05",
     isActive: true,
     eyebrow: "Practitioner Gathering",
@@ -94,20 +108,6 @@ const upcomingEvents = [
     cta: "View Event Details",
     cardClass:
       "border-[rgba(201,167,156,0.6)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(201,167,156,0.34))]",
-  },
-  {
-    sortKey: "2026-09-02",
-    isActive: true,
-    eyebrow: "Outdoor Evening Practice",
-    title: "Flow Field",
-    description:
-      "An open-air vinyasa flow and restorative sound healing experience led by Kate + Kelly.",
-    details:
-      "Wednesday, September 2, 2026 · 6:00-7:30 PM · The Lightness Grounds in Bayport · $45",
-    href: site.links.flowField,
-    cta: "Reserve Your Place",
-    cardClass:
-      "border-[rgba(230,194,162,0.62)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.34)_42%,rgba(168,178,159,0.28))]",
   },
   {
     sortKey: "2026-08-25",

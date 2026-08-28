@@ -37,6 +37,7 @@ export const site = {
     reiki: "https://bethelightness.com/reiki",
     reikiTraining: "/reiki-rising",
     soundTraining: "/sound-training",
+    soundJourneysAtSanctuary: "/sound-journeys-at-sanctuary",
     corporateWellness: "/corporate-wellness",
     events: "/events",
     emailUpdates: "/email-updates",

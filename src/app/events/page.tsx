@@ -12,6 +12,20 @@ export const metadata = createPageMetadata({
 
 const upcomingEvents = [
   {
+    sortKey: "2026-09-21",
+    isActive: true,
+    eyebrow: "Reiki-Infused Sound Journey",
+    title: "Autumn Alchemy",
+    description:
+      "A deeply restorative evening of sound and Holy Fire® Reiki with Kate at Sanctuary+Health.",
+    details:
+      "Monday, September 21, 2026 · 8:00-9:30 PM · Sanctuary+Health, Patchogue · $55 before processing fees",
+    href: site.links.soundJourneysAtSanctuary,
+    cta: "Explore the Sound Journey",
+    cardClass:
+      "border-[rgba(137,100,79,0.5)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(222,188,157,0.38)_48%,rgba(119,77,61,0.2))]",
+  },
+  {
     sortKey: "2026-07-01",
     isActive: false,
     eyebrow: "Practitioner Gathering",
@@ -243,7 +257,9 @@ export default function EventsPage() {
             currently open for registration.
           </p>
           <p className="mt-3 text-[0.92rem] font-semibold text-[var(--color-text)]">
-            All event payments are final and non-refundable.
+            Events sold directly by The Lightness of Being are final and
+            non-refundable. Events hosted and ticketed by another venue follow
+            that venue&apos;s ticket policies.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link

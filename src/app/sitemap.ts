@@ -10,6 +10,7 @@ const routes = [
   ["/membership", 0.85, "monthly"],
   ["/reiki-rising", 0.85, "monthly"],
   ["/sound-training", 0.85, "monthly"],
+  ["/sound-journeys-at-sanctuary", 0.9, "weekly"],
   ["/mentorship", 0.85, "monthly"],
   ["/corporate-wellness", 0.85, "monthly"],
   ["/reiki-healing-long-island", 0.9, "monthly"],

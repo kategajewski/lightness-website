@@ -275,9 +275,7 @@ export const eventCheckoutConfig = {
 
 export type EventSlug = keyof typeof eventCheckoutConfig;
 
-export const activeEventSlugs = Object.values(eventCheckoutConfig)
-  .filter((event) => !("registrationClosed" in event && event.registrationClosed))
-  .map((event) => event.slug) as EventSlug[];
+export const activeEventSlugs = Object.keys(eventCheckoutConfig) as EventSlug[];
 
 export function getEventBySlug(slug: string | undefined) {
   if (!slug) {

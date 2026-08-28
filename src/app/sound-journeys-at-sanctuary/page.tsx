@@ -63,7 +63,7 @@ export default function SoundJourneysAtSanctuaryPage() {
     <PageShell
       eyebrow="Monthly Sound Journeys"
       title="Sound journeys at Sanctuary+Health"
-      description="Seasonal, Reiki-infused sound experiences led by Kate Gajewski in the heart of Patchogue. Each gathering offers a new invitation to slow down, listen and reconnect."
+      description="Monthly, Reiki-infused sound experiences led by Kate Gajewski in the heart of Patchogue. Each gathering offers a new invitation to slow down, listen and reconnect."
     >
       <script
         type="application/ld+json"
@@ -203,7 +203,8 @@ export default function SoundJourneysAtSanctuaryPage() {
         <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div>
             <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-              Feel Called to Hold Sound?
+              Feel the calling to become a sound practitioner and hold your own
+              sound baths?
             </span>
             <h2 className="display-section-title">
               Move from receiving sound to learning how to share it.

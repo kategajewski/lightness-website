@@ -82,6 +82,10 @@ export async function POST(request: Request) {
     )}`,
   });
 
+  if (offer.slug === "reiki-rising") {
+    body.set("allow_promotion_codes", "true");
+  }
+
   if (requiresEnrollmentAgreement) {
     const acceptedAt = new Date().toISOString();
 

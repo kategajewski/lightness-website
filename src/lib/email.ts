@@ -38,6 +38,56 @@ type WebsiteEmailAttachment = {
   contentType: string;
 };
 
+const reikiMasterclassMeetUrl = "https://meet.google.com/nwj-kgzm-sqx";
+const reikiMasterclassGoogleCalendarUrl =
+  "https://calendar.google.com/calendar/render?" +
+  new URLSearchParams({
+    action: "TEMPLATE",
+    text: "Is Reiki Calling You? Holy Fire® Reiki Masterclass",
+    dates: "20260916T230000Z/20260917T001500Z",
+    details: [
+      "A live Holy Fire® Reiki masterclass, meditation and healing experience with Kate Gajewski.",
+      "",
+      `Join Google Meet: ${reikiMasterclassMeetUrl}`,
+      "",
+      "Please settle into a quiet, comfortable space. You may want water, a journal and headphones nearby.",
+    ].join("\n"),
+    location: reikiMasterclassMeetUrl,
+    ctz: "America/New_York",
+  }).toString();
+
+const reikiMasterclassCalendarAttachment: WebsiteEmailAttachment = {
+  filename: "is-reiki-calling-you.ics",
+  content: Buffer.from(
+    [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//The Lightness of Being//Reiki Masterclass//EN",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      "BEGIN:VEVENT",
+      "UID:reiki-masterclass-20260916@bethelightness.com",
+      "DTSTAMP:20260829T010000Z",
+      "DTSTART:20260916T230000Z",
+      "DTEND:20260917T001500Z",
+      "SUMMARY:Is Reiki Calling You? Holy Fire® Reiki Masterclass",
+      `DESCRIPTION:A live Reiki masterclass, meditation and Holy Fire® Reiki healing experience with Kate Gajewski.\\n\\nJoin Google Meet: ${reikiMasterclassMeetUrl}`,
+      `LOCATION:${reikiMasterclassMeetUrl}`,
+      `URL:${reikiMasterclassMeetUrl}`,
+      "BEGIN:VALARM",
+      "TRIGGER:-P1D",
+      "ACTION:DISPLAY",
+      "DESCRIPTION:Reiki masterclass begins tomorrow",
+      "END:VALARM",
+      "END:VEVENT",
+      "END:VCALENDAR",
+      "",
+    ].join("\r\n"),
+    "utf8",
+  ),
+  contentType: "text/calendar; charset=utf-8; method=PUBLISH",
+};
+
 export function canSendPurchaseOwnerNotification() {
   return Boolean(getOwnerNotificationRecipients().length) && canSendWebsiteEmail();
 }
@@ -362,6 +412,37 @@ export async function sendReikiQuizResultEmail(
 }
 
 const eventEmailContent = {
+  "reiki-rising-masterclass-september-16-2026": {
+    title: "Is Reiki Calling You?",
+    intro:
+      "Your place is confirmed. I'm so glad you'll be joining me for this live Reiki masterclass, meditation and Holy Fire® Reiki healing experience.",
+    detailLines: [
+      "Date: Wednesday, September 16, 2026",
+      "Time: 7:00-8:15 PM Eastern Time",
+      "Format: Live online through Google Meet",
+      "Tuition credit: Your full $11 may be applied toward Reiki Rising Fall 2026 tuition if you enroll by September 20, 2026.",
+      "Refund policy: All purchases are final and non-refundable.",
+    ],
+    reminderLines: [
+      "Use the private Google Meet button below when it is time to join.",
+      "Settle into a quiet, comfortable space. You may want water, a journal and headphones nearby.",
+      "No previous Reiki experience is needed.",
+      "A calendar file is attached for Apple Calendar, Outlook and other calendar apps.",
+    ],
+    href: `${env.siteUrl}${site.links.reikiMasterclass}`,
+    hrefLabel: "View masterclass details",
+    extraLinks: [
+      {
+        label: "Join Google Meet",
+        href: reikiMasterclassMeetUrl,
+      },
+      {
+        label: "Add to Google Calendar",
+        href: reikiMasterclassGoogleCalendarUrl,
+      },
+    ],
+    calendarAttachment: reikiMasterclassCalendarAttachment,
+  },
   "rise-into-light": {
     title: "Rise into Light",
     intro:
@@ -625,6 +706,14 @@ export async function sendPurchaseConfirmationEmail(
           giftCertificate?.certificateCode,
           portalAccess,
         );
+  const extraLinks: Array<{ label: string; href: string }> =
+    "extraLinks" in emailContent
+      ? (emailContent.extraLinks as Array<{ label: string; href: string }> || [])
+      : [];
+  const calendarAttachment: WebsiteEmailAttachment | undefined =
+    "calendarAttachment" in emailContent
+      ? (emailContent.calendarAttachment as WebsiteEmailAttachment | undefined)
+      : undefined;
 
   const text = [
     `Hi ${customerName},`,
@@ -636,6 +725,7 @@ export async function sendPurchaseConfirmationEmail(
     ...emailContent.reminderLines,
     "",
     `${emailContent.hrefLabel}: ${emailContent.href}`,
+    ...extraLinks.map((link) => `${link.label}: ${link.href}`),
     "",
     giftCertificate
       ? "Your printable gift certificate PDF is attached to this email."
@@ -664,6 +754,15 @@ export async function sendPurchaseConfirmationEmail(
         <li style="margin: 0 0 12px; padding-left: 2px; color: #6f625a; font-family: 'Lato', Arial, sans-serif; font-size: 15px; line-height: 1.65;">
           ${escapeHtml(line)}
         </li>
+      `,
+    )
+    .join("");
+  const extraLinksHtml = extraLinks
+    .map(
+      (link, index) => `
+        <a href="${escapeHtml(link.href)}" style="display: inline-block; margin: 6px; border: 1px solid #4c3a30; border-radius: 999px; background: ${index === 0 ? "#4c3a30" : "#fffaf4"}; color: ${index === 0 ? "#fffaf4" : "#4c3a30"}; font-family: 'Lato', Arial, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; padding: 14px 20px; text-decoration: none; text-transform: uppercase;">
+          ${escapeHtml(link.label)}
+        </a>
       `,
     )
     .join("");
@@ -715,6 +814,8 @@ export async function sendPurchaseConfirmationEmail(
           </div>
 
           <div style="padding: 22px 34px 28px; text-align: center;">
+            ${extraLinksHtml}
+            <div style="height: 8px;"></div>
             <a href="${escapeHtml(emailContent.href)}" style="display: inline-block; border-radius: 999px; background: #4c3a30; color: #fffaf4; font-family: 'Lato', Arial, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; padding: 15px 24px;">
               ${escapeHtml(emailContent.hrefLabel)}
             </a>
@@ -747,15 +848,18 @@ export async function sendPurchaseConfirmationEmail(
     subject: emailContent.subject,
     text,
     html,
-    attachments: giftCertificate
-      ? [
-          {
-            filename: giftCertificate.filename,
-            content: giftCertificate.pdf,
-            contentType: "application/pdf",
-          },
-        ]
-      : undefined,
+    attachments: [
+      ...(giftCertificate
+        ? [
+            {
+              filename: giftCertificate.filename,
+              content: giftCertificate.pdf,
+              contentType: "application/pdf",
+            },
+          ]
+        : []),
+      ...(calendarAttachment ? [calendarAttachment] : []),
+    ],
   });
 
   return { skipped: false };

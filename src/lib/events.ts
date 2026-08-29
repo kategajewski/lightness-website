@@ -41,7 +41,8 @@ export const eventCheckoutConfig = {
       "Refund policy: All purchases are final and non-refundable.",
     ],
     emailReminderLines: [
-      "Your live access link and preparation notes will be emailed before the masterclass.",
+      "Join the private Google Meet: https://meet.google.com/nwj-kgzm-sqx",
+      "Your confirmation email includes a Google Calendar link and an attached calendar file for Apple Calendar or Outlook.",
       "Settle into a quiet, comfortable space. You may want water, a journal and headphones nearby.",
       "No previous Reiki experience is needed.",
     ],

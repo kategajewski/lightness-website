@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requestPasswordResetAction } from "@/app/login/actions";
 import { PageShell } from "@/components/page-shell";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 
 type ForgotPasswordPageProps = {
   searchParams?: Promise<{
@@ -61,6 +62,8 @@ export default async function ForgotPasswordPage({
                 className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
               />
             </label>
+
+            <TurnstileWidget action="password_recovery" />
 
             <button
               type="submit"

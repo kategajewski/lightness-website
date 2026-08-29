@@ -24,42 +24,155 @@ function getSetupRedirectUrl() {
   return `${env.siteUrl.replace(/\/$/, "")}/auth/callback?next=/create-password`;
 }
 
-function buildPortalSetupUrl(hashedToken: string, verificationType: string) {
+function buildPortalSetupUrl(
+  hashedToken: string,
+  verificationType: string,
+  next = "/create-password",
+) {
   const setupUrl = new URL("/portal-setup", env.siteUrl);
 
   setupUrl.searchParams.set("token", hashedToken);
   setupUrl.searchParams.set("type", verificationType);
+  setupUrl.searchParams.set("next", next);
 
   return setupUrl.toString();
 }
 
-function isAlreadyRegisteredError(message: string) {
-  const normalized = message.toLowerCase();
+const passwordRecoveryCooldownMs = 5 * 60 * 1000;
 
-  return (
-    normalized.includes("already registered") ||
-    normalized.includes("already exists") ||
-    normalized.includes("user already")
+export async function createPasswordRecoveryLink(email: string) {
+  const normalizedEmail = email.trim().toLowerCase();
+  const supabase = createSupabaseAdminClient();
+  const { data: usersData, error: usersError } =
+    await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
+
+  if (usersError) {
+    throw usersError;
+  }
+
+  const user = usersData.users.find(
+    (candidate) =>
+      candidate.email?.trim().toLowerCase() === normalizedEmail,
   );
+
+  if (!user) {
+    return { status: "not_found" as const };
+  }
+
+  const lastSentAt = Number(
+    user.user_metadata?.passwordRecoveryEmailSentAt ?? 0,
+  );
+
+  if (
+    Number.isFinite(lastSentAt) &&
+    lastSentAt > 0 &&
+    Date.now() - lastSentAt < passwordRecoveryCooldownMs
+  ) {
+    return { status: "rate_limited" as const };
+  }
+
+  const redirectTo = `${env.siteUrl.replace(/\/$/, "")}/auth/callback?next=/reset-password`;
+  const { data, error } = await supabase.auth.admin.generateLink({
+    type: "recovery",
+    email: normalizedEmail,
+    options: { redirectTo },
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  const properties = data.properties as
+    | {
+        hashed_token?: string;
+        verification_type?: string;
+      }
+    | undefined;
+
+  if (!properties?.hashed_token || !properties.verification_type) {
+    throw new Error("A secure password recovery link could not be created.");
+  }
+
+  return {
+    status: "ready" as const,
+    setupUrl: buildPortalSetupUrl(
+      properties.hashed_token,
+      properties.verification_type,
+      "/reset-password",
+    ),
+    userId: user.id,
+    userMetadata: user.user_metadata ?? {},
+  };
+}
+
+export async function markPasswordRecoveryEmailSent(
+  userId: string,
+  userMetadata: Record<string, unknown>,
+) {
+  const supabase = createSupabaseAdminClient();
+  const { error } = await supabase.auth.admin.updateUserById(userId, {
+    user_metadata: {
+      ...userMetadata,
+      passwordRecoveryEmailSentAt: Date.now(),
+    },
+  });
+
+  if (error) {
+    throw error;
+  }
 }
 
 async function ensurePortalUser(email: string, offerSlug: string, accessSlug: string) {
   const supabase = createSupabaseAdminClient();
+  const { data: usersData, error: usersError } =
+    await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
+
+  if (usersError) {
+    throw usersError;
+  }
+
+  if (
+    usersData.users.some(
+      (user) => user.email?.trim().toLowerCase() === email.toLowerCase(),
+    )
+  ) {
+    return undefined;
+  }
+
   const password = `Portal-${crypto.randomUUID()}-${crypto.randomUUID()}`;
-  const { error } = await supabase.auth.admin.createUser({
+  const { data, error } = await supabase.auth.admin.generateLink({
+    type: "signup",
     email,
     password,
-    email_confirm: true,
-    user_metadata: {
-      source: "stripe_checkout",
-      offerSlug,
-      accessSlug,
+    options: {
+      data: {
+        source: "stripe_checkout",
+        offerSlug,
+        accessSlug,
+      },
+      redirectTo: getSetupRedirectUrl(),
     },
   });
 
-  if (error && !isAlreadyRegisteredError(error.message)) {
+  if (error) {
     throw error;
   }
+
+  const properties = data.properties as
+    | {
+        hashed_token?: string;
+        verification_type?: string;
+      }
+    | undefined;
+
+  if (!properties?.hashed_token || !properties.verification_type) {
+    return undefined;
+  }
+
+  return buildPortalSetupUrl(
+    properties.hashed_token,
+    properties.verification_type,
+  );
 }
 
 async function ensureMemberAccess(email: string, accessSlug: string) {
@@ -159,10 +272,14 @@ export async function provisionOfferPortalAccessFromSession(
   }
 
   try {
-    await ensurePortalUser(email, offer.slug, offer.accessSlug);
+    const newUserSetupUrl = await ensurePortalUser(
+      email,
+      offer.slug,
+      offer.accessSlug,
+    );
     await ensureMemberAccess(email, offer.accessSlug);
 
-    const setupUrl = await createPasswordSetupLink(email);
+    const setupUrl = newUserSetupUrl ?? (await createPasswordSetupLink(email));
 
     return {
       accessSlug: offer.accessSlug,

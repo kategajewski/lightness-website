@@ -18,6 +18,34 @@ export type EventCheckoutConfig = {
 };
 
 export const eventCheckoutConfig = {
+  "reiki-rising-masterclass-september-16-2026": {
+    slug: "reiki-rising-masterclass-september-16-2026",
+    name: "Is Reiki Calling You?",
+    description:
+      "Registration for Is Reiki Calling You?, a live Holy Fire® Reiki masterclass, meditation and healing experience with Kate. All purchases are final and non-refundable.",
+    amountCents: 1100,
+    successPath: "/checkout/success",
+    cancelPath: site.links.reikiMasterclass,
+    detailHref: site.links.reikiMasterclass,
+    confirmationTitle: "You're registered for Is Reiki Calling You?",
+    confirmationDescription:
+      "Your place in the live Reiki masterclass and healing experience is confirmed. Watch your email for your Stripe receipt, access details and preparation notes.",
+    emailIntro:
+      "Your place is confirmed. I'm so glad you'll be joining me for this live Reiki masterclass, meditation and Holy Fire® Reiki healing experience.",
+    emailDetailLines: [
+      "Date: Wednesday, September 16, 2026",
+      "Time: 7:00-8:15 PM Eastern Time",
+      "Format: Live online",
+      "Exchange: $11",
+      "Tuition credit: Your full $11 may be applied toward Reiki Rising Fall 2026 tuition if you enroll by September 20, 2026.",
+      "Refund policy: All purchases are final and non-refundable.",
+    ],
+    emailReminderLines: [
+      "Your live access link and preparation notes will be emailed before the masterclass.",
+      "Settle into a quiet, comfortable space. You may want water, a journal and headphones nearby.",
+      "No previous Reiki experience is needed.",
+    ],
+  },
   "rise-into-light": {
     slug: "rise-into-light",
     name: "Rise into Light",

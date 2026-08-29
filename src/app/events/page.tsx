@@ -12,6 +12,20 @@ export const metadata = createPageMetadata({
 
 const upcomingEvents = [
   {
+    sortKey: "2026-09-16",
+    isActive: true,
+    eyebrow: "Live Online Reiki Experience",
+    title: "Is Reiki Calling You?",
+    description:
+      "A Holy Fire® Reiki masterclass, meditation and healing experience with Kate.",
+    details:
+      "Wednesday, September 16, 2026 · 7:00-8:15 PM ET · Live online · $11",
+    href: site.links.reikiMasterclass,
+    cta: "Reserve Your Place",
+    cardClass:
+      "border-[rgba(201,167,156,0.62)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.32)_48%,rgba(168,178,159,0.2))]",
+  },
+  {
     sortKey: "2026-09-21",
     isActive: true,
     eyebrow: "Reiki-Infused Sound Journey",

@@ -11,6 +11,10 @@ type CheckoutCancelPageProps = {
 };
 
 const eventCancelContent = {
+  "reiki-rising-masterclass-september-16-2026": {
+    primaryHref: site.links.reikiMasterclass,
+    primaryLabel: "Back to Masterclass Details",
+  },
   "rise-into-light": {
     primaryHref: site.links.riseIntoLight,
     primaryLabel: "Back to Event Details",

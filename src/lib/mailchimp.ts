@@ -5,6 +5,7 @@ type MailchimpSignupInput = {
   name: string;
   email: string;
   tags: string[];
+  managedTags?: string[];
 };
 
 function getDataCenter(apiKey: string) {
@@ -76,16 +77,25 @@ export async function syncEmailSignupToMailchimp(input: MailchimpSignupInput) {
     },
   );
 
-  if (input.tags.length > 0) {
+  const selectedTags = new Set(input.tags);
+  const managedTags = new Set(input.managedTags ?? []);
+  const tagUpdates = [
+    ...Array.from(managedTags, (name) => ({
+      name,
+      status: selectedTags.has(name) ? "active" : "inactive",
+    })),
+    ...input.tags
+      .filter((name) => !managedTags.has(name))
+      .map((name) => ({ name, status: "active" })),
+  ];
+
+  if (tagUpdates.length > 0) {
     await sendMailchimpRequest(
       `/lists/${env.mailchimpAudienceId}/members/${subscriberHash}/tags`,
       {
         method: "POST",
         body: JSON.stringify({
-          tags: input.tags.map((name) => ({
-            name,
-            status: "active",
-          })),
+          tags: tagUpdates,
         }),
       },
     );

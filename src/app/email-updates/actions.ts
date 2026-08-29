@@ -108,6 +108,7 @@ export async function submitEmailSignup(formData: FormData) {
         name,
         email,
         tags: preferenceText,
+        managedTags: Object.values(preferenceLabels),
       });
     } catch (error) {
       console.error("Mailchimp email signup sync failed", error);

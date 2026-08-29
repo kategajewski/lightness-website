@@ -706,9 +706,9 @@ export async function sendPurchaseConfirmationEmail(
           giftCertificate?.certificateCode,
           portalAccess,
         );
-  const extraLinks: Array<{ label: string; href: string }> =
-    "extraLinks" in emailContent
-      ? (emailContent.extraLinks as Array<{ label: string; href: string }> || [])
+  const extraLinks: ReadonlyArray<{ label: string; href: string }> =
+    "extraLinks" in emailContent && emailContent.extraLinks
+      ? emailContent.extraLinks
       : [];
   const calendarAttachment: WebsiteEmailAttachment | undefined =
     "calendarAttachment" in emailContent
@@ -989,6 +989,10 @@ function getEventPurchaseEmailContent(
       reminderLines: event.reminderLines,
       href: event.href,
       hrefLabel: event.hrefLabel,
+      ...("extraLinks" in event ? { extraLinks: event.extraLinks } : {}),
+      ...("calendarAttachment" in event
+        ? { calendarAttachment: event.calendarAttachment }
+        : {}),
     };
   }
 

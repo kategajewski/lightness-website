@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 type PasswordFlow = "reset" | "setup";
@@ -120,9 +121,14 @@ export function ResetPasswordForm({ mode = "reset" }: ResetPasswordFormProps) {
       ) : null}
 
       {status === "success" ? (
-        <p className="rounded-[18px] border border-[rgba(124,163,130,0.22)] bg-[rgba(168,178,159,0.22)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
-          {message}
-        </p>
+        <div className="rounded-[18px] border border-[rgba(124,163,130,0.22)] bg-[rgba(168,178,159,0.22)] px-5 py-5 text-center text-[0.95rem] text-[var(--color-text)]">
+          <p>{message}</p>
+          <div className="mt-5">
+            <Link href="/login" className="button-pill">
+              Go to Portal Login
+            </Link>
+          </div>
+        </div>
       ) : null}
 
       {status === "error" ? (
@@ -131,41 +137,43 @@ export function ResetPasswordForm({ mode = "reset" }: ResetPasswordFormProps) {
         </p>
       ) : null}
 
-      <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
-        <label className="grid gap-2">
-          <span className="text-[0.92rem] font-medium text-[var(--color-text)]">
-            New Password
-          </span>
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-            className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
-          />
-        </label>
+      {status !== "success" ? (
+        <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
+          <label className="grid gap-2">
+            <span className="text-[0.92rem] font-medium text-[var(--color-text)]">
+              New Password
+            </span>
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+              className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
+            />
+          </label>
 
-        <label className="grid gap-2">
-          <span className="text-[0.92rem] font-medium text-[var(--color-text)]">
-            Confirm Password
-          </span>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
-            required
-            className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
-          />
-        </label>
+          <label className="grid gap-2">
+            <span className="text-[0.92rem] font-medium text-[var(--color-text)]">
+              Confirm Password
+            </span>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+              required
+              className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none"
+            />
+          </label>
 
-        <button
-          type="submit"
-          disabled={status === "submitting" || status === "loading"}
-          className="button-pill disabled:opacity-70"
-        >
-          {status === "submitting" ? "Saving..." : text.button}
-        </button>
-      </form>
+          <button
+            type="submit"
+            disabled={status === "submitting" || status === "loading"}
+            className="button-pill disabled:opacity-70"
+          >
+            {status === "submitting" ? "Saving..." : text.button}
+          </button>
+        </form>
+      ) : null}
     </div>
   );
 }

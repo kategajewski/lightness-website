@@ -194,17 +194,17 @@ export async function sendPasswordRecoveryEmail(input: {
     throw new Error("Website email delivery is not configured.");
   }
 
-  const subject = "Reset your Lightness portal password";
+  const subject = "Your secure Lightness portal link";
   const text = [
     "Hi there,",
     "",
-    "A password reset was requested for your Lightness student or member portal account.",
+    "A secure password link was requested for your Lightness student or member portal account.",
     "",
     `Choose a new password: ${input.recoveryUrl}`,
     "",
     "Please use the newest link you received. For your security, this link is one-time use and may expire.",
     "",
-    "If you did not request this reset, you can safely ignore this email.",
+    "If you did not request this link, you can safely ignore this email.",
     "",
     "With love,",
     "Kate",
@@ -216,13 +216,13 @@ export async function sendPasswordRecoveryEmail(input: {
       <div style="max-width: 640px; margin: 0 auto; overflow: hidden; border: 1px solid rgba(76,58,48,0.1); border-radius: 28px; background: #fffaf4; font-family: Arial, sans-serif; color: #3e342e;">
         <div style="padding: 34px; background: linear-gradient(135deg, #fffaf4 0%, #f2e3d5 100%);">
           <p style="margin: 0 0 10px; color: #7b6c62; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;">The Lightness of Being</p>
-          <h1 style="margin: 0; font-family: Georgia, serif; font-size: 34px; font-weight: 400;">Choose a new password.</h1>
-          <p style="margin: 18px 0 0; color: #5f524a; font-size: 16px; line-height: 1.7;">A password reset was requested for your Lightness student or member portal account.</p>
+          <h1 style="margin: 0; font-family: Georgia, serif; font-size: 34px; font-weight: 400;">Choose your portal password.</h1>
+          <p style="margin: 18px 0 0; color: #5f524a; font-size: 16px; line-height: 1.7;">A secure password link was requested for your Lightness student or member portal account.</p>
         </div>
         <div style="padding: 30px 34px; text-align: center;">
-          <a href="${escapeHtml(input.recoveryUrl)}" style="display: inline-block; border-radius: 999px; background: #4c3a30; color: #fffaf4; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; padding: 15px 24px; text-decoration: none; text-transform: uppercase;">Reset Your Password</a>
+          <a href="${escapeHtml(input.recoveryUrl)}" style="display: inline-block; border-radius: 999px; background: #4c3a30; color: #fffaf4; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; padding: 15px 24px; text-decoration: none; text-transform: uppercase;">Choose Your Password</a>
           <p style="margin: 20px auto 0; max-width: 430px; color: #7b6c62; font-size: 14px; line-height: 1.65;">Please use the newest link you received. For your security, this link is one-time use and may expire.</p>
-          <p style="margin: 12px auto 0; max-width: 430px; color: #7b6c62; font-size: 14px; line-height: 1.65;">If you did not request this reset, you can safely ignore this email.</p>
+          <p style="margin: 12px auto 0; max-width: 430px; color: #7b6c62; font-size: 14px; line-height: 1.65;">If you did not request this link, you can safely ignore this email.</p>
         </div>
         <div style="padding: 24px 34px 30px; border-top: 1px solid rgba(76,58,48,0.08); background: #f8eee4;">
           <p style="margin: 0; color: #5f524a; font-family: Georgia, serif; font-size: 22px; font-style: italic;">With love,<br />Kate</p>

@@ -20,8 +20,8 @@ export default async function ForgotPasswordPage({
   return (
     <PageShell
       eyebrow="Password Reset"
-      title="Reset your password and get back into your account."
-      description="Use the email address connected to your member account and we’ll send you a secure reset link."
+      title="Create or reset your portal password."
+      description="Use the email address connected to your member account and we’ll send you a secure password link."
     >
       <section className="grid gap-6 rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] lg:grid-cols-[0.9fr_1.1fr]">
         <div>
@@ -29,18 +29,19 @@ export default async function ForgotPasswordPage({
             Account Recovery
           </span>
           <h2 className="display-section-title">
-            We&apos;ll send you a secure link to choose a new password.
+            We&apos;ll send you a secure link to choose your password.
           </h2>
           <p className="mt-4 max-w-[36rem] text-[var(--color-muted)]">
-            Use this only if you already created a portal password and need a
-            new one.
+            Use this if your welcome link expired, your first link did not work
+            or you need to replace an existing password.
           </p>
         </div>
 
         <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">
           {status === "success" ? (
             <p className="rounded-[18px] border border-[rgba(124,163,130,0.22)] bg-[rgba(168,178,159,0.22)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
-              Reset link sent. Check your email and open the link to set a new password.
+              Secure portal link sent. Check your email and use the newest link
+              to choose your password.
             </p>
           ) : null}
 
@@ -69,7 +70,7 @@ export default async function ForgotPasswordPage({
               type="submit"
               className="button-pill"
             >
-              Send Reset Link
+              Send Secure Link
             </button>
           </form>
 

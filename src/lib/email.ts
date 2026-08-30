@@ -48,10 +48,10 @@ const reikiMasterclassGoogleCalendarUrl =
   "https://calendar.google.com/calendar/render?" +
   new URLSearchParams({
     action: "TEMPLATE",
-    text: "Is Reiki Calling You? Holy Fire® Reiki Masterclass",
+    text: "Called to Reiki | Holy Fire® Reiki Masterclass + Healing Experience",
     dates: "20260916T230000Z/20260917T001500Z",
     details: [
-      "A live Holy Fire® Reiki masterclass, meditation and healing experience with Kate Gajewski.",
+      "A live Holy Fire® Reiki masterclass and healing experience with Kate Gajewski.",
       "",
       `Join Google Meet: ${reikiMasterclassMeetUrl}`,
       "",
@@ -62,7 +62,7 @@ const reikiMasterclassGoogleCalendarUrl =
   }).toString();
 
 const reikiMasterclassCalendarAttachment: WebsiteEmailAttachment = {
-  filename: "is-reiki-calling-you.ics",
+  filename: "called-to-reiki.ics",
   content: Buffer.from(
     [
       "BEGIN:VCALENDAR",
@@ -75,14 +75,14 @@ const reikiMasterclassCalendarAttachment: WebsiteEmailAttachment = {
       "DTSTAMP:20260829T010000Z",
       "DTSTART:20260916T230000Z",
       "DTEND:20260917T001500Z",
-      "SUMMARY:Is Reiki Calling You? Holy Fire® Reiki Masterclass",
-      `DESCRIPTION:A live Reiki masterclass, meditation and Holy Fire® Reiki healing experience with Kate Gajewski.\\n\\nJoin Google Meet: ${reikiMasterclassMeetUrl}`,
+      "SUMMARY:Called to Reiki | Holy Fire® Reiki Masterclass + Healing Experience",
+      `DESCRIPTION:A live Holy Fire® Reiki masterclass and healing experience with Kate Gajewski.\\n\\nJoin Google Meet: ${reikiMasterclassMeetUrl}`,
       `LOCATION:${reikiMasterclassMeetUrl}`,
       `URL:${reikiMasterclassMeetUrl}`,
       "BEGIN:VALARM",
       "TRIGGER:-P1D",
       "ACTION:DISPLAY",
-      "DESCRIPTION:Reiki masterclass begins tomorrow",
+      "DESCRIPTION:Called to Reiki begins tomorrow",
       "END:VALARM",
       "END:VEVENT",
       "END:VCALENDAR",
@@ -475,14 +475,14 @@ export async function sendReikiQuizResultEmail(
 
 const eventEmailContent = {
   "reiki-rising-masterclass-september-16-2026": {
-    title: "Is Reiki Calling You?",
+    title: "Called to Reiki",
     intro:
-      "Your place is confirmed. I'm so glad you'll be joining me for this live Reiki masterclass, meditation and Holy Fire® Reiki healing experience.",
+      "Your place is confirmed. I'm so glad you'll be joining me for Called to Reiki, a Holy Fire® Reiki masterclass and healing experience.",
     detailLines: [
       "Date: Wednesday, September 16, 2026",
       "Time: 7:00-8:15 PM Eastern Time",
       "Format: Live online through Google Meet",
-      "Tuition credit: Your full $11 may be applied toward Reiki Rising Fall 2026 tuition if you enroll by September 20, 2026.",
+      "Tuition credit: Your $11 registration will be applied toward the Reiki Rising™ Experience if you enroll by September 20, 2026.",
       "Refund policy: All purchases are final and non-refundable.",
     ],
     reminderLines: [
@@ -492,7 +492,7 @@ const eventEmailContent = {
       "A calendar file is attached for Apple Calendar, Outlook and other calendar apps.",
     ],
     href: `${env.siteUrl}${site.links.reikiMasterclass}`,
-    hrefLabel: "View masterclass details",
+    hrefLabel: "View Called to Reiki Details",
     extraLinks: [
       {
         label: "Join Google Meet",

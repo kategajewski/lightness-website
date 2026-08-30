@@ -20,18 +20,18 @@ export type EventCheckoutConfig = {
 export const eventCheckoutConfig = {
   "reiki-rising-masterclass-september-16-2026": {
     slug: "reiki-rising-masterclass-september-16-2026",
-    name: "Is Reiki Calling You?",
+    name: "Called to Reiki",
     description:
-      "Registration for Is Reiki Calling You?, a live Holy Fire® Reiki masterclass, meditation and healing experience with Kate. All purchases are final and non-refundable.",
+      "Registration for Called to Reiki, a live Holy Fire® Reiki masterclass and healing experience with Kate. All purchases are final and non-refundable.",
     amountCents: 1100,
     successPath: "/checkout/success",
     cancelPath: site.links.reikiMasterclass,
     detailHref: site.links.reikiMasterclass,
-    confirmationTitle: "You're registered for Is Reiki Calling You?",
+    confirmationTitle: "You're registered for Called to Reiki.",
     confirmationDescription:
       "Your place in the live Reiki masterclass and healing experience is confirmed. Watch your email for your Stripe receipt, access details and preparation notes.",
     emailIntro:
-      "Your place is confirmed. I'm so glad you'll be joining me for this live Reiki masterclass, meditation and Holy Fire® Reiki healing experience.",
+      "Your place is confirmed. I'm so glad you'll be joining me for Called to Reiki, a Holy Fire® Reiki masterclass and healing experience.",
     emailDetailLines: [
       "Date: Wednesday, September 16, 2026",
       "Time: 7:00-8:15 PM Eastern Time",

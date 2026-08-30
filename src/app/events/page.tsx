@@ -15,9 +15,9 @@ const upcomingEvents = [
     sortKey: "2026-09-16",
     isActive: true,
     eyebrow: "Live Online Reiki Experience",
-    title: "Is Reiki Calling You?",
+    title: "Called to Reiki",
     description:
-      "A Holy Fire® Reiki masterclass, meditation and healing experience with Kate.",
+      "A Holy Fire® Reiki masterclass and healing experience with Kate.",
     details:
       "Wednesday, September 16, 2026 · 7:00-8:15 PM ET · Live online · $11",
     href: site.links.reikiMasterclass,

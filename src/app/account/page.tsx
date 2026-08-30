@@ -59,14 +59,19 @@ export default async function AccountPage() {
               Your available spaces and course materials are ready below.
             </p>
           </div>
-          <form action={signOutAction}>
-            <button
-              type="submit"
-              className="button-pill"
-            >
-              Sign Out
-            </button>
-          </form>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/reset-password" className="button-pill">
+              Change Password
+            </Link>
+            <form action={signOutAction}>
+              <button
+                type="submit"
+                className="button-pill"
+              >
+                Sign Out
+              </button>
+            </form>
+          </div>
         </section>
       ) : (
         <section className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-6 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">

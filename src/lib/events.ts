@@ -37,7 +37,7 @@ export const eventCheckoutConfig = {
       "Time: 7:00-8:15 PM Eastern Time",
       "Format: Live online",
       "Exchange: $11",
-      "Tuition credit: Your full $11 may be applied toward Reiki Rising Fall 2026 tuition if you enroll by September 20, 2026.",
+      "Optional tuition credit: If Reiki Rising™ feels aligned afterward, your $11 registration can be applied toward tuition when you enroll by September 20, 2026.",
       "Refund policy: All purchases are final and non-refundable.",
     ],
     emailReminderLines: [
@@ -45,6 +45,7 @@ export const eventCheckoutConfig = {
       "Your confirmation email includes a Google Calendar link and an attached calendar file for Apple Calendar or Outlook.",
       "Settle into a quiet, comfortable space. You may want water, a journal and headphones nearby.",
       "No previous Reiki experience is needed.",
+      "Called to Reiki is a complete experience on its own. There is no expectation to continue into Reiki training.",
     ],
   },
   "rise-into-light": {

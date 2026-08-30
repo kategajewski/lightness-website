@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { EventCheckoutForm } from "@/components/event-checkout-form";
 import { PageShell } from "@/components/page-shell";
 import { createPageMetadata } from "@/lib/seo";
@@ -7,7 +6,7 @@ import { site } from "@/lib/site";
 export const metadata = createPageMetadata({
   title: "Called to Reiki | Holy Fire® Reiki Masterclass",
   description:
-    "Called to Reiki is a live Holy Fire® Reiki masterclass and healing experience with Kate on September 16, 2026. Your $11 registration will be applied toward the Reiki Rising™ Experience if you enroll.",
+    "Called to Reiki is a live Holy Fire® Reiki masterclass and healing experience with Kate on September 16, 2026. The experience is complete on its own, with an optional $11 Reiki Rising™ tuition credit if you choose to continue.",
   path: "/is-reiki-calling-you",
   image: "/homepage-images/reiki-masterclass-hero-kate.jpeg",
 });
@@ -18,7 +17,6 @@ const experienceIncludes = [
   "A settling meditation to help you arrive in your body",
   "A live Holy Fire® Reiki healing experience",
   "Space to integrate, reflect and ask your questions",
-  "An introduction to the Reiki Rising certification journey",
 ] as const;
 
 const forYouIf = [
@@ -74,7 +72,7 @@ export default function ReikiMasterclassPage() {
             Live Online | $11
           </span>
           <h2 className="display-section-title max-w-[14ch]">
-            Experience Reiki before deciding whether to learn it.
+            An evening to learn, receive and reconnect.
           </h2>
           <p className="mt-5 max-w-[36rem] text-[1.04rem] leading-7 text-[var(--color-muted)]">
             Come as you are. This live online gathering blends clear teaching
@@ -82,8 +80,9 @@ export default function ReikiMasterclassPage() {
             been sitting on your heart.
           </p>
           <p className="mt-6 max-w-[36rem] text-[0.98rem] font-semibold leading-7 text-[var(--color-text)]">
-            Your $11 registration will be applied toward the Reiki Rising™
-            Experience if you choose to enroll.
+            This experience is complete on its own. If Reiki Rising™ feels
+            right afterward, your $11 registration can be applied toward
+            tuition.
           </p>
           <div className="mt-8">
             <EventCheckoutForm
@@ -181,24 +180,17 @@ export default function ReikiMasterclassPage() {
       <section className="rounded-[34px] border border-[rgba(137,100,79,0.2)] bg-[linear-gradient(135deg,rgba(119,77,61,0.92),rgba(89,73,61,0.95))] p-8 text-[rgba(255,250,245,0.95)] shadow-[0_28px_90px_rgba(59,41,31,0.16)] sm:p-10 lg:p-12">
         <div className="mx-auto max-w-[48rem] text-center">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[rgba(255,250,245,0.72)]">
-            Your Registration Becomes Tuition Credit
+            A Gentle Thank-You
           </span>
           <h2 className="font-[var(--font-cormorant)] text-[clamp(2.25rem,5vw,4rem)] font-light leading-[0.98]">
-            If Reiki is calling you forward, your investment comes with you.
+            If you choose to continue, your $11 comes with you.
           </h2>
           <p className="mx-auto mt-5 max-w-[39rem] text-[1.02rem] leading-7 text-[rgba(255,250,245,0.78)]">
-            Your $11 registration will be applied toward the Reiki Rising™
-            Experience if you choose to enroll by September 20. One credit is
-            available per person and has no cash value.
+            There is no expectation to enroll. Called to Reiki is a complete
+            masterclass and healing experience on its own. If Reiki Rising™
+            feels aligned afterward, you can apply your $11 registration
+            toward tuition when you enroll by September 20.
           </p>
-          <div className="mt-7 flex flex-wrap justify-center gap-3">
-            <Link
-              href={site.links.reikiTraining}
-              className="button-pill border-white/20 bg-[rgba(255,250,245,0.94)] text-[var(--color-text)] hover:bg-white"
-            >
-              Explore Reiki Rising
-            </Link>
-          </div>
         </div>
       </section>
 

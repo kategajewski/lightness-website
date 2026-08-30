@@ -7,6 +7,11 @@ import {
 import { getOfferBySlug } from "@/lib/offers";
 import type { PortalProvisioningResult } from "@/lib/portal-access";
 import type { ReikiQuizResult } from "@/lib/reiki-quiz-results";
+import {
+  reikiRisingCalendarAttachment,
+  reikiRisingGoogleCalendarHref,
+  reikiRisingLiveCalls,
+} from "@/lib/reiki-rising-live-calls";
 import { site } from "@/lib/site";
 
 type StripeCheckoutSession = {
@@ -1144,6 +1149,7 @@ function getOfferPurchaseEmailContent(
         "Program dates: September 27 - December 5, 2026",
         "Weekly modules: Released on Sundays",
         "Live calls: Wednesdays at 7:00 PM (Eastern Time)",
+        "Call time: 7:00-8:15 PM (Eastern Time)",
         "Telegram support: Open through Saturday, December 5, 2026",
         option ? `Selected option: ${option.label}` : null,
       ].filter(Boolean) as string[],
@@ -1155,8 +1161,10 @@ function getOfferPurchaseEmailContent(
         portalAccess?.setupUrl
           ? "Your Reiki Rising student portal access has been created using the email address you enrolled with. Begin by selecting Set Your Portal Password below."
           : "Your Reiki Rising student portal access is connected to the email address you enrolled with. Select Open Portal Login below and use Forgot Password if you still need to create your password.",
+        "Use the Join Weekly Google Meet button below when it is time for each live call.",
+        "A recurring calendar file is attached for Apple Calendar, Outlook and other calendar apps.",
         "Once your password is created, you'll be able to enter the Fall 2026 portal. Your welcome materials, weekly modules, live-call links, replays, placement information, and make-up-call details will be added there as the cohort approaches.",
-        "Please purchase the Reiki Level 1 & 2 textbook here: https://www.reiki.org/store/books/reiki-healing-touch",
+        "Use the Purchase Reiki Level 1 & 2 Textbook button below to order the required book before the program begins.",
         "The bookstore automatically selects the digital edition, so please choose whether you would like the digital book, printed book, or both before completing your purchase.",
         "You may also want to choose a special notebook or journal for reflections, practice notes, and questions throughout your Reiki Rising journey.",
         "You'll receive another email closer to the start date with preparation guidance, the Telegram community link, and everything you need for your first week.",
@@ -1165,6 +1173,25 @@ function getOfferPurchaseEmailContent(
       hrefLabel: portalAccess?.setupUrl
         ? "Set Your Portal Password"
         : "Open Portal Login",
+      extraLinks: [
+        {
+          label: "Join Weekly Google Meet",
+          href: reikiRisingLiveCalls.meetHref,
+        },
+        {
+          label: "Add Weekly Calls to Google Calendar",
+          href: reikiRisingGoogleCalendarHref,
+        },
+        {
+          label: "Purchase Reiki Level 1 & 2 Textbook",
+          href: "https://www.reiki.org/store/books/reiki-healing-touch",
+        },
+        {
+          label: "Request a Fresh Portal Link",
+          href: `${env.siteUrl.replace(/\/$/, "")}/forgot-password`,
+        },
+      ],
+      calendarAttachment: reikiRisingCalendarAttachment,
     };
   }
 

@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUserWithAccess, hasActiveAccess } from "@/lib/member-access";
+import {
+  reikiRisingGoogleCalendarHref,
+  reikiRisingLiveCalls,
+} from "@/lib/reiki-rising-live-calls";
 
 const textbookHref = "https://www.reiki.org/store/books/reiki-healing-touch";
 
@@ -99,6 +103,28 @@ export default async function ReikiRisingFall2026LibraryPage() {
             materials, and the pieces that support your Reiki Rising journey.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href={reikiRisingLiveCalls.meetHref}
+              target="_blank"
+              rel="noreferrer"
+              className="button-pill"
+            >
+              Join Weekly Google Meet
+            </Link>
+            <Link
+              href={reikiRisingGoogleCalendarHref}
+              target="_blank"
+              rel="noreferrer"
+              className="button-pill"
+            >
+              Add Calls to Google Calendar
+            </Link>
+            <Link
+              href={reikiRisingLiveCalls.calendarFileHref}
+              className="button-pill"
+            >
+              Download Calendar File
+            </Link>
             <Link href="/account" className="button-pill">
               Back to Student Portal
             </Link>
@@ -124,6 +150,14 @@ export default async function ReikiRisingFall2026LibraryPage() {
             <p>
               <strong className="text-[var(--color-text)]">Live calls:</strong>{" "}
               Wednesdays at 7:00 PM ET
+            </p>
+            <p>
+              <strong className="text-[var(--color-text)]">Call time:</strong>{" "}
+              7:00-8:15 PM ET
+            </p>
+            <p>
+              <strong className="text-[var(--color-text)]">Dial in:</strong>{" "}
+              {reikiRisingLiveCalls.dialIn}, PIN {reikiRisingLiveCalls.pin}
             </p>
             <p>
               <strong className="text-[var(--color-text)]">Telegram:</strong>{" "}

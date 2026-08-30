@@ -8,6 +8,11 @@ import { getOfferBySlug } from "@/lib/offers";
 import type { PortalProvisioningResult } from "@/lib/portal-access";
 import type { ReikiQuizResult } from "@/lib/reiki-quiz-results";
 import {
+  reikiMasterclassAccess,
+  reikiMasterclassCalendarAttachment,
+  reikiMasterclassGoogleCalendarHref,
+} from "@/lib/reiki-masterclass-access";
+import {
   reikiRisingCalendarAttachment,
   reikiRisingGoogleCalendarHref,
   reikiRisingLiveCalls,
@@ -41,61 +46,6 @@ type WebsiteEmailAttachment = {
   filename: string;
   content: Buffer;
   contentType: string;
-};
-
-const reikiMasterclassMeetUrl = "https://meet.google.com/myw-kuih-cgh";
-const reikiMasterclassDialIn = "+1 740-324-5018, PIN: 682453263";
-const reikiMasterclassMorePhoneNumbersUrl =
-  "https://tel.meet/myw-kuih-cgh?pin=5444824961536";
-const reikiMasterclassGoogleCalendarUrl =
-  "https://calendar.google.com/calendar/render?" +
-  new URLSearchParams({
-    action: "TEMPLATE",
-    text: "Called to Reiki | Holy Fire® Reiki Masterclass + Healing Experience",
-    dates: "20260916T230000Z/20260917T001500Z",
-    details: [
-      "A live Holy Fire® Reiki masterclass and healing experience with Kate Gajewski.",
-      "",
-      `Join Google Meet: ${reikiMasterclassMeetUrl}`,
-      `Or dial: ${reikiMasterclassDialIn}`,
-      `More phone numbers: ${reikiMasterclassMorePhoneNumbersUrl}`,
-      "",
-      "Please settle into a quiet, comfortable space. You may want water, a journal and headphones nearby.",
-    ].join("\n"),
-    location: reikiMasterclassMeetUrl,
-    ctz: "America/New_York",
-  }).toString();
-
-const reikiMasterclassCalendarAttachment: WebsiteEmailAttachment = {
-  filename: "called-to-reiki.ics",
-  content: Buffer.from(
-    [
-      "BEGIN:VCALENDAR",
-      "VERSION:2.0",
-      "PRODID:-//The Lightness of Being//Reiki Masterclass//EN",
-      "CALSCALE:GREGORIAN",
-      "METHOD:PUBLISH",
-      "BEGIN:VEVENT",
-      "UID:reiki-masterclass-20260916@bethelightness.com",
-      "DTSTAMP:20260829T010000Z",
-      "DTSTART:20260916T230000Z",
-      "DTEND:20260917T001500Z",
-      "SUMMARY:Called to Reiki | Holy Fire® Reiki Masterclass + Healing Experience",
-      `DESCRIPTION:A live Holy Fire® Reiki masterclass and healing experience with Kate Gajewski.\\n\\nJoin Google Meet: ${reikiMasterclassMeetUrl}\\nOr dial: ${reikiMasterclassDialIn}\\nMore phone numbers: ${reikiMasterclassMorePhoneNumbersUrl}`,
-      `LOCATION:${reikiMasterclassMeetUrl}`,
-      `URL:${reikiMasterclassMeetUrl}`,
-      "BEGIN:VALARM",
-      "TRIGGER:-P1D",
-      "ACTION:DISPLAY",
-      "DESCRIPTION:Called to Reiki begins tomorrow",
-      "END:VALARM",
-      "END:VEVENT",
-      "END:VCALENDAR",
-      "",
-    ].join("\r\n"),
-    "utf8",
-  ),
-  contentType: "text/calendar; charset=utf-8; method=PUBLISH",
 };
 
 export function canSendPurchaseOwnerNotification() {
@@ -492,7 +442,7 @@ const eventEmailContent = {
     ],
     reminderLines: [
       "Use the private Google Meet button below when it is time to join.",
-      `If you need to join by phone, dial ${reikiMasterclassDialIn}. More phone numbers: ${reikiMasterclassMorePhoneNumbersUrl}`,
+      `If you need to join by phone, dial ${reikiMasterclassAccess.dialInText}. More phone numbers: ${reikiMasterclassAccess.morePhoneNumbersHref}`,
       "Settle into a quiet, comfortable space. You may want water, a journal and headphones nearby.",
       "No previous Reiki experience is needed.",
       "Called to Reiki is a complete experience on its own. There is no expectation to continue into Reiki training.",
@@ -503,11 +453,11 @@ const eventEmailContent = {
     extraLinks: [
       {
         label: "Join Google Meet",
-        href: reikiMasterclassMeetUrl,
+        href: reikiMasterclassAccess.meetHref,
       },
       {
         label: "Add to Google Calendar",
-        href: reikiMasterclassGoogleCalendarUrl,
+        href: reikiMasterclassGoogleCalendarHref,
       },
     ],
     calendarAttachment: reikiMasterclassCalendarAttachment,

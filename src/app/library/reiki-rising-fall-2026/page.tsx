@@ -2,6 +2,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUserWithAccess, hasActiveAccess } from "@/lib/member-access";
 import {
+  reikiMasterclassAccess,
+  reikiMasterclassGoogleCalendarHref,
+} from "@/lib/reiki-masterclass-access";
+import {
   reikiRisingGoogleCalendarHref,
   reikiRisingLiveCalls,
 } from "@/lib/reiki-rising-live-calls";
@@ -168,6 +172,48 @@ export default async function ReikiRisingFall2026LibraryPage() {
       </section>
 
       <section className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 sm:px-6">
+        <section className="rounded-[28px] border border-[rgba(137,100,79,0.18)] bg-[linear-gradient(135deg,rgba(119,77,61,0.92),rgba(89,73,61,0.95))] p-8 text-[rgba(255,250,245,0.95)] shadow-[0_28px_90px_rgba(59,41,31,0.14)] sm:p-10">
+          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[rgba(255,250,245,0.72)]">
+            Included with Your Enrollment
+          </span>
+          <h2 className="font-[var(--font-cormorant)] text-[clamp(2.25rem,5vw,3.7rem)] font-light leading-[1]">
+            Join Called to Reiki at no additional cost.
+          </h2>
+          <p className="mt-5 max-w-[46rem] text-[1.02rem] leading-7 text-[rgba(255,250,245,0.8)]">
+            Your place in this live Holy Fire® Reiki masterclass and healing
+            experience is already included as a Reiki Rising student. There is
+            no checkout or additional registration needed.
+          </p>
+          <div className="mt-6 grid gap-2 text-[rgba(255,250,245,0.82)] sm:grid-cols-2">
+            <p>
+              <strong className="text-white">Date:</strong>{" "}
+              {reikiMasterclassAccess.dateLabel}
+            </p>
+            <p>
+              <strong className="text-white">Time:</strong>{" "}
+              {reikiMasterclassAccess.timeLabel}
+            </p>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href={reikiMasterclassAccess.meetHref}
+              target="_blank"
+              rel="noreferrer"
+              className="button-pill border-white/20 bg-[rgba(255,250,245,0.94)] text-[var(--color-text)] hover:bg-white"
+            >
+              Join the Free Masterclass
+            </Link>
+            <Link
+              href={reikiMasterclassGoogleCalendarHref}
+              target="_blank"
+              rel="noreferrer"
+              className="button-pill border-white/30 bg-transparent text-white hover:bg-white/10"
+            >
+              Add to Google Calendar
+            </Link>
+          </div>
+        </section>
+
         <section className="rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Start Here

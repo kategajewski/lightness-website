@@ -43,7 +43,10 @@ type WebsiteEmailAttachment = {
   contentType: string;
 };
 
-const reikiMasterclassMeetUrl = "https://meet.google.com/nwj-kgzm-sqx";
+const reikiMasterclassMeetUrl = "https://meet.google.com/myw-kuih-cgh";
+const reikiMasterclassDialIn = "+1 740-324-5018, PIN: 682453263";
+const reikiMasterclassMorePhoneNumbersUrl =
+  "https://tel.meet/myw-kuih-cgh?pin=5444824961536";
 const reikiMasterclassGoogleCalendarUrl =
   "https://calendar.google.com/calendar/render?" +
   new URLSearchParams({
@@ -54,6 +57,8 @@ const reikiMasterclassGoogleCalendarUrl =
       "A live Holy Fire® Reiki masterclass and healing experience with Kate Gajewski.",
       "",
       `Join Google Meet: ${reikiMasterclassMeetUrl}`,
+      `Or dial: ${reikiMasterclassDialIn}`,
+      `More phone numbers: ${reikiMasterclassMorePhoneNumbersUrl}`,
       "",
       "Please settle into a quiet, comfortable space. You may want water, a journal and headphones nearby.",
     ].join("\n"),
@@ -76,7 +81,7 @@ const reikiMasterclassCalendarAttachment: WebsiteEmailAttachment = {
       "DTSTART:20260916T230000Z",
       "DTEND:20260917T001500Z",
       "SUMMARY:Called to Reiki | Holy Fire® Reiki Masterclass + Healing Experience",
-      `DESCRIPTION:A live Holy Fire® Reiki masterclass and healing experience with Kate Gajewski.\\n\\nJoin Google Meet: ${reikiMasterclassMeetUrl}`,
+      `DESCRIPTION:A live Holy Fire® Reiki masterclass and healing experience with Kate Gajewski.\\n\\nJoin Google Meet: ${reikiMasterclassMeetUrl}\\nOr dial: ${reikiMasterclassDialIn}\\nMore phone numbers: ${reikiMasterclassMorePhoneNumbersUrl}`,
       `LOCATION:${reikiMasterclassMeetUrl}`,
       `URL:${reikiMasterclassMeetUrl}`,
       "BEGIN:VALARM",
@@ -487,6 +492,7 @@ const eventEmailContent = {
     ],
     reminderLines: [
       "Use the private Google Meet button below when it is time to join.",
+      `If you need to join by phone, dial ${reikiMasterclassDialIn}. More phone numbers: ${reikiMasterclassMorePhoneNumbersUrl}`,
       "Settle into a quiet, comfortable space. You may want water, a journal and headphones nearby.",
       "No previous Reiki experience is needed.",
       "Called to Reiki is a complete experience on its own. There is no expectation to continue into Reiki training.",

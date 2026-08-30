@@ -41,7 +41,8 @@ export const eventCheckoutConfig = {
       "Refund policy: All purchases are final and non-refundable.",
     ],
     emailReminderLines: [
-      "Join the private Google Meet: https://meet.google.com/nwj-kgzm-sqx",
+      "Join the private Google Meet: https://meet.google.com/myw-kuih-cgh",
+      "Or dial: +1 740-324-5018, PIN: 682453263. More phone numbers: https://tel.meet/myw-kuih-cgh?pin=5444824961536",
       "Your confirmation email includes a Google Calendar link and an attached calendar file for Apple Calendar or Outlook.",
       "Settle into a quiet, comfortable space. You may want water, a journal and headphones nearby.",
       "No previous Reiki experience is needed.",

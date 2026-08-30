@@ -15,6 +15,55 @@ Rule for future sessions:
   - Current primary fonts are `Lato` for body/practical text, `Cormorant Garamond` for display and italic warmth, and `Belleza` only for restrained brand/wordmark accents.
   - Current brand colors are warm cream, cacao/deep brown, soft brown, sage, peach, and rose. Avoid random fonts, harsh black/white styling, strong cool colors, and off-brand palettes unless Kate explicitly asks.
 
+## Latest Save Point - Reiki Rising Portal, Called to Reiki and Student Access on August 29, 2026
+- Current repo/worktree:
+  - `/Users/magicalbeing/Desktop/lightness-platform/.codex-worktrees/event-mailchimp-optin`
+  - branch `codex/event-mailchimp-optin`
+  - pushed to both `origin/codex/event-mailchimp-optin` and `origin/main`
+  - latest implementation commit before this handoff: `50bdfd1 Include masterclass access in Reiki Rising portal`
+- Called to Reiki:
+  - public page: `/is-reiki-calling-you`
+  - title: `Called to Reiki`
+  - subtitle: `A Holy Fire® Reiki Masterclass + Healing Experience`
+  - Wednesday, September 16, 2026 from 7:00-8:15 PM ET, live online, $11
+  - the $11 may be applied as a Reiki Rising tuition credit for students who enroll by September 20. It is not described as a cash refund.
+  - the page presents the masterclass as a complete experience and keeps the Reiki Rising invitation gentle.
+  - current Google Meet: `https://meet.google.com/myw-kuih-cgh`
+  - dial-in: `+1 740-324-5018`, PIN `682453263`
+  - more phone numbers: `https://tel.meet/myw-kuih-cgh?pin=5444824961536`
+  - confirmation email, Google Calendar link and `.ics` attachment use the same shared access data in `src/lib/reiki-masterclass-access.ts`.
+- Reiki Rising Fall 2026 portal:
+  - access slug: `reiki-rising-fall-2026`
+  - portal route: `/library/reiki-rising-fall-2026`
+  - includes the weekly Reiki Rising Meet, calendar access, textbook link and a free `Called to Reiki` card for enrolled students.
+  - the free masterclass card has `Join the Free Masterclass` and `Add to Google Calendar` buttons. Enrolled students do not need to complete the $11 checkout.
+  - weekly Meet: `https://meet.google.com/vka-htoq-sgj`
+  - textbook: `https://www.reiki.org/store/books/reiki-healing-touch`
+- Portal account setup and recovery:
+  - one-time email links are no longer consumed on the initial GET request, which protects them from email-security scanners.
+  - `/portal-setup` now shows a safe landing page. The token is used only after the student presses `Continue to Create Password`.
+  - `/portal-setup/continue` verifies the token, establishes the session and sends the student to create a password.
+  - expired links lead to a friendly request-new-link state.
+  - the recovery email subject is `Your secure Lightness portal link` and its button says `Choose Your Password`.
+  - after choosing a password, students see a `Go to Portal Login` button.
+  - signed-in students can use `Change Password` from `/account`.
+  - the standard flow remains automatic account creation with a student-chosen password. A unique temporary password is an individual fallback only. Never use a shared password.
+- Student access state:
+  - Mishelle (`mishellealcivar3@gmail.com`) had valid payment, enrollment and access records. A unique temporary password was assigned as a fallback and Kate verified the login successfully. The password is intentionally not recorded here.
+  - permanent QA account: `kategajewski+portaltest@gmail.com`
+  - the QA account has active `reiki-rising-fall-2026` access and received a real secure password email. No password is stored in project notes.
+- Validation and deployment:
+  - targeted ESLint checks and production builds passed after the portal and masterclass changes.
+  - the safe setup page, expired-link state and invalid-token recovery were tested.
+  - the Called to Reiki page was checked on desktop and mobile.
+  - the Writing header link remains present and Writing was not added to the footer.
+- Next recommended starting point:
+  - complete the QA account setup from its unread Gmail message in an Incognito or Private window, then keep that account for future enrollment tests.
+  - if Mishelle has not changed her temporary password, have her use `Change Password` inside her account. Do not email or record the temporary password.
+  - use the automatic secure setup flow for future students and reserve manual temporary passwords for individual recovery cases.
+- Detailed note:
+  - `project-notes/2026-08-29-reiki-rising-masterclass-and-portal.md`
+
 ## Current Note
 ### Latest Save Point - Events Cleanup on July 10, 2026
 - Kate moved back from Reiki Rising into current website events.

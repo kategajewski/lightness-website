@@ -79,7 +79,7 @@ export const offers: Offer[] = [
       "Live calls are Wednesdays at 7:00 PM (Eastern Time)",
       "Telegram support remains open through the final week",
       "Certification requires live Level 1 and Level 2 placements",
-      "Every student receives a complimentary 45-minute private session with Kate and chooses the focus",
+      "Every student receives a complimentary 45-minute private session with Kate for Reiki, guidance, practice support, business support or integration",
     ],
     detail:
       "Every Reiki Rising student receives a complimentary 45-minute private session with Kate. Choose to receive Reiki, ask for personal guidance, explore business questions or receive support with practice and integration.",

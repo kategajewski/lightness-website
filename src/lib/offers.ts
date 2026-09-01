@@ -67,7 +67,7 @@ export const offers: Offer[] = [
     name: "Reiki Rising Fall 2026",
     category: "course",
     format: "one_time",
-    priceLabel: "Early Bird $888 or 5 monthly payments of $200",
+    priceLabel: "$1,111 or 4 monthly payments of $303",
     description:
       "A 10-week Reiki 1 and Reiki 2 certification journey with weekly prerecorded teachings, live support calls, placements, practice and community integration.",
     audience:

@@ -65,20 +65,11 @@ const liveCallMap = [
 
 const pricingOptions = [
   {
-    title: "Early Bird Enrollment",
-    price: "$888 paid in full",
-    plan: "or 5 monthly payments of $200 ($1,000 total)",
-    note:
-      "Available through August 31, 2026. The fixed payment plan ends automatically after the fifth payment.",
-    bonus:
-      "Includes a complimentary 45-minute private Reiki support session with Kate.",
-  },
-  {
-    title: "Regular Enrollment",
+    title: "Enrollment",
     price: "$1,111 paid in full",
     plan: "or 4 monthly payments of $303 ($1,212 total)",
     note:
-      "Begins after Early Bird closes. The fixed payment plan ends automatically after the fourth payment.",
+      "The fixed payment plan ends automatically after the fourth payment.",
     bonus:
       "Includes a complimentary 45-minute private Reiki support session with Kate.",
   },
@@ -192,7 +183,7 @@ export default function ReikiRisingPage() {
             the work unfolds.
           </p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4">
           {pricingOptions.map((option) => (
             <article
               key={option.title}

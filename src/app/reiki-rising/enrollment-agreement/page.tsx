@@ -52,8 +52,7 @@ const sections = [
     title: "3. Tuition Options",
     body: [
       "The student agrees to the tuition option selected during checkout.",
-      "Early Bird options available through August 31, 2026 are $888 paid in full or five monthly payments of $200 totaling $1,000.",
-      "Regular enrollment options beginning September 1, 2026 are $1,111 paid in full or four monthly payments of $303 totaling $1,212.",
+      "Enrollment options are $1,111 paid in full or four monthly payments of $303 totaling $1,212.",
       "For payment plans, the first payment is charged at enrollment. The remaining payments are charged monthly through Stripe.",
       "Payment plans are fixed installment plans. They are not monthly memberships and do not automatically renew after the final payment.",
     ],

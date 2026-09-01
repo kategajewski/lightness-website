@@ -77,10 +77,15 @@ export default function CoursesPage() {
             </h2>
             <p className="mt-4 text-[var(--color-muted)]">{path.description}</p>
             <p className="mt-4 text-[var(--color-muted)]">{path.details}</p>
-            <div className="mt-6">
+            <div className="mt-6 flex flex-wrap gap-3">
               <Link href={path.href} className="button-pill">
                 {path.cta}
               </Link>
+              {path.title === "Reiki Rising" ? (
+                <Link href={site.links.reikiMasterclass} className="button-pill">
+                  Explore the $11 Reiki Masterclass
+                </Link>
+              ) : null}
             </div>
           </article>
         ))}

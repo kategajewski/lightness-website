@@ -79,10 +79,10 @@ export const offers: Offer[] = [
       "Live calls are Wednesdays at 7:00 PM (Eastern Time)",
       "Telegram support remains open through the final week",
       "Certification requires live Level 1 and Level 2 placements",
-      "Every student receives a complimentary 45-minute private Reiki support session with Kate",
+      "Every student receives a complimentary 45-minute private session with Kate and chooses the focus",
     ],
     detail:
-      "Every Reiki Rising student receives a complimentary 45-minute private Reiki support session with Kate to use during the training or within one week after the program ends.",
+      "Every Reiki Rising student receives a complimentary 45-minute private session with Kate. Choose to receive Reiki, ask for personal guidance, explore business questions or receive support with practice and integration.",
     image:
       "/homepage-images/ghl-reiki-rising.webp",
     href: "/checkout/reiki-rising",
@@ -95,7 +95,7 @@ export const offers: Offer[] = [
         label: "Early Bird Pay in Full",
         priceLabel: "$888 one-time",
         description:
-          "Pay in full by August 31 to reserve your place. Your enrollment includes a complimentary 45-minute private Reiki support session with Kate.",
+          "Pay in full by August 31 to reserve your place. Your enrollment includes a complimentary 45-minute private session with Kate and you choose the focus.",
         mode: "payment",
         stripePriceId: env.stripePriceReikiRising,
         amountCents: 88800,
@@ -106,7 +106,7 @@ export const offers: Offer[] = [
         label: "Early Bird Payment Plan",
         priceLabel: "5 monthly payments of $200 ($1,000 total)",
         description:
-          "Choose this fixed five-payment plan by August 31 to reserve your place. Your enrollment includes a complimentary 45-minute private Reiki support session with Kate. Billing ends automatically after the fifth payment.",
+          "Choose this fixed five-payment plan by August 31 to reserve your place. Your enrollment includes a complimentary 45-minute private session with Kate and you choose the focus. Billing ends automatically after the fifth payment.",
         mode: "subscription",
         amountCents: 20000,
         installmentCount: 5,
@@ -117,7 +117,7 @@ export const offers: Offer[] = [
         label: "Regular Pay in Full",
         priceLabel: "$1,111 one-time",
         description:
-          "Pay the regular enrollment price in full to reserve your place. Your enrollment includes a complimentary 45-minute private Reiki support session with Kate.",
+          "Pay the regular enrollment price in full to reserve your place. Your enrollment includes a complimentary 45-minute private session with Kate and you choose the focus.",
         mode: "payment",
         amountCents: 111100,
         availableFrom: REIKI_REGULAR_ENROLLMENT_START,
@@ -127,7 +127,7 @@ export const offers: Offer[] = [
         label: "Regular Payment Plan",
         priceLabel: "4 monthly payments of $303 ($1,212 total)",
         description:
-          "Choose this fixed four-payment plan to reserve your place. Your enrollment includes a complimentary 45-minute private Reiki support session with Kate. Billing ends automatically after the fourth payment.",
+          "Choose this fixed four-payment plan to reserve your place. Your enrollment includes a complimentary 45-minute private session with Kate and you choose the focus. Billing ends automatically after the fourth payment.",
         mode: "subscription",
         amountCents: 30300,
         installmentCount: 4,

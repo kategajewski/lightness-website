@@ -71,7 +71,7 @@ const pricingOptions = [
     note:
       "The fixed payment plan ends automatically after the fourth payment.",
     bonus:
-      "Includes a complimentary 45-minute private Reiki support session with Kate.",
+      "Enrollment also includes a complimentary 45-minute private session with Kate. You choose the focus.",
   },
 ] as const;
 
@@ -90,6 +90,11 @@ const faqs = [
     question: "Will I receive certification?",
     answer:
       "Yes. Reiki Rising is structured as a Reiki 1 and Reiki 2 certification path with placements, practice, and integration. To receive certification, students must receive the Level 1 and Level 2 placements live. For each level, one additional group make-up placement is included if you cannot attend the Wednesday evening placement. If you need a personal private placement instead, it may be scheduled during office hours for $50 remotely or $75 in person.",
+  },
+  {
+    question: "Will we cover how to begin building a Reiki business?",
+    answer:
+      "Yes. Week 10 includes videos introducing the foundations of beginning a Reiki business. Throughout the program, you can bring any business questions into the Telegram chat for guidance and support. Business is explored in much greater depth at the Master level, while Reiki Rising gives you a grounded place to begin.",
   },
 ] as const;
 
@@ -238,14 +243,16 @@ export default function ReikiRisingPage() {
         </h2>
         <div className="mt-5 grid gap-4 text-[var(--color-muted)] lg:grid-cols-2">
           <p>
-            Every Reiki Rising student receives a complimentary 45-minute
-            private Reiki support session with Kate.
+            Every Reiki Rising student also receives a complimentary 45-minute
+            private session with Kate and chooses the focus that feels most
+            supportive.
           </p>
           <p>
-            Use it for Reiki healing, Reiki coaching, practice questions,
-            energetic support, or integration as you move through the journey.
-            Your session may be used during the training or within one week
-            after the program ends. The session expires December 12, 2026.
+            Your session can be used to receive Reiki, ask for deeper personal
+            guidance, explore business questions, receive practice support or
+            integrate what is unfolding through the training. It may be used
+            during the program or within one week after it ends. The session
+            expires December 12, 2026.
           </p>
         </div>
       </section>

@@ -1124,6 +1124,7 @@ function getOfferPurchaseEmailContent(
         "Use the Purchase Reiki Level 1 & 2 Textbook button below to order the required book before the program begins.",
         "The bookstore automatically selects the digital edition, so please choose whether you would like the digital book, printed book, or both before completing your purchase.",
         "You may also want to choose a special notebook or journal for reflections, practice notes, and questions throughout your Reiki Rising journey.",
+        "Your enrollment also includes a complimentary 45-minute private session with Kate. You can choose to focus on receiving Reiki, personal guidance, practice support, business support or integration.",
         "You'll receive another email closer to the start date with preparation guidance, the Telegram community link, and everything you need for your first week.",
       ].filter(Boolean) as string[],
       href: setupHref,

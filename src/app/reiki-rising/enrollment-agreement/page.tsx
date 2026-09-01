@@ -133,8 +133,8 @@ const sections = [
   {
     title: "12. Private Support Session",
     body: [
-      "Every enrolled student receives one complimentary 45-minute private Reiki support session with Kate.",
-      "The session may be used during Reiki Rising or within one week after the program ends. It expires on December 12, 2026 and has no cash value. The session is not transferable.",
+      "Every enrolled student receives one additional complimentary 45-minute private session with Kate and may choose the focus.",
+      "The session may focus on receiving Reiki, personal guidance, practice support, business support or integration. It may be used during Reiki Rising or within one week after the program ends. It expires on December 12, 2026 and has no cash value. The session is not transferable.",
     ],
   },
   {

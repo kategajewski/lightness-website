@@ -143,21 +143,9 @@ export default function ReikiRisingPage() {
               viewBox="0 0 640 760"
               fill="none"
             >
-              <defs>
-                <linearGradient id="heroPeachRibbon" x1="34" y1="650" x2="668" y2="650" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#E6C2A2" stopOpacity="0" />
-                  <stop offset="0.2" stopColor="#E6C2A2" stopOpacity="0.72" />
-                  <stop offset="0.78" stopColor="#E6C2A2" stopOpacity="0.82" />
-                  <stop offset="1" stopColor="#E6C2A2" stopOpacity="0" />
-                </linearGradient>
-              </defs>
               <path
                 d="M238 76C87 82 5 208 54 384C94 526 196 611 303 592C217 480 194 220 376 102C333 82 285 72 238 76Z"
                 fill="#A8B29F"
-              />
-              <path
-                d="M40 710C208 586 407 510 668 542C548 565 444 628 345 724C227 754 126 746 40 710Z"
-                fill="url(#heroPeachRibbon)"
               />
               <path
                 d="M88 553C49 366 136 155 337 105C497 65 624 176 614 348C606 493 489 638 314 655"
@@ -171,17 +159,42 @@ export default function ReikiRisingPage() {
                 strokeWidth="1.1"
                 strokeLinecap="round"
               />
-              <path
-                d="M176 710C323 578 468 525 660 559"
-                stroke="rgba(255,255,255,0.55)"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-              />
             </svg>
             <div className="relative mx-auto aspect-[4/5] w-[82%] overflow-hidden rounded-[49%_51%_46%_54%/43%_45%_55%_57%] border-[5px] border-[#f8f1e8] shadow-[0_30px_70px_rgba(59,41,31,0.16)]">
               <Image src="/homepage-images/reiki-rising-kate-hands-raised-soft.png" alt="Kate Gajewski offering Reiki with both hands raised" fill priority sizes="(max-width: 1024px) 82vw, 520px" className="object-cover object-center" />
               <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,transparent_45%,rgba(72,52,39,0.1)_100%)]" />
             </div>
+            <svg
+              aria-hidden="true"
+              className="pointer-events-none absolute -inset-[10%] h-[120%] w-[120%] overflow-visible"
+              viewBox="0 0 640 760"
+              fill="none"
+            >
+              <defs>
+                <linearGradient id="heroPeachWisp" x1="-24" y1="690" x2="690" y2="492" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#E6C2A2" stopOpacity="0" />
+                  <stop offset="0.18" stopColor="#E6C2A2" stopOpacity="0.28" />
+                  <stop offset="0.54" stopColor="#E6C2A2" stopOpacity="0.56" />
+                  <stop offset="0.86" stopColor="#E6C2A2" stopOpacity="0.36" />
+                  <stop offset="1" stopColor="#E6C2A2" stopOpacity="0" />
+                </linearGradient>
+                <filter id="heroWispSoftness" x="-10%" y="-18%" width="120%" height="136%">
+                  <feGaussianBlur stdDeviation="3" />
+                </filter>
+              </defs>
+              <path
+                d="M-24 711C96 670 176 596 273 536C386 467 512 449 689 489C560 528 482 590 410 659C315 751 159 777-24 711Z"
+                fill="url(#heroPeachWisp)"
+                filter="url(#heroWispSoftness)"
+              />
+              <path
+                d="M8 721C138 658 230 572 347 520C449 475 561 466 690 496C556 535 480 596 409 662C310 753 170 778 8 721Z"
+                fill="url(#heroPeachWisp)"
+                opacity="0.68"
+              />
+              <path d="M25 713C169 621 301 517 479 489C565 475 630 487 690 507" stroke="rgba(255,255,255,0.68)" strokeWidth="1.25" strokeLinecap="round" />
+              <path d="M97 742C238 645 355 559 514 528C582 515 640 519 694 536" stroke="rgba(255,255,255,0.48)" strokeWidth="1" strokeLinecap="round" />
+            </svg>
             {["left-[2%] top-[19%] h-2 w-2", "right-[1%] top-[30%] h-3 w-3", "left-[12%] bottom-[10%] h-3 w-3", "right-[12%] bottom-[5%] h-2 w-2"].map((position) => (
               <span key={position} aria-hidden="true" className={`absolute ${position} rounded-full bg-[#fff9dc] shadow-[0_0_18px_7px_rgba(255,239,180,0.78)]`} />
             ))}

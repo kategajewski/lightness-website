@@ -137,10 +137,39 @@ export default function ReikiRisingPage() {
           </div>
 
           <div className="relative mx-auto w-full max-w-[36rem] lg:mr-0 lg:max-w-[39rem]">
-            <div aria-hidden="true" className="absolute -left-[7%] top-[8%] h-[84%] w-[75%] rotate-[-10deg] rounded-[48%_52%_43%_57%/57%_42%_58%_43%] bg-[#a8b29f]" />
-            <div aria-hidden="true" className="absolute -right-[5%] bottom-[3%] h-[63%] w-[72%] rotate-[11deg] rounded-[55%_45%_62%_38%/42%_58%_42%_58%] bg-[#e6c2a2]" />
-            <div aria-hidden="true" className="absolute -inset-[4%] rounded-[49%] border border-white/45" />
-            <div aria-hidden="true" className="absolute inset-[3%] rounded-[49%] border border-white/40" />
+            <svg
+              aria-hidden="true"
+              className="absolute -inset-[10%] h-[120%] w-[120%] overflow-visible"
+              viewBox="0 0 640 760"
+              fill="none"
+            >
+              <path
+                d="M238 76C87 82 5 208 54 384C94 526 196 611 303 592C217 480 194 220 376 102C333 82 285 72 238 76Z"
+                fill="#A8B29F"
+              />
+              <path
+                d="M92 673C230 566 392 505 657 527L672 773H27C30 744 52 706 92 673Z"
+                fill="#E6C2A2"
+              />
+              <path
+                d="M88 553C49 366 136 155 337 105C497 65 624 176 614 348C606 493 489 638 314 655"
+                stroke="rgba(255,255,255,0.72)"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
+              <path
+                d="M20 472C130 215 425 81 601 251C733 379 565 627 260 685"
+                stroke="rgba(255,255,255,0.48)"
+                strokeWidth="1.1"
+                strokeLinecap="round"
+              />
+              <path
+                d="M176 710C323 578 468 525 660 559"
+                stroke="rgba(255,255,255,0.55)"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+              />
+            </svg>
             <div className="relative mx-auto aspect-[4/5] w-[82%] overflow-hidden rounded-[49%_51%_46%_54%/43%_45%_55%_57%] border-[5px] border-[#f8f1e8] shadow-[0_30px_70px_rgba(59,41,31,0.16)]">
               <Image src="/homepage-images/reiki-rising-kate-hands-raised-soft.png" alt="Kate Gajewski offering Reiki with both hands raised" fill priority sizes="(max-width: 1024px) 82vw, 520px" className="object-cover object-center" />
               <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,transparent_45%,rgba(72,52,39,0.1)_100%)]" />
@@ -228,22 +257,28 @@ export default function ReikiRisingPage() {
           {pricingOptions.map((option) => (
             <article
               key={option.title}
-              className="relative overflow-hidden rounded-[42%_58%_52%_48%/38%_45%_55%_62%] bg-[#e6c2a2] p-9 sm:p-12"
+              className="relative overflow-hidden rounded-[32px] bg-[#e6c2a2] p-9 shadow-[0_22px_55px_rgba(76,58,48,0.08)] sm:p-12"
             >
-              <span className="mb-3 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+              <svg aria-hidden="true" className="absolute -right-14 -top-12 h-[115%] w-[72%] text-white/50" viewBox="0 0 360 420" fill="none">
+                <path d="M321 -22C169 74 334 151 205 244C87 329 160 390 338 438" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                <path d="M386 27C244 112 320 196 167 278C67 332 99 391 252 437" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+              </svg>
+              <span aria-hidden="true" className="absolute right-[14%] top-[17%] h-2 w-2 rounded-full bg-[#fff9dc] shadow-[0_0_14px_5px_rgba(255,239,180,0.72)]" />
+              <span aria-hidden="true" className="absolute bottom-[14%] right-[31%] h-1.5 w-1.5 rounded-full bg-[#fff9dc] shadow-[0_0_12px_4px_rgba(255,239,180,0.62)]" />
+              <span className="relative mb-3 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
                 {option.title}
               </span>
-              <strong className="block text-[1.5rem] font-semibold leading-tight text-[var(--color-text)]">
+              <strong className="relative block text-[1.5rem] font-semibold leading-tight text-[var(--color-text)]">
                 {option.price}
               </strong>
-              <p className="mt-2 text-[0.95rem] text-[var(--color-muted)]">
+              <p className="relative mt-2 text-[0.95rem] text-[var(--color-muted)]">
                 {option.plan}
               </p>
-              <p className="mt-3 text-[0.92rem] text-[var(--color-muted)]">
+              <p className="relative mt-3 text-[0.92rem] text-[var(--color-muted)]">
                 {option.note}
               </p>
               {option.bonus ? (
-                <p className="mt-3 rounded-[18px] bg-[rgba(231,206,177,0.32)] px-4 py-3 text-[0.92rem] font-medium text-[var(--color-text)]">
+                <p className="relative mt-5 rounded-[20px] bg-[rgba(255,250,245,0.52)] px-5 py-4 text-[0.92rem] font-medium leading-6 text-[var(--color-text)]">
                   {option.bonus}
                 </p>
               ) : null}

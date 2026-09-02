@@ -166,7 +166,7 @@ export default function ReikiRisingPage() {
             </div>
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 left-[9%] right-[9%] bg-[linear-gradient(118deg,#f3d1bd_10%,#e6b99d_54%,#df9f82_100%)] opacity-75"
+              className="pointer-events-none absolute -left-[20%] right-0 -inset-y-[10%] bg-[linear-gradient(118deg,#f3d1bd_10%,#e6b99d_54%,#df9f82_100%)] opacity-75"
               style={{
                 maskImage: "url('/homepage-images/reiki-rising-living-light-wisp-mask.png')",
                 maskMode: "luminance",

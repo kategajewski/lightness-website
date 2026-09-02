@@ -143,13 +143,21 @@ export default function ReikiRisingPage() {
               viewBox="0 0 640 760"
               fill="none"
             >
+              <defs>
+                <linearGradient id="heroPeachRibbon" x1="34" y1="650" x2="668" y2="650" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#E6C2A2" stopOpacity="0" />
+                  <stop offset="0.2" stopColor="#E6C2A2" stopOpacity="0.72" />
+                  <stop offset="0.78" stopColor="#E6C2A2" stopOpacity="0.82" />
+                  <stop offset="1" stopColor="#E6C2A2" stopOpacity="0" />
+                </linearGradient>
+              </defs>
               <path
                 d="M238 76C87 82 5 208 54 384C94 526 196 611 303 592C217 480 194 220 376 102C333 82 285 72 238 76Z"
                 fill="#A8B29F"
               />
               <path
-                d="M92 673C230 566 392 505 657 527L672 773H27C30 744 52 706 92 673Z"
-                fill="#E6C2A2"
+                d="M40 710C208 586 407 510 668 542C548 565 444 628 345 724C227 754 126 746 40 710Z"
+                fill="url(#heroPeachRibbon)"
               />
               <path
                 d="M88 553C49 366 136 155 337 105C497 65 624 176 614 348C606 493 489 638 314 655"

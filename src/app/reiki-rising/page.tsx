@@ -164,37 +164,17 @@ export default function ReikiRisingPage() {
               <Image src="/homepage-images/reiki-rising-kate-hands-raised-soft.png" alt="Kate Gajewski offering Reiki with both hands raised" fill priority sizes="(max-width: 1024px) 82vw, 520px" className="object-cover object-center" />
               <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,transparent_45%,rgba(72,52,39,0.1)_100%)]" />
             </div>
-            <svg
+            <div
               aria-hidden="true"
-              className="pointer-events-none absolute -inset-[10%] h-[120%] w-[120%] overflow-visible"
-              viewBox="0 0 640 760"
-              fill="none"
-            >
-              <defs>
-                <linearGradient id="heroPeachWisp" x1="-24" y1="690" x2="690" y2="492" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#E6C2A2" stopOpacity="0" />
-                  <stop offset="0.18" stopColor="#E6C2A2" stopOpacity="0.28" />
-                  <stop offset="0.54" stopColor="#E6C2A2" stopOpacity="0.56" />
-                  <stop offset="0.86" stopColor="#E6C2A2" stopOpacity="0.36" />
-                  <stop offset="1" stopColor="#E6C2A2" stopOpacity="0" />
-                </linearGradient>
-                <filter id="heroWispSoftness" x="-10%" y="-18%" width="120%" height="136%">
-                  <feGaussianBlur stdDeviation="3" />
-                </filter>
-              </defs>
-              <path
-                d="M-24 711C96 670 176 596 273 536C386 467 512 449 689 489C560 528 482 590 410 659C315 751 159 777-24 711Z"
-                fill="url(#heroPeachWisp)"
-                filter="url(#heroWispSoftness)"
-              />
-              <path
-                d="M8 721C138 658 230 572 347 520C449 475 561 466 690 496C556 535 480 596 409 662C310 753 170 778 8 721Z"
-                fill="url(#heroPeachWisp)"
-                opacity="0.68"
-              />
-              <path d="M25 713C169 621 301 517 479 489C565 475 630 487 690 507" stroke="rgba(255,255,255,0.68)" strokeWidth="1.25" strokeLinecap="round" />
-              <path d="M97 742C238 645 355 559 514 528C582 515 640 519 694 536" stroke="rgba(255,255,255,0.48)" strokeWidth="1" strokeLinecap="round" />
-            </svg>
+              className="pointer-events-none absolute -inset-[10%] h-[120%] w-[120%] bg-[linear-gradient(118deg,#f3d1bd_10%,#e6b99d_54%,#df9f82_100%)] opacity-75"
+              style={{
+                maskImage: "url('/homepage-images/reiki-rising-living-light-wisp-mask.png')",
+                maskMode: "luminance",
+                maskPosition: "center",
+                maskRepeat: "no-repeat",
+                maskSize: "100% 100%",
+              }}
+            />
             {["left-[2%] top-[19%] h-2 w-2", "right-[1%] top-[30%] h-3 w-3", "left-[12%] bottom-[10%] h-3 w-3", "right-[12%] bottom-[5%] h-2 w-2"].map((position) => (
               <span key={position} aria-hidden="true" className={`absolute ${position} rounded-full bg-[#fff9dc] shadow-[0_0_18px_7px_rgba(255,239,180,0.78)]`} />
             ))}

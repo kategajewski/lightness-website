@@ -1,19 +1,19 @@
+import Image from "next/image";
 import Link from "next/link";
-import { PageShell } from "@/components/page-shell";
 import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = createPageMetadata({
   title: "Reiki Rising Online Reiki Training",
-  description: "A 10-week online Reiki training with Kate Gajewski combining weekly modules, live support, personal healing, embodied practice, and practitioner development.",
+  description: "A 10-week online Reiki training with Kate Gajewski combining weekly modules, live support, personal healing, embodied practice and practitioner development.",
   path: "/reiki-rising",
-  image: "/homepage-images/ghl-reiki-rising.webp",
+  image: "/homepage-images/reiki-rising-kate-hands-raised-soft.png",
 });
 
 const programFeatures = [
   "10 prerecorded weekly modules released every Sunday",
   "Live support calls on Wednesdays at 7:00 PM (Eastern Time)",
-  "A private student portal with replays, materials, and weekly guidance",
+  "A private student portal with replays, materials and weekly guidance",
   "Telegram community support through Saturday, December 5, 2026",
   "A grounded Reiki 1 and Reiki 2 learning path with time for integration",
 ] as const;
@@ -38,21 +38,21 @@ const scheduleItems = [
 ] as const;
 
 const moduleMap = [
-  "The foundations of Reiki, how Reiki can feel, Reiki history, and the science behind energy healing",
-  "Chakras, the aura, meridians, and how energy can show up in the body",
-  "Grounding, shielding, and creating energetic safety",
-  "The Three Pillars of Reiki, self-Reiki, and hand positions",
-  "Sharing Reiki with others, animals, plants, food, and water",
+  "The foundations of Reiki, how Reiki can feel, Reiki history and the science behind energy healing",
+  "Chakras, the aura, meridians and how energy can show up in the body",
+  "Grounding, shielding and creating energetic safety",
+  "The Three Pillars of Reiki, self-Reiki and hand positions",
+  "Sharing Reiki with others, animals, plants, food and water",
   "Reiki symbols and Cho Ku Rei",
-  "Sei He Ki, Koki-ho, and Gyoshi Ho",
+  "Sei He Ki, Koki-ho and Gyoshi Ho",
   "Hon Sha Ze Sho Nen and distant Reiki",
   "Practicing a full Reiki session with symbols and documentation",
-  "Bringing Reiki into the world, business foundations, and psychic surgery",
+  "Bringing Reiki into the world, business foundations and psychic surgery",
 ] as const;
 
 const liveCallMap = [
-  "Welcome, Q&A, and Ocean of Holy Love experience",
-  "Additional chakra teaching, toning, and Q&A",
+  "Welcome, Q&A and Ocean of Holy Love experience",
+  "Additional chakra teaching, toning and Q&A",
   "Grounding cord and coil meditation with Q&A",
   "Level One placement and support",
   "Self-Reiki practice support",
@@ -60,7 +60,7 @@ const liveCallMap = [
   "Level Two placement and support",
   "Guided remote Reiki practice",
   "Breakout rooms for sharing Reiki and reflection",
-  "Final Q&A, closing reflections, and next steps",
+  "Final Q&A, closing reflections and next steps",
 ] as const;
 
 const pricingOptions = [
@@ -84,12 +84,12 @@ const faqs = [
   {
     question: "Is this self-paced?",
     answer:
-      "No. Reiki Rising uses weekly module drops and live calls so the experience feels held, paced, and supported while still giving you time to watch and practice between calls.",
+      "No. Reiki Rising uses weekly module drops and live calls so the experience feels held, paced and supported while still giving you time to watch and practice between calls.",
   },
   {
     question: "Will I receive certification?",
     answer:
-      "Yes. Reiki Rising is structured as a Reiki 1 and Reiki 2 certification path with placements, practice, and integration. To receive certification, students must receive the Level 1 and Level 2 placements live. For each level, one additional group make-up placement is included if you cannot attend the Wednesday evening placement. If you need a personal private placement instead, it may be scheduled during office hours for $50 remotely or $75 in person.",
+      "Yes. Reiki Rising is structured as a Reiki 1 and Reiki 2 certification path with placements, practice and integration. To receive certification, students must receive the Level 1 and Level 2 placements live. For each level, one additional group make-up placement is included if you cannot attend the Wednesday evening placement. If you need a personal private placement instead, it may be scheduled during office hours for $50 remotely or $75 in person.",
   },
   {
     question: "Will we cover how to begin building a Reiki business?",
@@ -109,67 +109,103 @@ const certificationRequirements = [
 
 export default function ReikiRisingPage() {
   return (
-    <PageShell
-      title="Join The Reiki Rising Experience"
-    >
-      <section className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-        <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
-          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            Fall 2026 Cohort
-          </span>
-          <h2 className="display-section-title">
-            Learn Reiki with structure, spaciousness, and support between every step.
-          </h2>
-          <p className="mt-5 max-w-[42rem] text-[1.03rem] text-[var(--color-muted)]">
-            Reiki Rising is for students who want more than a quick class. This
-            cohort gives you time to receive the teachings, practice with the
-            energy, ask questions, and integrate Reiki into your life in a
-            grounded way.
-          </p>
-          <ul className="mt-8 grid gap-3 text-[var(--color-muted)]">
-            {programFeatures.map((feature) => (
-              <li key={feature} className="flex gap-3">
-                <span className="mt-2 h-2 w-2 rounded-full bg-[rgba(93,81,72,0.8)]" />
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/checkout/reiki-rising" className="button-pill">
-              View Enrollment Options
-            </Link>
-            <Link href={site.links.mentorship} className="button-pill">
-              Explore 1:1 Mentorship
+    <main className="overflow-hidden bg-[#f6f0e8] text-[#2f2520]">
+      <section className="relative isolate px-5 pb-14 pt-10 sm:px-8 lg:px-10 lg:pb-20 lg:pt-16">
+        <div aria-hidden="true" className="absolute -left-28 top-28 -z-10 h-72 w-72 rounded-full bg-[rgba(230,194,162,0.18)] blur-2xl" />
+        <div className="mx-auto grid w-full max-w-[1180px] gap-12 lg:grid-cols-[0.93fr_1.07fr] lg:items-center lg:gap-7">
+          <div className="relative z-10 lg:pb-10">
+            <p className="text-[0.7rem] font-bold uppercase tracking-[0.22em] text-[#695a51]">
+              Fall 2026 · Live Online
+            </p>
+            <h1 className="mt-6 font-display text-[clamp(5rem,12vw,9.6rem)] font-light uppercase leading-[0.72] tracking-[-0.045em] text-[#332923]">
+              <span className="block">Reiki</span>
+              <span className="block">Rising</span>
+            </h1>
+            <svg aria-hidden="true" className="mt-8 h-5 w-[min(22rem,80vw)] text-[#d7a884]" viewBox="0 0 360 24" fill="none">
+              <path d="M3 16.5C72 3 139 7.5 190 13s101 7 167-3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+            <p className="mt-5 font-display text-[clamp(2rem,3.7vw,3.25rem)] font-normal leading-none text-[#66725d]">
+              Learn. Practice. Integrate.
+            </p>
+            <p className="mt-5 max-w-[31rem] text-[1rem] leading-7 text-[#5b4c44] sm:text-[1.05rem]">
+              A 10-week Reiki One and Reiki Two certification journey with
+              space to receive, practice and become.
+            </p>
+            <Link href="#discover" className="mt-8 inline-flex min-h-14 items-center justify-center rounded-full bg-[#4c3a30] px-7 text-[0.75rem] font-bold uppercase tracking-[0.18em] !text-white shadow-[0_14px_35px_rgba(76,58,48,0.2)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#5d493d]">
+              Discover Reiki Rising
             </Link>
           </div>
-        </div>
 
-        <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
-          <img
-            src="/homepage-images/reiki-rising-kate-hands-raised.jpeg"
-            alt="Kate Gajewski offering Reiki with both hands raised"
-            className="block aspect-[4/5] w-full object-cover object-center"
-          />
+          <div className="relative mx-auto w-full max-w-[36rem] lg:mr-0 lg:max-w-[39rem]">
+            <div aria-hidden="true" className="absolute -left-[7%] top-[8%] h-[84%] w-[75%] rotate-[-10deg] rounded-[48%_52%_43%_57%/57%_42%_58%_43%] bg-[#a8b29f]" />
+            <div aria-hidden="true" className="absolute -right-[5%] bottom-[3%] h-[63%] w-[72%] rotate-[11deg] rounded-[55%_45%_62%_38%/42%_58%_42%_58%] bg-[#e6c2a2]" />
+            <div aria-hidden="true" className="absolute -inset-[4%] rounded-[49%] border border-white/45" />
+            <div aria-hidden="true" className="absolute inset-[3%] rounded-[49%] border border-white/40" />
+            <div className="relative mx-auto aspect-[4/5] w-[82%] overflow-hidden rounded-[49%_51%_46%_54%/43%_45%_55%_57%] border-[5px] border-[#f8f1e8] shadow-[0_30px_70px_rgba(59,41,31,0.16)]">
+              <Image src="/homepage-images/reiki-rising-kate-hands-raised-soft.png" alt="Kate Gajewski offering Reiki with both hands raised" fill priority sizes="(max-width: 1024px) 82vw, 520px" className="object-cover object-center" />
+              <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,transparent_45%,rgba(72,52,39,0.1)_100%)]" />
+            </div>
+            {["left-[2%] top-[19%] h-2 w-2", "right-[1%] top-[30%] h-3 w-3", "left-[12%] bottom-[10%] h-3 w-3", "right-[12%] bottom-[5%] h-2 w-2"].map((position) => (
+              <span key={position} aria-hidden="true" className={`absolute ${position} rounded-full bg-[#fff9dc] shadow-[0_0_18px_7px_rgba(255,239,180,0.78)]`} />
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="grid gap-5 lg:grid-cols-4">
+      <div className="border-y border-[rgba(76,58,48,0.12)] bg-[#ead2bd] px-5 py-5">
+        <div className="mx-auto grid max-w-[960px] grid-cols-3 text-center font-display text-[clamp(1.25rem,2.2vw,1.85rem)] uppercase tracking-[0.08em] text-[#4c3a30]">
+          <span>Learn.</span>
+          <span className="border-x border-[rgba(76,58,48,0.18)]">Practice.</span>
+          <span>Integrate.</span>
+        </div>
+      </div>
+
+      <div id="discover" className="mx-auto flex w-full max-w-[1180px] scroll-mt-24 flex-col gap-16 px-5 py-20 sm:px-8 lg:gap-20 lg:px-10 lg:py-24">
+        <section className="grid gap-10 lg:grid-cols-[0.84fr_1.16fr] lg:gap-20">
+          <div>
+            <p className="text-[0.7rem] font-bold uppercase tracking-[0.22em] text-[#695a51]">The Journey</p>
+            <h2 className="mt-5 max-w-[30rem] font-display text-[clamp(2.8rem,5vw,4.75rem)] font-light leading-[0.93]">
+              More than a quick class. A space to truly meet the energy.
+            </h2>
+          </div>
+          <div className="lg:pt-10">
+            <p className="max-w-[40rem] font-display text-[clamp(1.65rem,2.6vw,2.25rem)] font-light leading-[1.18] text-[#4c3a30]">
+              Reiki Rising gives you time to receive the teachings, practice
+              with the energy, ask questions and integrate Reiki into your life
+              in a grounded way.
+            </p>
+            <ul className="mt-9 grid gap-4 text-[#554842]">
+              {programFeatures.map((feature) => (
+                <li key={feature} className="flex items-start gap-4">
+                  <span className="mt-[0.55rem] h-2 w-2 shrink-0 rounded-full bg-[#91a087]" />
+                  <span className="leading-7">{feature}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-10 flex flex-wrap gap-3">
+              <Link href="/checkout/reiki-rising" className="button-pill">View Enrollment Options</Link>
+              <Link href={site.links.mentorship} className="button-pill">Explore 1:1 Mentorship</Link>
+            </div>
+          </div>
+        </section>
+
+      <section className="grid overflow-hidden rounded-[32px] bg-[#a8b29f] lg:grid-cols-4">
         {scheduleItems.map((item) => (
           <article
             key={item.label}
-            className="rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-6 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
+            className="border-b border-white/35 p-7 last:border-b-0 lg:min-h-44 lg:border-b-0 lg:border-r lg:last:border-r-0"
           >
             <span className="mb-3 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               {item.label}
             </span>
-            <p className="text-[1.02rem] font-semibold text-[var(--color-text)]">
+            <p className="font-display text-[1.5rem] font-normal leading-tight text-[#2f352b]">
               {item.value}
             </p>
           </article>
         ))}
       </section>
 
-      <section className="grid gap-6 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] lg:grid-cols-[0.95fr_1.05fr]">
+      <section className="grid gap-10 rounded-[36px] bg-[#efe1d3] p-8 sm:p-10 lg:grid-cols-[0.95fr_1.05fr] lg:p-14">
         <div>
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             The Format
@@ -179,12 +215,12 @@ export default function ReikiRisingPage() {
           </h2>
           <p className="mt-4 text-[var(--color-muted)]">
             New prerecorded modules are released every Sunday, giving you a few
-            days to watch, practice, reflect, and gather questions before the
+            days to watch, practice, reflect and gather questions before the
             Wednesday live support call.
           </p>
           <p className="mt-4 text-[var(--color-muted)]">
             The Telegram community remains open through the close of the final
-            week so you have a place for questions, reflections, and support as
+            week so you have a place for questions, reflections and support as
             the work unfolds.
           </p>
         </div>
@@ -192,7 +228,7 @@ export default function ReikiRisingPage() {
           {pricingOptions.map((option) => (
             <article
               key={option.title}
-              className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6"
+              className="relative overflow-hidden rounded-[42%_58%_52%_48%/38%_45%_55%_62%] bg-[#e6c2a2] p-9 sm:p-12"
             >
               <span className="mb-3 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
                 {option.title}
@@ -216,15 +252,15 @@ export default function ReikiRisingPage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-[52rem] overflow-hidden rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] shadow-[0_18px_55px_rgba(59,41,31,0.07)]">
-        <div className="p-6 sm:p-8">
+      <section className="mx-auto w-full max-w-[62rem] border-y border-[rgba(76,58,48,0.13)] py-12 sm:py-16">
+        <div className="text-center">
             <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               From a Reiki Rising Student
             </span>
-            <blockquote className="max-w-[44rem] font-[var(--font-cormorant)] text-[clamp(1.35rem,2.2vw,1.85rem)] font-light leading-[1.25] text-[var(--color-text)]">
+            <blockquote className="mx-auto max-w-[52rem] font-display text-[clamp(2rem,3.8vw,3.2rem)] font-light leading-[1.1] text-[#4c3a30]">
               &ldquo;My Reiki experience has been life changing. I look at life
               differently, appreciate Mother Nature more, listen to my
-              intuition, and take more time for myself. Reiki Rising meant
+              intuition and take more time for myself. Reiki Rising meant
               stepping outside of my comfort zone and following the pull to
               learn Reiki. I am so happy I pushed myself to do this.&rdquo;
             </blockquote>
@@ -234,12 +270,14 @@ export default function ReikiRisingPage() {
         </div>
       </section>
 
-      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+      <section className="relative overflow-hidden rounded-[36px] bg-[#d9c3be] p-8 sm:p-11 lg:p-14">
+        <div aria-hidden="true" className="absolute -bottom-24 -left-20 h-72 w-72 rounded-full border border-white/40" />
+        <div aria-hidden="true" className="absolute -bottom-10 -left-6 h-48 w-48 rounded-full border border-white/40" />
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
           Private Support Included
         </span>
         <h2 className="display-section-title">
-          Extra support inside the Reiki Rising container.
+          Your session. Your focus.
         </h2>
         <div className="mt-5 grid gap-4 text-[var(--color-muted)] lg:grid-cols-2">
           <p>
@@ -258,13 +296,13 @@ export default function ReikiRisingPage() {
       </section>
 
       <section className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
+        <div className="rounded-[34px] bg-[#a8b29f] p-8 sm:p-10">
           <h2 className="display-section-title">What We&apos;ll Explore</h2>
-          <ol className="mt-6 grid gap-3 text-[var(--color-muted)]">
+          <ol className="mt-7 grid text-[#3e463a]">
             {moduleMap.map((module, index) => (
-              <li key={module} className="flex gap-3">
-                <span className="font-semibold text-[var(--color-text)]">
-                  {index + 1}.
+              <li key={module} className="flex gap-3 border-t border-white/35 py-3.5">
+                <span className="font-display text-xl text-[#2f352b]">
+                  {String(index + 1).padStart(2, "0")}
                 </span>
                 <span>{module}</span>
               </li>
@@ -272,13 +310,13 @@ export default function ReikiRisingPage() {
           </ol>
         </div>
 
-        <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
+        <div className="rounded-[34px] bg-[#e6c2a2] p-8 sm:p-10">
           <h2 className="display-section-title">Live Support &amp; Integration</h2>
-          <ol className="mt-6 grid gap-3 text-[var(--color-muted)]">
+          <ol className="mt-7 grid text-[#554239]">
             {liveCallMap.map((call, index) => (
-              <li key={call} className="flex gap-3">
-                <span className="font-semibold text-[var(--color-text)]">
-                  {index + 1}.
+              <li key={call} className="flex gap-3 border-t border-white/35 py-3.5">
+                <span className="font-display text-xl text-[#4c3a30]">
+                  {String(index + 1).padStart(2, "0")}
                 </span>
                 <span>{call}</span>
               </li>
@@ -287,12 +325,14 @@ export default function ReikiRisingPage() {
         </div>
       </section>
 
-      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+      <section className="grid gap-10 py-4 lg:grid-cols-[0.68fr_1.32fr] lg:gap-20">
+        <div>
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
           FAQs
         </span>
         <h2 className="display-section-title">A few things you may be wondering.</h2>
-        <div className="mt-7 divide-y divide-[rgba(76,58,48,0.1)] border-y border-[rgba(76,58,48,0.1)]">
+        </div>
+        <div className="divide-y divide-[rgba(76,58,48,0.1)] border-y border-[rgba(76,58,48,0.1)]">
           {faqs.map((faq) => (
             <details key={faq.question} className="group py-1">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left [&::-webkit-details-marker]:hidden">
@@ -312,7 +352,7 @@ export default function ReikiRisingPage() {
         </div>
       </section>
 
-      <section className="grid gap-6 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] lg:grid-cols-[0.85fr_1.15fr]">
+      <section className="grid gap-8 rounded-[36px] bg-[#a8b29f] p-8 sm:p-10 lg:grid-cols-[0.85fr_1.15fr] lg:p-14">
         <div>
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Certification
@@ -322,11 +362,11 @@ export default function ReikiRisingPage() {
           </h2>
           <p className="mt-4 text-[var(--color-muted)]">
             These requirements are designed to help students receive the
-            teachings, practice the energy, and complete the training with
+            teachings, practice the energy and complete the training with
             grounded confidence.
           </p>
         </div>
-        <div className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6">
+        <div className="rounded-[28px] bg-[rgba(255,250,245,0.55)] p-6 sm:p-8">
           <ul className="grid gap-3 text-[var(--color-muted)]">
             {certificationRequirements.map((requirement) => (
               <li key={requirement} className="flex gap-3">
@@ -344,7 +384,9 @@ export default function ReikiRisingPage() {
         </div>
       </section>
 
-      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 text-center shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
+      <section className="relative overflow-hidden py-12 text-center lg:py-20">
+        <div aria-hidden="true" className="absolute left-1/2 top-1/2 -z-0 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(230,194,162,0.28)] blur-3xl" />
+        <div className="relative z-10">
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
           Enrollment
         </span>
@@ -353,7 +395,7 @@ export default function ReikiRisingPage() {
         </h2>
         <p className="mx-auto mt-4 max-w-[42rem] text-[var(--color-muted)]">
           Review the enrollment options, choose the payment rhythm that feels
-          aligned, and step into the next cohort with clarity and support.
+          aligned and step into the next cohort with clarity and support.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link href="/checkout/reiki-rising" className="button-pill">
@@ -366,7 +408,9 @@ export default function ReikiRisingPage() {
             Ask a Question
           </Link>
         </div>
+        </div>
       </section>
-    </PageShell>
+      </div>
+    </main>
   );
 }

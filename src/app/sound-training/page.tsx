@@ -67,12 +67,12 @@ export default function SoundTrainingPage() {
           </ul>
         </div>
 
-        <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
-          <div className="mx-auto w-full max-w-[20rem]">
+        <div className="mx-auto w-full max-w-[22.5rem] rounded-[32px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.58)] p-4 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-5">
+          <div className="w-full overflow-hidden rounded-[22px]">
             <img
               src="/homepage-images/moodysound.jpeg"
               alt="Sound healing training atmosphere"
-              className="block h-auto w-full rounded-[32px] object-contain object-center"
+              className="block h-auto w-full object-contain object-center"
             />
           </div>
         </div>

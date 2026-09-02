@@ -36,7 +36,7 @@ export default function AboutPage() {
       title="Meet the practitioner behind The Lightness of Being."
       description="Discover the path of Kate Gajewski, a holistic practitioner, teacher, and mentor whose work integrates energy medicine, sound healing, and hypnotherapy, offering deeply personalized support both in-person in Patchogue, New York, and remotely."
     >
-      <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
+      <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
         <div className="overflow-hidden rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(180deg,rgba(255,250,245,0.96),rgba(243,232,222,0.92))] p-6 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-8">
           <img
             src="/homepage-images/kate-about-current.jpeg"

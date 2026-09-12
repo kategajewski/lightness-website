@@ -1,5 +1,4 @@
 import { env } from "@/lib/env";
-import { reikiMasterclassAccess } from "@/lib/reiki-masterclass-access";
 import { site } from "@/lib/site";
 
 export type EventCheckoutConfig = {
@@ -19,37 +18,6 @@ export type EventCheckoutConfig = {
 };
 
 export const eventCheckoutConfig = {
-  "reiki-rising-masterclass-september-16-2026": {
-    slug: "reiki-rising-masterclass-september-16-2026",
-    name: "Called to Reiki",
-    description:
-      "Registration for Called to Reiki, a live Holy Fire® Reiki masterclass and healing experience with Kate. All purchases are final and non-refundable.",
-    amountCents: 1100,
-    successPath: "/checkout/success",
-    cancelPath: site.links.reikiMasterclass,
-    detailHref: site.links.reikiMasterclass,
-    confirmationTitle: "You're registered for Called to Reiki.",
-    confirmationDescription:
-      "Your place in the live Reiki masterclass and healing experience is confirmed. Watch your email for your Stripe receipt, access details and preparation notes.",
-    emailIntro:
-      "Your place is confirmed. I'm so glad you'll be joining me for Called to Reiki, a Holy Fire® Reiki masterclass and healing experience.",
-    emailDetailLines: [
-      "Date: Wednesday, September 16, 2026",
-      "Time: 7:00-8:15 PM Eastern Time",
-      "Format: Live online",
-      "Exchange: $11",
-      "Optional tuition credit: If Reiki Rising™ feels aligned afterward, your $11 registration can be applied toward tuition when you enroll by September 20, 2026.",
-      "Refund policy: All purchases are final and non-refundable.",
-    ],
-    emailReminderLines: [
-      `Join the private Google Meet: ${reikiMasterclassAccess.meetHref}`,
-      `Or dial: ${reikiMasterclassAccess.dialInText}. More phone numbers: ${reikiMasterclassAccess.morePhoneNumbersHref}`,
-      "Your confirmation email includes a Google Calendar link and an attached calendar file for Apple Calendar or Outlook.",
-      "Settle into a quiet, comfortable space. You may want water, a journal and headphones nearby.",
-      "No previous Reiki experience is needed.",
-      "Called to Reiki is a complete experience on its own. There is no expectation to continue into Reiki training.",
-    ],
-  },
   "rise-into-light": {
     slug: "rise-into-light",
     name: "Rise into Light",

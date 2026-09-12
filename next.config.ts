@@ -2,6 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["stripe"],
+  async redirects() {
+    return [
+      {
+        source: "/is-reiki-calling-you",
+        destination: "/reiki-rising",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

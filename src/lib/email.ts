@@ -8,11 +8,6 @@ import { getOfferBySlug } from "@/lib/offers";
 import type { PortalProvisioningResult } from "@/lib/portal-access";
 import type { ReikiQuizResult } from "@/lib/reiki-quiz-results";
 import {
-  reikiMasterclassAccess,
-  reikiMasterclassCalendarAttachment,
-  reikiMasterclassGoogleCalendarHref,
-} from "@/lib/reiki-masterclass-access";
-import {
   reikiRisingCalendarAttachment,
   reikiRisingGoogleCalendarHref,
   reikiRisingLiveCalls,
@@ -429,39 +424,6 @@ export async function sendReikiQuizResultEmail(
 }
 
 const eventEmailContent = {
-  "reiki-rising-masterclass-september-16-2026": {
-    title: "Called to Reiki",
-    intro:
-      "Your place is confirmed. I'm so glad you'll be joining me for Called to Reiki, a Holy Fire® Reiki masterclass and healing experience.",
-    detailLines: [
-      "Date: Wednesday, September 16, 2026",
-      "Time: 7:00-8:15 PM Eastern Time",
-      "Format: Live online through Google Meet",
-      "Optional tuition credit: If Reiki Rising™ feels aligned afterward, your $11 registration can be applied toward tuition when you enroll by September 20, 2026.",
-      "Refund policy: All purchases are final and non-refundable.",
-    ],
-    reminderLines: [
-      "Use the private Google Meet button below when it is time to join.",
-      `If you need to join by phone, dial ${reikiMasterclassAccess.dialInText}. More phone numbers: ${reikiMasterclassAccess.morePhoneNumbersHref}`,
-      "Settle into a quiet, comfortable space. You may want water, a journal and headphones nearby.",
-      "No previous Reiki experience is needed.",
-      "Called to Reiki is a complete experience on its own. There is no expectation to continue into Reiki training.",
-      "A calendar file is attached for Apple Calendar, Outlook and other calendar apps.",
-    ],
-    href: `${env.siteUrl}${site.links.reikiMasterclass}`,
-    hrefLabel: "View Called to Reiki Details",
-    extraLinks: [
-      {
-        label: "Join Google Meet",
-        href: reikiMasterclassAccess.meetHref,
-      },
-      {
-        label: "Add to Google Calendar",
-        href: reikiMasterclassGoogleCalendarHref,
-      },
-    ],
-    calendarAttachment: reikiMasterclassCalendarAttachment,
-  },
   "rise-into-light": {
     title: "Rise into Light",
     intro:
@@ -726,8 +688,11 @@ export async function sendPurchaseConfirmationEmail(
           portalAccess,
         );
   const extraLinks: ReadonlyArray<{ label: string; href: string }> =
-    "extraLinks" in emailContent && emailContent.extraLinks
-      ? emailContent.extraLinks
+    "extraLinks" in emailContent && Array.isArray(emailContent.extraLinks)
+      ? (emailContent.extraLinks as ReadonlyArray<{
+          label: string;
+          href: string;
+        }>)
       : [];
   const calendarAttachment: WebsiteEmailAttachment | undefined =
     "calendarAttachment" in emailContent

@@ -15,6 +15,27 @@ Rule for future sessions:
   - Current primary fonts are `Lato` for body/practical text, `Cormorant Garamond` for display and italic warmth, and `Belleza` only for restrained brand/wordmark accents.
   - Current brand colors are warm cream, cacao/deep brown, soft brown, sage, peach, and rose. Avoid random fonts, harsh black/white styling, strong cool colors, and off-brand palettes unless Kate explicitly asks.
 
+## Latest Save Point - Called to Reiki Removed on September 12, 2026
+- Kate decided not to hold the September 16 Called to Reiki masterclass so she can focus on Reiki Rising enrollment.
+- The one masterclass registrant was refunded by Kate before this website update.
+- Work was completed in the clean worktree:
+  - `/Users/magicalbeing/Desktop/lightness-platform/.codex-worktrees/remove-called-to-reiki`
+  - branch `codex/remove-called-to-reiki`
+- Removed Called to Reiki from:
+  - the public Events page
+  - the Courses page Reiki Rising card
+  - the Fall 2026 Reiki Rising student portal
+  - the sitemap
+  - event checkout and confirmation email mappings
+- Deleted the public masterclass page, masterclass calendar/access helper and its three masterclass-only website images.
+- The former `/is-reiki-calling-you` URL now permanently redirects to `/reiki-rising` so old shared links support the current enrollment focus.
+- Stripe purchase and refund history were not changed.
+- Validation:
+  - `npm run lint` passed with existing `<img>` warnings only
+  - `npx next build --webpack` passed
+  - the production route list no longer contains the masterclass page
+  - `/writing` remains in the production route list
+
 ## Latest Save Point - Reiki Rising Portal, Called to Reiki and Student Access on August 29, 2026
 - Current repo/worktree:
   - `/Users/magicalbeing/Desktop/lightness-platform/.codex-worktrees/event-mailchimp-optin`

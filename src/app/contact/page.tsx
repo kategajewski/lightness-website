@@ -30,7 +30,11 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
   const inquiryType = params?.inquiryType ?? "general";
   const subject = params?.subject;
   const draft = params?.draft;
-  const isTrainingWaitlist = inquiryType === "training" && Boolean(subject);
+  const isReikiMentorshipInquiry =
+    inquiryType === "training" &&
+    subject === "The Healer's Emergence Mentorship";
+  const isTrainingWaitlist =
+    inquiryType === "training" && Boolean(subject) && !isReikiMentorshipInquiry;
   const isSoundTrainingWaitlist =
     isTrainingWaitlist && subject === "Sound Practitioner Training Waitlist";
   const isPrivateEventInquiry =
@@ -49,7 +53,9 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
     <PageShell
       eyebrow="Contact"
       title={
-        isTrainingWaitlist
+        isReikiMentorshipInquiry
+          ? "Inquire about The Healer's Emergence."
+          : isTrainingWaitlist
           ? isSoundTrainingWaitlist
             ? "Join the Sound Practitioner Training waitlist."
             : "Join the Reiki Rising waitlist."
@@ -62,7 +68,9 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             : "Have questions? Reach out and start the conversation."
       }
       description={
-        isTrainingWaitlist
+        isReikiMentorshipInquiry
+          ? "Share a little about your Reiki experience, what you would like support with and which mentorship container you are considering."
+          : isTrainingWaitlist
           ? isSoundTrainingWaitlist
             ? "Share your details below to receive the schedule and enrollment information for January 29 through 31, 2027."
             : "Share your details below and Kate will reach out when the next Reiki Rising cohort opens."
@@ -167,6 +175,13 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             </p>
           ) : null}
 
+          {isReikiMentorshipInquiry ? (
+            <p className="mt-6 rounded-[18px] border border-[rgba(168,178,159,0.22)] bg-[rgba(255,251,246,0.72)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
+              This inquiry will be sent directly to Kate so you can begin a
+              personal conversation about the six or twelve-week mentorship.
+            </p>
+          ) : null}
+
           {isPrivateEventInquiry ? (
             <p className="mt-6 rounded-[18px] border border-[rgba(168,178,159,0.22)] bg-[rgba(255,251,246,0.72)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
               This inquiry will be sent as an events and ceremonies request so Kate can respond more personally.
@@ -260,7 +275,11 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             type="submit"
             className="button-pill mt-6"
           >
-            {isTrainingWaitlist ? "Join the Waitlist" : "Send Message"}
+            {isReikiMentorshipInquiry
+              ? "Send Mentorship Inquiry"
+              : isTrainingWaitlist
+                ? "Join the Waitlist"
+                : "Send Message"}
           </button>
         </form>
 

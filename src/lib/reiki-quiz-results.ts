@@ -1,7 +1,7 @@
 export type ScoredReikiPathKey =
   | "reikiRising"
   | "embodiedHealer"
-  | "guidance";
+  | "reikiMentorship";
 
 export type ReikiQuizResultKey = ScoredReikiPathKey | "trainingMatch";
 
@@ -45,18 +45,18 @@ export const reikiQuizResults: Record<ReikiQuizResultKey, ReikiQuizResult> = {
     cta: "Explore The Embodied Healer",
     href: "/mentorship",
   },
-  guidance: {
+  reikiMentorship: {
     eyebrow: "Your clearest match",
-    title: "Personalized Guidance",
+    title: "The Healer's Emergence",
     description:
-      "A focused one-on-one mentorship session for trained Reiki practitioners who want clarity, spiritual support or grounded direction without beginning another educational program.",
+      "A six-week or twelve-week private mentorship for trained Reiki practitioners who want to enrich what they already know, strengthen their confidence and receive practical support bringing their work into the world.",
     reasons: [
-      "You have already learned Reiki and want support as you continue growing in your practice.",
-      "You want perspective, mentorship or renewed confidence without furthering your education just yet.",
-      "A focused session feels more supportive than another structured curriculum right now.",
+      "You have already learned Reiki and want to deepen your knowledge through real practice.",
+      "You want support becoming more visible, finding clients and beginning your Reiki business.",
+      "You are ready for consistent guidance and accountability rather than another certification program.",
     ],
-    cta: "Book Personalized Guidance",
-    href: "https://calendly.com/thelightnessofbeing/mentorship",
+    cta: "Explore Reiki Mentorship",
+    href: "/reiki-mentorship",
   },
   trainingMatch: {
     eyebrow: "Your next step",

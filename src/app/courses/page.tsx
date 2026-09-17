@@ -24,7 +24,7 @@ const reikiTrainingPaths = [
     href: site.links.reikiTraining,
   },
   {
-    eyebrow: "1:1 Mentorship",
+    eyebrow: "Private Reiki Training",
     title: "The Embodied Healer",
     description:
       "An ongoing Reiki Master mentorship for those who feel called to deeper personal healing, hands-on guidance and a more intimate path toward mastery and teaching.",
@@ -33,14 +33,24 @@ const reikiTrainingPaths = [
     cta: "Explore Mentorship",
     href: site.links.mentorship,
   },
+  {
+    eyebrow: "Practitioner Mentorship",
+    title: "The Healer's Emergence",
+    description:
+      "A six-week or twelve-week private mentorship for trained Reiki practitioners who want to deepen what they know, trust their work and become more confident and visible.",
+    details:
+      "Receive personal Reiki guidance alongside practical support with offers, pricing, visibility and finding clients.",
+    cta: "Explore Reiki Mentorship",
+    href: site.links.reikiMentorship,
+  },
 ] as const;
 
 export default function CoursesPage() {
   return (
     <PageShell
-      eyebrow="Training"
-      title="Training paths for energy healing, sound practice and embodied growth."
-      description="Explore Reiki education, private mentorship and seasonal sound practitioner training. Each path supports personal transformation as much as skill development."
+      eyebrow="Courses, Training & Mentorship"
+      title="Training and mentorship for meaningful, embodied practice."
+      description="Explore Reiki education, practitioner mentorship and seasonal sound training. Each path offers grounded guidance for the place you are in now."
     >
       <section className="mx-auto w-full max-w-[44rem] overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
         <img
@@ -55,15 +65,15 @@ export default function CoursesPage() {
           Reiki Training and Mentorship
         </span>
         <h2 className="mx-auto max-w-[30ch] display-section-title">
-          Learn Reiki through a supportive group or a deeply personal path.
+          Learn Reiki or receive support as your practice continues to grow.
         </h2>
         <p className="mx-auto mt-5 max-w-[44rem] text-[1.03rem] leading-[1.75] text-[var(--color-muted)]">
-          Choose a live online cohort or individualized mentorship shaped around
-          your experience, pace and calling.
+          Choose a live online cohort, a private certification path or ongoing
+          mentorship created for trained Reiki practitioners.
         </p>
       </section>
 
-      <section className="grid gap-5 lg:grid-cols-2">
+      <section className="grid gap-5 lg:grid-cols-3">
         {reikiTrainingPaths.map((path) => (
           <article
             key={path.title}
@@ -125,13 +135,13 @@ export default function CoursesPage() {
       <section className="grid gap-6 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
         <div>
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            Already Working With Sound?
+            Looking for One Focused Conversation?
           </span>
           <h2 className="display-card-title">Personalized Guidance</h2>
           <p className="mt-4 max-w-[44rem] leading-[1.75] text-[var(--color-muted)]">
-            If you already facilitate sound experiences and want focused support
-            without entering another full training, book a one-on-one session
-            for perspective, practical clarity or mentorship.
+            If you want support around one specific Reiki or sound practice
+            question without entering a longer container, book a one-on-one
+            session for perspective, practical clarity or guidance.
           </p>
         </div>
         <Link

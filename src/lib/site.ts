@@ -36,6 +36,7 @@ export const site = {
     inquiries: "/inquiries",
     reiki: "https://bethelightness.com/reiki",
     reikiTraining: "/reiki-rising",
+    reikiMentorship: "/reiki-mentorship",
     soundTraining: "/sound-training",
     soundJourneysAtSanctuary: "/sound-journeys-at-sanctuary",
     corporateWellness: "/corporate-wellness",
@@ -87,7 +88,7 @@ export function isAdminEmail(email?: string | null) {
 export const primaryNavigation = [
   { label: "Healing Sessions", href: site.links.services },
   { label: "About", href: site.links.about },
-  { label: "Training", href: site.links.courses },
+  { label: "Training & Mentorship", href: site.links.courses },
   { label: "Rosaries", href: site.links.rosaries },
   { label: "Events", href: site.links.events },
   { label: "Writing", href: site.links.writing },

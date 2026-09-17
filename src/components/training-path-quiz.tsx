@@ -32,25 +32,25 @@ const questions: QuizQuestion[] = [
         label: "My own healing and spiritual growth",
         description:
           "I want to feel more connected, balanced and supported within myself.",
-        scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 0 },
       },
       {
         label: "Supporting the people and animals I love",
         description:
           "I feel drawn to share Reiki with family, friends, or animal companions.",
-        scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 0 },
       },
       {
         label: "Serving others through healing work",
         description:
           "I want to begin, deepen, or feel more confident in my work as a practitioner.",
-        scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 0 },
       },
       {
         label: "All of the above",
         description:
           "Reiki is connected to my healing, my relationships and how I feel called to serve.",
-        scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 0 },
       },
     ],
   },
@@ -60,18 +60,19 @@ const questions: QuizQuestion[] = [
       {
         label: "Learning Reiki in a meaningful way",
         description: "I want a strong foundation and space to practice what I learn.",
-        scores: { reikiRising: 3, embodiedHealer: 3, guidance: 0 },
+        scores: { reikiRising: 3, embodiedHealer: 3, reikiMentorship: 0 },
       },
       {
         label: "Following a deeply personal Reiki path",
         description:
           "I want individualized support that can meet me as a beginner or guide me toward mastery.",
-        scores: { reikiRising: 0, embodiedHealer: 4, guidance: 1 },
+        scores: { reikiRising: 0, embodiedHealer: 4, reikiMentorship: 0 },
       },
       {
-        label: "Finding clarity and support",
-        description: "I need help understanding my next step before choosing a larger path.",
-        scores: { reikiRising: 0, embodiedHealer: 1, guidance: 4 },
+        label: "Growing as a Reiki practitioner",
+        description:
+          "I have Reiki training and want to deepen my knowledge, build confidence or begin my business.",
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 4 },
       },
     ],
   },
@@ -81,17 +82,19 @@ const questions: QuizQuestion[] = [
       {
         label: "A live group experience",
         description: "I value shared learning, community and a clear collective rhythm.",
-        scores: { reikiRising: 4, embodiedHealer: 0, guidance: 0 },
+        scores: { reikiRising: 4, embodiedHealer: 0, reikiMentorship: 0 },
       },
       {
-        label: "A private, ongoing relationship",
-        description: "I want highly personal guidance and room to move at my own pace.",
-        scores: { reikiRising: 0, embodiedHealer: 4, guidance: 1 },
+        label: "A private training and certification path",
+        description:
+          "I want highly personal Reiki education with room to move at my own pace.",
+        scores: { reikiRising: 0, embodiedHealer: 4, reikiMentorship: 0 },
       },
       {
-        label: "A focused one-on-one session",
-        description: "I want thoughtful direction without entering a full program yet.",
-        scores: { reikiRising: 0, embodiedHealer: 1, guidance: 4 },
+        label: "Private, ongoing practitioner mentorship",
+        description:
+          "I want consistent guidance, accountability and support between sessions.",
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 4 },
       },
     ],
   },
@@ -101,17 +104,18 @@ const questions: QuizQuestion[] = [
       {
         label: "A 10-week guided rhythm",
         description: "I can make room for live learning and practice over a defined season.",
-        scores: { reikiRising: 4, embodiedHealer: 1, guidance: 0 },
+        scores: { reikiRising: 4, embodiedHealer: 1, reikiMentorship: 0 },
       },
       {
         label: "A spacious path built around me",
         description: "I want my learning to unfold privately and adapt as I grow.",
-        scores: { reikiRising: 0, embodiedHealer: 4, guidance: 1 },
+        scores: { reikiRising: 0, embodiedHealer: 4, reikiMentorship: 0 },
       },
       {
-        label: "One clear next step",
-        description: "I need support but not a full training commitment.",
-        scores: { reikiRising: 0, embodiedHealer: 0, guidance: 4 },
+        label: "Six or twelve weeks of focused support",
+        description:
+          "I want a defined mentorship container that can meet my current goals.",
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 4 },
       },
     ],
   },
@@ -121,17 +125,18 @@ const questions: QuizQuestion[] = [
       {
         label: "A grounded personal Reiki practice",
         description: "I want Reiki to become a lived part of my healing and daily life.",
-        scores: { reikiRising: 4, embodiedHealer: 2, guidance: 0 },
+        scores: { reikiRising: 4, embodiedHealer: 2, reikiMentorship: 0 },
       },
       {
         label: "Confidence as a practitioner or teacher",
         description: "I want to support others and develop real depth in my practice.",
-        scores: { reikiRising: 1, embodiedHealer: 4, guidance: 0 },
+        scores: { reikiRising: 1, embodiedHealer: 4, reikiMentorship: 1 },
       },
       {
-        label: "Clarity about what comes next",
-        description: "I want perspective, reflection and grounded direction.",
-        scores: { reikiRising: 0, embodiedHealer: 1, guidance: 4 },
+        label: "A Reiki practice that feels aligned and sustainable",
+        description:
+          "I want support creating offers, setting prices, finding clients and getting my work out there.",
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 4 },
       },
     ],
   },
@@ -141,29 +146,29 @@ const questions: QuizQuestion[] = [
       {
         label: "I am ready to begin with others",
         description: "A supportive cohort feels energizing and right for me.",
-        scores: { reikiRising: 4, embodiedHealer: 0, guidance: 0 },
+        scores: { reikiRising: 4, embodiedHealer: 0, reikiMentorship: 0 },
       },
       {
         label: "I feel deeply called to a personal path",
         description: "I am ready for individualized training and close support.",
-        scores: { reikiRising: 0, embodiedHealer: 4, guidance: 0 },
+        scores: { reikiRising: 0, embodiedHealer: 4, reikiMentorship: 0 },
       },
       {
         label: "I am still discerning",
         description: "I want to talk it through before making a larger commitment.",
-        scores: { reikiRising: 0, embodiedHealer: 0, guidance: 4 },
+        scores: { reikiRising: 2, embodiedHealer: 2, reikiMentorship: 0 },
       },
       {
         label: "I have already learned Reiki and want to deepen my education",
         description:
           "I want to revisit my foundations, deepen my practice or learn a different form of Reiki such as Holy Fire®.",
-        scores: { reikiRising: 3, embodiedHealer: 3, guidance: 0 },
+        scores: { reikiRising: 3, embodiedHealer: 3, reikiMentorship: 0 },
       },
       {
         label: "I have already learned Reiki and want extra support",
         description:
-          "I want guidance, perspective or mentorship without beginning another training program.",
-        scores: { reikiRising: 0, embodiedHealer: 0, guidance: 4 },
+          "I want consistent guidance, perspective and mentorship without beginning another certification program.",
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 5 },
       },
     ],
   },
@@ -174,42 +179,42 @@ const questions: QuizQuestion[] = [
         label: "Grounded and connected",
         description:
           "I want to feel more present, centered and connected to myself.",
-        scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 0 },
         resultReflection: reikiQuizClosingReflections[0],
       },
       {
         label: "Confident and capable",
         description:
           "I want to trust what I know and feel comfortable putting it into practice.",
-        scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 0 },
         resultReflection: reikiQuizClosingReflections[1],
       },
       {
         label: "Clear and aligned",
         description:
           "I want to understand my next step and feel peaceful about moving forward.",
-        scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 0 },
         resultReflection: reikiQuizClosingReflections[2],
       },
       {
         label: "Supported and encouraged",
         description:
           "I want to feel held in my growth rather than figuring everything out alone.",
-        scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 0 },
         resultReflection: reikiQuizClosingReflections[3],
       },
       {
         label: "All of the above",
         description:
           "I want to feel grounded, confident, clear and supported as I move forward.",
-        scores: { reikiRising: 0, embodiedHealer: 0, guidance: 0 },
+        scores: { reikiRising: 0, embodiedHealer: 0, reikiMentorship: 0 },
         resultReflection: reikiQuizClosingReflections[4],
       },
     ],
   },
 ];
 
-const pathOrder: PathKey[] = ["reikiRising", "embodiedHealer", "guidance"];
+const pathOrder: PathKey[] = ["reikiRising", "embodiedHealer", "reikiMentorship"];
 
 declare global {
   interface Window {
@@ -266,7 +271,7 @@ export function TrainingPathQuiz({ turnstileSiteKey }: TrainingPathQuizProps) {
     const totals: Record<PathKey, number> = {
       reikiRising: 0,
       embodiedHealer: 0,
-      guidance: 0,
+      reikiMentorship: 0,
     };
 
     answers.forEach((answer, questionIndex) => {
@@ -280,8 +285,8 @@ export function TrainingPathQuiz({ turnstileSiteKey }: TrainingPathQuizProps) {
     const readinessAnswer = answers[questions.length - 2];
     const wantsPostTrainingMentorship = readinessAnswer === 4;
     const eligiblePaths = wantsPostTrainingMentorship
-      ? pathOrder
-      : pathOrder.filter((path) => path !== "guidance");
+      ? (["reikiMentorship"] as PathKey[])
+      : pathOrder.filter((path) => path !== "reikiMentorship");
 
     const resultKey = eligiblePaths.reduce((best, path) =>
       totals[path] > totals[best] ? path : best,
@@ -386,8 +391,8 @@ export function TrainingPathQuiz({ turnstileSiteKey }: TrainingPathQuizProps) {
           </h2>
           <p className="mx-auto mt-5 max-w-[42rem] text-[1.03rem] leading-[1.75] text-[var(--color-muted)]">
             Take this short quiz to discover which path best supports where you
-            are right now: Reiki Rising, The Embodied Healer, or Personalized
-            Guidance.
+            are right now: Reiki Rising, The Embodied Healer or The Healer&apos;s
+            Emergence.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <button type="button" className="button-pill" onClick={() => setStarted(true)}>

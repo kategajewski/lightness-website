@@ -1579,3 +1579,23 @@ Rule for future sessions:
 - Working tree note:
   - there are still many unrelated modified/untracked files in the repository
   - only the active root app files edited in this session should be staged for this live push
+
+### Latest Save Point - The Healer's Emergence Mentorship Pricing
+- Working name: `The Healer's Emergence`
+- Main headline: `From trained in Reiki to a confident, visible practitioner.`
+- Positioning:
+  - private mentorship for people who already have Reiki training
+  - supports deeper Reiki knowledge and practitioner confidence
+  - includes practical help starting or growing a Reiki business, becoming visible and attracting clients
+- Founding rate, intended for the first three practitioners:
+  - 12-week mentorship: `$2,200 paid in full` or `3 monthly payments of $750`
+  - 6-week intensive: `$1,200 paid in full` or `2 monthly payments of $625`
+- Planned future investment after the founding rate:
+  - 12-week mentorship: `$2,500 paid in full` or `3 monthly payments of $875`
+  - 6-week intensive: `$1,350 paid in full` or `2 monthly payments of $700`
+- Important pricing language:
+  - use `Founding Rate` rather than `Introductory Offer`
+  - only describe it as a founding rate if the price will genuinely increase afterward
+- Website status:
+  - mentorship website work remains a local draft
+  - nothing from this mentorship update has been committed or published yet

@@ -1058,9 +1058,11 @@ function getOfferPurchaseEmailContent(
   }
 
   if (offer?.slug === "reiki-rising") {
-    const setupHref =
-      portalAccess?.setupUrl ??
-      `${env.siteUrl.replace(/\/$/, "")}/login?mode=forgot-password`;
+    const siteUrl = env.siteUrl.replace(/\/$/, "");
+    const hasTemporaryPassword = Boolean(portalAccess?.temporaryPassword);
+    const portalHref = hasTemporaryPassword
+      ? `${siteUrl}/login`
+      : portalAccess?.setupUrl ?? `${siteUrl}/forgot-password`;
 
     return {
       subject: "Welcome to Reiki Rising Fall 2026",
@@ -1074,28 +1076,38 @@ function getOfferPurchaseEmailContent(
         "Call time: 7:00-8:15 PM (Eastern Time)",
         "Telegram support: Open through Saturday, December 5, 2026",
         option ? `Selected option: ${option.label}` : null,
+        portalAccess?.loginEmail
+          ? `Portal login email: ${portalAccess.loginEmail}`
+          : null,
+        portalAccess?.temporaryPassword
+          ? `Temporary portal password: ${portalAccess.temporaryPassword}`
+          : null,
       ].filter(Boolean) as string[],
       reminderLines: [
         option?.installmentCount
           ? `Your fixed payment plan includes ${option.installmentCount} monthly payments and ends automatically after the final payment.`
           : null,
-        `You can review the Reiki Rising Enrollment Agreement you accepted here: ${env.siteUrl.replace(/\/$/, "")}/reiki-rising/enrollment-agreement`,
-        portalAccess?.setupUrl
-          ? "Your Reiki Rising student portal access has been created using the email address you enrolled with. Begin by selecting Set Your Portal Password below."
-          : "Your Reiki Rising student portal access is connected to the email address you enrolled with. Select Open Portal Login below and use Forgot Password if you still need to create your password.",
+        `You can review the Reiki Rising Enrollment Agreement you accepted here: ${siteUrl}/reiki-rising/enrollment-agreement`,
+        hasTemporaryPassword
+          ? "Your Reiki Rising student portal is ready. Use the login email and unique temporary password shown above. You can keep this password or change it from your portal at any time."
+          : portalAccess?.setupUrl
+            ? "Your Reiki Rising access has been added to your existing Lightness account. Use your current password or choose a new password through the secure link below."
+            : "Your Reiki Rising access is connected to the email address you enrolled with. Open the portal login and use Forgot Password if you need a new password.",
         "Use the Join Weekly Google Meet button below when it is time for each live call.",
         "A recurring calendar file is attached for Apple Calendar, Outlook and other calendar apps.",
-        "Once your password is created, you'll be able to enter the Fall 2026 portal. Your welcome materials, weekly modules, live-call links, replays, placement information, and make-up-call details will be added there as the cohort approaches.",
+        "Once you sign in, you'll be able to enter the Fall 2026 portal. Your welcome materials, weekly modules, live-call links, replays, placement information and make-up-call details will be added there as the cohort approaches.",
         "Use the Purchase Reiki Level 1 & 2 Textbook button below to order the required book before the program begins.",
         "The bookstore automatically selects the digital edition, so please choose whether you would like the digital book, printed book, or both before completing your purchase.",
         "You may also want to choose a special notebook or journal for reflections, practice notes, and questions throughout your Reiki Rising journey.",
         "Your enrollment also includes a complimentary 45-minute private session with Kate. You can choose to focus on receiving Reiki, personal guidance, practice support, business support or integration.",
         "You'll receive another email closer to the start date with preparation guidance, the Telegram community link, and everything you need for your first week.",
       ].filter(Boolean) as string[],
-      href: setupHref,
-      hrefLabel: portalAccess?.setupUrl
-        ? "Set Your Portal Password"
-        : "Open Portal Login",
+      href: portalHref,
+      hrefLabel: hasTemporaryPassword
+        ? "Open Portal Login"
+        : portalAccess?.setupUrl
+          ? "Choose a New Password"
+          : "Open Portal Login",
       extraLinks: [
         {
           label: "Join Weekly Google Meet",
@@ -1110,8 +1122,8 @@ function getOfferPurchaseEmailContent(
           href: "https://www.reiki.org/store/books/reiki-healing-touch",
         },
         {
-          label: "Request a Fresh Portal Link",
-          href: `${env.siteUrl.replace(/\/$/, "")}/forgot-password`,
+          label: "Reset or Change Your Password",
+          href: `${siteUrl}/forgot-password`,
         },
       ],
       calendarAttachment: reikiRisingCalendarAttachment,

@@ -6,8 +6,10 @@ import { getOfferBySlug } from "@/lib/offers";
 
 export type PortalProvisioningResult = {
   accessSlug?: string;
+  loginEmail?: string;
   portalHref?: string;
   setupUrl?: string;
+  temporaryPassword?: string;
   status:
     | "not_applicable"
     | "skipped"
@@ -18,6 +20,10 @@ export type PortalProvisioningResult = {
 
 type MemberAccessLookupRow = {
   id?: string;
+};
+
+type PortalUserResult = {
+  temporaryPassword?: string;
 };
 
 function getSetupRedirectUrl() {
@@ -136,21 +142,18 @@ async function ensurePortalUser(email: string, offerSlug: string, accessSlug: st
       (user) => user.email?.trim().toLowerCase() === email.toLowerCase(),
     )
   ) {
-    return undefined;
+    return {} satisfies PortalUserResult;
   }
 
-  const password = `Portal-${crypto.randomUUID()}-${crypto.randomUUID()}`;
-  const { data, error } = await supabase.auth.admin.generateLink({
-    type: "signup",
+  const password = `Light-${crypto.randomUUID().replaceAll("-", "").slice(0, 16)}!`;
+  const { error } = await supabase.auth.admin.createUser({
     email,
     password,
-    options: {
-      data: {
-        source: "stripe_checkout",
-        offerSlug,
-        accessSlug,
-      },
-      redirectTo: getSetupRedirectUrl(),
+    email_confirm: true,
+    user_metadata: {
+      source: "stripe_checkout",
+      offerSlug,
+      accessSlug,
     },
   });
 
@@ -158,21 +161,9 @@ async function ensurePortalUser(email: string, offerSlug: string, accessSlug: st
     throw error;
   }
 
-  const properties = data.properties as
-    | {
-        hashed_token?: string;
-        verification_type?: string;
-      }
-    | undefined;
-
-  if (!properties?.hashed_token || !properties.verification_type) {
-    return undefined;
-  }
-
-  return buildPortalSetupUrl(
-    properties.hashed_token,
-    properties.verification_type,
-  );
+  return {
+    temporaryPassword: password,
+  } satisfies PortalUserResult;
 }
 
 async function ensureMemberAccess(email: string, accessSlug: string) {
@@ -272,17 +263,28 @@ export async function provisionOfferPortalAccessFromSession(
   }
 
   try {
-    const newUserSetupUrl = await ensurePortalUser(
+    await ensureMemberAccess(email, offer.accessSlug);
+    const portalUser = await ensurePortalUser(
       email,
       offer.slug,
       offer.accessSlug,
     );
-    await ensureMemberAccess(email, offer.accessSlug);
 
-    const setupUrl = newUserSetupUrl ?? (await createPasswordSetupLink(email));
+    if (portalUser.temporaryPassword) {
+      return {
+        accessSlug: offer.accessSlug,
+        loginEmail: email,
+        portalHref,
+        temporaryPassword: portalUser.temporaryPassword,
+        status: "provisioned",
+      };
+    }
+
+    const setupUrl = await createPasswordSetupLink(email);
 
     return {
       accessSlug: offer.accessSlug,
+      loginEmail: email,
       portalHref,
       setupUrl,
       status: setupUrl ? "provisioned" : "provisioned_without_setup_link",

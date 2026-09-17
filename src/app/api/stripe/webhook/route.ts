@@ -62,6 +62,13 @@ export async function POST(request: Request) {
         { status: 500 },
       );
     }
+
+    if (result.portalAccess === "failed") {
+      return NextResponse.json(
+        { error: "Portal access provisioning failed." },
+        { status: 500 },
+      );
+    }
   }
 
   return NextResponse.json({ received: true });

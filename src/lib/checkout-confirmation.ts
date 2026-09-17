@@ -83,8 +83,9 @@ export async function processCheckoutSessionConfirmation(
 
   const portalAccess = await provisionOfferPortalAccessFromSession(session);
   result.portalAccess = portalAccess.status;
+  const portalProvisioningFailed = portalAccess.status === "failed";
 
-  if (integrations.emailDelivery) {
+  if (integrations.emailDelivery && !portalProvisioningFailed) {
     if (metadata[CUSTOMER_EMAIL_SENT_KEY]) {
       result.customerEmail = "already_sent";
     } else {

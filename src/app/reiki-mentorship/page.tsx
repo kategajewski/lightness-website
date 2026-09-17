@@ -12,7 +12,7 @@ export const metadata = createPageMetadata({
 });
 
 const inquiryHref =
-  "/contact?inquiryType=training&subject=The%20Healer%27s%20Emergence%20Mentorship";
+  "/reiki-mentorship/inquire";
 
 const sharedSupport = [
   "Guidance deepening and enriching your existing Reiki knowledge",

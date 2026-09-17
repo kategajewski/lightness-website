@@ -8,7 +8,7 @@ export const metadata = createPageMetadata({
   description:
     "Six-week and twelve-week private Reiki mentorship with Kate Gajewski for trained practitioners ready to deepen their knowledge, build confidence and begin a Reiki business.",
   path: "/reiki-mentorship",
-  image: "/homepage-images/embodied-healer-warm-mentorship-final.jpeg",
+  image: "/homepage-images/healers-emergence-mentorship.jpeg",
 });
 
 const inquiryHref =
@@ -117,7 +117,7 @@ export default function ReikiMentorshipPage() {
 
         <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <img
-            src="/homepage-images/embodied-healer-warm-mentorship-final.jpeg"
+            src="/homepage-images/healers-emergence-mentorship.jpeg"
             alt="Kate offering personal guidance during a Reiki mentorship session"
             className="block h-[30rem] w-full object-cover object-center"
           />

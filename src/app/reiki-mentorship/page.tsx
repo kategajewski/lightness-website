@@ -80,9 +80,9 @@ const focusAreas = [
 export default function ReikiMentorshipPage() {
   return (
     <PageShell
-      eyebrow="The Healer's Emergence"
-      title="From trained in Reiki to a confident, visible practitioner."
-      description="Deepen your Reiki knowledge, strengthen your confidence and receive practical support building a business around the work you feel called to share."
+      eyebrow="Private Reiki Mentorship"
+      title="The Healer's Emergence"
+      description="From trained in Reiki to a confident, visible practitioner. Deepen your Reiki knowledge, strengthen your confidence and receive practical support building a business around the work you feel called to share."
     >
       <section className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">

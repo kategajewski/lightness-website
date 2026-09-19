@@ -1,6 +1,9 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { getCurrentUserWithAccess, hasActiveAccess } from "@/lib/member-access";
+import {
+  canAccessReikiRisingFall2026,
+  getCurrentUserWithAccess,
+} from "@/lib/member-access";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -29,7 +32,7 @@ export async function GET(request: Request, context: MaterialRouteContext) {
     });
   }
 
-  if (!hasActiveAccess(accessRows, "reiki-rising-fall-2026")) {
+  if (!canAccessReikiRisingFall2026(user.email ?? "", accessRows)) {
     return new Response(null, {
       status: 303,
       headers: {

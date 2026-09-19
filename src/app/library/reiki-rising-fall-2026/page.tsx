@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getCurrentUserWithAccess, hasActiveAccess } from "@/lib/member-access";
+import {
+  canAccessReikiRisingFall2026,
+  getCurrentUserWithAccess,
+} from "@/lib/member-access";
 import {
   reikiRisingGoogleCalendarHref,
   reikiRisingLiveCalls,
@@ -85,7 +88,7 @@ export default async function ReikiRisingFall2026LibraryPage() {
     redirect("/login?error=Please%20sign%20in%20to%20open%20your%20course.");
   }
 
-  if (!hasActiveAccess(accessRows, "reiki-rising-fall-2026")) {
+  if (!canAccessReikiRisingFall2026(user.email ?? "", accessRows)) {
     redirect("/account");
   }
 

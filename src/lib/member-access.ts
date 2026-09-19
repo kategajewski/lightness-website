@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { isAdminEmail } from "@/lib/site";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type MemberAccessRow = {
@@ -35,5 +36,15 @@ export function hasActiveAccess(
 ) {
   return accessRows.some(
     (row) => row.offer_slug === offerSlug && row.access_status === "active",
+  );
+}
+
+export function canAccessReikiRisingFall2026(
+  email: string,
+  accessRows: MemberAccessRow[],
+) {
+  return (
+    isAdminEmail(email) ||
+    hasActiveAccess(accessRows, "reiki-rising-fall-2026")
   );
 }

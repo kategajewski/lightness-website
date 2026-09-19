@@ -1,7 +1,11 @@
 import Link from "next/link";
 import { signOutAction } from "@/app/login/actions";
 import { PageShell } from "@/components/page-shell";
-import { getCurrentUserWithAccess, hasActiveAccess } from "@/lib/member-access";
+import {
+  canAccessReikiRisingFall2026,
+  getCurrentUserWithAccess,
+  hasActiveAccess,
+} from "@/lib/member-access";
 import { isAdminEmail } from "@/lib/site";
 
 const portalSpaces = [
@@ -15,11 +19,11 @@ const portalSpaces = [
   },
   {
     slug: "reiki-rising",
-    title: "Reiki Rising",
+    title: "Reiki Rising Spring 2026",
     description:
-      "Return to your class replays, downloadable materials, and the resources that support your Reiki Rising journey.",
+      "Return to your Spring 2026 class replays, downloadable materials and course resources.",
     href: "/library/reiki-rising",
-    cta: "Enter Reiki Rising",
+    cta: "Enter Spring 2026 Portal",
   },
   {
     slug: "monthly-membership",
@@ -42,6 +46,13 @@ const portalSpaces = [
 export default async function AccountPage() {
   const { user, accessRows } = await getCurrentUserWithAccess();
   const isAdmin = isAdminEmail(user?.email);
+  const availableSpaces = user
+    ? portalSpaces.filter((space) =>
+        space.slug === "reiki-rising-fall-2026"
+          ? canAccessReikiRisingFall2026(user.email ?? "", accessRows)
+          : hasActiveAccess(accessRows, space.slug),
+      )
+    : [];
 
   return (
     <PageShell
@@ -123,28 +134,26 @@ export default async function AccountPage() {
         </p>
 
         {user ? (
-          accessRows.length > 0 ? (
+          availableSpaces.length > 0 ? (
             <div className="mt-6 grid gap-5 lg:grid-cols-2">
-              {portalSpaces
-                .filter((space) => hasActiveAccess(accessRows, space.slug))
-                .map((space) => (
-                  <article
-                    key={space.slug}
-                    className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6"
-                  >
-                    <strong className="block text-[1.08rem] text-[var(--color-text)]">
-                      {space.title}
-                    </strong>
-                    <p className="mt-3 text-[var(--color-muted)]">
-                      {space.description}
-                    </p>
-                    <div className="mt-5">
-                      <Link href={space.href} className="button-pill">
-                        {space.cta}
-                      </Link>
-                    </div>
-                  </article>
-                ))}
+              {availableSpaces.map((space) => (
+                <article
+                  key={space.slug}
+                  className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6"
+                >
+                  <strong className="block text-[1.08rem] text-[var(--color-text)]">
+                    {space.title}
+                  </strong>
+                  <p className="mt-3 text-[var(--color-muted)]">
+                    {space.description}
+                  </p>
+                  <div className="mt-5">
+                    <Link href={space.href} className="button-pill">
+                      {space.cta}
+                    </Link>
+                  </div>
+                </article>
+              ))}
             </div>
           ) : (
             <p className="mt-6 rounded-[22px] bg-[rgba(255,248,242,0.86)] px-5 py-4 text-[var(--color-muted)]">

@@ -105,7 +105,7 @@ export default async function ReikiRisingLibraryPage() {
       <section className="mx-auto grid w-full max-w-[1180px] gap-10 px-4 pb-8 pt-16 sm:px-6 lg:grid-cols-[0.92fr_1.08fr]">
         <div>
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            Reiki Rising Library
+            Reiki Rising Spring 2026
           </span>
           <h1 className="display-page-title">
             Welcome to your Reiki Rising course space.

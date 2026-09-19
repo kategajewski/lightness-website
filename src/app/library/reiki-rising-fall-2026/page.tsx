@@ -7,6 +7,9 @@ import {
 } from "@/lib/reiki-rising-live-calls";
 
 const textbookHref = "https://www.reiki.org/store/books/reiki-healing-touch";
+const startHereHref = "/library/reiki-rising-fall-2026/materials/start-here";
+const practiceLogHref =
+  "/library/reiki-rising-fall-2026/materials/certification-practice-log";
 
 const modules = [
   {
@@ -72,7 +75,7 @@ const certificationRequirements = [
   "Practice self-Reiki at least 5 times",
   "Share remote Reiki at least 2 times",
   "Share Reiki in person with consent at least 1 time",
-  "Submit a short final reflection or practice log",
+  "Email the completed Certification & Practice Log or the same information in a separate document",
 ] as const;
 
 export default async function ReikiRisingFall2026LibraryPage() {
@@ -191,6 +194,38 @@ export default async function ReikiRisingFall2026LibraryPage() {
               Purchase Textbook
             </Link>
           </div>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <article className="rounded-[22px] bg-[rgba(168,178,159,0.18)] p-6">
+              <h3 className="display-card-title">Welcome &amp; What to Expect</h3>
+              <p className="mt-3 text-[var(--color-muted)]">
+                Your Start Here guide includes a welcome from Kate, the weekly
+                rhythm and how we care for one another in this group.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a href={startHereHref} target="_blank" rel="noreferrer" className="button-pill">
+                  Open Guide
+                </a>
+                <a href={`${startHereHref}?download=1`} className="button-pill">
+                  Download Guide
+                </a>
+              </div>
+            </article>
+            <article className="rounded-[22px] bg-[rgba(230,194,162,0.24)] p-6">
+              <h3 className="display-card-title">Certification &amp; Practice Log</h3>
+              <p className="mt-3 text-[var(--color-muted)]">
+                A fillable or printable place to track your placements,
+                practice and reflections as you grow with Reiki.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a href={practiceLogHref} target="_blank" rel="noreferrer" className="button-pill">
+                  Open Practice Log
+                </a>
+                <a href={`${practiceLogHref}?download=1`} className="button-pill">
+                  Download Practice Log
+                </a>
+              </div>
+            </article>
+          </div>
         </section>
 
         <section className="rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
@@ -254,6 +289,11 @@ export default async function ReikiRisingFall2026LibraryPage() {
               included. A personal private placement may be scheduled during
               office hours for $50 remotely or $75 in person.
             </p>
+            <div className="mt-6">
+              <a href={practiceLogHref} target="_blank" rel="noreferrer" className="button-pill">
+                Open Certification &amp; Practice Log
+              </a>
+            </div>
           </section>
         </div>
       </section>

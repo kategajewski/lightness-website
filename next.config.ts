@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["stripe"],
+  outputFileTracingIncludes: {
+    "/library/reiki-rising-fall-2026/materials/*": [
+      "./src/content/reiki-rising-fall-2026/*.pdf",
+    ],
+  },
   async redirects() {
     return [
       {

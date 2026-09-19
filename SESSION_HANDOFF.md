@@ -15,6 +15,85 @@ Rule for future sessions:
   - Current primary fonts are `Lato` for body/practical text, `Cormorant Garamond` for display and italic warmth, and `Belleza` only for restrained brand/wordmark accents.
   - Current brand colors are warm cream, cacao/deep brown, soft brown, sage, peach, and rose. Avoid random fonts, harsh black/white styling, strong cool colors, and off-brand palettes unless Kate explicitly asks.
 
+## Latest Save Point - Healer's Emergence and Reiki Rising Portal Reliability on September 19, 2026
+- Current clean worktree and branch:
+  - `/Users/magicalbeing/Desktop/lightness-platform/.codex-worktrees/remove-called-to-reiki`
+  - branch `codex/remove-called-to-reiki`
+  - current production commit before this handoff update: `2875f52 Make Reiki Rising portal access reliable`
+  - branch was clean and matched `origin/main` after deployment
+- The Healer's Emergence is live:
+  - mentorship page: `https://bethelightness.com/reiki-mentorship`
+  - inquiry form: `https://bethelightness.com/reiki-mentorship/inquire`
+  - positioning: `From trained in Reiki to a confident, visible practitioner.`
+  - supporting promise: deepen Reiki knowledge, strengthen confidence and receive practical support building a business around the work the practitioner feels called to share
+  - audience: already-trained Reiki practitioners who want to deepen their knowledge, build confidence, become visible, attract clients and start or grow a Reiki business
+- Mentorship offers and pricing:
+  - 12-week private mentorship includes 12 weekly 45-minute sessions plus weekday voice note or email support with replies within 1 to 2 business days
+  - public founding rate: `$2,200` paid in full or `3 payments of $750`
+  - private future rate to remember: `$2,500` paid in full or `3 payments of $875`
+  - 6-week intensive includes 6 weekly 45-minute sessions
+  - public founding rate: `$1,200` paid in full or `2 payments of $625`
+  - private future rate to remember: `$1,350` paid in full or `2 payments of $700`
+  - founding rate language says the offer is available to the first 3 practitioners and future enrollment will be higher
+  - the existing one-off 45-minute mentorship session remains `$150`
+- Website placement and inquiry flow:
+  - Courses is now presented as `Courses, Training & Mentorship`
+  - the shared header label is `Training & Mentorship`
+  - the Courses page includes The Healer's Emergence as a third Reiki offering
+  - the Reiki path quiz can recommend The Healer's Emergence to trained practitioners seeking ongoing support
+  - the mentorship page uses `public/homepage-images/healers-emergence-mentorship.jpeg`, selected by Kate as photo 3
+  - the dedicated inquiry form asks about Reiki experience, areas of desired support, business stage, current challenges, desired feelings and outcomes, preferred container and timing
+  - form submissions use the existing Supabase inquiry inbox and website email forwarding system
+  - submission language makes clear that sending an inquiry does not commit someone to enrolling
+- Mentorship deployment commits:
+  - `90a06ed Add Healer's Emergence Reiki mentorship`
+  - `d88fc18 Emphasize Healer's Emergence title`
+  - `e64ba83 Use selected mentorship photo`
+  - `43a9fcc Add Healer's Emergence inquiry form`
+- GitHub publishing access:
+  - a dedicated SSH key was created at `~/.ssh/id_ed25519_codex_lightness`
+  - the repository remote now uses `git@github.com:kategajewski/lightness-website.git`
+  - the repository `core.sshCommand` points to the dedicated key with `IdentitiesOnly=yes`
+  - GitHub authentication was tested successfully as `kategajewski`
+  - future website releases can be pushed directly from Codex again
+  - never print, copy or record the private SSH key in project notes
+- Reiki Rising portal diagnosis:
+  - Mishelle's earlier enrollment had required a unique temporary password fallback even though her payment and access records were valid
+  - a second student, Vanessa (`vanessalahann@yahoo.com`), paid for Reiki Rising but initially had no Supabase auth user and no `reiki-rising-fall-2026` access row
+  - this confirmed the repeated problem was systemic and was not caused by the students
+  - the old webhook flow could return success after portal provisioning failed, which prevented Stripe from retrying and could mark the welcome email sent without working portal access
+- Permanent Reiki Rising portal fix now live:
+  - brand-new students receive a confirmed Supabase portal account automatically
+  - each new student receives a strong, unique temporary password in the Reiki Rising welcome email
+  - the welcome email includes the login email, temporary password and portal login button
+  - students may keep the temporary password or change it from the portal
+  - existing portal users keep their current password and receive a secure recovery option instead of having their password replaced
+  - member access is now created before the portal user to make retries safer
+  - a failed portal provisioning step prevents the customer welcome email from being marked sent
+  - the Stripe webhook now returns an error when portal provisioning fails so Stripe retries the event
+  - implementation commit: `2875f52 Make Reiki Rising portal access reliable`
+- Vanessa's repaired access:
+  - Supabase auth user was created and email-confirmed
+  - active `member_access` was created for `reiki-rising-fall-2026`
+  - Kate sent the secure password email through `https://bethelightness.com/forgot-password`
+  - Vanessa completed password setup and successfully entered the portal
+  - no student password is recorded in this handoff
+- Current Reiki Rising student access state:
+  - Mishelle has working access
+  - Vanessa has working access
+  - permanent QA account `kategajewski+portaltest@gmail.com` remains available for future tests
+- Validation completed:
+  - `npm run lint` passed with 0 errors and the existing `<img>` warnings only
+  - `npx next build --webpack` passed after both the mentorship launch and portal reliability fix
+  - Vercel deployment completed successfully
+  - live homepage, login, forgot-password, account, checkout success, Reiki Rising, Courses, Events and Writing routes returned `200`
+  - the live Stripe webhook rejected an unsigned test request with `400` as expected
+  - live mentorship page, inquiry form, Courses placement and Writing navigation were verified
+- Recommended next starting point:
+  - for any new Reiki Rising purchase, confirm that the welcome email contains the unique temporary password and that the student can sign in without using Forgot Password
+  - if another access issue appears, inspect the student's Supabase auth user and `member_access` row first, then inspect the Stripe webhook delivery rather than treating it as a password typo
+  - keep all passwords and secret keys out of project notes and chat
+
 ## Latest Save Point - Called to Reiki Removed on September 12, 2026
 - Kate decided not to hold the September 16 Called to Reiki masterclass so she can focus on Reiki Rising enrollment.
 - The one masterclass registrant was refunded by Kate before this website update.

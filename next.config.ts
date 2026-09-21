@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/reiki-rising/ReikiLevel1TrainingFinalPDF.pdf",
+        destination: "/reiki-rising/reiki-rising-level-one-outline-fall-2026.pdf",
+        permanent: true,
+      },
+      {
         source: "/is-reiki-calling-you",
         destination: "/reiki-rising",
         permanent: true,

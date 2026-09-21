@@ -9,6 +9,7 @@ import {
   reikiRisingLiveCalls,
 } from "@/lib/reiki-rising-live-calls";
 
+const levelOneHref = "/reiki-rising/reiki-rising-level-one-outline-fall-2026.pdf";
 const textbookHref = "https://www.reiki.org/store/books/reiki-healing-touch";
 const startHereHref = "/library/reiki-rising-fall-2026/materials/start-here";
 const practiceLogHref =
@@ -198,6 +199,20 @@ export default async function ReikiRisingFall2026LibraryPage() {
             </Link>
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <article className="rounded-[22px] bg-[rgba(168,178,159,0.18)] p-6">
+              <h3 className="display-card-title">Reiki Level 1 Training Outline</h3>
+              <p className="mt-3 text-[var(--color-muted)]">
+                Your companion for Level 1, with teachings, practice guidance and further reading.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a href={levelOneHref} target="_blank" rel="noreferrer" className="button-pill">
+                  Open Level 1 PDF
+                </a>
+                <a href={levelOneHref} download className="button-pill">
+                  Download Level 1 PDF
+                </a>
+              </div>
+            </article>
             <article className="rounded-[22px] bg-[rgba(168,178,159,0.18)] p-6">
               <h3 className="display-card-title">Welcome &amp; What to Expect</h3>
               <p className="mt-3 text-[var(--color-muted)]">

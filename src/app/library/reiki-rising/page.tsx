@@ -79,7 +79,7 @@ const courseWeeks = [
 const downloads = [
   {
     title: "Holy Fire III Reiki Level 1 Manual",
-    href: "/reiki-rising/ReikiLevel1TrainingFinalPDF.pdf",
+    href: "/reiki-rising/reiki-rising-level-one-outline-fall-2026.pdf",
   },
   {
     title: "Holy Fire III Reiki Level 2 Manual",

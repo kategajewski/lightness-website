@@ -15,6 +15,24 @@ Rule for future sessions:
   - Current primary fonts are `Lato` for body/practical text, `Cormorant Garamond` for display and italic warmth, and `Belleza` only for restrained brand/wordmark accents.
   - Current brand colors are warm cream, cacao/deep brown, soft brown, sage, peach, and rose. Avoid random fonts, harsh black/white styling, strong cool colors, and off-brand palettes unless Kate explicitly asks.
 
+## Latest Save Point - Private Invoice Enrollment Automation on September 24, 2026
+- Added support for one-time, privately arranged Reiki Rising Fall 2026 enrollment invoices. This does not create subscriptions or recurring billing.
+- Keep customer identities, invoice identifiers, private agreed prices and payment links in Stripe or local private notes, not GitHub handoffs.
+- Added `src/lib/invoice-confirmation.ts` and an `invoice.paid` webhook handler. Only explicitly tagged, manual `send_invoice` payments for this cohort are eligible.
+- Required invoice metadata for future private invoices:
+  - `purchaseType=offer`
+  - `offerSlug=reiki-rising`
+  - `enrollmentAutomation=reiki-rising-fall-2026`
+  - `enrollmentAmountCents` must equal the agreed USD invoice total expressed in cents.
+- Fulfillment requires a fully paid invoice, no remaining balance, matching amount/currency and a customer email. It reuses the current Fall 2026 access provisioning and branded welcome email.
+- New students receive their unique temporary password; existing students keep their current password and receive a recovery option. Failed provisioning/email delivery returns an error so Stripe can retry. Successful email markers are saved on the invoice; subsequent retries skip already delivered messages and avoid regenerating credentials.
+- Customer emails no longer claim an enrollment agreement has already been accepted. Invoice payment alone does not capture agreement or media-release acceptance.
+- Existing production webhook `we_1TcW9zElTVNK9O7pJhAuaXto` now listens to both `checkout.session.completed` and `invoice.paid`, using the existing destination URL and signing secret.
+- Implementation commit `3a3e9f5` was pushed to `main` and `codex/reiki-invoice-automation`. Vercel production deployment `51fs3pwGTZ37G1eqdGajCCUT8QYu` showed Ready for this commit.
+- Validation: seven isolated invoice-fulfillment tests passed, lint passed with no errors, the production build passed and the live webhook rejected an unsigned request with HTTP 400. No live student payment or email-delivery test was performed.
+- Worktree: `/Users/magicalbeing/Documents/Codex/2026-06-18/hey-can-you-check-the-session/work/reiki-invoice-automation`. Older dirty worktrees were preserved.
+- Next check after payment: confirm invoice email-delivery metadata, the student's Fall 2026 access row and successful welcome-email delivery. Do not create a second invoice for the same enrollment.
+
 ## Latest Save Point - Healer's Emergence and Reiki Rising Portal Reliability on September 19, 2026
 - Current clean worktree and branch:
   - `/Users/magicalbeing/Desktop/lightness-platform/.codex-worktrees/remove-called-to-reiki`

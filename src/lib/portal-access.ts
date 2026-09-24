@@ -235,7 +235,10 @@ async function createPasswordSetupLink(email: string) {
 }
 
 export async function provisionOfferPortalAccessFromSession(
-  session: Stripe.Checkout.Session,
+  session: {
+    metadata: Stripe.Metadata | null;
+    customer_details?: { email?: string | null } | null;
+  },
 ): Promise<PortalProvisioningResult> {
   const metadata = session.metadata ?? {};
 

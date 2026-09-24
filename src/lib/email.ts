@@ -860,6 +860,10 @@ export async function sendPurchaseOwnerNotificationEmail(
 
   const metadata = session.metadata ?? {};
   const amountLabel = formatAmount(session.amount_total, session.currency);
+  const paymentLabel = metadata.paymentSource === "invoice" ? "invoice" : "session";
+  const purchaseIntro = metadata.paymentSource === "invoice"
+    ? "A personal enrollment invoice was paid."
+    : "A new website checkout purchase was completed.";
   const purchase = getOwnerPurchaseSummary(
     metadata.purchaseType,
     metadata.eventSlug,
@@ -891,7 +895,7 @@ export async function sendPurchaseOwnerNotificationEmail(
       : "";
 
   const lines = [
-    "A new website checkout purchase was completed.",
+    purchaseIntro,
     "",
     `Purchase: ${purchase}`,
     `Amount: ${amountLabel || "Not provided"}`,
@@ -911,7 +915,7 @@ export async function sendPurchaseOwnerNotificationEmail(
       ? `Optional media permission: ${mediaReleaseAccepted ? "Yes" : "No"}`
       : null,
     giftCertificateCode ? `Gift certificate code: ${giftCertificateCode}` : null,
-    `Stripe session: ${session.id || "Not provided"}`,
+    `Stripe ${paymentLabel}: ${session.id || "Not provided"}`,
     `Payment intent: ${paymentIntent || "Not provided"}`,
   ].filter(Boolean) as string[];
 
@@ -919,7 +923,7 @@ export async function sendPurchaseOwnerNotificationEmail(
   const html = `
     <div style="font-family: Georgia, serif; color: #3e342e; line-height: 1.6;">
       <h2 style="margin-bottom: 16px;">New website purchase</h2>
-      <p>A new checkout purchase was completed.</p>
+      <p>${escapeHtml(purchaseIntro)}</p>
       <p><strong>Purchase:</strong> ${escapeHtml(purchase)}</p>
       <p><strong>Amount:</strong> ${escapeHtml(amountLabel || "Not provided")}</p>
       <p><strong>Customer:</strong> ${escapeHtml(customerName)}</p>
@@ -938,7 +942,7 @@ export async function sendPurchaseOwnerNotificationEmail(
           ? `<p><strong>Gift certificate code:</strong> ${escapeHtml(giftCertificateCode)}</p>`
           : ""
       }
-      <p><strong>Stripe session:</strong> ${escapeHtml(session.id || "Not provided")}</p>
+      <p><strong>Stripe ${paymentLabel}:</strong> ${escapeHtml(session.id || "Not provided")}</p>
       <p><strong>Payment intent:</strong> ${escapeHtml(paymentIntent || "Not provided")}</p>
     </div>
   `;
@@ -1087,7 +1091,7 @@ function getOfferPurchaseEmailContent(
         option?.installmentCount
           ? `Your fixed payment plan includes ${option.installmentCount} monthly payments and ends automatically after the final payment.`
           : null,
-        `You can review the Reiki Rising Enrollment Agreement you accepted here: ${siteUrl}/reiki-rising/enrollment-agreement`,
+        `You can review the Reiki Rising Enrollment Agreement here: ${siteUrl}/reiki-rising/enrollment-agreement`,
         hasTemporaryPassword
           ? "Your Reiki Rising student portal is ready. Use the login email and unique temporary password shown above. You can keep this password or change it from your portal at any time."
           : portalAccess?.setupUrl

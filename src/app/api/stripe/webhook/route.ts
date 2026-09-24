@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { processCheckoutSessionConfirmation } from "@/lib/checkout-confirmation";
 import { env } from "@/lib/env";
+import { processInvoiceConfirmation } from "@/lib/invoice-confirmation";
 import { getStripe } from "@/lib/stripe/server";
 
 export async function POST(request: Request) {
@@ -66,6 +67,18 @@ export async function POST(request: Request) {
     if (result.portalAccess === "failed") {
       return NextResponse.json(
         { error: "Portal access provisioning failed." },
+        { status: 500 },
+      );
+    }
+  }
+
+  if (event.type === "invoice.paid") {
+    try {
+      await processInvoiceConfirmation(event.data.object.id);
+    } catch (error) {
+      console.error("Invoice enrollment confirmation failed", error);
+      return NextResponse.json(
+        { error: "Invoice enrollment confirmation failed. Please retry." },
         { status: 500 },
       );
     }

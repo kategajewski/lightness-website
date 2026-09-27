@@ -1029,13 +1029,18 @@ function getOfferPurchaseEmailContent(
     return {
       subject: "Your Sound Practitioner Training purchase is confirmed",
       intro:
-        "Your place in Sound Practitioner Training has been received. I'm so glad you'll be part of this experience.",
+        "You’re in! Raquel and I are so glad you’re joining us for Sound Practitioner Training, January 29–31, 2027.",
       detailLines,
       reminderLines: [
         option
           ? `Your selected option: ${option.label}.`
           : "Your training purchase has been recorded successfully.",
-        "More training details and next steps can be shared with you directly as the event gets closer.",
+        "Free Spirits Yoga • 648 NY-25A, Suite B, Rocky Point, NY 11778.",
+        "Friday 7:30–9:30 PM; Saturday and Sunday 11:30 AM–7:30 PM. All times Eastern.",
+        option?.key === "january-2027-plan"
+          ? "$333 first payment, followed by five automatic monthly payments of $222.22 starting one month after registration. Total tuition: $1,444.10. Billing ends automatically and does not renew."
+          : "Your $1,344 tuition is paid in full.",
+        "Your training manual and hands-on guidance are included. More preparation details will follow as our weekend approaches.",
       ],
       href: `${env.siteUrl}${site.links.soundTraining}`,
       hrefLabel: "View training details",

@@ -108,7 +108,7 @@ export default function CoursesPage() {
         </div>
         <div className="mx-auto max-w-[48rem] pt-10 text-center sm:pt-12">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            Seasonal In-Person Training
+            In-Person Training • Enrollment Open
           </span>
           <h2 className="display-section-title">Sound Practitioner Training</h2>
           <p className="mt-5 text-[1.03rem] leading-[1.75] text-[var(--color-muted)]">
@@ -121,12 +121,12 @@ export default function CoursesPage() {
               Next training: January 29 through 31, 2027
             </strong>
             <p className="mt-2 text-[var(--color-muted)]">
-              Led by Kate Gajewski and Raquel Vamos on Long Island.
+              With Kate Gajewski and Raquel Vamos at Free Spirits Yoga in Rocky Point. $1,344 in full or $333 today followed by five monthly payments of $222.22.
             </p>
           </div>
           <div className="mt-7 flex justify-center">
             <Link href={site.links.soundTraining} className="button-pill">
-              Explore Sound Practitioner Training
+              Explore Training & Enroll
             </Link>
           </div>
         </div>

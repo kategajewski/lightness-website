@@ -29,6 +29,7 @@ export type PurchaseOption = {
   stripePriceId?: string;
   amountCents?: number;
   installmentCount?: number;
+  initialPaymentCents?: number;
   availableFrom?: string;
   availableUntil?: string;
 };
@@ -137,25 +138,42 @@ export const offers: Offer[] = [
   },
   {
     slug: "sound-training",
-    name: "Sound Practitioner Training",
+    name: "Sound Practitioner Training • January 29–31, 2027",
     category: "course",
-    format: "inquiry",
-    priceLabel: "January 29 through 31, 2027",
-    description:
-      "A live immersive training for those who want to facilitate sound experiences with intention, grounded presence and embodied confidence.",
-    audience:
-      "Best for practitioners, space holders and heart-led students who feel called to bring sound more intentionally into healing work, classes, ceremonies, or private sessions.",
-    cta: "Join the Waitlist",
+    format: "one_time",
+    priceLabel: "$1,344 in full or $333 today + 5 monthly payments of $222.22",
+    description: "Three days of deep listening, hands-on instrument exploration and sound bath practice with Kate Gajewski and Raquel Vamos at Free Spirits Yoga in Rocky Point.",
+    audience: "For practitioners, space holders and curious students who feel called to deepen their understanding of sound and develop a sound bath practice.",
+    cta: "Reserve Your Place",
     features: [
-      "Live in-person training held January 29 through 31, 2027",
-      "Enrollment details will be announced to the waitlist",
-      "No payment is being accepted until registration opens",
-      "Hands-on learning with instruments, facilitation and practitioner presence",
+      "January 29–31, 2027 • Free Spirits Yoga, Rocky Point, NY",
+      "Friday 7:30–9:30 PM; Saturday and Sunday 11:30 AM–7:30 PM (Eastern)",
+      "Foundational sound theory, history and hands-on instrument exploration",
+      "Training manual, guidance and space to practice",
     ],
-    detail:
-      "Join the waitlist to receive the schedule and registration details as soon as enrollment opens.",
+    detail: "Choose one payment of $1,344 or a $333 first payment followed by five monthly payments of $222.22 ($1,444.10 total).",
     image: "/homepage-images/moodysound.jpeg",
-    href: "/contact?inquiryType=training&subject=Sound%20Practitioner%20Training%20Waitlist&draft=Hi%20Kate%2C%20I%27d%20love%20to%20join%20the%20waitlist%20for%20the%20January%202027%20Sound%20Practitioner%20Training.",
+    href: "/checkout/sound-training",
+    purchaseOptions: [
+      {
+        key: "january-2027-full",
+        label: "Sound Training • Pay in Full",
+        priceLabel: "$1,344 one-time",
+        description: "Reserve your place with one payment of $1,344. Includes all three training days, your manual and hands-on guidance.",
+        mode: "payment",
+        amountCents: 134400,
+      },
+      {
+        key: "january-2027-plan",
+        label: "Sound Training • Six-Payment Plan",
+        priceLabel: "$333 today, then 5 × $222.22",
+        description: "Your $333 deposit is the first of six payments. Five automatic monthly payments of $222.22 begin one month after registration. Total tuition: $1,444.10. Billing ends automatically after the final installment and does not renew.",
+        mode: "subscription",
+        amountCents: 22222,
+        initialPaymentCents: 33300,
+        installmentCount: 6,
+      },
+    ],
   },
   {
     slug: "gift-certificate",

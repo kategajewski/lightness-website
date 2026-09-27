@@ -182,9 +182,23 @@ export async function POST(request: Request) {
       );
       body.set(
         "line_items[0][price_data][product_data][description]",
-        `${selectedOption?.installmentCount} monthly payments. Billing ends automatically after the final payment.`,
+        selectedOption?.initialPaymentCents ? selectedOption.description : `${selectedOption?.installmentCount} monthly payments. Billing ends automatically after the final payment.`,
       );
     }
+  }
+
+  // A one-time top-up applies only to the first invoice: $222.22 + $110.78 = $333.
+  // The existing fixed schedule keeps six monthly cycles, including today's payment.
+  if (checkoutMode === "subscription" && selectedOption?.initialPaymentCents && selectedAmountCents) {
+    const initialTopUp = selectedOption.initialPaymentCents - selectedAmountCents;
+    if (initialTopUp > 0) {
+      body.set("line_items[1][quantity]", "1");
+      body.set("line_items[1][price_data][currency]", "usd");
+      body.set("line_items[1][price_data][unit_amount]", String(initialTopUp));
+      body.set("line_items[1][price_data][product_data][name]", "First-payment balance (brings today's total to $333)");
+    }
+    body.set("custom_text[submit][message]", selectedOption.description);
+    body.set("metadata[initialPaymentCents]", String(selectedOption.initialPaymentCents));
   }
 
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {

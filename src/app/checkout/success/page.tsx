@@ -41,6 +41,8 @@ export default async function CheckoutSuccessPage({
     event?.detailHref ??
     (offer?.slug === "reiki-rising"
       ? "/account"
+      : offer?.slug === "sound-training"
+        ? site.links.soundTraining
       : offer
         ? `/checkout/${offer.slug}`
         : "/account");

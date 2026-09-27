@@ -67,7 +67,7 @@ export default async function CheckoutPage({
               {currentPriceLabel || offer.priceLabel}
             </strong>
             <span className="rounded-full bg-[rgba(168,178,159,0.18)] px-3 py-1 text-[0.82rem] uppercase tracking-[0.12em] text-[var(--color-muted)]">
-              {isReikiRising
+              {isReikiRising || isSoundTraining
                 ? "Enrollment"
                 : offer.format === "subscription"
                   ? "Recurring"
@@ -103,7 +103,7 @@ export default async function CheckoutPage({
                 : isMembership
                   ? "Checkout will open here soon"
                   : isSoundTraining
-                    ? "Join the January 29 through 31 waitlist"
+                    ? "Registration support"
                     : isGiftCertificate
                       ? "Gift checkout will open here soon"
                   : "Checkout will open here soon"}
@@ -111,7 +111,7 @@ export default async function CheckoutPage({
             <p className="mt-3 text-[var(--color-muted)]">
               {readiness.checkoutReady
                 ? isSoundTraining
-                  ? "Your secure registration and payment flow is connected and ready."
+                  ? "Choose your tuition option below. Both include the full January 29–31 training, your manual and hands-on guidance."
                   : isGiftCertificate
                     ? "Choose one of the gift amounts below to purchase a certificate for someone you love."
                   : isReikiRising
@@ -120,7 +120,7 @@ export default async function CheckoutPage({
                 : isMembership
                   ? "This page is being prepared for live recurring checkout. In the meantime, you can review the membership details and return to the membership page for the full offer overview."
                   : isSoundTraining
-                    ? "The next training takes place January 29 through 31, 2027. No payment is being accepted yet. Join the waitlist to receive the schedule and enrollment details first."
+                    ? "Online payment is temporarily unavailable. Please contact Kate for help reserving your place."
                     : isGiftCertificate
                       ? "This gift certificate checkout is being finalized. In the meantime, you can return to the gift certificate page for more details."
                   : "This checkout page is being prepared for live payment. In the meantime, you can return to the main offer page for full details."}
@@ -358,7 +358,7 @@ export default async function CheckoutPage({
                   {isMembership
                     ? "View Membership Details"
                     : isSoundTraining
-                      ? "Join the Waitlist"
+                      ? "View Training Details"
                       : isGiftCertificate
                         ? "Return to Gift Certificate Details"
                       : "Return to Offer Details"}

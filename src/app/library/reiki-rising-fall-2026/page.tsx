@@ -1,5 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { isAdminEmail } from "@/lib/site";
+import { reikiRisingModules, isModuleReleased } from "@/lib/reiki-rising-videos";
+import { ReikiLessonPlayer } from "@/components/reiki-lesson-player";
+import { CourseReleaseRefresh } from "@/components/course-release-refresh";
 import {
   canAccessReikiRisingFall2026,
   getCurrentUserWithAccess,
@@ -15,50 +19,7 @@ const startHereHref = "/library/reiki-rising-fall-2026/materials/start-here";
 const practiceLogHref =
   "/library/reiki-rising-fall-2026/materials/certification-practice-log";
 
-const modules = [
-  {
-    date: "September 27, 2026",
-    title:
-      "The foundations of Reiki, how Reiki can feel, Reiki history, and the science behind energy healing",
-  },
-  {
-    date: "October 4, 2026",
-    title:
-      "Chakras, the aura, meridians, and how energy can show up in the body",
-  },
-  {
-    date: "October 11, 2026",
-    title: "Grounding, shielding, and creating energetic safety",
-  },
-  {
-    date: "October 18, 2026",
-    title: "The Three Pillars of Reiki, self-Reiki, and hand positions",
-  },
-  {
-    date: "October 25, 2026",
-    title: "Sharing Reiki with others, animals, plants, food, and water",
-  },
-  {
-    date: "November 1, 2026",
-    title: "Reiki symbols and Cho Ku Rei",
-  },
-  {
-    date: "November 8, 2026",
-    title: "Sei He Ki, Koki-ho, and Gyoshi Ho",
-  },
-  {
-    date: "November 15, 2026",
-    title: "Hon Sha Ze Sho Nen and distant Reiki",
-  },
-  {
-    date: "November 22, 2026",
-    title: "Practicing a full Reiki session with symbols and documentation",
-  },
-  {
-    date: "November 29, 2026",
-    title: "Bringing Reiki into the world, business foundations, and psychic surgery",
-  },
-] as const;
+export const dynamic = "force-dynamic";
 
 const liveCalls = [
   "Welcome, Q&A, and Ocean of Holy Love experience",
@@ -93,8 +54,15 @@ export default async function ReikiRisingFall2026LibraryPage() {
     redirect("/account");
   }
 
+  // This dynamic server page evaluates releases at request time, never at build time.
+  // eslint-disable-next-line react-hooks/purity
+  const now = Date.now();
+  const isAdmin = isAdminEmail(user.email ?? "");
+  const nextModule = reikiRisingModules.find((module) => !isModuleReleased(module, now));
+
   return (
     <main className="relative flex flex-col overflow-hidden bg-[var(--color-bg)] text-[var(--color-text)]">
+      <CourseReleaseRefresh serverNow={now} nextReleaseAt={nextModule ? Date.parse(nextModule.releaseAt) : null} />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-[radial-gradient(circle_at_18%_18%,rgba(231,198,170,0.6),transparent_30%),radial-gradient(circle_at_82%_16%,rgba(196,205,188,0.38),transparent_24%),radial-gradient(circle_at_56%_8%,rgba(223,154,150,0.28),transparent_18%)]" />
 
       <section className="mx-auto grid w-full max-w-[1180px] gap-10 px-4 pb-8 pt-16 sm:px-6 lg:grid-cols-[0.96fr_1.04fr]">
@@ -152,7 +120,7 @@ export default async function ReikiRisingFall2026LibraryPage() {
             </p>
             <p>
               <strong className="text-[var(--color-text)]">Modules:</strong>{" "}
-              Released on Sundays
+              Sundays at midnight, New York time
             </p>
             <p>
               <strong className="text-[var(--color-text)]">Live calls:</strong>{" "}
@@ -254,7 +222,7 @@ export default async function ReikiRisingFall2026LibraryPage() {
             Move through each week in order.
           </h2>
           <div className="mt-6 grid gap-5 lg:grid-cols-2">
-            {modules.map((module, index) => (
+            {reikiRisingModules.map((module, index) => (
               <article
                 key={module.date}
                 className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6"
@@ -267,9 +235,17 @@ export default async function ReikiRisingFall2026LibraryPage() {
                 </span>
                 <h2 className="mt-3 display-card-title">{module.title}</h2>
                 <p className="mt-3 text-[var(--color-muted)]">
-                  Module materials and replay links will appear here as they are
-                  released.
+                  {!isModuleReleased(module, now)
+                    ? "Opens at midnight, New York time."
+                    : module.lessons.length ? "Your lessons are ready." : "Recordings will appear here when available."}
                 </p>
+                {(isModuleReleased(module, now) || isAdmin) && module.lessons.length > 0 && (
+                  <ol className="mt-4">
+                    {module.lessons.map((lesson) => (
+                      <ReikiLessonPlayer key={lesson.slug} slug={lesson.slug} title={lesson.title} duration={lesson.duration} preview={!isModuleReleased(module, now) && isAdmin} />
+                    ))}
+                  </ol>
+                )}
               </article>
             ))}
           </div>

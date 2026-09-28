@@ -97,7 +97,7 @@ const upcomingEvents = [
   },
   {
     sortKey: "2026-09-17",
-    isActive: true,
+    isActive: false,
     eyebrow: "Featured Event",
     title: "Gallery Reading with Don Schaefer",
     description:

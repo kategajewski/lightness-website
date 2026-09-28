@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { PageShell } from "@/components/page-shell";
 import { site } from "@/lib/site";
 
@@ -64,7 +65,12 @@ const eventJsonLd = {
   },
 };
 
+// Keep the event content for reuse once a new date is confirmed.
+const registrationPublished = false;
+
 export default function GalleryReadingWithDonSchaeferPage() {
+  if (!registrationPublished) notFound();
+
   return (
     <PageShell
       eyebrow="Featured Event"

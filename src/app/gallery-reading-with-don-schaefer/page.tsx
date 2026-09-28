@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 const eventDetails = [
   {
     label: "Date",
-    value: "Thursday, September 17, 2026",
+    value: "Thursday, October 8, 2026",
     description: "Gather from 7:00-8:30 PM.",
   },
   {
@@ -22,7 +22,7 @@ const eventDetails = [
   {
     label: "Exchange",
     value: "$50",
-    description: "Register directly through Venmo to reserve your seat.",
+    description: "Pay Don directly through Venmo. Include 10/8 in your payment note to reserve for this date.",
   },
   {
     label: "Payment",
@@ -37,8 +37,8 @@ const eventJsonLd = {
   name: "Gallery Reading with Don Schaefer",
   description:
     "An intimate group mediumship reading with evidential psychic medium Don Schaefer at The Lightness of Being in Patchogue.",
-  startDate: "2026-09-17T19:00:00-04:00",
-  endDate: "2026-09-17T20:30:00-04:00",
+  startDate: "2026-10-08T19:00:00-04:00",
+  endDate: "2026-10-08T20:30:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
   location: {
@@ -65,8 +65,8 @@ const eventJsonLd = {
   },
 };
 
-// Keep the event content for reuse once a new date is confirmed.
-const registrationPublished = false;
+// Set to false to unpublish the event between scheduled dates.
+const registrationPublished = true;
 
 export default function GalleryReadingWithDonSchaeferPage() {
   if (!registrationPublished) notFound();
@@ -123,7 +123,16 @@ export default function GalleryReadingWithDonSchaeferPage() {
             ))}
           </div>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 rounded-[20px] border border-[rgba(76,58,48,0.22)] bg-[rgba(255,251,246,0.92)] p-5">
+            <h3 className="text-[1.08rem] font-semibold">Please include 10/8 in your Venmo note</h3>
+            <p className="mt-2 text-[var(--color-muted)]">
+              Send $50 to Don at <strong>@donald-schaefer-12</strong> and add
+              the note <strong>Gallery Reading 10/8</strong> so we know which
+              event your payment is for.
+            </p>
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="https://venmo.com/u/donald-schaefer-12"
               className="button-pill"

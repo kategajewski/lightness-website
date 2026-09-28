@@ -4,14 +4,14 @@ import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 const sanctuaryRegistrationUrl =
-  "https://www.sanctuary-health.org/event-details/autumn-alchemy-sound-journey-with-kate";
+  "https://www.sanctuary-health.org/event-details/the-descent-sound-journey";
 
 export const metadata = createPageMetadata({
-  title: "Monthly Sound Journeys at Sanctuary+Health",
+  title: "The Descent | Holy Fire® Reiki Infused Sound Journey",
   description:
-    "Join Kate Gajewski for monthly sound journeys infused with Holy Fire® Reiki at Sanctuary+Health in Patchogue, New York.",
+    "The Descent: a Holy Fire® Reiki infused sound journey with Kate at Sanctuary+Health, Patchogue. Friday, October 23, 2026, 8:00–9:30 PM.",
   path: "/sound-journeys-at-sanctuary",
-  image: "/homepage-images/autumn-alchemy-flyer.jpeg",
+  image: "/homepage-images/the-descent-flyer.jpeg",
 });
 
 const experienceNotes = [
@@ -24,14 +24,14 @@ const experienceNotes = [
 const eventJsonLd = {
   "@context": "https://schema.org",
   "@type": "Event",
-  name: "Autumn Alchemy Sound Journey with Kate",
+  name: "The Descent Sound Journey with Kate",
   description:
-    "A deeply restorative evening of sound and Holy Fire® Reiki with Kate Gajewski at Sanctuary+Health in Patchogue, New York.",
-  startDate: "2026-09-21T20:00:00-04:00",
-  endDate: "2026-09-21T21:30:00-04:00",
+    "A deeply restorative evening of sound layered with Holy Fire® Reiki, inviting you to soften into stillness and reconnect with what lives beneath the surface.",
+  startDate: "2026-10-23T20:00:00-04:00",
+  endDate: "2026-10-23T21:30:00-04:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
-  image: `${site.url}/homepage-images/autumn-alchemy-flyer.jpeg`,
+  image: `${site.url}/homepage-images/the-descent-flyer.jpeg`,
   performer: {
     "@type": "Person",
     name: "Kate Gajewski",
@@ -75,7 +75,7 @@ export default function SoundJourneysAtSanctuaryPage() {
           <div className="flex flex-col justify-center p-7 sm:p-9 lg:p-12">
             <div className="flex flex-wrap gap-2">
               <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
-                Monday, September 21
+                Friday, October 23, 2026
               </span>
               <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
                 8:00-9:30 PM
@@ -83,16 +83,22 @@ export default function SoundJourneysAtSanctuaryPage() {
             </div>
 
             <span className="mt-8 text-[0.72rem] font-bold uppercase tracking-[0.2em] text-[var(--color-muted)]">
-              September&apos;s Gathering
+              October&apos;s Gathering
             </span>
             <h2 className="mt-3 max-w-[11ch] font-display text-[3.15rem] leading-[0.96] tracking-[0] text-[var(--color-text)] sm:text-[4.3rem] lg:text-[5rem]">
-              Autumn Alchemy
+              The Descent
             </h2>
-            <p className="mt-6 max-w-[39rem] text-[1.06rem] leading-8 text-[var(--color-muted)]">
-              A deeply restorative evening of sound and Holy Fire® Reiki,
-              created to help you soften, receive and settle into the energy of
-              the season. Allow the vibrations to wash over you as we welcome
-              autumn with intention.
+            <p className="mt-5 text-[1.06rem] font-semibold text-[var(--color-text)]">
+              A Holy Fire® Reiki Infused Sound Journey
+            </p>
+            <p className="mt-5 max-w-[39rem] text-[1.06rem] leading-8 text-[var(--color-muted)]">
+              As the season draws us inward, The Descent is an invitation to
+              follow. A deeply restorative evening of sound layered with Holy
+              Fire® Reiki, designed to quiet the outside world, soften into
+              stillness and reconnect with what lives beneath the surface.
+            </p>
+            <p className="mt-4 text-[1.06rem] leading-8 text-[var(--color-muted)]">
+              Come rest, receive and be guided inward.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -115,11 +121,11 @@ export default function SoundJourneysAtSanctuaryPage() {
             </p>
           </div>
 
-          <div className="relative overflow-hidden bg-[#d3b198] lg:min-h-[44rem]">
+          <div className="flex items-center overflow-hidden bg-[#30292b]">
             <img
-              src="/homepage-images/autumn-alchemy-flyer.jpeg"
-              alt="Autumn Alchemy sound journey at Sanctuary+Health with Kate"
-              className="block h-auto w-full object-contain object-center lg:h-full lg:object-cover"
+              src="/homepage-images/the-descent-flyer.jpeg"
+              alt="The Descent, a Holy Fire Reiki infused sound journey with Kate at Sanctuary+Health, Friday October 23, 8–9:30 PM"
+              className="block h-auto w-full object-contain object-center"
             />
           </div>
         </div>

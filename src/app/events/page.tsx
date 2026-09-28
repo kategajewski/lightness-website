@@ -12,14 +12,14 @@ export const metadata = createPageMetadata({
 
 const upcomingEvents = [
   {
-    sortKey: "2026-09-21",
+    sortKey: "2026-10-23",
     isActive: true,
     eyebrow: "Reiki-Infused Sound Journey",
-    title: "Autumn Alchemy",
+    title: "The Descent",
     description:
-      "A deeply restorative evening of sound and Holy Fire® Reiki with Kate at Sanctuary+Health.",
+      "A Holy Fire® Reiki infused sound journey with Kate. An invitation to soften into stillness, quiet the outside world and be guided inward.",
     details:
-      "Monday, September 21, 2026 · 8:00-9:30 PM · Sanctuary+Health, Patchogue · $55 before processing fees",
+      "Friday, October 23, 2026 · 8:00-9:30 PM · Sanctuary+Health, Patchogue · $55 before processing fees",
     href: site.links.soundJourneysAtSanctuary,
     cta: "Explore the Sound Journey",
     cardClass:
@@ -274,7 +274,7 @@ export default function EventsPage() {
       <section className="grid gap-5 xl:grid-cols-2">
         {visibleUpcomingEvents.map((item) => (
           <article
-            key={item.title}
+            key={item.href}
             className={`rounded-[26px] border p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)] ${item.cardClass}`}
           >
             <span className="mb-3 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">

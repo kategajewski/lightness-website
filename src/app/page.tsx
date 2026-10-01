@@ -141,7 +141,7 @@ export default function Home() {
                 Training, Coaching & Mentorship
               </span>
               <p className="text-[var(--color-muted)]">
-                Deepen your practice through Reiki education, mentorship, and pathways for personal and practitioner growth.
+                The Embodied Healer and private Reiki coaching are available now. Find personal guidance for your healing journey or practitioner growth.
               </p>
             </div>
           </Link>

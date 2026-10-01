@@ -1,30 +1,18 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
-import { TrainingPathQuiz } from "@/components/training-path-quiz";
-import { env } from "@/lib/env";
 import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = createPageMetadata({
   title: "Reiki & Sound Healing Training with Kate Gajewski",
-  description: "Explore Reiki Rising, private Reiki mentorship and immersive sound practitioner training for personal growth and confident healing practice.",
+  description: "Explore The Embodied Healer, private Reiki coaching and sound practitioner training. Reiki Rising returns Fall 2027.",
   path: "/courses",
   image: "/homepage-images/ghl-reiki-rising.webp",
 });
 
 const reikiTrainingPaths = [
   {
-    eyebrow: "Group Program",
-    title: "Reiki Rising",
-    description:
-      "A 10-week online Reiki journey designed to help students build confidence, deepen their understanding and integrate Reiki into daily life and healing work.",
-    details:
-      "The Fall 2026 cohort begins September 27. Enrollment is open with one-time and payment-plan options available.",
-    cta: "View Program & Enroll",
-    href: site.links.reikiTraining,
-  },
-  {
-    eyebrow: "Private Reiki Training",
+    eyebrow: "Available Now · Private Reiki Training",
     title: "The Embodied Healer",
     description:
       "An ongoing Reiki Master mentorship for those who feel called to deeper personal healing, hands-on guidance and a more intimate path toward mastery and teaching.",
@@ -34,7 +22,7 @@ const reikiTrainingPaths = [
     href: site.links.mentorship,
   },
   {
-    eyebrow: "Practitioner Mentorship",
+    eyebrow: "Available Now · Reiki Coaching",
     title: "The Healer's Emergence",
     description:
       "A six-week or twelve-week private mentorship for trained Reiki practitioners who want to deepen what they know, trust their work and become more confident and visible.",
@@ -68,12 +56,12 @@ export default function CoursesPage() {
           Learn Reiki or receive support as your practice continues to grow.
         </h2>
         <p className="mx-auto mt-5 max-w-[44rem] text-[1.03rem] leading-[1.75] text-[var(--color-muted)]">
-          Choose a live online cohort, a private certification path or ongoing
-          mentorship created for trained Reiki practitioners.
+          The Embodied Healer and private Reiki coaching are available now.
+          Explore a private certification path or mentorship for trained Reiki practitioners.
         </p>
       </section>
 
-      <section className="grid gap-5 lg:grid-cols-3">
+      <section className="grid gap-5 lg:grid-cols-2">
         {reikiTrainingPaths.map((path) => (
           <article
             key={path.title}
@@ -96,7 +84,12 @@ export default function CoursesPage() {
         ))}
       </section>
 
-      <TrainingPathQuiz turnstileSiteKey={env.turnstileSiteKey} />
+      <section className="rounded-[28px] bg-[rgba(168,178,159,0.18)] p-8 sm:p-10">
+        <p className="text-sm font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">Returning Fall 2027</p>
+        <h2 className="mt-4 display-card-title">Reiki Rising</h2>
+        <p className="mt-4 max-w-[44rem] text-[var(--color-muted)]">Enrollment is closed for the current cohort. Our guided group Reiki journey returns next fall. Join the interest list to hear when enrollment opens.</p>
+        <Link href={site.links.reikiTraining} className="mt-6 inline-flex button-pill">Explore Reiki Rising &amp; Join the Interest List</Link>
+      </section>
 
       <section className="mt-5">
         <div className="mx-auto w-full max-w-[44rem] overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">

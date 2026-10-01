@@ -7,6 +7,10 @@ export async function POST(request: Request) {
   const origin = env.siteUrl.replace(/\/$/, "");
   const formData = await request.formData();
   const slug = String(formData.get("slug") ?? "");
+  // Public enrollment is closed. Existing invoices, subscriptions and access remain active.
+  if (slug === "reiki-rising") {
+    return NextResponse.redirect(`${origin}/reiki-rising`, { status: 303 });
+  }
   const optionKey = String(formData.get("optionKey") ?? "");
   const agreementFullName = String(
     formData.get("agreementFullName") ?? "",

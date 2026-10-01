@@ -13,7 +13,7 @@ export default function ReikiTrainingLongIslandPage() {
     <LocalDiscoveryPage
       eyebrow="Reiki Training for Long Island"
       title="Learn Reiki through practice, embodiment, and meaningful support."
-      description="Reiki Rising is Kate Gajewski’s 10-week live online Reiki training for Long Island students and others who want a deeper, more personal path into healing and practice."
+      description="Explore Reiki training and coaching with Kate Gajewski. The Embodied Healer and private Reiki coaching are available now. Reiki Rising returns Fall 2027."
       serviceName="Reiki Training for Long Island Students"
       path="/reiki-training-long-island"
       image="/homepage-images/ghl-reiki-rising.webp"
@@ -32,7 +32,7 @@ export default function ReikiTrainingLongIslandPage() {
         "Reiki Rising is a 10-week live online experience, not a self-paced course.",
         "Students throughout Long Island can participate from home.",
         "The training supports both personal healing and a future practitioner path.",
-        "Cohorts open at select times during the year, with a waitlist available between enrollments.",
+        "Reiki Rising enrollment is closed until Fall 2027. Join the interest list or explore The Embodied Healer and private Reiki coaching, available now.",
       ]}
       faqs={[
         { question: "Can I take Reiki training if I live on Long Island?", answer: "Yes. Reiki Rising is taught live online, so students across Long Island can join from home while still receiving real-time teaching and group support." },
@@ -40,7 +40,7 @@ export default function ReikiTrainingLongIslandPage() {
         { question: "Is the training only for future practitioners?", answer: "No. Many students begin for their own healing, spiritual development, or family practice. You do not need to decide in advance whether you want to work professionally." },
         { question: "How is Reiki Rising different from a weekend class?", answer: "The 10-week rhythm creates more space for practice, questions, embodiment, and integration. Students can develop a lived relationship with Reiki rather than receiving all the material at once." },
       ]}
-      primaryCta={{ label: "Explore Reiki Rising", href: "/reiki-rising" }}
+      primaryCta={{ label: "Explore Available Training & Coaching", href: "/courses" }}
       secondaryCta={{ label: "View All Training", href: "/courses" }}
     />
   );

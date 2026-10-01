@@ -1,3 +1,6 @@
+// Resume only after the self-paced offering and quiz recommendations are ready.
+export const REIKI_QUIZ_PAUSED = true;
+
 export type ScoredReikiPathKey =
   | "reikiRising"
   | "embodiedHealer"

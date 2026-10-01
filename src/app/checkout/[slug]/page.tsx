@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import {
   getAvailablePurchaseOptions,
   getCheckoutReadiness,
@@ -20,6 +20,7 @@ export default async function CheckoutPage({
   searchParams,
 }: CheckoutPageProps) {
   const { slug } = await params;
+  if (slug === "reiki-rising") redirect("/reiki-rising");
   const query = await searchParams;
   const offer = getOfferBySlug(slug);
 

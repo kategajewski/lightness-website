@@ -8,6 +8,7 @@ import {
 } from "@/lib/form-security";
 import { syncEmailSignupToMailchimp } from "@/lib/mailchimp";
 import {
+  REIKI_QUIZ_PAUSED,
   reikiQuizClosingReflections,
   reikiQuizResults,
   type ReikiQuizResultKey,
@@ -31,6 +32,13 @@ function getReflection(indexValue: string) {
 }
 
 export async function POST(request: Request) {
+  // Preserve the quiz and saved responses until the new self-paced course is ready.
+  if (REIKI_QUIZ_PAUSED) {
+    return NextResponse.json(
+      { message: "The Reiki path quiz is paused. Explore current training and coaching at /courses." },
+      { status: 503 },
+    );
+  }
   let formData: FormData;
 
   try {

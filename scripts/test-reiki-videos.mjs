@@ -107,3 +107,16 @@ test("missing lesson or signing configuration fails closed", async () => {
   const missing = load("../src/lib/reiki-rising-videos.ts", { "server-only": {}, "node:crypto": crypto }, { process: { env: {} } });
   assert.equal(missing.createReikiPlaybackUrl("any"), null);
 });
+
+test("September 30 replay is available only to active Fall 2026 students after release", async () => {
+  const slug = "live-call-2026-09-30";
+  const now = "2026-10-03T00:00:00Z";
+  const response = await endpoint({ slug, now });
+  assert.equal(response.status, 200);
+  assert.ok((await response.json()).url.includes("5c5fa972-1d82-48e5-9ec1-2aa69818ff89"));
+  for (const [overrides, status] of [[{ email: "" }, 401], [{ cohort: "reiki-rising-spring-2026" }, 403], [{ status: "inactive" }, 403], [{ now: "2026-10-01T00:00:00Z" }, 403]]) {
+    const blocked = await endpoint({ slug, now, ...overrides });
+    assert.equal(blocked.status, status);
+    assert.ok(!(await blocked.json()).url);
+  }
+});

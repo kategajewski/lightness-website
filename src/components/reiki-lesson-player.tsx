@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-export function ReikiLessonPlayer({ slug, title, duration, preview = false }: {
-  slug: string; title: string; duration: string; preview?: boolean;
+export function ReikiLessonPlayer({ slug, title, duration, preview = false, replay = false }: {
+  slug: string; title: string; duration: string; preview?: boolean; replay?: boolean;
 }) {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ export function ReikiLessonPlayer({ slug, title, duration, preview = false }: {
         </div>
       ) : (
         <button type="button" onClick={openVideo} disabled={loading} className="button-pill mt-3 disabled:opacity-60">
-          {loading ? "Loading..." : preview ? "Preview lesson (admin only)" : "Watch lesson"}
+          {loading ? "Loading..." : preview ? "Preview lesson (admin only)" : replay ? "Watch replay" : "Watch lesson"}
         </button>
       )}
       {error && <p role="alert" className="mt-3 text-sm">{error} <a href="/login" className="underline">Sign in</a> / <a href="/contact" className="underline">Contact Kate</a></p>}

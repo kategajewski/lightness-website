@@ -4,6 +4,21 @@ import { createHash } from "node:crypto";
 type Lesson = { slug: string; title: string; videoId: string; duration: string };
 type CourseModule = { date: string; releaseAt: string; title: string; lessons: Lesson[] };
 
+// Live-call recordings belong to this cohort, separately from Sunday lessons.
+export const reikiRisingReplays: CourseModule[] = [
+  {
+    date: "September 30, 2026",
+    releaseAt: "2026-10-02T00:00:00-04:00",
+    title: "Opening Class Replay",
+    lessons: [{
+      slug: "live-call-2026-09-30",
+      title: "September 30: Opening Class Replay",
+      videoId: "5c5fa972-1d82-48e5-9ec1-2aa69818ff89",
+      duration: "1 hour 13 minutes",
+    }],
+  },
+];
+
 // New York midnight is still EDT on November 1; EST starts later that morning.
 export const reikiRisingModules: CourseModule[] = [
   {
@@ -32,7 +47,7 @@ export function isModuleReleased(module: CourseModule, now = Date.now()) {
 }
 
 export function findReikiLesson(slug: string) {
-  for (const courseModule of reikiRisingModules) {
+  for (const courseModule of [...reikiRisingModules, ...reikiRisingReplays]) {
     const lesson = courseModule.lessons.find((item) => item.slug === slug);
     if (lesson) return { module: courseModule, lesson };
   }

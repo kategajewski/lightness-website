@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { isAdminEmail } from "@/lib/site";
-import { reikiRisingModules, isModuleReleased } from "@/lib/reiki-rising-videos";
+import { reikiRisingModules, reikiRisingReplays, isModuleReleased } from "@/lib/reiki-rising-videos";
 import { ReikiLessonPlayer } from "@/components/reiki-lesson-player";
 import { CourseReleaseRefresh } from "@/components/course-release-refresh";
 import {
@@ -250,6 +250,25 @@ export default async function ReikiRisingFall2026LibraryPage() {
             ))}
           </div>
         </section>
+
+        {reikiRisingReplays.some((replay) => isModuleReleased(replay, now)) && (
+          <section id="live-call-replays" className="rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
+            <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+              Live Call Replays
+            </span>
+            <h2 className="display-section-title">Return to our time together.</h2>
+            {reikiRisingReplays.filter((replay) => isModuleReleased(replay, now)).map((replay) => (
+              <div key={replay.date} className="mt-6">
+                <p className="text-sm font-bold text-[var(--color-muted)]">{replay.date}</p>
+                <ol className="mt-3">
+                  {replay.lessons.map((lesson) => (
+                    <ReikiLessonPlayer key={lesson.slug} slug={lesson.slug} title={lesson.title} duration={lesson.duration} replay />
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </section>
+        )}
 
         <div className="grid gap-6 lg:grid-cols-2">
           <section className="rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">

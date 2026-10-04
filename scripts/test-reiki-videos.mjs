@@ -43,12 +43,24 @@ test("all ten releases are Sunday midnight New York, including DST", () => {
   }
 });
 
-test("four approved lessons are unique, ordered and later modules have no invented recordings", () => {
+test("the four Module 1 lessons stay ordered and later modules have no invented recordings", () => {
   assert.equal(modules[0].lessons.map(l => l.slug).join(","), "what-is-reiki,holy-fire-reiki,science-behind-reiki,history-of-reiki");
   assert.equal(new Set(modules[0].lessons.map(l => l.videoId)).size, 4);
-  assert.ok(modules.slice(1).every(m => m.lessons.length === 0));
+  assert.ok(modules.slice(2).every(m => m.lessons.length === 0));
   assert.equal(videos.findReikiLesson("__proto__"), null);
   assert.equal(videos.findReikiLesson("../../private"), null);
+});
+
+test("Module 2 has eleven distinct lessons in teaching order with valid playback metadata", () => {
+  assert.equal(modules[1].lessons.map(l => l.title).join(","), "Intro to Energy Anatomy,Chakras,Root Chakra,Sacral Chakra,Solar Plexus Chakra,Heart Chakra,Throat Chakra,Third Eye Chakra,Crown Chakra,Meridians,Aura");
+  const lessons = [...modules, ...videos.reikiRisingReplays].flatMap(m => m.lessons);
+  assert.equal(new Set(lessons.map(l => l.slug)).size, lessons.length);
+  assert.equal(new Set(lessons.map(l => l.videoId)).size, lessons.length);
+  for (const lesson of modules[1].lessons) {
+    assert.match(lesson.videoId, /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/);
+    assert.match(lesson.duration, /^\d+:[0-5]\d$/);
+    assert.equal(videos.findReikiLesson(lesson.slug).module.date, "October 4, 2026");
+  }
 });
 
 test("tokens use the Bunny SHA256 contract, expire in two hours and never contain the secret", () => {
@@ -96,6 +108,33 @@ test("students stay locked until the exact boundary; admin previews do not unloc
     assert.equal(response.status, 200);
     assert.ok((await response.json()).url.includes(lesson.videoId));
     assert.equal(response.headers.get("vary"), "Cookie");
+  }
+});
+
+test("every Module 2 lesson unlocks at October 4 midnight Eastern and remains cohort protected", async () => {
+  const before = "2026-10-04T03:59:59.999Z";
+  const now = "2026-10-04T04:00:00Z";
+  assert.equal(modules[1].releaseAt, "2026-10-04T00:00:00-04:00");
+  for (const { slug, videoId } of modules[1].lessons) {
+    for (const preview of [false, true]) {
+      const locked = await endpoint({ slug, now: before, preview });
+      assert.equal(locked.status, 403);
+      assert.ok(!(await locked.json()).url);
+    }
+    assert.equal((await endpoint({ slug, now: before, email: "admin@example.com", preview: true })).status, 200);
+    const response = await endpoint({ slug, now });
+    assert.equal(response.status, 200);
+    assert.equal(new URL((await response.json()).url).pathname, `/embed/762439/${videoId}`);
+    assert.match(response.headers.get("cache-control"), /private, no-store/);
+    assert.equal(response.headers.get("vary"), "Cookie");
+    for (const [overrides, status] of [[{ email: "" }, 401], [{ cohort: "reiki-rising-spring-2026" }, 403], [{ status: "inactive" }, 403]]) {
+      const blocked = await endpoint({ slug, now, preview: true, ...overrides });
+      assert.equal(blocked.status, status);
+      assert.ok(!(await blocked.json()).url);
+    }
+    const unavailable = await endpoint({ slug, now, configured: false });
+    assert.equal(unavailable.status, 503);
+    assert.ok(!(await unavailable.json()).url);
   }
 });
 

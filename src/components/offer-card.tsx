@@ -9,11 +9,11 @@ export function OfferCard({ offer }: OfferCardProps) {
   const isMembership = offer.slug === "monthly-membership";
 
   return (
-    <article className="overflow-hidden rounded-[24px] border border-[var(--color-rose)] bg-[var(--color-ivory)] shadow-[0_24px_80px_rgba(47,37,32,0.08)]">
+    <article className="overflow-hidden rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
       <div
         className="min-h-[260px] bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(180deg, rgba(47,37,32,0.04), rgba(47,37,32,0.18)), url('${offer.image}')`,
+          backgroundImage: `linear-gradient(180deg, rgba(76,58,48,0.04), rgba(76,58,48,0.18)), url('${offer.image}')`,
         }}
       />
       <div className="grid gap-4 p-7">
@@ -21,7 +21,7 @@ export function OfferCard({ offer }: OfferCardProps) {
           <span className="text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             {offer.category}
           </span>
-          <span className="rounded-full bg-[var(--color-sage)] px-3 py-1 text-[0.82rem] font-semibold text-[var(--color-text)]">
+          <span className="rounded-full bg-[rgba(168,178,159,0.18)] px-3 py-1 text-[0.82rem] text-[var(--color-muted)]">
             {offer.priceLabel}
           </span>
         </div>
@@ -31,13 +31,13 @@ export function OfferCard({ offer }: OfferCardProps) {
           </h2>
           <p className="mt-3 text-[var(--color-muted)]">{offer.description}</p>
         </div>
-        <p className="rounded-[18px] bg-[var(--color-peach)] px-4 py-4 text-[0.96rem] text-[var(--color-text)]">
+        <p className="rounded-[18px] bg-[rgba(255,248,242,0.86)] px-4 py-4 text-[0.96rem] text-[var(--color-muted)]">
           {offer.audience}
         </p>
         <ul className="grid gap-2 text-[0.96rem] text-[var(--color-muted)]">
           {offer.features.map((feature) => (
             <li key={feature} className="flex gap-3">
-              <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[var(--color-gold)]" />
+              <span className="mt-2 h-2 w-2 rounded-full bg-[rgba(93,81,72,0.8)]" />
               <span>{feature}</span>
             </li>
           ))}

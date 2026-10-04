@@ -6,12 +6,6 @@
   --color-text: #2f2520;
   --color-muted: #554842;
   --color-line: rgba(76, 58, 48, 0.12);
-  --color-ivory: #fffaf5;
-  --color-brown: #4a3d36;
-  --color-sage: #a8b29f;
-  --color-peach: #e6c2a2;
-  --color-rose: #c9a79c;
-  --color-gold: #b8893d;
 }
 
 @theme inline {
@@ -79,97 +73,22 @@ a {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  border: 2px solid var(--color-brown);
-  background: var(--color-rose);
+  border: 2px solid #4a3d36;
+  background: #fffaf5;
   padding: 1rem 1.5rem;
   font-size: 0.98rem;
   font-weight: 600;
-  color: var(--color-text);
+  color: #4a3d36;
   box-shadow: 0 12px 28px rgba(69, 57, 51, 0.08);
-  transition: background-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+  transition: background-color 200ms ease, transform 200ms ease;
 }
 
-.button-pill:hover:not(:disabled):not([aria-disabled="true"]) {
-  background: var(--color-peach);
-  box-shadow: 0 14px 30px rgba(69, 57, 51, 0.14);
-  transform: translateY(-2px);
-}
-
-.button-pill-secondary {
-  background: var(--color-sage);
-}
-
-.button-pill-secondary:hover:not(:disabled):not([aria-disabled="true"]) {
-  background: var(--color-ivory);
-}
-
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 3px solid var(--color-brown);
-  outline-offset: 4px;
-}
-
-.brand-home-glow {
-  background: radial-gradient(ellipse at 12% 12%, rgba(201, 167, 156, 0.64), transparent 65%),
-    radial-gradient(ellipse at 85% 6%, rgba(230, 194, 162, 0.7), transparent 60%);
-}
-
-.brand-eyebrow {
-  border-left: 3px solid var(--color-gold);
-  padding-left: 0.8rem;
-  color: var(--color-brown);
-}
-
-.brand-intro {
-  border-color: rgba(74, 61, 54, 0.2);
-  background: var(--color-sage);
-}
-
-.brand-pathway {
-  border-color: rgba(74, 61, 54, 0.2);
-}
-
-.brand-pathway-peach {
-  background: var(--color-peach);
-}
-
-.brand-pathway-rose {
-  background: var(--color-rose);
-}
-
-.brand-pathway-sage {
-  background: var(--color-sage);
-}
-
-.brand-pathway p,
-.brand-pathway span {
-  color: var(--color-text);
-}
-
-.brand-testimonial {
-  border-color: rgba(74, 61, 54, 0.2);
-  background: var(--color-peach);
+.button-pill:hover {
+  background: #f7efe6;
 }
 
 .button-pill:disabled,
 .button-pill[aria-disabled="true"] {
   opacity: 0.7;
   cursor: not-allowed;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .button-pill {
-    transition: none;
-  }
-
-  .button-pill:hover:not(:disabled):not([aria-disabled="true"]) {
-    transform: none;
-  }
 }

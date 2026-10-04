@@ -1,18 +1,6 @@
 # The Lightness of Being Brand Guide
 
-Last updated: October 4, 2026
-
-## Canva 2026 Website Color Update
-
-The October 4 website update uses the existing Canva `2026` Brand Kit, verified directly in Canva. Use its sage `#a8b29f`, peach `#e6c2a2`, rose `#c9a79c` and gold `#b8893d` more visibly alongside the original cream, ivory and brown.
-
-- Use solid sage, peach and rose on selected section backgrounds, pathway cards and badges so the accents read as color.
-- Use rose for primary buttons and sage for secondary buttons, with dark cacao text and brown borders.
-- Keep cream around colored sections and ivory inside detailed content cards.
-- Use gold for small decorative rules and details. Keep body text in cacao or the existing muted brown for contrast.
-- Keep the existing typography, photography, layouts and page content.
-
-This update supersedes earlier guidance below that limits brand accents to faint tints. Prefer the shared CSS tokens `--color-sage`, `--color-peach`, `--color-rose`, `--color-gold`, `--color-brown` and `--color-ivory` in `src/app/globals.css`.
+Last updated: July 10, 2026
 
 ## Standing Brand Rule
 

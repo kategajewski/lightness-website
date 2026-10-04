@@ -35,12 +35,12 @@ export default function Home() {
 
   return (
     <main className="relative flex min-h-[calc(100vh-82px)] flex-col overflow-hidden bg-[var(--color-bg)] text-[var(--color-text)]">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(circle_at_top_center,_rgba(230,194,162,0.42),_rgba(230,194,162,0.16)_32%,_rgba(230,194,162,0.06)_48%,_transparent_72%)] blur-[6px]" />
+      <div aria-hidden="true" className="brand-home-glow pointer-events-none absolute inset-x-0 top-0 h-[40rem]" />
 
-      <section className="mx-auto flex w-full max-w-[1180px] flex-col px-4 pb-5 pt-8 sm:px-6 sm:pb-10 sm:pt-12">
+      <section className="relative mx-auto flex w-full max-w-[1180px] flex-col px-4 pb-5 pt-8 sm:px-6 sm:pb-10 sm:pt-12">
         <div className="grid items-start gap-7 sm:gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+            <span className="brand-eyebrow mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em]">
               Energy Healing with Kate Gajewski
             </span>
             <h1 className="max-w-[10ch] display-page-title">
@@ -66,31 +66,31 @@ export default function Home() {
               </Link>
               <Link
                 href={site.links.courses}
-                className="button-pill"
+                className="button-pill button-pill-secondary"
               >
                 Explore Programs
               </Link>
             </div>
           </div>
 
-          <div className="relative min-h-[540px] overflow-hidden rounded-[28px] bg-[linear-gradient(180deg,rgba(88,72,62,0.1),rgba(88,72,62,0.24)),url('/homepage-images/about-pinkbowlsmile.jpeg')] bg-cover bg-[position:80%_center] shadow-[0_24px_80px_rgba(59,41,31,0.08)] max-md:min-h-[340px] sm:rounded-[34px]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,247,240,0.3),_transparent_30%),linear-gradient(180deg,rgba(255,251,247,0.06),rgba(62,46,38,0.28))]" />
+          <div className="relative min-h-[540px] overflow-hidden rounded-[28px] bg-[linear-gradient(180deg,rgba(88,72,62,0.02),rgba(88,72,62,0.08)),url('/homepage-images/about-pinkbowlsmile.jpeg')] bg-cover bg-[position:80%_center] shadow-[0_24px_80px_rgba(59,41,31,0.08)] max-md:min-h-[340px] sm:rounded-[34px]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,247,240,0.14),_transparent_30%),linear-gradient(180deg,rgba(255,251,247,0.02),rgba(62,46,38,0.1))]" />
           </div>
         </div>
       </section>
 
       <section className="px-4 pb-0 pt-5 sm:px-6 sm:pt-8">
-        <div className="mx-auto w-full max-w-[1180px] overflow-hidden rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(248,242,235,0.88),rgba(239,229,217,0.82)),linear-gradient(0deg,rgba(248,242,235,0.48),rgba(248,242,235,0.48)),url('/homepage-images/space-detail-2.jpeg')] bg-cover bg-center px-6 py-8 sm:rounded-[30px] sm:px-10 sm:py-12 lg:px-14">
+        <div className="brand-intro mx-auto w-full max-w-[1180px] overflow-hidden rounded-[26px] border px-6 py-8 sm:rounded-[30px] sm:px-10 sm:py-12 lg:px-14">
           <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div>
-              <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+              <span className="brand-eyebrow mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em]">
                 A Place To Begin
               </span>
               <h2 className="relative z-[1] max-w-[14ch] display-section-title">
                 Choose the kind of support you&apos;re looking for.
               </h2>
             </div>
-            <p className="relative z-[1] max-w-[36rem] text-[1.04rem] leading-relaxed text-[var(--color-muted)] lg:justify-self-end">
+            <p className="relative z-[1] max-w-[36rem] text-[1.04rem] leading-relaxed text-[var(--color-text)] lg:justify-self-end">
               Whether you&apos;re seeking private healing sessions, sound bath
               experiences, or deeper training and mentorship, you can begin with
               the path that feels most aligned.
@@ -103,9 +103,9 @@ export default function Home() {
         <div className="mx-auto grid w-full max-w-[1180px] gap-5 md:grid-cols-3">
           <Link
             href={site.links.services}
-            className="group overflow-hidden rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)] transition-transform duration-200 hover:-translate-y-1"
+            className="brand-pathway brand-pathway-peach group overflow-hidden rounded-[24px] border shadow-[0_24px_80px_rgba(59,41,31,0.08)] transition-transform duration-200 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none"
           >
-            <div className="min-h-[230px] bg-[linear-gradient(180deg,rgba(88,72,62,0.08),rgba(88,72,62,0.16)),url('/homepage-images/healing-session.jpeg')] bg-cover bg-center sm:min-h-[270px]" />
+            <div className="min-h-[230px] bg-[linear-gradient(180deg,rgba(88,72,62,0.02),rgba(88,72,62,0.06)),url('/homepage-images/healing-session.jpeg')] bg-cover bg-center sm:min-h-[270px]" />
             <div className="p-5">
               <span className="mb-2 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
                 Private Sessions
@@ -118,9 +118,9 @@ export default function Home() {
 
           <Link
             href={site.links.events}
-            className="group overflow-hidden rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)] transition-transform duration-200 hover:-translate-y-1"
+            className="brand-pathway brand-pathway-rose group overflow-hidden rounded-[24px] border shadow-[0_24px_80px_rgba(59,41,31,0.08)] transition-transform duration-200 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none"
           >
-            <div className="min-h-[230px] bg-[linear-gradient(180deg,rgba(88,72,62,0.08),rgba(88,72,62,0.16)),url('/homepage-images/moodysound.jpeg')] bg-cover bg-center sm:min-h-[270px]" />
+            <div className="min-h-[230px] bg-[linear-gradient(180deg,rgba(88,72,62,0.02),rgba(88,72,62,0.06)),url('/homepage-images/moodysound.jpeg')] bg-cover bg-center sm:min-h-[270px]" />
             <div className="p-5">
               <span className="mb-2 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
                 Sound Baths & Events
@@ -133,9 +133,9 @@ export default function Home() {
 
           <Link
             href={site.links.courses}
-            className="group overflow-hidden rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)] transition-transform duration-200 hover:-translate-y-1"
+            className="brand-pathway brand-pathway-sage group overflow-hidden rounded-[24px] border shadow-[0_24px_80px_rgba(59,41,31,0.08)] transition-transform duration-200 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none"
           >
-            <div className="min-h-[230px] bg-[linear-gradient(180deg,rgba(88,72,62,0.08),rgba(88,72,62,0.16)),url('/homepage-images/space-detail-2.jpeg')] bg-cover bg-center sm:min-h-[270px]" />
+            <div className="min-h-[230px] bg-[linear-gradient(180deg,rgba(88,72,62,0.02),rgba(88,72,62,0.06)),url('/homepage-images/space-detail-2.jpeg')] bg-cover bg-center sm:min-h-[270px]" />
             <div className="p-5">
               <span className="mb-2 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
                 Training, Coaching & Mentorship
@@ -151,7 +151,7 @@ export default function Home() {
       <section className="px-4 pb-0 pt-5 sm:px-6 sm:pt-12">
         <div className="mx-auto w-full max-w-[1180px]">
           {featuredTestimonial ? (
-            <article className="rounded-[22px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(255,252,249,0.92),rgba(248,241,234,0.88)),linear-gradient(0deg,rgba(255,252,249,0.52),rgba(255,252,249,0.52)),url('/homepage-images/space-detail-2.jpeg')] bg-cover bg-center px-7 py-7 shadow-[0_18px_44px_rgba(59,41,31,0.06)] sm:px-8 sm:py-8">
+            <article className="brand-testimonial rounded-[22px] border px-7 py-7 shadow-[0_18px_44px_rgba(59,41,31,0.06)] sm:px-8 sm:py-8">
               <div className="mx-auto flex max-w-[40rem] flex-col items-center text-center">
                 <p className="mb-4 font-display text-[clamp(1.5rem,3vw,2.15rem)] leading-[1.14]">
                 “{featuredTestimonial.quote}”

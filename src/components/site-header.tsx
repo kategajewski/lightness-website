@@ -7,9 +7,9 @@ export function SiteHeader() {
   const headerNavigation = primaryNavigation;
 
   return (
-    <header className="sticky top-0 z-20 border-b border-[rgba(76,58,48,0.08)] bg-[rgba(249,244,238,0.72)] backdrop-blur-[16px]">
+    <header className="sticky top-0 z-20 border-b border-[var(--color-rose)] bg-[color-mix(in_srgb,var(--color-rose)_35%,var(--color-bg))] backdrop-blur-[16px]">
       <div className="mx-auto flex min-h-[82px] w-full max-w-[1180px] items-center justify-between gap-4 px-4 sm:px-6">
-        <Link href={site.links.home} className="flex min-w-0 items-center gap-3">
+        <Link href={site.links.home} className="flex min-w-0 items-center gap-3 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-brown)]">
           <img
             src="/homepage-images/hand-logo.png"
             alt={`${site.name} logo`}
@@ -27,28 +27,37 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-5 text-[0.95rem] text-[var(--color-muted)] xl:flex">
           {headerNavigation.map((item) => (
-            <Link key={item.label} href={item.href}>
-              {item.label}
-            </Link>
-          ))}
-          <Link href={site.links.login}>Login</Link>
-        </nav>
-      </div>
-
-      <div className="border-t border-[rgba(76,58,48,0.06)] px-4 py-2 xl:hidden">
-        <nav className="mx-auto flex w-full max-w-[1180px] gap-1.5 overflow-x-auto pb-1 text-[0.88rem] text-[var(--color-text)] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          {headerNavigation.map((item) => (
             <Link
               key={item.label}
               href={item.href}
-              className="shrink-0 rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,251,246,0.94)] px-3.5 py-2 font-medium shadow-[0_8px_20px_rgba(59,41,31,0.05)]"
+              className="rounded-sm transition-[background-color,box-shadow] duration-200 hover:bg-[var(--color-sage)] hover:text-[var(--color-text)] hover:shadow-[0_0_0_6px_var(--color-sage)] focus-visible:bg-[var(--color-sage)] focus-visible:text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-brown)]"
             >
               {item.label}
             </Link>
           ))}
           <Link
             href={site.links.login}
-            className="shrink-0 rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,251,246,0.94)] px-3.5 py-2 font-medium shadow-[0_8px_20px_rgba(59,41,31,0.05)]"
+            className="rounded-sm transition-[background-color,box-shadow] duration-200 hover:bg-[var(--color-sage)] hover:text-[var(--color-text)] hover:shadow-[0_0_0_6px_var(--color-sage)] focus-visible:bg-[var(--color-sage)] focus-visible:text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-brown)]"
+          >
+            Login
+          </Link>
+        </nav>
+      </div>
+
+      <div className="border-t border-[var(--color-rose)] px-4 py-2 xl:hidden">
+        <nav className="mx-auto flex w-full max-w-[1180px] gap-1.5 overflow-x-auto pb-1 text-[0.88rem] text-[var(--color-text)] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          {headerNavigation.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="shrink-0 rounded-full border border-[var(--color-rose)] bg-[var(--color-peach)] px-3.5 py-2 font-medium shadow-[0_8px_20px_rgba(59,41,31,0.05)] transition-colors duration-200 hover:bg-[var(--color-sage)] focus-visible:bg-[var(--color-sage)] focus-visible:text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brown)]"
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Link
+            href={site.links.login}
+            className="shrink-0 rounded-full border border-[var(--color-rose)] bg-[var(--color-peach)] px-3.5 py-2 font-medium shadow-[0_8px_20px_rgba(59,41,31,0.05)] transition-colors duration-200 hover:bg-[var(--color-sage)] focus-visible:bg-[var(--color-sage)] focus-visible:text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brown)]"
           >
             Login
           </Link>

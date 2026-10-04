@@ -15,11 +15,11 @@ export function PageShell({
 }: PageShellProps) {
   return (
     <main className="relative flex flex-col overflow-hidden bg-[var(--color-bg)] text-[var(--color-text)]">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[24rem] bg-[radial-gradient(circle_at_top_center,_rgba(230,194,162,0.42),_rgba(230,194,162,0.16)_32%,_rgba(230,194,162,0.06)_48%,_transparent_72%)] blur-[6px]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[24rem] bg-[linear-gradient(125deg,_rgba(230,194,162,0.90),_rgba(201,167,156,0.76)_60%,_rgba(168,178,159,0.52))] [mask-image:linear-gradient(to_bottom,black_48%,transparent)]" />
 
-      <section className="mx-auto w-full max-w-[1180px] px-4 pb-8 pt-14 sm:px-6 sm:pb-10 sm:pt-16">
+      <section className="relative mx-auto w-full max-w-[1180px] px-4 pb-8 pt-14 sm:px-6 sm:pb-10 sm:pt-16">
         {eyebrow ? (
-          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+          <span className="mb-4 inline-block rounded-full border border-[var(--color-gold)] bg-[var(--color-sage)] px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-text)]">
             {eyebrow}
           </span>
         ) : null}
@@ -35,7 +35,7 @@ export function PageShell({
         </div>
       </section>
 
-      <section className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-14 sm:gap-8 sm:px-6 sm:pb-16">
+      <section className="relative mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-14 sm:gap-8 sm:px-6 sm:pb-16">
         {children}
       </section>
     </main>

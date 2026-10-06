@@ -9,7 +9,7 @@ export function OfferCard({ offer }: OfferCardProps) {
   const isMembership = offer.slug === "monthly-membership";
 
   return (
-    <article className="overflow-hidden rounded-[24px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
+    <article className="overflow-hidden rounded-[24px] border border-[var(--color-rose)] bg-[var(--color-ivory)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
       <div
         className="min-h-[260px] bg-cover bg-center"
         style={{
@@ -21,7 +21,7 @@ export function OfferCard({ offer }: OfferCardProps) {
           <span className="text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             {offer.category}
           </span>
-          <span className="rounded-full bg-[rgba(168,178,159,0.18)] px-3 py-1 text-[0.82rem] text-[var(--color-muted)]">
+          <span className="rounded-full bg-[var(--color-rose-soft)] px-3 py-1 text-[0.82rem] text-[var(--color-muted)]">
             {offer.priceLabel}
           </span>
         </div>

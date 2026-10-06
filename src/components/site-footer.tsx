@@ -18,7 +18,7 @@ const legalLinks = [
 export function SiteFooter() {
   return (
     <footer className="px-4 pb-5 pt-7 sm:px-6 sm:pt-9">
-      <div className="mx-auto w-full max-w-[1180px] rounded-[1.5rem] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,251,246,0.72)] px-5 py-6 text-[var(--color-muted)] sm:rounded-[2rem] sm:px-8 sm:py-7">
+      <div className="mx-auto w-full max-w-[1180px] rounded-[1.5rem] border border-[rgba(201,167,156,0.6)] bg-[#fffaf5] px-5 py-6 text-[var(--color-muted)] sm:rounded-[2rem] sm:px-8 sm:py-7">
         <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
           <div className="flex flex-col items-center gap-3 text-center md:items-start md:text-left">
             <div className="flex items-center gap-3">
@@ -46,6 +46,7 @@ export function SiteFooter() {
                 href={item.href}
                 target={item.href.startsWith("http") ? "_blank" : undefined}
                 rel={item.href.startsWith("http") ? "noreferrer" : undefined}
+                className="decoration-[#c9a79c] decoration-2 underline-offset-4 transition-colors hover:text-[var(--color-text)] hover:underline"
               >
                 {item.label}
               </Link>
@@ -53,11 +54,15 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-[rgba(76,58,48,0.08)] pt-4 text-[0.78rem] md:justify-between">
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-[rgba(201,167,156,0.45)] pt-4 text-[0.78rem] md:justify-between">
           <span>98 Medford Ave, Patchogue, NY 11772</span>
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-1">
             {legalLinks.map((item) => (
-              <Link key={item.label} href={item.href}>
+              <Link
+                key={item.label}
+                href={item.href}
+                className="decoration-[#c9a79c] decoration-2 underline-offset-4 transition-colors hover:text-[var(--color-text)] hover:underline"
+              >
                 {item.label}
               </Link>
             ))}

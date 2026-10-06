@@ -60,13 +60,17 @@ Use the display font for page titles, section titles, testimonial quotes, and mo
 
 The visual tone is warm, grounded, soft, and calm. The site should feel personal and healing without becoming overly decorative.
 
+The approved website direction uses rose (`#c9a79c`) as its one main accent, supported by warm cream (`#f6f0e8`), off-white (`#fffaf5`) and the existing brown text colors. Use rose for primary actions, fine card outlines and selected feature sections. Keep most secondary pages neutral, with only a faint rose wash. The homepage uses a pale rose hero (`#efded7`), a cream introduction, matching ivory pathway cards and the deeper rose blend behind the testimonial.
+
+Sage, peach and gold remain in the wider Canva brand kit, but do not combine them as website interface accents in this direction. Preserve the natural colors in original photography.
+
 Keep using:
 
 - warm cream backgrounds
 - deep brown text rather than black
 - rounded cards and buttons
 - soft shadows
-- gentle sage, peach, and rose accents
+- a consistent rose accent with cream and off-white surfaces
 - Cormorant Garamond for emotional/editorial emphasis
 - Belleza for restrained brand accents
 - Lato / Avenir Next for clarity and ease
@@ -77,5 +81,6 @@ Avoid introducing strong cool colors, bright white blocks, sharp black text, hea
 
 - Website code should prefer existing CSS variables in `src/app/globals.css`: `--color-bg`, `--color-surface`, `--color-text`, `--color-muted`, and `--color-line`.
 - New reusable UI should use the existing `font-display`, `font-brand`, `display-page-title`, `display-section-title`, `display-card-title`, and `button-pill` patterns before inventing new styles.
+- Primary website actions use `button-pill`; secondary actions use `button-pill button-pill-secondary` for an off-white surface.
 - Emails should use `Lato` for details/body/buttons and `Cormorant Garamond` for greeting, headings, or signature moments. Because some email clients block web fonts, always include practical fallbacks.
 - When creating previews or local HTML files, load/request the brand fonts so Kate can review the piece as close to final as possible.

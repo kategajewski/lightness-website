@@ -3,7 +3,7 @@ import { booking } from "@/lib/site";
 
 export function BookingCard() {
   return (
-    <div className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+    <div className="rounded-[34px] border border-[var(--color-rose)] bg-[var(--color-ivory)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
       <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
         Monthly Membership
       </span>
@@ -23,7 +23,7 @@ export function BookingCard() {
             href={option.href}
             target={option.href.startsWith("http") ? "_blank" : undefined}
             rel={option.href.startsWith("http") ? "noreferrer" : undefined}
-            className="button-pill"
+            className="button-pill button-pill-secondary"
           >
             {option.label}
           </Link>

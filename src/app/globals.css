@@ -6,6 +6,12 @@
   --color-text: #2f2520;
   --color-muted: #554842;
   --color-line: rgba(76, 58, 48, 0.12);
+  --color-ivory: #fffaf5;
+  --color-rose: #c9a79c;
+  --color-rose-soft: #efded7;
+  --color-rose-hero: color-mix(in srgb, #c9a79c 85%, #f6f0e8);
+  --color-beige: color-mix(in srgb, #c9a79c 12%, #f6f0e8);
+  --color-brown: #4a3d36;
 }
 
 @theme inline {
@@ -73,22 +79,96 @@ a {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  border: 2px solid #4a3d36;
-  background: #fffaf5;
+  border: 2px solid var(--color-brown);
+  background: var(--color-rose);
   padding: 1rem 1.5rem;
   font-size: 0.98rem;
   font-weight: 600;
-  color: #4a3d36;
+  color: var(--color-text);
   box-shadow: 0 12px 28px rgba(69, 57, 51, 0.08);
   transition: background-color 200ms ease, transform 200ms ease;
 }
 
 .button-pill:hover {
-  background: #f7efe6;
+  background: #d6b8ad;
+}
+
+.button-pill-secondary {
+  background: var(--color-ivory);
+}
+
+.button-pill-secondary:hover {
+  background: var(--color-bg);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-brown);
+  outline-offset: 4px;
+}
+
+.home-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-brown);
+}
+
+.home-eyebrow::before {
+  content: "";
+  height: 1.25rem;
+  width: 3px;
+  flex-shrink: 0;
+  background: var(--color-brown);
+}
+
+.home-pathway {
+  overflow: hidden;
+  border: 2px solid var(--color-rose);
+  border-radius: 1.5rem;
+  background: var(--color-ivory);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.home-pathway:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(59, 41, 31, 0.08);
+}
+
+@media (min-width: 1024px) {
+  .home-hero-title {
+    font-size: clamp(4rem, 7.4vw, 5.4rem);
+  }
+
+  .home-intro-title {
+    font-size: 2.7rem;
+  }
 }
 
 .button-pill:disabled,
 .button-pill[aria-disabled="true"] {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .button-pill,
+  .home-pathway {
+    transition: none;
+  }
+
+  .home-pathway:hover {
+    transform: none;
+  }
 }

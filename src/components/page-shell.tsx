@@ -15,7 +15,7 @@ export function PageShell({
 }: PageShellProps) {
   return (
     <main className="relative flex flex-col overflow-hidden bg-[var(--color-bg)] text-[var(--color-text)]">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[24rem] bg-[radial-gradient(circle_at_top_center,_rgba(230,194,162,0.42),_rgba(230,194,162,0.16)_32%,_rgba(230,194,162,0.06)_48%,_transparent_72%)] blur-[6px]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[24rem] bg-[radial-gradient(circle_at_top_center,_rgba(201,167,156,0.18),_rgba(201,167,156,0.06)_32%,_rgba(201,167,156,0.025)_48%,_transparent_72%)] blur-[6px]" />
 
       <section className="mx-auto w-full max-w-[1180px] px-4 pb-8 pt-14 sm:px-6 sm:pb-10 sm:pt-16">
         {eyebrow ? (

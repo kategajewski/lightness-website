@@ -12,6 +12,20 @@ export const metadata = createPageMetadata({
 
 const upcomingEvents = [
   {
+    sortKey: "2026-10-09",
+    isActive: true,
+    eyebrow: "A Gathering for Women",
+    title: "Rooted Vision: A Women's Circle",
+    description:
+      "An evening with Kate and Janesa to slow down, return to your body and make space for what is ready to grow.",
+    details:
+      "Friday, October 9, 2026 · 8:00-9:30 PM · Sanctuary+Health, Patchogue · Sliding-scale tickets through Sanctuary",
+    href: site.links.rootedVision,
+    cta: "Explore the Women's Circle",
+    cardClass:
+      "border-[var(--color-rose)] bg-[var(--color-ivory)]",
+  },
+  {
     sortKey: "2026-10-23",
     isActive: true,
     eyebrow: "Reiki-Infused Sound Journey",

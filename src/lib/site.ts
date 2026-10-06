@@ -39,6 +39,7 @@ export const site = {
     reikiMentorship: "/reiki-mentorship",
     soundTraining: "/sound-training",
     soundJourneysAtSanctuary: "/sound-journeys-at-sanctuary",
+    rootedVision: "/rooted-vision-womens-circle",
     corporateWellness: "/corporate-wellness",
     events: "/events",
     emailUpdates: "/email-updates",

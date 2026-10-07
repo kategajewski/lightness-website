@@ -231,7 +231,7 @@ export default function EventsPage() {
       title="Join a community event or organize your own special experience."
       description="Explore upcoming gatherings, weekly yoga classes, seasonal rituals, sound journeys, readings, and private event options."
     >
-      <section className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(255,252,248,0.9),rgba(230,194,162,0.2),rgba(168,178,159,0.16))] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+      <section className="surface-rose rounded-[34px] border border-[rgba(76,58,48,0.08)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
           Start Here
         </span>
@@ -312,7 +312,7 @@ export default function EventsPage() {
 
       <section
         id="weekly-classes"
-        className="scroll-mt-28 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.72)] p-6 shadow-[0_18px_56px_rgba(59,41,31,0.06)] sm:p-8"
+        className="surface-beige scroll-mt-28 rounded-[30px] border border-[rgba(76,58,48,0.08)] p-6 shadow-[0_18px_56px_rgba(59,41,31,0.06)] sm:p-8"
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>

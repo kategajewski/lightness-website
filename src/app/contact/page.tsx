@@ -147,7 +147,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
         <form
           action={submitContactInquiry}
-          className="rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(248,242,235,0.9),rgba(239,229,217,0.86))] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10"
+          className="surface-rose rounded-[34px] border border-[rgba(76,58,48,0.08)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10"
         >
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
             Contact Form

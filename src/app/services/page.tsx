@@ -124,7 +124,7 @@ export default function ServicesPage() {
           <section
             key={section.id}
             id={section.id}
-            className="scroll-mt-28 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10"
+            className={`scroll-mt-28 rounded-[30px] border border-[var(--color-line)] p-8 shadow-[0_12px_36px_rgba(59,41,31,0.04)] sm:p-10 ${section.id === "reiki-energy-healing" || section.id === "sound-healing" ? "surface-rose" : "surface-ivory"}`}
           >
             <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               {section.eyebrow}
@@ -147,16 +147,16 @@ export default function ServicesPage() {
               {section.services.map((service) => (
                 <article
                   key={service.title}
-                  className="rounded-[22px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(180deg,rgba(255,252,248,0.85),rgba(250,243,236,0.92))] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
+                  className="surface-ivory rounded-[22px] border border-[var(--color-line)] p-7 shadow-[0_8px_24px_rgba(59,41,31,0.04)]"
                 >
-                  <div className="mb-5 h-12 w-12 rounded-full bg-[radial-gradient(circle_at_30%_30%,#fefaf4,rgba(255,255,255,0.15)),linear-gradient(135deg,rgba(168,178,159,0.7),rgba(201,159,146,0.75))]" />
+                  <div className="mb-5 h-12 w-12 rounded-full bg-[radial-gradient(circle_at_30%_30%,var(--color-ivory),transparent_75%),linear-gradient(135deg,var(--color-rose-soft),var(--color-rose))]" />
                   <h3 className="display-card-title">
                     {service.title}
                   </h3>
                   <p className="mb-5 mt-3 text-[var(--color-muted)]">
                     {service.description}
                   </p>
-                  <p className="mb-5 rounded-[18px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.66)] p-4 text-sm font-semibold leading-6 text-[var(--color-text)]">
+                  <p className="surface-beige mb-5 rounded-[18px] border border-[var(--color-line)] p-4 text-sm font-semibold leading-6 text-[var(--color-text)]">
                     {service.pricing}
                     {"membershipHref" in service ? (
                       <>
@@ -206,7 +206,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+      <section className="surface-beige rounded-[30px] border border-[var(--color-line)] p-8 shadow-[0_12px_36px_rgba(59,41,31,0.04)] sm:p-10">
         <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
           Explore by Offering
         </span>
@@ -215,10 +215,10 @@ export default function ServicesPage() {
           These guides answer common questions for people looking for Reiki, sound healing, training, and workplace wellness in Patchogue and across Long Island.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href="/reiki-healing-long-island" className="button-pill">Reiki Healing</Link>
-          <Link href="/sound-healing-long-island" className="button-pill">Sound Healing</Link>
-          <Link href="/reiki-training-long-island" className="button-pill">Reiki Training</Link>
-          <Link href="/corporate-wellness-long-island" className="button-pill">Corporate Wellness</Link>
+          <Link href="/reiki-healing-long-island" className="button-pill button-pill-secondary">Reiki Healing</Link>
+          <Link href="/sound-healing-long-island" className="button-pill button-pill-secondary">Sound Healing</Link>
+          <Link href="/reiki-training-long-island" className="button-pill button-pill-secondary">Reiki Training</Link>
+          <Link href="/corporate-wellness-long-island" className="button-pill button-pill-secondary">Corporate Wellness</Link>
         </div>
       </section>
 

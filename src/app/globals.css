@@ -12,6 +12,9 @@
   --color-rose-hero: color-mix(in srgb, #c9a79c 85%, #f6f0e8);
   --color-beige: color-mix(in srgb, #c9a79c 12%, #f6f0e8);
   --color-brown: #4a3d36;
+  --color-button: color-mix(in srgb, var(--color-rose) 55%, var(--color-ivory));
+  --color-button-hover: color-mix(in srgb, var(--color-rose) 70%, var(--color-ivory));
+  --color-button-line: color-mix(in srgb, var(--color-rose) 60%, var(--color-brown));
 }
 
 @theme inline {
@@ -79,26 +82,41 @@ a {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  border: 2px solid var(--color-brown);
-  background: var(--color-rose);
-  padding: 1rem 1.5rem;
+  min-height: 48px;
+  border: 1px solid var(--color-button-line);
+  background: var(--color-button);
+  padding: 0.85rem 1.4rem;
   font-size: 0.98rem;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--color-text);
-  box-shadow: 0 12px 28px rgba(69, 57, 51, 0.08);
+  box-shadow: 0 4px 14px rgba(69, 57, 51, 0.04);
   transition: background-color 200ms ease, transform 200ms ease;
 }
 
 .button-pill:hover {
-  background: #d6b8ad;
+  background: var(--color-button-hover);
 }
 
 .button-pill-secondary {
   background: var(--color-ivory);
+  border-color: var(--color-line);
+  box-shadow: none;
 }
 
 .button-pill-secondary:hover {
-  background: var(--color-bg);
+  background: var(--color-beige);
+}
+
+.surface-rose {
+  background-color: var(--color-rose-soft);
+}
+
+.surface-ivory {
+  background-color: var(--color-ivory);
+}
+
+.surface-beige {
+  background-color: var(--color-beige);
 }
 
 a:focus-visible,

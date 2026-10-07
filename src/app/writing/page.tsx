@@ -193,7 +193,7 @@ export default async function WritingPage() {
         ))}
       </section>
 
-      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(246,229,214,0.9),rgba(238,226,218,0.78))] p-8 text-center shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+      <section className="surface-rose rounded-[30px] border border-[rgba(76,58,48,0.08)] p-8 text-center shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
         <h2 className="display-section-title">Read what speaks to you.</h2>
         <p className="mx-auto mt-4 max-w-[40rem] text-[var(--color-muted)]">
           Browse the latest articles, visit my full Substack or learn more about working with me.

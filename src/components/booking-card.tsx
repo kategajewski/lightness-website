@@ -3,7 +3,7 @@ import { booking } from "@/lib/site";
 
 export function BookingCard() {
   return (
-    <div className="rounded-[34px] border border-[var(--color-rose)] bg-[var(--color-ivory)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
+    <div className="surface-rose rounded-[34px] border border-[var(--color-line)] p-8 shadow-[0_12px_36px_rgba(59,41,31,0.04)] sm:p-10">
       <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
         Monthly Membership
       </span>

@@ -159,3 +159,43 @@ test("September 30 replay is available only to active Fall 2026 students after r
     assert.ok(!(await blocked.json()).url);
   }
 });
+
+test("October 7 Week 2 replay unlocks at its exact boundary and remains cohort protected", async () => {
+  const slug = "live-call-2026-10-07";
+  const before = "2026-10-08T03:59:59.999Z";
+  const now = "2026-10-08T04:00:00Z";
+  const match = videos.findReikiLesson(slug);
+  assert.ok(match, "Week 2 replay must have verified playback metadata");
+  assert.ok(videos.reikiRisingReplays.includes(match.module));
+  assert.equal(match.module.releaseAt, "2026-10-08T00:00:00-04:00");
+  assert.match(match.lesson.videoId, /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/);
+
+  for (const preview of [false, true]) {
+    const locked = await endpoint({ slug, now: before, preview });
+    assert.equal(locked.status, 403);
+    assert.ok(!(await locked.json()).url);
+    assert.match(locked.headers.get("cache-control"), /private, no-store/);
+  }
+
+  const response = await endpoint({ slug, now });
+  assert.equal(response.status, 200);
+  const url = new URL((await response.json()).url);
+  assert.equal(url.origin, "https://player.mediadelivery.net");
+  assert.equal(url.pathname, `/embed/762439/${match.lesson.videoId}`);
+  assert.ok(url.searchParams.get("token"));
+  assert.match(response.headers.get("cache-control"), /private, no-store/);
+  assert.equal(response.headers.get("vary"), "Cookie");
+
+  for (const preview of [false, true]) {
+    for (const [overrides, status] of [[{ email: "" }, 401], [{ cohort: "reiki-rising-spring-2026" }, 403], [{ status: "inactive" }, 403]]) {
+      const blocked = await endpoint({ slug, now, preview, ...overrides });
+      assert.equal(blocked.status, status);
+      assert.ok(!(await blocked.json()).url);
+      assert.match(blocked.headers.get("cache-control"), /private, no-store/);
+    }
+  }
+
+  const unavailable = await endpoint({ slug, now, configured: false });
+  assert.equal(unavailable.status, 503);
+  assert.ok(!(await unavailable.json()).url);
+});

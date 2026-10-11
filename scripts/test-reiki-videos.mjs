@@ -26,16 +26,18 @@ const member = load("../src/lib/member-access.ts", {
 });
 const modules = videos.reikiRisingModules;
 
-test("all ten releases are Sunday midnight New York, including DST", () => {
+test("all release boundaries are exact and scheduled modules remain Sunday midnight New York, including DST", () => {
   assert.equal(modules.length, 10);
   for (const [index, module] of modules.entries()) {
     const date = new Date(module.releaseAt);
     const parts = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", weekday: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(date);
     const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
-    assert.equal(values.weekday, "Sunday");
-    assert.equal(values.hour, "00");
-    assert.equal(values.minute, "00");
-    assert.equal(date.getUTCHours(), index <= 5 ? 4 : 5);
+    if (index !== 2) {
+      assert.equal(values.weekday, "Sunday");
+      assert.equal(values.hour, "00");
+      assert.equal(values.minute, "00");
+      assert.equal(date.getUTCHours(), index <= 5 ? 4 : 5);
+    }
     assert.equal(videos.isModuleReleased(module, date.getTime() - 1), false);
     assert.equal(videos.isModuleReleased(module, date.getTime()), true);
     assert.equal(videos.isModuleReleased(module, Date.parse("2027-01-01")), true);
@@ -149,10 +151,10 @@ test("every Module 2 lesson unlocks at October 4 midnight Eastern and remains co
   }
 });
 
-test("both Module 3 lessons unlock together at October 11 midnight Eastern with protected access", async () => {
-  const before = "2026-10-11T03:59:59.999Z";
-  const now = "2026-10-11T04:00:00Z";
-  assert.equal(modules[2].releaseAt, "2026-10-11T00:00:00-04:00");
+test("both Module 3 lessons open early on October 10 for active Fall 2026 students", async () => {
+  const before = "2026-10-11T03:28:46.999Z";
+  const now = "2026-10-11T03:28:47Z";
+  assert.equal(modules[2].releaseAt, "2026-10-10T23:28:47-04:00");
   assert.equal(modules[2].lessons.length, 2);
   for (const { slug, videoId } of modules[2].lessons) {
     for (const preview of [false, true]) {

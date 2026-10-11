@@ -60,7 +60,8 @@ export const reikiRisingModules: CourseModule[] = [
     ],
   },
   {
-    date: "October 11, 2026", releaseAt: "2026-10-11T00:00:00-04:00",
+    // Opened early on October 10 at Kate's request.
+    date: "October 11, 2026", releaseAt: "2026-10-10T23:28:47-04:00",
     title: "Grounding, shielding and creating energetic safety",
     lessons: [
       { slug: "grounding", title: "Grounding", videoId: "9e985f97-b07a-4291-8aeb-88650ec325d4", duration: "10:22" },

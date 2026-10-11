@@ -59,7 +59,14 @@ export const reikiRisingModules: CourseModule[] = [
       { slug: "aura", title: "Aura", videoId: "f7fd4641-f255-45d0-8165-881794ed3008", duration: "7:14" },
     ],
   },
-  { date: "October 11, 2026", releaseAt: "2026-10-11T00:00:00-04:00", title: "Grounding, shielding, and creating energetic safety", lessons: [] },
+  {
+    date: "October 11, 2026", releaseAt: "2026-10-11T00:00:00-04:00",
+    title: "Grounding, shielding and creating energetic safety",
+    lessons: [
+      { slug: "grounding", title: "Grounding", videoId: "9e985f97-b07a-4291-8aeb-88650ec325d4", duration: "10:22" },
+      { slug: "shielding", title: "Shielding", videoId: "cd37036e-03cf-4fd8-a035-d584d2a9a611", duration: "21:06" },
+    ],
+  },
   { date: "October 18, 2026", releaseAt: "2026-10-18T00:00:00-04:00", title: "The Three Pillars of Reiki, self-Reiki, and hand positions", lessons: [] },
   { date: "October 25, 2026", releaseAt: "2026-10-25T00:00:00-04:00", title: "Sharing Reiki with others, animals, plants, food, and water", lessons: [] },
   { date: "November 1, 2026", releaseAt: "2026-11-01T00:00:00-04:00", title: "Reiki symbols and Cho Ku Rei", lessons: [] },

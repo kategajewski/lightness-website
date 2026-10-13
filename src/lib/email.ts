@@ -542,7 +542,7 @@ const eventEmailContent = {
     intro:
       "Your place is confirmed. I'm so glad you'll be joining Reiki Share.",
     detailLines: [
-      "Date: Thursday, November 5, 2026",
+      "Date: Thursday, November 19, 2026",
       "Time: 7:00-9:00 PM",
       "Location: The Lightness of Being, 98 Medford Ave, Patchogue, NY 11772",
       "This gathering is for Reiki practitioners only.",

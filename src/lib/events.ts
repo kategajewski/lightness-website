@@ -164,6 +164,7 @@ export const eventCheckoutConfig = {
       "All purchases are final and non-refundable.",
     ],
   },
+  // Keep the original booking identifier when rescheduling to preserve attendee records.
   "reiki-share-november-5-2026": {
     slug: "reiki-share-november-5-2026",
     name: "Reiki Share",
@@ -179,7 +180,7 @@ export const eventCheckoutConfig = {
     emailIntro:
       "Your place is confirmed. I'm so glad you'll be joining Reiki Share.",
     emailDetailLines: [
-      "Date: Thursday, November 5, 2026",
+      "Date: Thursday, November 19, 2026",
       "Time: 7:00-9:00 PM",
       "Location: The Lightness of Being, 98 Medford Ave, Patchogue, NY 11772",
       "Ticket price: $25",
@@ -197,8 +198,9 @@ export const eventCheckoutConfig = {
       "Ticket for Reiki Share, a practitioner-only community gathering at The Lightness of Being. All purchases are final and non-refundable.",
     amountCents: 2500,
     successPath: "/checkout/success",
-    cancelPath: site.links.reikiShareOctober,
-    detailHref: site.links.reikiShareOctober,
+    registrationClosed: true,
+    cancelPath: site.links.events,
+    detailHref: site.links.events,
     confirmationTitle: "You're booked for Reiki Share.",
     confirmationDescription:
       "Your Reiki Share ticket has been received. You can watch your email for your Stripe receipt and event confirmation.",

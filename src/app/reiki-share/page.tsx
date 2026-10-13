@@ -11,7 +11,7 @@ const gatheringIntentions = [
 ] as const;
 
 const goodToKnow = [
-  "Thursday, November 5, 2026",
+  "Thursday, November 19, 2026",
   "7:00-9:00 PM",
   "The Lightness of Being, 98 Medford Ave, Patchogue, NY 11772",
   "$25 per person",
@@ -25,8 +25,8 @@ const eventJsonLd = {
   name: "Reiki Share",
   description:
     "A practitioner-only Reiki gathering to form community, talk all things Reiki, and share practice with one another at The Lightness of Being in Patchogue.",
-  startDate: "2026-11-05T19:00:00-05:00",
-  endDate: "2026-11-05T21:00:00-05:00",
+  startDate: "2026-11-19T19:00:00-05:00",
+  endDate: "2026-11-19T21:00:00-05:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
   location: {

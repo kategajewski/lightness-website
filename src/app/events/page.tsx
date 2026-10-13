@@ -82,28 +82,14 @@ const upcomingEvents = [
       "border-[rgba(230,194,162,0.64)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(230,194,162,0.42)_54%,rgba(201,167,156,0.26))]",
   },
   {
-    sortKey: "2026-10-15",
+    sortKey: "2026-11-19",
     isActive: true,
     eyebrow: "Practitioner Gathering",
     title: "Reiki Share",
     description:
       "A small practitioner-only gathering to form community, talk all things Reiki, and share with one another.",
     details:
-      "Thursday, October 15, 2026 · 7-9 PM · The Lightness of Being, Patchogue · $25 · Max 7 people",
-    href: site.links.reikiShareOctober,
-    cta: "Reserve Your Spot",
-    cardClass:
-      "border-[rgba(168,178,159,0.68)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(168,178,159,0.28)_40%,rgba(201,167,156,0.22))]",
-  },
-  {
-    sortKey: "2026-11-05",
-    isActive: true,
-    eyebrow: "Practitioner Gathering",
-    title: "Reiki Share",
-    description:
-      "A small practitioner-only gathering to form community, talk all things Reiki, and share with one another.",
-    details:
-      "Thursday, November 5, 2026 · 7-9 PM · The Lightness of Being, Patchogue · $25 · Max 7 people",
+      "Thursday, November 19, 2026 · 7-9 PM · The Lightness of Being, Patchogue · $25 · Max 7 people",
     href: site.links.reikiShare,
     cta: "Reserve Your Spot",
     cardClass:

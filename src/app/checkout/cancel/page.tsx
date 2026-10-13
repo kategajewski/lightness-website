@@ -28,8 +28,8 @@ const eventCancelContent = {
     primaryLabel: "Back to Event Details",
   },
   "reiki-share-october-15-2026": {
-    primaryHref: site.links.reikiShareOctober,
-    primaryLabel: "Back to Event Details",
+    primaryHref: site.links.events,
+    primaryLabel: "Browse Events",
   },
   "reiki-share-november-5-2026": {
     primaryHref: site.links.reikiShare,

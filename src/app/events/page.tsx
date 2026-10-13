@@ -13,7 +13,7 @@ export const metadata = createPageMetadata({
 const upcomingEvents = [
   {
     sortKey: "2026-10-09",
-    isActive: true,
+    isActive: false,
     eyebrow: "A Gathering for Women",
     title: "Rooted Vision: A Women's Circle",
     description:
@@ -96,14 +96,14 @@ const upcomingEvents = [
       "border-[rgba(168,178,159,0.68)] bg-[linear-gradient(180deg,rgba(255,250,245,0.94),rgba(168,178,159,0.28)_40%,rgba(201,167,156,0.22))]",
   },
   {
-    sortKey: "2026-10-08",
+    sortKey: "2026-11-12",
     isActive: true,
     eyebrow: "Featured Event",
     title: "Gallery Reading with Don Schaefer",
     description:
       "An intimate group mediumship reading held at The Lightness of Being in Patchogue.",
     details:
-      "Thursday, October 8, 2026 · 7-8:30 PM · Limited to 8 people · $50 · Include 10/8 in your Venmo note",
+      "Thursday, November 12, 2026 · 7-8:30 PM · Limited to 8 people · $50 · Include 11/12 in your Venmo note",
     href: "/gallery-reading-with-don-schaefer",
     cta: "View Event Details",
     cardClass:

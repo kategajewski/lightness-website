@@ -91,12 +91,12 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 src={
                   isSoundTrainingWaitlist
                     ? "/homepage-images/services-lightnesssound.jpeg"
-                    : "/homepage-images/contact-page-magicbed.jpeg"
+                    : "/homepage-images/sayhi.jpeg"
                 }
                 alt={
                   isSoundTrainingWaitlist
                     ? "Kate facilitating a sound healing experience with crystal singing bowls"
-                    : "A warm and welcoming healing space"
+                    : "Kate Gajewski waving hello at The Lightness of Being"
                 }
                 className="block h-auto w-full rounded-[34px] object-contain object-center"
               />

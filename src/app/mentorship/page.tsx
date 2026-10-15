@@ -7,7 +7,7 @@ export const metadata = createPageMetadata({
   title: "Private Reiki Mentorship & Practitioner Development",
   description: "Personalized one-to-one Reiki mentorship with Kate Gajewski, from foundational training through mastery, teaching, and embodied practitioner development.",
   path: "/mentorship",
-  image: "/homepage-images/embodied-healer-mentorship.jpeg",
+  image: "/homepage-images/teaching.jpeg",
 });
 
 const mentorshipFeatures = [
@@ -119,10 +119,10 @@ export default function MentorshipPage() {
         </div>
 
         <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
-          <div className="mx-auto w-full max-w-[20rem]">
+          <div className="w-full">
             <img
-              src="/homepage-images/embodied-healer-warm-mentorship-final.jpeg"
-              alt="Kate guiding a student during The Embodied Healer Reiki mentorship"
+              src="/homepage-images/teaching.jpeg"
+              alt="Kate Gajewski holding a singing bowl in her healing room at The Lightness of Being"
               className="block h-auto w-full rounded-[32px] object-contain object-center"
             />
           </div>

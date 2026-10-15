@@ -131,20 +131,11 @@ textarea:focus-visible {
 .home-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 1rem;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: var(--color-brown);
-}
-
-.home-eyebrow::before {
-  content: "";
-  height: 1.25rem;
-  width: 3px;
-  flex-shrink: 0;
-  background: var(--color-brown);
 }
 
 .home-pathway {

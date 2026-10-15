@@ -97,16 +97,6 @@ a {
   background: var(--color-button-hover);
 }
 
-.button-pill-secondary {
-  background: var(--color-ivory);
-  border-color: var(--color-line);
-  box-shadow: none;
-}
-
-.button-pill-secondary:hover {
-  background: var(--color-beige);
-}
-
 .surface-rose {
   background-color: var(--color-rose-soft);
 }

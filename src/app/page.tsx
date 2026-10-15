@@ -7,7 +7,7 @@ export const metadata = createPageMetadata({
   title: "Holistic Healing, Training & Wellness in Patchogue, NY",
   description: "Explore Reiki, energy healing, hypnotherapy, sound healing, yoga, training, mentorship, events, corporate wellness, ceremonies, and sacred goods with Kate Gajewski.",
   path: "/",
-  image: "/homepage-images/katehero.jpeg",
+  image: "/homepage-images/kategoddessroom.jpeg",
 });
 
 const testimonials = [
@@ -66,12 +66,12 @@ export default function Home() {
           </div>
           <div className="relative mx-auto h-[360px] w-full max-w-[32rem] overflow-hidden rounded-[28px] sm:h-[460px] lg:h-[460px] lg:max-w-none">
             <Image
-              src="/homepage-images/katehero.jpeg"
-              alt="Kate Gajewski smiling in a blue chair at The Lightness of Being"
+              src="/homepage-images/kategoddessroom.jpeg"
+              alt="Kate Gajewski smiling with a singing bowl in her healing room at The Lightness of Being"
               fill
               priority
               sizes="(min-width: 1180px) 480px, (min-width: 1024px) 42vw, 90vw"
-              className="object-cover object-[center_25%]"
+              className="object-cover object-[42%_center]"
             />
           </div>
         </div>

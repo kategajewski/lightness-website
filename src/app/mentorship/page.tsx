@@ -51,24 +51,24 @@ const mentorshipTestimonials = [
 const mentorshipInvestments = [
   {
     title: "Traditional Usui Levels 1 through Master",
-    details: "Includes Animal Reiki and business development. Approximately 40 hours.",
+    details: "Includes Animal Reiki and business development. Receive 8 Reiki sessions throughout the program. Approximately 40 hours.",
     price: "$4,500",
   },
   {
     title: "Usui Holy Fire® Levels 1 through Master",
-    details: "Includes Animal Reiki and business development. Approximately 35 hours.",
+    details: "Includes Animal Reiki and business development. Receive 4 Reiki sessions throughout the program. Approximately 35 hours.",
     price: "$4,000",
   },
   {
     title: "Usui Holy Fire® Master Mini",
     details:
-      "For students already attuned to Levels 1 and 2 in any lineage who want to become a Holy Fire Reiki Master. Approximately 18–20 hours.",
+      "For students already attuned to Levels 1 and 2 in any lineage who want to become a Holy Fire Reiki Master. Receive 1 Reiki session during the program. Approximately 18–20 hours.",
     price: "$2,200",
   },
   {
     title: "Embodied Practitioner",
     details:
-      "Levels 1 and 2 only, plus an Animal & Pet Reiki overview. Approximately 16 hours.",
+      "Levels 1 and 2 only, plus an Animal & Pet Reiki overview. Receive 2 Reiki sessions throughout the program. Approximately 16 hours.",
     price: "$1,700",
   },
 ] as const;

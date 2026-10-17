@@ -28,6 +28,17 @@ export const reikiRisingReplays: CourseModule[] = [
       duration: "49 minutes 31 seconds",
     }],
   },
+  {
+    date: "October 14, 2026",
+    releaseAt: "2026-10-15T00:00:00-04:00",
+    title: "Week 3 Class Replay",
+    lessons: [{
+      slug: "live-call-2026-10-14",
+      title: "October 14: Week 3 Class Replay",
+      videoId: "506ad462-a4ea-4d69-be21-2efc86dce843",
+      duration: "1 hour 3 minutes 35 seconds",
+    }],
+  },
 ];
 
 // New York midnight is still EDT on November 1; EST starts later that morning.

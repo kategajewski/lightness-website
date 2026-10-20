@@ -9,6 +9,7 @@ import {
   isLikelyAutomatedSubmission,
 } from "@/lib/form-security";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { markMentorshipLeadSaved } from "@/lib/mentorship-lead-receipts-server";
 
 export async function submitMentorshipApplication(formData: FormData) {
   const name = getFormValue(formData, "name");
@@ -76,6 +77,8 @@ export async function submitMentorshipApplication(formData: FormData) {
       "/mentorship-application?status=error&message=The%20application%20form%20is%20built,%20but%20the%20contact%20table%20still%20needs%20to%20be%20created%20in%20Supabase.",
     );
   }
+
+  await markMentorshipLeadSaved("mentorship_application");
 
   if (integrations.emailForwarding) {
     try {

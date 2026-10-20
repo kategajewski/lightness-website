@@ -9,6 +9,7 @@ import {
   isLikelyAutomatedSubmission,
 } from "@/lib/form-security";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { markMentorshipLeadSaved } from "@/lib/mentorship-lead-receipts-server";
 
 const inquiryPath = "/reiki-mentorship/inquire";
 
@@ -115,6 +116,8 @@ export async function submitHealersEmergenceInquiry(formData: FormData) {
       ),
     );
   }
+
+  await markMentorshipLeadSaved("healers_emergence_inquiry");
 
   if (integrations.emailForwarding) {
     try {

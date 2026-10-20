@@ -3,10 +3,13 @@
 import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { createTrackingDeduper, initializeGoogleTag } from "@/lib/google-tag";
+import { mentorshipLeadForms, readMentorshipLeadReceipt } from "@/lib/mentorship-lead-receipts";
 
 declare global {
   interface Window {
     dataLayer?: unknown[];
+    lightnessGoogleTagInitialized?: boolean;
     gtag?: (...args: unknown[]) => void;
   }
 }
@@ -29,35 +32,22 @@ const conversionLabels = {
 };
 
 function trackEvent(eventName: string, params: Record<string, unknown> = {}) {
-  if (typeof window === "undefined" || !window.gtag) {
-    return;
-  }
-
-  window.gtag("event", eventName, params);
+  if (typeof window === "undefined" || !googleTagId) return false;
+  initializeGoogleTag(window, measurementIds)("event", eventName, params);
+  return true;
 }
 
 function trackGoogleAdsConversion(label?: string, params: Record<string, unknown> = {}) {
   const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
-
-  if (!adsId || !label || typeof window === "undefined" || !window.gtag) {
-    return;
-  }
-
-  window.gtag("event", "conversion", {
-    send_to: `${adsId}/${label}`,
-    ...params,
-  });
+  if (!adsId || !label) return false;
+  return trackEvent("conversion", { send_to: `${adsId}/${label}`, ...params });
 }
 
-function trackOnce(key: string, callback: () => void) {
-  const storageKey = `lightness-platform:${key}`;
-
-  if (sessionStorage.getItem(storageKey)) {
-    return;
-  }
-
-  sessionStorage.setItem(storageKey, "true");
-  callback();
+const dedupeTracking = createTrackingDeduper();
+function trackOnce(key: string, callback: () => boolean) {
+  let storage: Storage | undefined;
+  try { storage = window.sessionStorage; } catch { /* Storage may be unavailable. */ }
+  return dedupeTracking(`lightness-platform:${key}`, callback, storage);
 }
 
 function GoogleAdsEvents() {
@@ -76,7 +66,7 @@ function GoogleAdsEvents() {
     const url = `${pathname}${searchParams.toString() ? `?${searchParams}` : ""}`;
 
     for (const id of measurementIds) {
-      window.gtag?.("config", id, {
+      initializeGoogleTag(window, measurementIds)("config", id, {
         page_path: url,
       });
     }
@@ -85,32 +75,53 @@ function GoogleAdsEvents() {
   useEffect(() => {
     if (pathname === "/contact" && status === "success") {
       trackOnce("contact-form-success", () => {
-        trackEvent("generate_lead", {
+        const queued = trackEvent("generate_lead", {
           lead_source: "contact_form",
         });
         trackGoogleAdsConversion(conversionLabels.contact);
+        return queued;
       });
     }
 
     if (pathname === "/email-updates" && status === "success") {
       trackOnce("email-signup-success", () => {
-        trackEvent("sign_up", {
+        const queued = trackEvent("sign_up", {
           method: "email_updates",
         });
         trackGoogleAdsConversion(conversionLabels.emailSignup);
+        return queued;
       });
     }
 
     if (pathname === "/checkout/success") {
       trackOnce(`checkout-success:${type ?? "offer"}:${eventSlug ?? slug ?? "unknown"}`, () => {
-        trackEvent("purchase", {
+        const queued = trackEvent("purchase", {
           transaction_type: type ?? "offer",
           item_slug: eventSlug ?? slug,
         });
         trackGoogleAdsConversion(conversionLabels.checkoutSuccess);
+        return queued;
       });
     }
   }, [eventSlug, pathname, slug, status, type]);
+
+  useEffect(() => {
+    if (!mentorshipLeadForms.some((form) => form.pathname === pathname)) return;
+    function trackSavedLead() {
+      const savedLead = readMentorshipLeadReceipt(document.cookie, pathname);
+      if (savedLead && trackOnce(`mentorship-lead:${savedLead.receipt.id}`, () => {
+        const queued = trackEvent("generate_lead", { lead_source: savedLead.receipt.source });
+        trackGoogleAdsConversion(conversionLabels.contact, { transaction_id: savedLead.receipt.id });
+        return queued;
+      })) {
+        document.cookie = `${savedLead.cookieName}=; Max-Age=0; Path=${savedLead.pathname}; SameSite=Lax${window.location.protocol === "https:" ? "; Secure" : ""}`;
+      }
+    }
+    trackSavedLead();
+    // A second saved application may redirect to the same URL, without changing route deps.
+    const timer = window.setInterval(trackSavedLead, 1000);
+    return () => window.clearInterval(timer);
+  }, [pathname]);
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -169,16 +180,6 @@ export function GoogleAdsSync() {
         src={`https://www.googletagmanager.com/gtag/js?id=${googleTagId}`}
         strategy="afterInteractive"
       />
-      <Script id="google-tag-init" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          ${measurementIds
-            .map((id) => `gtag('config', '${id}', { send_page_view: false });`)
-            .join("\n")}
-        `}
-      </Script>
       <GoogleAdsEvents />
     </>
   );

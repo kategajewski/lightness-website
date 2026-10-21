@@ -19,6 +19,7 @@ function load(file, dependencies = {}, globals = {}) {
 }
 const receipts = load("../src/lib/mentorship-lead-receipts.ts");
 const google = load("../src/lib/google-tag.ts");
+const calendly = load("../src/lib/calendly-attribution.ts");
 const id = "12345678-1234-4234-8234-123456789012";
 const nextId = "87654321-4321-4321-8321-210987654321";
 function receiptCookie(source = "mentorship_application", overrides = {}) {
@@ -96,15 +97,16 @@ test("receipt validation rejects malformed, expired, future and wrong-form signa
   assert.equal(receipts.readMentorshipLeadReceipt(receiptCookie(), "/contact"), null);
 });
 
-function browser(path, cookie = "", { blockedStorage = false, keepCookie = false, configured = true } = {}) {
+function browser(path, cookie = "", { blockedStorage = false, keepCookie = false, configured = true, ga4Id, links = [] } = {}) {
   let cookieValue = cookie;
   const cookieWrites = [];
   const effects = [];
   const timers = new Map();
   const listeners = new Map();
   const stored = new Map();
+  const observers = new Set();
   const window = {
-    location: { protocol: "https:" },
+    location: { protocol: "https:", origin: "https://example.invalid" },
     setInterval: fn => { const key = timers.size + 1; timers.set(key, fn); return key; },
     clearInterval: key => timers.delete(key),
   };
@@ -113,6 +115,7 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
     return { getItem: key => stored.get(key) ?? null, setItem: (key, value) => stored.set(key, value) };
   } });
   const document = {
+    title: "Test page", referrer: "https://referrer.invalid", body: {}, querySelectorAll: () => anchors,
     addEventListener: (name, fn) => listeners.set(name, fn),
     removeEventListener: name => listeners.delete(name),
   };
@@ -124,7 +127,9 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
     constructor(href) { this.href = href; }
     closest() { return this; }
     getAttribute() { return this.href; }
+    setAttribute(name, value) { assert.equal(name, "href"); this.href = value; }
   }
+  const anchors = links.map(href => new Element(href));
   const url = new URL(path, "https://example.invalid");
   const jsx = (type, props) => ({ type, props });
   const component = load("../src/components/google-ads-sync.tsx", {
@@ -133,8 +138,9 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
     "next/navigation": { usePathname: () => url.pathname, useSearchParams: () => url.searchParams },
     react: { useEffect: fn => effects.push(fn) },
     "@/lib/google-tag": google,
+    "@/lib/calendly-attribution": calendly,
     "@/lib/mentorship-lead-receipts": receipts,
-  }, { window, document, Element, process: { env: configured ? { NEXT_PUBLIC_GOOGLE_ADS_ID: "AW-test", NEXT_PUBLIC_GOOGLE_ADS_CONTACT_CONVERSION_LABEL: "contact-label", NEXT_PUBLIC_GOOGLE_ADS_CALENDLY_CONVERSION_LABEL: "click-label" } : {} } });
+  }, { window, document, Element, MutationObserver: class { constructor(fn) { this.fn = fn; } observe() { observers.add(this.fn); } disconnect() { observers.delete(this.fn); } }, process: { env: configured ? { NEXT_PUBLIC_GA_MEASUREMENT_ID: ga4Id, NEXT_PUBLIC_GOOGLE_ADS_ID: "AW-test", NEXT_PUBLIC_GOOGLE_ADS_CONTACT_CONVERSION_LABEL: "contact-label", NEXT_PUBLIC_GOOGLE_ADS_CALENDLY_CONVERSION_LABEL: "click-label" } : {} } });
   function render(node) {
     if (!node) return;
     if (Array.isArray(node)) return node.forEach(render);
@@ -142,9 +148,18 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
     else render(node.props?.children);
   }
   render(component.GoogleAdsSync());
-  const cleanups = effects.map(fn => fn()).filter(Boolean);
+  let cleanups = effects.map(fn => fn()).filter(Boolean);
   const events = () => (window.dataLayer ?? []).map(item => Array.from(item)).filter(item => item[0] === "event");
-  return { window, cookieWrites, events, setCookie: value => { cookieValue = value; }, tick: () => { for (const fn of timers.values()) fn(); }, click: href => listeners.get("click")?.({ target: new Element(href) }), cleanup: () => cleanups.forEach(fn => fn()) };
+  return { window, cookieWrites, events, anchors,
+    addLink: href => { anchors.push(new Element(href)); for (const fn of observers) fn(); },
+    navigate: path => {
+      cleanups.forEach(fn => fn());
+      url.href = new URL(path, url).href;
+      effects.length = 0;
+      render(component.GoogleAdsSync());
+      cleanups = effects.map(fn => fn()).filter(Boolean);
+    },
+    setCookie: value => { cookieValue = value; }, tick: () => { for (const fn of timers.values()) fn(); }, click: href => listeners.get("click")?.({ target: new Element(href) }), cleanup: () => cleanups.forEach(fn => fn()) };
 }
 
 for (const form of receipts.mentorshipLeadForms) {
@@ -202,5 +217,56 @@ test("Calendly clicks remain click events and never emit application or complete
   assert.equal(b.events()[0][1], "book_appointment_click");
   assert.equal(b.events()[1][2].send_to, "AW-test/click-label");
   assert.ok(b.events().every(item => !["generate_lead", "book_appointment", "appointment_scheduled", "purchase"].includes(item[1])));
+  b.cleanup();
+});
+
+
+test("real component decorates initial and later Calendly anchors across Next navigation without changing linker values", () => {
+  const href = "https://calendly.com/thelightnessofbeing/restandreceiveenergy?hide_event_type_details=1&_gl=1*real-linker#details";
+  const b = browser("/reiki-healing-long-island?utm_source=newsletter&utm_campaign=autumn&email=private@example.invalid&gclid=real-click", "", { links: [href] });
+  let link = new URL(b.anchors[0].href);
+  assert.equal(link.searchParams.get("utm_source"), "newsletter");
+  assert.equal(link.searchParams.get("_gl"), "1*real-linker");
+  assert.equal(link.searchParams.get("hide_event_type_details"), "1");
+  assert.equal(link.hash, "#details");
+  assert.equal(link.searchParams.has("email"), false);
+  assert.equal(link.searchParams.has("gclid"), false);
+  b.navigate("/services");
+  b.addLink("https://calendly.com/thelightnessofbeing/sacredreset");
+  assert.equal(new URL(b.anchors[1].href).searchParams.get("utm_campaign"), "autumn");
+  b.navigate("/services?gclid=new-paid-click");
+  link = new URL(b.anchors[0].href);
+  assert.equal(link.searchParams.has("utm_source"), false);
+  assert.equal(link.searchParams.get("_gl"), "1*real-linker");
+  b.cleanup();
+});
+
+test("real component queues one GA4-only pageview per initial, query and Next route transition", () => {
+  const b = browser("/services", "", { ga4Id: "G-TEST123456" });
+  const views = () => b.events().filter(item => item[1] === "page_view");
+  assert.equal(views().length, 1);
+  assert.equal(views()[0][2].page_location, "https://example.invalid/services");
+  assert.equal(views()[0][2].page_referrer, "https://referrer.invalid");
+  b.navigate("/services");
+  assert.equal(views().length, 1, "duplicate effect/render must not double-count the route");
+  b.navigate("/services?view=reiki");
+  b.navigate("/contact");
+  b.navigate("/services");
+  assert.equal(views().length, 4, "returning to a previously visited route is a new view");
+  assert.equal(views()[1][2].page_referrer, "https://example.invalid/services");
+  assert.equal(views()[3][2].page_referrer, "https://example.invalid/contact");
+  assert.ok(views().every(item => item[2].send_to === "G-TEST123456"));
+  assert.ok(b.events().every(item => item[1] === "page_view"));
+  const configs = b.window.dataLayer.map(item => Array.from(item)).filter(item => item[0] === "config");
+  assert.ok(configs.every(item => item[2].send_page_view === false));
+  b.cleanup();
+});
+
+test("campaign handoff works with blocked storage and without a Google tag", () => {
+  const b = browser("/services?utm_source=partner&utm_medium=referral", "", { blockedStorage: true, configured: false, links: ["https://calendly.com/thelightnessofbeing/restandreceiveenergy"] });
+  b.navigate("/contact");
+  b.addLink("https://calendly.com/thelightnessofbeing");
+  assert.equal(new URL(b.anchors[1].href).searchParams.get("utm_source"), "partner");
+  assert.equal(b.events().length, 0);
   b.cleanup();
 });

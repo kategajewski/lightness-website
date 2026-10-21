@@ -3,8 +3,9 @@
 import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { createTrackingDeduper, initializeGoogleTag } from "@/lib/google-tag";
+import { createRoutePageViewTracker, createTrackingDeduper, initializeGoogleTag } from "@/lib/google-tag";
 import { mentorshipLeadForms, readMentorshipLeadReceipt } from "@/lib/mentorship-lead-receipts";
+import { createCalendlyAttribution, isBusinessCalendlyUrl } from "@/lib/calendly-attribution";
 
 declare global {
   interface Window {
@@ -44,6 +45,8 @@ function trackGoogleAdsConversion(label?: string, params: Record<string, unknown
 }
 
 const dedupeTracking = createTrackingDeduper();
+const trackRoutePageView = createRoutePageViewTracker();
+const calendlyAttribution = createCalendlyAttribution();
 function trackOnce(key: string, callback: () => boolean) {
   let storage: Storage | undefined;
   try { storage = window.sessionStorage; } catch { /* Storage may be unavailable. */ }
@@ -63,13 +66,33 @@ function GoogleAdsEvents() {
       return;
     }
 
-    const url = `${pathname}${searchParams.toString() ? `?${searchParams}` : ""}`;
+    const url = new URL(`${pathname}${searchParams.toString() ? `?${searchParams}` : ""}`, window.location.origin);
+    trackRoutePageView({
+      target: window,
+      measurementIds,
+      ga4Id: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
+      location: url.href,
+      title: document.title,
+      referrer: document.referrer,
+    });
+  }, [pathname, searchParams]);
 
-    for (const id of measurementIds) {
-      initializeGoogleTag(window, measurementIds)("config", id, {
-        page_path: url,
-      });
+  useEffect(() => {
+    let storage: Storage | undefined;
+    try { storage = window.sessionStorage; } catch { /* Storage may be unavailable. */ }
+    calendlyAttribution.capture(searchParams, storage);
+    function decorateLinks() {
+      for (const link of document.querySelectorAll<HTMLAnchorElement>("a[href]")) {
+        const href = link.getAttribute("href") ?? "";
+        const decorated = calendlyAttribution.decorate(href);
+        if (decorated !== href) link.setAttribute("href", decorated);
+      }
     }
+    // Decorate before interaction, including keyboard, new-tab and context-menu use.
+    decorateLinks();
+    const observer = new MutationObserver(decorateLinks);
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["href"] });
+    return () => observer.disconnect();
   }, [pathname, searchParams]);
 
   useEffect(() => {
@@ -138,7 +161,7 @@ function GoogleAdsEvents() {
         return;
       }
 
-      if (href.includes("calendly.com/thelightnessofbeing")) {
+      if (isBusinessCalendlyUrl(href)) {
         trackEvent("book_appointment_click", {
           link_url: href,
         });
@@ -169,17 +192,13 @@ function GoogleAdsEvents() {
 }
 
 export function GoogleAdsSync() {
-  if (!googleTagId) {
-    return null;
-  }
-
   return (
     <>
-      <Script
+      {googleTagId && <Script
         id="google-tag-loader"
         src={`https://www.googletagmanager.com/gtag/js?id=${googleTagId}`}
         strategy="afterInteractive"
-      />
+      />}
       <GoogleAdsEvents />
     </>
   );

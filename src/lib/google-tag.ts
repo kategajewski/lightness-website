@@ -34,3 +34,28 @@ export function createTrackingDeduper() {
     return true;
   };
 }
+
+
+export function createRoutePageViewTracker() {
+  let previousLocation: string | undefined;
+  return ({ target, measurementIds, ga4Id, location, title, referrer }: {
+    target: GoogleTagTarget;
+    measurementIds: string[];
+    ga4Id?: string;
+    location: string;
+    title: string;
+    referrer: string;
+  }) => {
+    if (location === previousLocation) return false;
+    const tag = initializeGoogleTag(target, measurementIds);
+    const url = new URL(location);
+    const page = { page_location: location, page_title: title, page_referrer: previousLocation ?? referrer };
+    for (const id of measurementIds) {
+      tag("config", id, { ...page, page_path: `${url.pathname}${url.search}`, send_page_view: false });
+    }
+    // Enhanced Measurement history-based pageviews must also be disabled in GA4.
+    if (ga4Id) tag("event", "page_view", { ...page, send_to: ga4Id });
+    previousLocation = location;
+    return Boolean(ga4Id);
+  };
+}

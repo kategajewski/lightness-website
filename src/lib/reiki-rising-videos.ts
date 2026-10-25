@@ -92,7 +92,8 @@ export const reikiRisingModules: CourseModule[] = [
     ],
   },
   {
-    date: "October 25, 2026", releaseAt: "2026-10-25T00:00:00-04:00",
+    // Opened early on October 24 at Kate's request.
+    date: "October 25, 2026", releaseAt: "2026-10-24T23:40:14-04:00",
     title: "Sharing Reiki with others, animals, plants, food and water",
     lessons: [
       { slug: "preparing-to-share-reiki-with-others", title: "Preparing to Share Reiki with Others", videoId: "84e0f89f-e93a-4b4d-bbc7-d5fed140ebb4", duration: "4:28" },

@@ -32,7 +32,7 @@ test("all release boundaries are exact and scheduled modules remain Sunday midni
     const date = new Date(module.releaseAt);
     const parts = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", weekday: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(date);
     const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
-    if (index !== 2) {
+    if (index !== 2 && index !== 4) {
       assert.equal(values.weekday, "Sunday");
       assert.equal(values.hour, "00");
       assert.equal(values.minute, "00");
@@ -100,7 +100,7 @@ test("Module 4 has six approved lessons in the requested order with verified dur
 
 test("Module 5 has all four new lessons in teaching order with verified durations", () => {
   assert.equal(modules[4].date, "October 25, 2026");
-  assert.equal(modules[4].releaseAt, "2026-10-25T00:00:00-04:00");
+  assert.equal(modules[4].releaseAt, "2026-10-24T23:40:14-04:00");
   const expected = [
     ["preparing-to-share-reiki-with-others", "Preparing to Share Reiki with Others", "4:28"],
     ["hand-positions-for-sharing-reiki-with-others", "Hand Positions for Sharing Reiki with Others", "9:58"],
@@ -267,9 +267,9 @@ test("all six Module 4 lessons unlock at October 18 midnight Eastern with protec
   assert.ok(!(await unavailable.json()).url);
 });
 
-test("all four Module 5 lessons unlock at October 25 midnight Eastern with protected playback", async () => {
-  const before = "2026-10-25T03:59:59.999Z";
-  const now = "2026-10-25T04:00:00Z";
+test("all four Module 5 lessons open early on October 24 with protected playback", async () => {
+  const before = "2026-10-25T03:40:13.999Z";
+  const now = "2026-10-25T03:40:14Z";
   const expires = String(Date.parse(now) / 1000 + 7200);
   assert.equal(modules[4].lessons.length, 4);
   for (const { slug, videoId } of modules[4].lessons) {

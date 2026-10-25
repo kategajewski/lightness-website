@@ -91,7 +91,16 @@ export const reikiRisingModules: CourseModule[] = [
       { slug: "how-to-end-a-reiki-session", title: "How to End a Reiki Session", videoId: "afd9cf16-712f-479c-baed-7ea358ad9b6d", duration: "6:30" },
     ],
   },
-  { date: "October 25, 2026", releaseAt: "2026-10-25T00:00:00-04:00", title: "Sharing Reiki with others, animals, plants, food, and water", lessons: [] },
+  {
+    date: "October 25, 2026", releaseAt: "2026-10-25T00:00:00-04:00",
+    title: "Sharing Reiki with others, animals, plants, food and water",
+    lessons: [
+      { slug: "preparing-to-share-reiki-with-others", title: "Preparing to Share Reiki with Others", videoId: "84e0f89f-e93a-4b4d-bbc7-d5fed140ebb4", duration: "4:28" },
+      { slug: "hand-positions-for-sharing-reiki-with-others", title: "Hand Positions for Sharing Reiki with Others", videoId: "83de7a44-7d20-4d4c-9a3f-ccbd9d6ac3ed", duration: "9:58" },
+      { slug: "sealing-a-reiki-session-with-others", title: "Sealing a Reiki Session with Others", videoId: "e5103b37-f2de-4853-8521-b5a930208e01", duration: "10:21" },
+      { slug: "reiki-for-animals-and-plants", title: "Reiki for Animals and Plants", videoId: "32d58ddf-871c-4dc2-9a94-957fee645365", duration: "11:13" },
+    ],
+  },
   { date: "November 1, 2026", releaseAt: "2026-11-01T00:00:00-04:00", title: "Reiki symbols and Cho Ku Rei", lessons: [] },
   { date: "November 8, 2026", releaseAt: "2026-11-08T00:00:00-05:00", title: "Sei He Ki, Koki-ho, and Gyoshi Ho", lessons: [] },
   { date: "November 15, 2026", releaseAt: "2026-11-15T00:00:00-05:00", title: "Hon Sha Ze Sho Nen and distant Reiki", lessons: [] },

@@ -45,10 +45,10 @@ test("all release boundaries are exact and scheduled modules remain Sunday midni
   }
 });
 
-test("the four Module 1 lessons stay ordered and Modules 5 onward remain empty", () => {
+test("the four Module 1 lessons stay ordered and Modules 6 onward remain empty", () => {
   assert.equal(modules[0].lessons.map(l => l.slug).join(","), "what-is-reiki,holy-fire-reiki,science-behind-reiki,history-of-reiki");
   assert.equal(new Set(modules[0].lessons.map(l => l.videoId)).size, 4);
-  assert.ok(modules.slice(4).every(m => m.lessons.length === 0));
+  assert.ok(modules.slice(5).every(m => m.lessons.length === 0));
   assert.equal(videos.findReikiLesson("__proto__"), null);
   assert.equal(videos.findReikiLesson("../../private"), null);
 });
@@ -65,10 +65,10 @@ test("Module 2 has eleven distinct lessons in teaching order with valid playback
   }
 });
 
-test("Module 3 teaches Grounding before Shielding and Modules 5 onward remain empty", () => {
+test("Module 3 teaches Grounding before Shielding and Modules 6 onward remain empty", () => {
   assert.equal(modules[2].lessons.map(l => l.slug).join(","), "grounding,shielding");
   assert.equal(modules[2].lessons.map(l => l.title).join(","), "Grounding,Shielding");
-  assert.ok(modules.slice(4).every(m => m.lessons.length === 0));
+  assert.ok(modules.slice(5).every(m => m.lessons.length === 0));
   for (const lesson of modules[2].lessons) {
     assert.match(lesson.videoId, /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/);
     assert.match(lesson.duration, /^\d+:[0-5]\d$/);
@@ -95,6 +95,26 @@ test("Module 4 has six approved lessons in the requested order with verified dur
     assert.equal(lesson.duration, duration);
     assert.match(lesson.videoId, /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/);
     assert.equal(videos.findReikiLesson(slug).module, modules[3]);
+  }
+});
+
+test("Module 5 has all four new lessons in teaching order with verified durations", () => {
+  assert.equal(modules[4].date, "October 25, 2026");
+  assert.equal(modules[4].releaseAt, "2026-10-25T00:00:00-04:00");
+  const expected = [
+    ["preparing-to-share-reiki-with-others", "Preparing to Share Reiki with Others", "4:28"],
+    ["hand-positions-for-sharing-reiki-with-others", "Hand Positions for Sharing Reiki with Others", "9:58"],
+    ["sealing-a-reiki-session-with-others", "Sealing a Reiki Session with Others", "10:21"],
+    ["reiki-for-animals-and-plants", "Reiki for Animals and Plants", "11:13"],
+  ];
+  assert.equal(modules[4].lessons.length, expected.length);
+  for (const [index, [slug, title, duration]] of expected.entries()) {
+    const lesson = modules[4].lessons[index];
+    assert.equal(lesson.slug, slug);
+    assert.equal(lesson.title, title);
+    assert.equal(lesson.duration, duration);
+    assert.match(lesson.videoId, /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/);
+    assert.equal(videos.findReikiLesson(slug).module, modules[4]);
   }
 });
 
@@ -245,6 +265,53 @@ test("all six Module 4 lessons unlock at October 18 midnight Eastern with protec
   const unavailable = await endpoint({ slug: modules[3].lessons[0].slug, now, configured: false });
   assert.equal(unavailable.status, 503);
   assert.ok(!(await unavailable.json()).url);
+});
+
+test("all four Module 5 lessons unlock at October 25 midnight Eastern with protected playback", async () => {
+  const before = "2026-10-25T03:59:59.999Z";
+  const now = "2026-10-25T04:00:00Z";
+  const expires = String(Date.parse(now) / 1000 + 7200);
+  assert.equal(modules[4].lessons.length, 4);
+  for (const { slug, videoId } of modules[4].lessons) {
+    for (const preview of [false, true]) {
+      const locked = await endpoint({ slug, now: before, preview });
+      assert.equal(locked.status, 403);
+      assert.ok(!(await locked.json()).url);
+      assert.match(locked.headers.get("cache-control"), /private, no-store/);
+    }
+    assert.equal((await endpoint({ slug, now: before, email: "admin@example.com" })).status, 403);
+    const adminPreview = await endpoint({ slug, now: before, email: "admin@example.com", preview: true });
+    assert.equal(adminPreview.status, 200);
+    assert.equal(new URL((await adminPreview.json()).url).pathname, `/embed/762439/${videoId}`);
+
+    for (const preview of [false, true]) {
+      const response = await endpoint({ slug, now, preview });
+      assert.equal(response.status, 200);
+      const url = new URL((await response.json()).url);
+      assert.equal(url.origin, "https://player.mediadelivery.net");
+      assert.equal(url.pathname, `/embed/762439/${videoId}`);
+      assert.equal(url.searchParams.get("expires"), expires);
+      assert.equal(url.searchParams.get("token"), crypto.createHash("sha256").update(`${testEnv.BUNNY_STREAM_EMBED_TOKEN_KEY}${videoId}${expires}`).digest("hex"));
+      assert.ok(!url.toString().includes(testEnv.BUNNY_STREAM_EMBED_TOKEN_KEY));
+      assert.match(response.headers.get("cache-control"), /private, no-store/);
+      assert.equal(response.headers.get("vary"), "Cookie");
+      assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow, noarchive");
+
+      for (const [overrides, status] of [[{ email: "" }, 401], [{ cohort: "reiki-rising-spring-2026" }, 403], [{ status: "inactive" }, 403]]) {
+        for (const time of [before, now]) {
+          const blocked = await endpoint({ slug, now: time, preview, ...overrides });
+          assert.equal(blocked.status, status);
+          assert.ok(!(await blocked.json()).url);
+          assert.match(blocked.headers.get("cache-control"), /private, no-store/);
+          assert.equal(blocked.headers.get("vary"), "Cookie");
+          assert.equal(blocked.headers.get("x-robots-tag"), "noindex, nofollow, noarchive");
+        }
+      }
+    }
+    const unavailable = await endpoint({ slug, now, configured: false });
+    assert.equal(unavailable.status, 503);
+    assert.ok(!(await unavailable.json()).url);
+  }
 });
 
 test("missing lesson or signing configuration fails closed", async () => {

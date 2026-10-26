@@ -421,7 +421,72 @@ test("October 14 Week 3 replay unlocks at its exact boundary and remains cohort 
   assert.equal(unavailable.status, 503);
   assert.ok(!(await unavailable.json()).url);
 
-  for (const replay of videos.reikiRisingReplays.filter(item => item !== match.module)) {
+  for (const replay of videos.reikiRisingReplays.filter(item => item !== match.module && Date.parse(item.releaseAt) <= Date.parse(now))) {
+    for (const lesson of replay.lessons) {
+      assert.equal((await endpoint({ slug: lesson.slug, now })).status, 200);
+    }
+  }
+});
+
+test("October 21 Week 4 replay unlocks at its exact boundary and remains cohort protected", async () => {
+  const slug = "live-call-2026-10-21";
+  const before = "2026-10-22T03:59:59.999Z";
+  const now = "2026-10-22T04:00:00Z";
+  const match = videos.findReikiLesson(slug);
+  assert.ok(match, "Week 4 replay must have verified playback metadata");
+  assert.equal(videos.reikiRisingReplays.length, 4);
+  assert.equal(videos.reikiRisingReplays.map(replay => replay.lessons.map(lesson => lesson.slug).join(",")).join(","), "live-call-2026-09-30,live-call-2026-10-07,live-call-2026-10-14,live-call-2026-10-21");
+  assert.equal(videos.reikiRisingReplays[3], match.module);
+  assert.equal(match.module.date, "October 21, 2026");
+  assert.equal(match.module.releaseAt, "2026-10-22T00:00:00-04:00");
+  assert.equal(match.module.title, "Week 4 Class Replay");
+  assert.equal(match.module.lessons.length, 1);
+  assert.equal(match.lesson.title, "October 21: Week 4 Class Replay");
+  assert.match(match.lesson.videoId, /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/);
+  assert.equal(match.lesson.duration, "52 minutes 55 seconds");
+
+  for (const preview of [false, true]) {
+    const locked = await endpoint({ slug, now: before, preview });
+    assert.equal(locked.status, 403);
+    assert.ok(!(await locked.json()).url);
+    assert.match(locked.headers.get("cache-control"), /private, no-store/);
+  }
+  assert.equal((await endpoint({ slug, now: before, email: "admin@example.com" })).status, 403);
+  const adminPreview = await endpoint({ slug, now: before, email: "admin@example.com", preview: true });
+  assert.equal(adminPreview.status, 200);
+  assert.equal(new URL((await adminPreview.json()).url).pathname, `/embed/762439/${match.lesson.videoId}`);
+
+  for (const preview of [false, true]) {
+    const response = await endpoint({ slug, now, preview });
+    assert.equal(response.status, 200);
+    const url = new URL((await response.json()).url);
+    const expires = String(Date.parse(now) / 1000 + 7200);
+    assert.equal(url.origin, "https://player.mediadelivery.net");
+    assert.equal(url.pathname, `/embed/762439/${match.lesson.videoId}`);
+    assert.equal(url.searchParams.get("expires"), expires);
+    assert.equal(url.searchParams.get("token"), crypto.createHash("sha256").update(`${testEnv.BUNNY_STREAM_EMBED_TOKEN_KEY}${match.lesson.videoId}${expires}`).digest("hex"));
+    assert.ok(!url.toString().includes(testEnv.BUNNY_STREAM_EMBED_TOKEN_KEY));
+    assert.match(response.headers.get("cache-control"), /private, no-store/);
+    assert.equal(response.headers.get("vary"), "Cookie");
+    assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow, noarchive");
+
+    for (const [overrides, status] of [[{ email: "" }, 401], [{ cohort: "reiki-rising-spring-2026" }, 403], [{ status: "inactive" }, 403]]) {
+      for (const time of [before, now]) {
+        const blocked = await endpoint({ slug, now: time, preview, ...overrides });
+        assert.equal(blocked.status, status);
+        assert.ok(!(await blocked.json()).url);
+        assert.match(blocked.headers.get("cache-control"), /private, no-store/);
+        assert.equal(blocked.headers.get("vary"), "Cookie");
+        assert.equal(blocked.headers.get("x-robots-tag"), "noindex, nofollow, noarchive");
+      }
+    }
+  }
+
+  const unavailable = await endpoint({ slug, now, configured: false });
+  assert.equal(unavailable.status, 503);
+  assert.ok(!(await unavailable.json()).url);
+
+  for (const replay of videos.reikiRisingReplays.filter(item => item !== match.module && Date.parse(item.releaseAt) <= Date.parse(now))) {
     for (const lesson of replay.lessons) {
       assert.equal((await endpoint({ slug: lesson.slug, now })).status, 200);
     }

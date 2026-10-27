@@ -12,28 +12,28 @@ export const metadata = createPageMetadata({
 
 const upcomingEvents = [
   {
-    sortKey: "2026-10-09",
-    isActive: false,
+    sortKey: "2026-11-13",
+    isActive: true,
     eyebrow: "A Gathering for Women",
     title: "Rooted Vision: A Women's Circle",
     description:
-      "An evening with Kate and Janesa to slow down, return to your body and make space for what is ready to grow.",
+      "An evening with Kate, Jessica and Janesa to slow down, return to your body and make space for what is ready to grow.",
     details:
-      "Friday, October 9, 2026 · 8:00-9:30 PM · Sanctuary+Health, Patchogue · Sliding-scale tickets through Sanctuary",
+      "Friday, November 13, 2026 · 8:00-9:30 PM · Sanctuary+Health, Patchogue · Sliding-scale tickets through Sanctuary",
     href: site.links.rootedVision,
     cta: "Explore the Women's Circle",
     cardClass:
       "border-[var(--color-rose)] bg-[var(--color-ivory)]",
   },
   {
-    sortKey: "2026-10-23",
+    sortKey: "2026-11-16",
     isActive: true,
     eyebrow: "Reiki-Infused Sound Journey",
-    title: "The Descent",
+    title: "The Art of Receiving",
     description:
-      "A Holy Fire® Reiki infused sound journey with Kate. An invitation to soften into stillness, quiet the outside world and be guided inward.",
+      "A Holy Fire® Reiki infused sound journey with Kate. Make space for rest, nourishment and the goodness of life.",
     details:
-      "Friday, October 23, 2026 · 8:00-9:30 PM · Sanctuary+Health, Patchogue · $55 before processing fees",
+      "Monday, November 16, 2026 · 8:00-9:30 PM · Sanctuary+Health, Patchogue · $55 before processing fees",
     href: site.links.soundJourneysAtSanctuary,
     cta: "Explore the Sound Journey",
     cardClass:

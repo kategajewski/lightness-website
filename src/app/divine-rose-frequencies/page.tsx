@@ -352,6 +352,29 @@ export default async function DivineRoseFrequenciesPage({
               </label>
             </div>
 
+            <div className="grid gap-2">
+              <label
+                htmlFor="custom-order-referral"
+                className="text-[0.92rem] font-medium text-[var(--color-text)]"
+              >
+                Who referred you? (optional)
+              </label>
+              <input
+                id="custom-order-referral"
+                type="text"
+                name="referralSource"
+                maxLength={200}
+                aria-describedby="custom-order-referral-help"
+                className="rounded-[16px] border border-[rgba(76,58,48,0.1)] bg-[rgba(255,252,248,0.94)] px-4 py-3 text-[1rem] text-[var(--color-text)] outline-none focus-visible:border-[#9b7c6b] focus-visible:ring-2 focus-visible:ring-[#9b7c6b] focus-visible:ring-offset-2"
+              />
+              <p
+                id="custom-order-referral-help"
+                className="text-[0.85rem] text-[var(--color-muted)]"
+              >
+                If a shop, business or person referred you, please share their name.
+              </p>
+            </div>
+
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="grid gap-2">
                 <span className="text-[0.92rem] font-medium text-[var(--color-text)]">

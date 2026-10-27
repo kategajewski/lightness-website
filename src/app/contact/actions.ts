@@ -11,6 +11,7 @@ import {
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 const customOrderFieldLabels = [
+  ["referralSource", "Referred by"],
   ["orderStyle", "Preferred style"],
   ["rosePetalSource", "Rose petals"],
   ["rosePetalDetails", "Rose story or occasion"],

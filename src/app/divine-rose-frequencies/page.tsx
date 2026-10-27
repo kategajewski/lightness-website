@@ -420,8 +420,7 @@ export default async function DivineRoseFrequenciesPage({
             </label>
 
             <div className="rounded-[18px] border border-[rgba(168,178,159,0.22)] bg-[rgba(255,251,246,0.72)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
-              Prices vary depending on the custom design and gemstone requests.
-              Malas and Catholic-style rosaries generally range between $150-$200.
+              Custom pieces start at $200.
               <br />
               <br />
               Pieces typically take 2-3 weeks to create. Orders may take longer

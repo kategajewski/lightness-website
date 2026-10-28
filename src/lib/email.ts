@@ -29,7 +29,7 @@ type StripeCheckoutSession = {
 
 type WebsiteEmailInput = {
   from: string;
-  to: string;
+  to: string | string[];
   replyTo?: string;
   subject: string;
   text: string;
@@ -161,7 +161,7 @@ export async function sendClientIntakeOwnerNotification(input: {
 
   await sendWebsiteEmail({
     from: env.emailFrom,
-    to: recipients.join(", "),
+    to: recipients,
     subject,
     text,
     html,

@@ -118,6 +118,10 @@ export default async function AccountPage() {
             <Link href="/inquiries" className="button-pill">
               Website Inquiries
             </Link>
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- A fresh document keeps a previously loaded Google tag away from private intake URLs. */}
+            <a href="/client-intakes" className="button-pill">
+              Client Intakes
+            </a>
           </div>
         </section>
       ) : null}

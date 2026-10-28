@@ -97,7 +97,7 @@ test("receipt validation rejects malformed, expired, future and wrong-form signa
   assert.equal(receipts.readMentorshipLeadReceipt(receiptCookie(), "/contact"), null);
 });
 
-function browser(path, cookie = "", { blockedStorage = false, keepCookie = false, configured = true, ga4Id, links = [] } = {}) {
+function browser(path, cookie = "", { blockedStorage = false, keepCookie = false, configured = true, ga4Id, links = [], referrer = "https://referrer.invalid" } = {}) {
   let cookieValue = cookie;
   const cookieWrites = [];
   const effects = [];
@@ -105,8 +105,10 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
   const listeners = new Map();
   const stored = new Map();
   const observers = new Set();
+  const scriptLoads = [];
+  const documentNavigations = [];
   const window = {
-    location: { protocol: "https:", origin: "https://example.invalid" },
+    location: { protocol: "https:", origin: "https://example.invalid", assign: href => documentNavigations.push(href) },
     setInterval: fn => { const key = timers.size + 1; timers.set(key, fn); return key; },
     clearInterval: key => timers.delete(key),
   };
@@ -115,9 +117,9 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
     return { getItem: key => stored.get(key) ?? null, setItem: (key, value) => stored.set(key, value) };
   } });
   const document = {
-    title: "Test page", referrer: "https://referrer.invalid", body: {}, querySelectorAll: () => anchors,
-    addEventListener: (name, fn) => listeners.set(name, fn),
-    removeEventListener: name => listeners.delete(name),
+    title: "Test page", referrer, body: {}, querySelectorAll: () => anchors,
+    addEventListener: (name, fn, capture = false) => listeners.set(`${name}:${capture}`, fn),
+    removeEventListener: (name, _fn, capture = false) => listeners.delete(`${name}:${capture}`),
   };
   Object.defineProperty(document, "cookie", { get: () => cookieValue, set: value => {
     cookieWrites.push(value);
@@ -128,13 +130,15 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
     closest() { return this; }
     getAttribute() { return this.href; }
     setAttribute(name, value) { assert.equal(name, "href"); this.href = value; }
+    hasAttribute() { return false; }
   }
   const anchors = links.map(href => new Element(href));
   const url = new URL(path, "https://example.invalid");
+  Object.defineProperties(window.location, { pathname: { get: () => url.pathname }, href: { get: () => url.href } });
   const jsx = (type, props) => ({ type, props });
   const component = load("../src/components/google-ads-sync.tsx", {
     "react/jsx-runtime": { jsx, jsxs: jsx, Fragment: "fragment" },
-    "next/script": () => null,
+    "next/script": props => { scriptLoads.push(props.src); return null; },
     "next/navigation": { usePathname: () => url.pathname, useSearchParams: () => url.searchParams },
     react: { useEffect: fn => effects.push(fn) },
     "@/lib/google-tag": google,
@@ -150,7 +154,7 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
   render(component.GoogleAdsSync());
   let cleanups = effects.map(fn => fn()).filter(Boolean);
   const events = () => (window.dataLayer ?? []).map(item => Array.from(item)).filter(item => item[0] === "event");
-  return { window, cookieWrites, events, anchors,
+  return { window, cookieWrites, events, anchors, scriptLoads, documentNavigations, stored,
     addLink: href => { anchors.push(new Element(href)); for (const fn of observers) fn(); },
     navigate: path => {
       cleanups.forEach(fn => fn());
@@ -159,7 +163,15 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
       render(component.GoogleAdsSync());
       cleanups = effects.map(fn => fn()).filter(Boolean);
     },
-    setCookie: value => { cookieValue = value; }, tick: () => { for (const fn of timers.values()) fn(); }, click: href => listeners.get("click")?.({ target: new Element(href) }), cleanup: () => cleanups.forEach(fn => fn()) };
+    setCookie: value => { cookieValue = value; }, tick: () => { for (const fn of timers.values()) fn(); },
+    click: (href, options = {}) => {
+      let stopped = false;
+      const event = { target: new Element(href), button: 0, defaultPrevented: false, ...options,
+        preventDefault() { this.defaultPrevented = true; }, stopImmediatePropagation() { stopped = true; } };
+      listeners.get("click:true")?.(event);
+      if (!stopped) listeners.get("click:false")?.(event);
+      return event;
+    }, cleanup: () => cleanups.forEach(fn => fn()) };
 }
 
 for (const form of receipts.mentorshipLeadForms) {
@@ -268,5 +280,56 @@ test("campaign handoff works with blocked storage and without a Google tag", () 
   b.addLink("https://calendly.com/thelightnessofbeing");
   assert.equal(new URL(b.anchors[1].href).searchParams.get("utm_source"), "partner");
   assert.equal(b.events().length, 0);
+  b.cleanup();
+});
+
+
+test("private intake routes and descendants load no Google script, queue no events and capture no attribution", () => {
+  for (const path of ["/client-intake", "/client-intake/complete", "/client-intakes", "/client-intakes/123", "/api/client-intake", "/api/client-intakes/123"]) {
+    const b = browser(`${path}?token=private-token&utm_source=private`, "", { ga4Id: "G-TEST123456", links: ["https://calendly.com/thelightnessofbeing"] });
+    assert.equal(b.scriptLoads.length, 0);
+    assert.equal(b.window.dataLayer, undefined);
+    assert.equal(b.stored.size, 0);
+    assert.equal(new URL(b.anchors[0].href).searchParams.has("utm_source"), false);
+    b.click("https://calendly.com/thelightnessofbeing");
+    b.click("mailto:test@example.invalid");
+    b.tick();
+    assert.equal(b.events().length, 0);
+    b.cleanup();
+  }
+});
+
+test("entering an intake from a tracked page uses a fresh document before Next can change the private URL", () => {
+  const b = browser("/account", "", { ga4Id: "G-TEST123456" });
+  const before = b.events().length;
+  const click = b.click("/client-intakes?token=private-token");
+  assert.equal(click.defaultPrevented, true);
+  assert.deepEqual(b.documentNavigations, ["https://example.invalid/client-intakes?token=private-token"]);
+  assert.equal(b.window.location.pathname, "/account");
+  assert.equal(b.events().length, before);
+  b.navigate("/client-intakes");
+  b.click("https://calendly.com/thelightnessofbeing");
+  b.click("mailto:test@example.invalid");
+  b.addLink("https://calendly.com/thelightnessofbeing/sacredreset");
+  b.tick();
+  assert.equal(b.events().length, before, "tracking handlers must be removed for private route renders");
+  b.cleanup();
+});
+
+test("intake route matching honors path boundaries and preserves ordinary or modified navigation", () => {
+  const b = browser("/services", "", { ga4Id: "G-TEST123456" });
+  for (const href of ["/client-intake-information", "/client-intakes-guide", "https://another.invalid/client-intake"]) {
+    assert.equal(b.click(href).defaultPrevented, false);
+  }
+  assert.equal(b.click("/client-intake", { metaKey: true }).defaultPrevented, false);
+  assert.equal(b.documentNavigations.length, 0);
+  b.cleanup();
+});
+
+test("a private intake URL is omitted from the referrer of a later public pageview", () => {
+  const b = browser("/services", "", { ga4Id: "G-TEST123456", referrer: "https://example.invalid/client-intake?token=private-token" });
+  const view = b.events().find(item => item[1] === "page_view");
+  assert.equal(view[2].page_referrer, "");
+  assert.ok(!JSON.stringify(b.window.dataLayer).includes("private-token"));
   b.cleanup();
 });

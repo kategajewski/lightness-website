@@ -32,8 +32,26 @@ const conversionLabels = {
   checkoutSuccess: process.env.NEXT_PUBLIC_GOOGLE_ADS_PURCHASE_CONVERSION_LABEL,
 };
 
+function isClientIntakePathname(pathname: string | null | undefined) {
+  return ["/client-intake", "/client-intakes", "/api/client-intake", "/api/client-intakes"].some(
+    (prefix) => pathname === prefix || pathname?.startsWith(`${prefix}/`),
+  );
+}
+
+function isCurrentPagePrivate() {
+  return typeof window !== "undefined" && isClientIntakePathname(window.location.pathname);
+}
+
+function publicReferrer(referrer: string) {
+  try {
+    return isClientIntakePathname(new URL(referrer).pathname) ? "" : referrer;
+  } catch {
+    return referrer;
+  }
+}
+
 function trackEvent(eventName: string, params: Record<string, unknown> = {}) {
-  if (typeof window === "undefined" || !googleTagId) return false;
+  if (typeof window === "undefined" || !googleTagId || isCurrentPagePrivate()) return false;
   initializeGoogleTag(window, measurementIds)("event", eventName, params);
   return true;
 }
@@ -62,7 +80,7 @@ function GoogleAdsEvents() {
   const eventSlug = searchParams.get("eventSlug");
 
   useEffect(() => {
-    if (!googleTagId) {
+    if (!googleTagId || isClientIntakePathname(pathname) || isCurrentPagePrivate()) {
       return;
     }
 
@@ -73,15 +91,17 @@ function GoogleAdsEvents() {
       ga4Id: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
       location: url.href,
       title: document.title,
-      referrer: document.referrer,
+      referrer: publicReferrer(document.referrer),
     });
   }, [pathname, searchParams]);
 
   useEffect(() => {
+    if (isClientIntakePathname(pathname) || isCurrentPagePrivate()) return;
     let storage: Storage | undefined;
     try { storage = window.sessionStorage; } catch { /* Storage may be unavailable. */ }
     calendlyAttribution.capture(searchParams, storage);
     function decorateLinks() {
+      if (isCurrentPagePrivate()) return;
       for (const link of document.querySelectorAll<HTMLAnchorElement>("a[href]")) {
         const href = link.getAttribute("href") ?? "";
         const decorated = calendlyAttribution.decorate(href);
@@ -131,6 +151,7 @@ function GoogleAdsEvents() {
   useEffect(() => {
     if (!mentorshipLeadForms.some((form) => form.pathname === pathname)) return;
     function trackSavedLead() {
+      if (isCurrentPagePrivate()) return;
       const savedLead = readMentorshipLeadReceipt(document.cookie, pathname);
       if (savedLead && trackOnce(`mentorship-lead:${savedLead.receipt.id}`, () => {
         const queued = trackEvent("generate_lead", { lead_source: savedLead.receipt.source });
@@ -148,6 +169,7 @@ function GoogleAdsEvents() {
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
+      if (isClientIntakePathname(pathname) || isCurrentPagePrivate()) return;
       const target = event.target;
 
       if (!(target instanceof Element)) {
@@ -186,12 +208,43 @@ function GoogleAdsEvents() {
     return () => {
       document.removeEventListener("click", handleClick);
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }
 
 export function GoogleAdsSync() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    function openPrivatePage(event: MouseEvent) {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (!(event.target instanceof Element)) return;
+      const anchor = event.target.closest<HTMLAnchorElement>("a[href]");
+      if (!anchor || anchor.hasAttribute("download") || (anchor.target && anchor.target !== "_self")) return;
+      const href = anchor.getAttribute("href");
+      if (!href) return;
+      let destination: URL;
+      try {
+        destination = new URL(href, window.location.href);
+      } catch {
+        return;
+      }
+      if (destination.origin !== window.location.origin || !isClientIntakePathname(destination.pathname)) return;
+
+      // Enter a fresh document so an already loaded tag cannot observe a private SPA URL.
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.location.assign(destination.href);
+    }
+
+    document.addEventListener("click", openPrivatePage, true);
+    return () => document.removeEventListener("click", openPrivatePage, true);
+  }, []);
+
+  // Private intake pages have no Google loader, event handlers or campaign decoration.
+  if (isClientIntakePathname(pathname)) return null;
+
   return (
     <>
       {googleTagId && <Script

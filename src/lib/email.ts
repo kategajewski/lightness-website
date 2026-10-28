@@ -131,6 +131,45 @@ async function sendWebsiteEmail(input: WebsiteEmailInput) {
   });
 }
 
+export async function sendClientIntakeOwnerNotification(input: {
+  id: string;
+  submittedAt: string;
+}): Promise<{ skipped: boolean }> {
+  const recipients = getOwnerNotificationRecipients();
+
+  if (!recipients.length || !canSendWebsiteEmail()) {
+    return { skipped: true };
+  }
+
+  const subject = "A signed client intake is ready to review";
+  const reviewUrl = "https://bethelightness.com/client-intakes";
+  const text = [
+    subject,
+    "",
+    `Submission reference: ${input.id}`,
+    `Submitted at: ${input.submittedAt}`,
+    reviewUrl,
+  ].join("\n");
+  const html = `
+    <div style="font-family: Georgia, serif; color: #3e342e; line-height: 1.6;">
+      <p>${subject}</p>
+      <p>Submission reference: ${escapeHtml(input.id)}</p>
+      <p>Submitted at: ${escapeHtml(input.submittedAt)}</p>
+      <p><a href="${reviewUrl}">${reviewUrl}</a></p>
+    </div>
+  `;
+
+  await sendWebsiteEmail({
+    from: env.emailFrom,
+    to: recipients.join(", "),
+    subject,
+    text,
+    html,
+  });
+
+  return { skipped: false };
+}
+
 export async function sendPasswordRecoveryEmail(input: {
   email: string;
   recoveryUrl: string;

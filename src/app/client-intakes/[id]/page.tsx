@@ -8,11 +8,16 @@ import { getSignedIntake, intakeStorageConfigured, type SignedIntake } from "@/l
 import { INTAKE_ANSWER_LABELS } from "@/lib/hypnotherapy-intake";
 import { REIKI_INTAKE_ANSWER_LABELS } from "@/lib/reiki-intake";
 import { CHILD_REIKI_ANSWER_LABELS } from "@/lib/children-reiki-intake";
+import { SOUND_BATH_ANSWER_LABELS } from "@/lib/sound-bath-intake";
 import { PrintIntakeButton } from "@/components/print-intake-button";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Signed client intake", robots: { index: false, follow: false } };
 function answerEntries(record: SignedIntake) {
+  if (record.formType === "sound-bath") {
+    const answers = record.answers;
+    return Object.entries(SOUND_BATH_ANSWER_LABELS).map(([key, label]) => ({ key, label, answer: key === "sessionFormat" ? sessionFormatAnswer(answers.sessionFormat) : answers[key as keyof typeof SOUND_BATH_ANSWER_LABELS] }));
+  }
   if (record.formType === "childrens-reiki") {
     const answers = record.answers;
     return Object.entries(CHILD_REIKI_ANSWER_LABELS).map(([key, label]) => {
@@ -51,7 +56,7 @@ export default async function IntakeDetailPage({ params }: { params: Promise<{ i
   return <PageShell eyebrow="Private signed form" title="Client intake" description="A saved copy of the client’s answers and consent.">
     <div className="intake-admin-tools flex flex-wrap gap-3"><Link href="/client-intakes" className="button-pill">Back to client intakes</Link><PrintIntakeButton /></div>
     <article className="intake-signed-record rounded-[24px] border border-[rgba(76,58,48,0.1)] bg-[#fffaf4] p-6 sm:p-10">
-      <p className="mb-3 text-sm font-bold">{record.formType === "childrens-reiki" ? "Gentle Energy Support (children’s Reiki)" : record.formType === "reiki" ? "Reiki, new client" : "Hypnotherapy"}</p>
+      <p className="mb-3 text-sm font-bold">{record.formType === "sound-bath" ? "Inner Journey Sound Bath" : record.formType === "childrens-reiki" ? "Gentle Energy Support (children’s Reiki)" : record.formType === "reiki" ? "Reiki, new client" : "Hypnotherapy"}</p>
       <h2 className="display-section-title">{record.formType === "childrens-reiki" ? record.answers.childName : record.answers.fullName}</h2>{record.formType === "childrens-reiki" && <p className="mt-2 text-[var(--color-muted)]">Parent or legal guardian: {record.answers.fullName}</p>}<p className="mt-2 text-[var(--color-muted)]">Received {new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeStyle: "short", timeZone: "America/New_York" }).format(new Date(record.submittedAt))} Eastern</p>
       <dl className="mt-8 grid gap-6">{answerEntries(record).map(({ key, label, answer }) => <div key={key}><dt className="text-sm font-bold">{label}</dt><dd className="mt-2 whitespace-pre-wrap break-words">{answer || "Not provided"}</dd></div>)}</dl>
       <section className="mt-10 border-t border-[rgba(76,58,48,0.15)] pt-7"><h3 className="font-bold">Session arrangements</h3><p className="mt-3">{record.consent.remoteSessionStatement}</p><p className="mt-2 text-sm">{record.formType === "childrens-reiki" ? "Confirmed by parent or legal guardian." : "Confirmed by client."}</p></section>

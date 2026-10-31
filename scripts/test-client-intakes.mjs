@@ -32,6 +32,7 @@ function load(file, dependencies = {}, globals = {}) {
 const intake = load("../src/lib/hypnotherapy-intake.ts");
 const reiki = load("../src/lib/reiki-intake.ts");
 const childReiki = load("../src/lib/children-reiki-intake.ts");
+const soundBath = load("../src/lib/sound-bath-intake.ts");
 const id = "e62d16ea-46e5-417f-b145-c8a70634be55";
 
 function input(overrides = {}) {
@@ -125,6 +126,29 @@ function childReikiInput(overrides = {}) {
   };
 }
 
+function soundBathInput(overrides = {}) {
+  return {
+    submissionId: id,
+    formVersion: soundBath.SOUND_BATH_FORM_VERSION,
+    fullName: "Synthetic Sound Client",
+    email: "",
+    phone: "555 010 1234",
+    intentions: "SYNTHETIC PRIVATE SOUND INTENTIONS",
+    comfortNeeds: "SYNTHETIC PRIVATE SOUND COMFORT NEEDS",
+    previousSoundExperience: "No previous sound bath experience.",
+    referralSource: "Synthetic referral",
+    sessionFormat: "in-person",
+    newsletterConsent: false,
+    sessionReadiness: true,
+    consentAccepted: true,
+    signatureName: "Synthetic Sound Client",
+    signatureDate: "2026-10-31",
+    website: "",
+    startedAt: Date.now() - 10000,
+    ...overrides,
+  };
+}
+
 function cryptography() {
   const environment = { INTAKE_ENCRYPTION_KEY: crypto.randomBytes(32).toString("base64") };
   const loadedModule = load("../src/lib/intake-crypto.ts", {
@@ -167,6 +191,7 @@ function storageHarness() {
     "@/lib/hypnotherapy-intake": intake,
     "@/lib/reiki-intake": reiki,
     "@/lib/children-reiki-intake": childReiki,
+    "@/lib/sound-bath-intake": soundBath,
   });
   return { module: loadedModule, objects, uploads, downloads, crypto: encrypted.module, environment: encrypted.environment,
     setAvailable(value) { available = value; },
@@ -175,8 +200,8 @@ function storageHarness() {
 }
 
 function routeHarness({ configured = true, notificationError = false, saveError = null, formType = "hypnotherapy" } = {}) {
-  const inputs = { hypnotherapy: input, reiki: reikiInput, "childrens-reiki": childReikiInput };
-  const saveMethod = { hypnotherapy: "saveSignedIntake", reiki: "saveSignedReikiIntake", "childrens-reiki": "saveSignedChildReikiIntake" }[formType];
+  const inputs = { hypnotherapy: input, reiki: reikiInput, "childrens-reiki": childReikiInput, "sound-bath": soundBathInput };
+  const saveMethod = { hypnotherapy: "saveSignedIntake", reiki: "saveSignedReikiIntake", "childrens-reiki": "saveSignedChildReikiIntake", "sound-bath": "saveSignedSoundBathIntake" }[formType];
   const storage = storageHarness();
   const saves = [];
   const notifications = [];
@@ -188,6 +213,7 @@ function routeHarness({ configured = true, notificationError = false, saveError 
     "@/lib/hypnotherapy-intake": intake,
     "@/lib/reiki-intake": reiki,
     "@/lib/children-reiki-intake": childReiki,
+    "@/lib/sound-bath-intake": soundBath,
     "@/lib/intake-storage": {
       ...storage.module,
       intakeStorageConfigured: () => configured,
@@ -392,6 +418,7 @@ function adminPage(file, user, { configured = true, storageError = false, record
     "@/lib/hypnotherapy-intake": intake,
     "@/lib/reiki-intake": reiki,
     "@/lib/children-reiki-intake": childReiki,
+    "@/lib/sound-bath-intake": soundBath,
     "@/lib/intake-storage": {
       intakeStorageConfigured() { return configured; },
       async listSignedIntakes() {
@@ -442,6 +469,7 @@ test("initial form HTML prevents answers from entering a GET URL when JavaScript
     "@/lib/hypnotherapy-intake": intake,
     "@/lib/reiki-intake": reiki,
     "@/lib/children-reiki-intake": childReiki,
+    "@/lib/sound-bath-intake": soundBath,
     "./hypnotherapy-intake-form.module.css": { default: {} },
   });
   const html = renderToStaticMarkup(React.createElement(component.HypnotherapyIntakeForm));
@@ -923,6 +951,161 @@ test("private admin renders adult format and touch choices while interpreting le
     if (saveMethod === "saveSignedReikiIntake") {
       assert.match(legacyDetail, /Not applicable for a virtual session/);
       assert.equal(Object.hasOwn(legacy.answers, "touchPreference"), false);
+    }
+  }
+});
+
+test("sound bath signed storage encrypts answers and snapshots its own consent and selected session format", async () => {
+  for (const sessionFormat of ["in-person", "virtual"]) {
+    const h = storageHarness();
+    const answer = soundBathInput({ sessionFormat });
+    const receipt = await h.module.saveSignedSoundBathIntake(answer);
+    const bytes = h.objects.get(`${id}.json`).toString("utf8");
+    for (const value of [answer.fullName, answer.intentions, answer.comfortNeeds]) assert.equal(bytes.includes(value), false);
+    assert.equal(h.uploads[0].options.upsert, false);
+    const record = await h.module.getSignedIntake(id);
+    assert.equal(record.formType, "sound-bath");
+    assert.equal(record.formVersion, soundBath.SOUND_BATH_FORM_VERSION);
+    assert.equal(record.answers.sessionFormat, sessionFormat);
+    assert.equal(record.answers.intentions, answer.intentions);
+    assert.equal(record.answers.email, "");
+    assert.equal(record.answers.website, undefined);
+    assert.equal(record.answers.startedAt, undefined);
+    assert.equal(JSON.stringify(record.consent.paragraphs), JSON.stringify(soundBath.SOUND_BATH_CONSENT_PARAGRAPHS));
+    assert.equal(record.consent.privacyNotice, soundBath.SOUND_BATH_PRIVACY_NOTICE);
+    assert.equal(record.consent.remoteSessionStatement, soundBath.soundBathSessionStatement(sessionFormat));
+    assert.equal(record.consent.electronicSignatureStatement, soundBath.SOUND_BATH_ELECTRONIC_SIGNATURE_STATEMENT);
+    assert.equal(Object.hasOwn(record.consent, "guardianAuthorityStatement"), false);
+    assert.equal(record.signature.name, answer.signatureName);
+    assert.equal(record.signature.date, answer.signatureDate);
+    assert.equal(record.signature.recordedAt, receipt.submittedAt);
+    assert.equal(record.requestDigest, h.crypto.intakeDigest(record.answers));
+    const { recordDigest, ...unsigned } = record;
+    assert.equal(recordDigest, h.crypto.intakeDigest(unsigned));
+  }
+});
+
+test("sound bath signed retries preserve receipt and bytes, with immutable boundaries against all other form types", async () => {
+  const h = storageHarness();
+  const answer = soundBathInput();
+  const first = await h.module.saveSignedSoundBathIntake(answer);
+  const originalBytes = h.objects.get(`${id}.json`).toString("utf8");
+  const retry = await h.module.saveSignedSoundBathIntake({ ...answer, startedAt: Date.now() - 15000 });
+  assert.equal(retry.duplicate, true);
+  assert.equal(retry.submittedAt, first.submittedAt);
+  for (const changes of [{ intentions: "Changed intention" }, { comfortNeeds: "Changed comfort needs" }, { sessionFormat: "virtual" }, { signatureName: "Changed signature" }]) {
+    await assert.rejects(h.module.saveSignedSoundBathIntake({ ...answer, ...changes }), h.module.IntakeConflictError);
+  }
+  for (const [saveMethod, makeInput] of [["saveSignedIntake", input], ["saveSignedReikiIntake", reikiInput], ["saveSignedChildReikiIntake", childReikiInput]]) {
+    await assert.rejects(h.module[saveMethod](makeInput()), h.module.IntakeConflictError);
+    const otherId = crypto.randomUUID();
+    await h.module[saveMethod](makeInput({ submissionId: otherId }));
+    const otherBytes = h.objects.get(`${otherId}.json`).toString("utf8");
+    await assert.rejects(h.module.saveSignedSoundBathIntake(soundBathInput({ submissionId: otherId })), h.module.IntakeConflictError);
+    assert.equal(h.objects.get(`${otherId}.json`).toString("utf8"), otherBytes);
+  }
+  assert.equal(h.objects.get(`${id}.json`).toString("utf8"), originalBytes);
+  const { records } = await h.module.listSignedIntakes();
+  assert.equal(records.length, 4);
+  assert.equal(records.filter(record => record.formType === "sound-bath").length, 1);
+});
+
+test("sound bath POST rejects invalid consent, missing format and unsafe requests before any private write", async () => {
+  const h = routeHarness({ formType: "sound-bath" });
+  const cases = [
+    { options: { headers: { origin: "https://unrelated.invalid" } }, status: 403 },
+    { options: { headers: { "content-type": "text/plain" } }, status: 415 },
+    { options: { body: "{bad json" }, status: 400 },
+    { options: { body: "[]" }, status: 400 },
+    { options: { headers: { "content-length": "48001" } }, status: 413 },
+    { options: { body: JSON.stringify(soundBathInput({ comfortNeeds: "x".repeat(49000) })) }, status: 413 },
+    ...[["fullName", ""], ["phone", "123"], ["intentions", ""], ["sessionFormat", ""], ["sessionFormat", "unsupported"], ["sessionReadiness", false], ["sessionReadiness", "true"], ["consentAccepted", false], ["signatureName", ""], ["signatureDate", "2026-02-30"], ["formVersion", reiki.REIKI_FORM_VERSION], ["newsletterConsent", true], ["website", "bot"], ["startedAt", 0], ["startedAt", Date.now()]].map(([key, value]) => ({ value: soundBathInput({ [key]: value }), status: 400 })),
+  ];
+  for (const item of cases) assert.equal((await h.submit(item.value, item.options)).status, item.status);
+  assert.equal(h.saves.length, 0);
+  assert.equal(h.notifications.length, 0);
+  assert.equal(h.storage.objects.size, 0);
+  assert.equal(h.logs.length, 0);
+  const unavailable = routeHarness({ formType: "sound-bath", configured: false });
+  assert.equal((await unavailable.submit()).status, 503);
+  assert.equal(unavailable.saves.length, 0);
+});
+
+test("sound bath POST accepts both formats without an email and exposes only a private receipt and metadata notification", async () => {
+  for (const sessionFormat of ["in-person", "virtual"]) {
+    const h = routeHarness({ formType: "sound-bath" });
+    const answer = soundBathInput({ sessionFormat });
+    const response = await h.submit(answer);
+    assert.equal(response.status, 201);
+    assert.match(response.headers.get("cache-control"), /private, no-store/);
+    assert.equal(response.headers.get("referrer-policy"), "no-referrer");
+    assert.match(response.headers.get("x-robots-tag"), /noindex/);
+    const receipt = await response.json();
+    assert.deepEqual(Object.keys(receipt).sort(), ["duplicate", "id", "submittedAt"]);
+    const record = await h.storage.module.getSignedIntake(id);
+    assert.equal(record.answers.sessionFormat, sessionFormat);
+    assert.equal(record.answers.email, "");
+    assert.equal(record.consent.remoteSessionStatement, soundBath.soundBathSessionStatement(sessionFormat));
+    assert.deepEqual(Object.keys(h.notifications[0]).sort(), ["id", "submittedAt"]);
+    for (const value of [answer.fullName, answer.intentions, answer.comfortNeeds]) {
+      assert.equal(JSON.stringify(receipt).includes(value), false);
+      assert.equal(JSON.stringify(h.notifications).includes(value), false);
+    }
+    assert.equal((await h.submit(answer)).status, 200);
+    assert.equal(h.notifications.length, 1);
+    assert.equal((await h.submit({ ...answer, sessionFormat: sessionFormat === "virtual" ? "in-person" : "virtual" })).status, 409);
+    assert.equal(h.storage.objects.size, 1);
+  }
+});
+
+test("sound bath save-safe notification and storage failures keep all answers out of logs", async () => {
+  const h = routeHarness({ formType: "sound-bath", notificationError: true });
+  assert.equal((await h.submit()).status, 201);
+  assert.equal(h.storage.objects.size, 1);
+  assert.deepEqual(h.logs, [["Client intake owner notification could not be delivered."]]);
+  const failed = routeHarness({ formType: "sound-bath", saveError: new Error("Synthetic private sound provider detail") });
+  assert.equal((await failed.submit()).status, 503);
+  assert.deepEqual(failed.logs, [["Client intake persistence failed."]]);
+  assert.equal(failed.notifications.length, 0);
+});
+
+test("sound bath connection limits retain matching retries and origin validation ignores forwarded hosts", async () => {
+  const h = routeHarness({ formType: "sound-bath" });
+  const options = { headers: { "x-real-ip": "192.0.2.17" } };
+  const first = soundBathInput();
+  assert.equal((await h.submit(first, options)).status, 201);
+  for (let index = 0; index < 5; index++) assert.equal((await h.submit(soundBathInput({ submissionId: crypto.randomUUID() }), options)).status, 201);
+  assert.equal((await h.submit(soundBathInput({ submissionId: crypto.randomUUID() }), options)).status, 429);
+  assert.equal((await h.submit(first, options)).status, 200);
+  assert.equal(h.storage.objects.size, 6);
+  const unavailable = routeHarness({ formType: "sound-bath", configured: false });
+  const url = "http://localhost:3390/api/client-intake/sound-bath";
+  assert.equal((await unavailable.submit(soundBathInput(), { url, headers: { origin: "http://127.0.0.1:3390", host: "127.0.0.1:3390" } })).status, 503);
+  assert.equal((await unavailable.submit(soundBathInput(), { url, headers: { origin: "http://unrelated.invalid", "x-forwarded-host": "unrelated.invalid" } })).status, 403);
+  assert.equal(unavailable.saves.length, 0);
+});
+
+test("private inbox and detail distinguish sound bath answers, preserve its signed text and require admin identity", async () => {
+  const h = storageHarness();
+  const answer = soundBathInput();
+  await h.module.saveSignedSoundBathIntake(answer);
+  const record = await h.module.getSignedIntake(id);
+  const user = { email: "admin@example.invalid" };
+  const inbox = JSON.stringify(await adminPage("../src/app/client-intakes/page.tsx", user, { records: [record] }).render());
+  assert.match(inbox, /Inner Journey Sound Bath/);
+  assert.match(inbox, /\/client-intake\/sound-bath/);
+  record.consent = { ...record.consent, paragraphs: ["Historical sound bath consent snapshot"], privacyNotice: "Historical sound bath privacy notice", remoteSessionStatement: "Historical sound bath arrangement snapshot" };
+  const detail = JSON.stringify(await adminPage("../src/app/client-intakes/[id]/page.tsx", user, { records: [record] }).render());
+  for (const label of Object.values(soundBath.SOUND_BATH_ANSWER_LABELS)) assert.ok(detail.includes(label), label);
+  for (const value of [answer.fullName, answer.intentions, answer.comfortNeeds, "Inner Journey Sound Bath", "In person", "Not provided", "Historical sound bath consent snapshot", "Historical sound bath privacy notice", "Historical sound bath arrangement snapshot"]) assert.ok(detail.includes(value), value);
+  assert.equal(detail.includes(intake.INTAKE_ANSWER_LABELS.goals), false);
+  assert.equal(detail.includes("In-person touch preference"), false);
+  assert.equal(detail.includes("Parent or legal guardian signature"), false);
+  for (const file of ["../src/app/client-intakes/page.tsx", "../src/app/client-intakes/[id]/page.tsx"]) {
+    for (const deniedUser of [null, { email: "client@example.invalid" }]) {
+      const denied = adminPage(file, deniedUser, { records: [record] });
+      await assert.rejects(denied.render(), error => error instanceof Redirect);
+      assert.equal(denied.reads(), 0);
     }
   }
 });

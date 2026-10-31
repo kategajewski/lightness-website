@@ -5,6 +5,7 @@ import { decryptIntake, encryptIntake, intakeDigest, intakeEncryptionConfigured,
 import { ELECTRONIC_SIGNATURE_STATEMENT, HYPNOTHERAPY_CONSENT_PARAGRAPHS, HYPNOTHERAPY_PRIVACY_NOTICE, hypnotherapySessionStatement, type HypnotherapyIntakeAnswers, type HypnotherapyIntakeInput } from "@/lib/hypnotherapy-intake";
 import { REIKI_CONSENT_PARAGRAPHS, REIKI_PRIVACY_NOTICE, reikiSessionStatement, REIKI_ELECTRONIC_SIGNATURE_STATEMENT, type ReikiIntakeAnswers, type ReikiIntakeInput } from "@/lib/reiki-intake";
 import { CHILD_REIKI_CONSENT_PARAGRAPHS, CHILD_REIKI_PRIVACY_NOTICE, CHILD_REIKI_GUARDIAN_AUTHORITY_STATEMENT, CHILD_REIKI_ELECTRONIC_SIGNATURE_STATEMENT, childReikiSessionStatement, type ChildReikiIntakeAnswers, type ChildReikiIntakeInput } from "@/lib/children-reiki-intake";
+import { SOUND_BATH_CONSENT_PARAGRAPHS, SOUND_BATH_PRIVACY_NOTICE, SOUND_BATH_ELECTRONIC_SIGNATURE_STATEMENT, soundBathSessionStatement, type SoundBathIntakeAnswers, type SoundBathIntakeInput } from "@/lib/sound-bath-intake";
 
 export const INTAKE_BUCKET = "client-intakes";
 type SignedIntakeRecord<Answers> = {
@@ -18,14 +19,15 @@ type SignedIntakeRecord<Answers> = {
 export type SignedHypnotherapyIntake = SignedIntakeRecord<HypnotherapyIntakeAnswers> & { formType?: "hypnotherapy" };
 export type SignedReikiIntake = SignedIntakeRecord<ReikiIntakeAnswers> & { formType: "reiki" };
 export type SignedChildReikiIntake = SignedIntakeRecord<ChildReikiIntakeAnswers> & { formType: "childrens-reiki" };
-export type SignedIntake = SignedHypnotherapyIntake | SignedReikiIntake | SignedChildReikiIntake;
+export type SignedSoundBathIntake = SignedIntakeRecord<SoundBathIntakeAnswers> & { formType: "sound-bath" };
+export type SignedIntake = SignedHypnotherapyIntake | SignedReikiIntake | SignedChildReikiIntake | SignedSoundBathIntake;
 export class IntakeConflictError extends Error {}
 export function intakeStorageConfigured() { return integrations.supabase && intakeEncryptionConfigured(); }
 function objectPath(id: string) {
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)) throw new Error("Invalid intake identifier.");
   return `${id.toLowerCase()}.json`;
 }
-function answersFrom<Input extends HypnotherapyIntakeInput | ReikiIntakeInput | ChildReikiIntakeInput>(input: Input): Omit<Input, "website" | "startedAt"> {
+function answersFrom<Input extends HypnotherapyIntakeInput | ReikiIntakeInput | ChildReikiIntakeInput | SoundBathIntakeInput>(input: Input): Omit<Input, "website" | "startedAt"> {
   const { website: _website, startedAt: _startedAt, ...answers } = input;
   void _website; void _startedAt;
   return answers;
@@ -80,6 +82,20 @@ export async function saveSignedChildReikiIntake(input: ChildReikiIntakeInput) {
     signature: { method: "typed-name" as const, name: input.signatureName, date: input.signatureDate, recordedAt: submittedAt },
     requestDigest: intakeDigest(answers),
     formType: "childrens-reiki" as const,
+  };
+  return writeSignedIntake({ ...unsigned, recordDigest: intakeDigest(unsigned) });
+}
+export async function saveSignedSoundBathIntake(input: SoundBathIntakeInput) {
+  if (!intakeStorageConfigured()) throw new Error("The intake form is temporarily unavailable.");
+  const answers = answersFrom(input);
+  const id = input.submissionId.toLowerCase();
+  const submittedAt = new Date().toISOString();
+  const unsigned = {
+    id, submittedAt, formVersion: input.formVersion, answers,
+    consent: { paragraphs: SOUND_BATH_CONSENT_PARAGRAPHS, privacyNotice: SOUND_BATH_PRIVACY_NOTICE, remoteSessionStatement: soundBathSessionStatement(input.sessionFormat), electronicSignatureStatement: SOUND_BATH_ELECTRONIC_SIGNATURE_STATEMENT },
+    signature: { method: "typed-name" as const, name: input.signatureName, date: input.signatureDate, recordedAt: submittedAt },
+    requestDigest: intakeDigest(answers),
+    formType: "sound-bath" as const,
   };
   return writeSignedIntake({ ...unsigned, recordDigest: intakeDigest(unsigned) });
 }

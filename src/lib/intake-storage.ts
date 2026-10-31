@@ -117,9 +117,18 @@ async function writeSignedIntake(record: SignedIntake) {
 }
 export async function listSignedIntakes(page = 0) {
   const supabase = createSupabaseAdminClient();
-  const { data, error } = await supabase.storage.from(INTAKE_BUCKET).list("", { limit: 26, offset: page * 25, sortBy: { column: "created_at", order: "desc" } });
-  if (error) throw new Error("The private intake inbox could not be opened.");
-  const files = (data || []).filter(item => item.name.endsWith(".json"));
-  const records = await Promise.all(files.slice(0, 25).map(file => getSignedIntake(file.name.slice(0, -5))));
-  return { records: records.filter((record): record is SignedIntake => Boolean(record)), hasNext: files.length > 25 };
+  const ids: string[] = [];
+  const first = page * 25;
+  let offset = 0;
+  // Internal automation directories do not count as signed forms or hide a page.
+  while (ids.length < first + 26) {
+    const { data, error } = await supabase.storage.from(INTAKE_BUCKET).list("", { limit: 100, offset, sortBy: { column: "created_at", order: "desc" } });
+    if (error) throw new Error("The private intake inbox could not be opened.");
+    const batch = data || [];
+    ids.push(...batch.filter(item => /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\.json$/i.test(item.name)).map(item => item.name.slice(0, -5)));
+    offset += batch.length;
+    if (batch.length < 100) break;
+  }
+  const records = await Promise.all(ids.slice(first, first + 25).map(id => getSignedIntake(id)));
+  return { records: records.filter((record): record is SignedIntake => Boolean(record)), hasNext: ids.length > first + 25 };
 }

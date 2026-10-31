@@ -1,10 +1,13 @@
 import { createHmac } from "node:crypto";
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import { env } from "@/lib/env";
 import { validateReikiIntake } from "@/lib/reiki-intake";
 import { IntakeConflictError, intakeStorageConfigured, saveSignedReikiIntake } from "@/lib/intake-storage";
 import { sendClientIntakeOwnerNotification } from "@/lib/email";
 
+import { enqueueIntakeAutomations, processIntakeAutomations } from "@/lib/intake-automations";
+
+export const maxDuration = 60;
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 const maximumBytes = 48000;
@@ -63,7 +66,9 @@ export async function POST(request: Request) {
   if (input.website || !Number.isFinite(elapsed) || elapsed < 4000 || elapsed > 86400000) return json({ error: "Please take a moment to complete the form, then try again. If it has been open since yesterday, reload it before signing." }, 400);
   if (!rateAllowed(request, input.submissionId)) return json({ error: "Several forms were submitted from this connection. Please wait before trying again, or contact Kate." }, 429);
   try {
+    const automationQueued = await enqueueIntakeAutomations(input.submissionId.toLowerCase());
     const receipt = await saveSignedReikiIntake(input);
+    if (automationQueued) after(async () => { try { await processIntakeAutomations(receipt.id); } catch { console.error("Intake automation processing will be retried."); } });
     if (!receipt.duplicate) {
       try { await sendClientIntakeOwnerNotification({ id: receipt.id, submittedAt: receipt.submittedAt }); }
       catch { console.error("Client intake owner notification could not be delivered."); }

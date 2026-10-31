@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   serverExternalPackages: ["stripe"],
   outputFileTracingIncludes: {
+    "/api/client-intake/*": ["./public/fonts/intake/*.ttf"],
+    "/api/client-intakes/*": ["./public/fonts/intake/*.ttf"],
     "/library/reiki-rising-fall-2026/materials/*": [
       "./src/content/reiki-rising-fall-2026/*.pdf",
     ],

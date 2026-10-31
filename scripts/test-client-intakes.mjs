@@ -208,7 +208,7 @@ function routeHarness({ configured = true, notificationError = false, saveError 
   const logs = [];
   const loadedModule = load(`../src/app/api/client-intake/${formType}/route.ts`, {
     "node:crypto": crypto,
-    "next/server": { NextResponse: { json: (body, init) => Response.json(body, init) } },
+    "next/server": { after: () => {}, NextResponse: { json: (body, init) => Response.json(body, init) } },
     "@/lib/env": { env: { siteUrl: "https://example.invalid" } },
     "@/lib/hypnotherapy-intake": intake,
     "@/lib/reiki-intake": reiki,
@@ -223,6 +223,7 @@ function routeHarness({ configured = true, notificationError = false, saveError 
         return storage.module[saveMethod](value);
       },
     },
+    "@/lib/intake-automations": { enqueueIntakeAutomations: async () => false, processIntakeAutomations: async () => {} },
     "@/lib/email": { async sendClientIntakeOwnerNotification(value) {
       notifications.push(value);
       if (notificationError) throw new Error("Synthetic delivery error");

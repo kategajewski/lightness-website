@@ -51,6 +51,7 @@ function input(overrides = {}) {
     previousEfforts: "",
     medicalConditions: "",
     newsletterConsent: false,
+    sessionFormat: "virtual",
     remoteReadiness: true,
     consentAccepted: true,
     signatureName: "Synthetic Client",
@@ -72,6 +73,8 @@ function reikiInput(overrides = {}) {
     referralSource: "Synthetic referral",
     previousReiki: "No previous Reiki experience.",
     newsletterConsent: false,
+    sessionFormat: "virtual",
+    touchPreference: "",
     remoteReadiness: true,
     consentAccepted: true,
     signatureName: "Synthetic Reiki Client",
@@ -80,6 +83,18 @@ function reikiInput(overrides = {}) {
     startedAt: Date.now() - 10000,
     ...overrides,
   };
+}
+
+function legacyHypnotherapyInput() {
+  const { sessionFormat: _sessionFormat, ...legacy } = input({ formVersion: "hypnotherapy-remote-2026-10-28-v1" });
+  void _sessionFormat;
+  return legacy;
+}
+
+function legacyReikiInput() {
+  const { sessionFormat: _sessionFormat, touchPreference: _touchPreference, ...legacy } = reikiInput({ formVersion: "reiki-remote-2026-10-31-v1" });
+  void _sessionFormat; void _touchPreference;
+  return legacy;
 }
 
 function childReikiInput(overrides = {}) {
@@ -220,6 +235,7 @@ test("intake validation rejects stale forms, missing consent, invalid dates and 
     ["consentAccepted", false], ["remoteReadiness", "true"], ["signatureName", " "],
     ["signatureDate", "2026-02-30"], ["email", "invalid"], ["phone", "123"],
     ["goals", ""], ["medicalConditions", "x".repeat(4001)], ["fullName", { unexpected: true }],
+    ["sessionFormat", ""], ["sessionFormat", "unsupported"],
   ]) {
     const result = intake.validateHypnotherapyIntake(input({ [field]: value }));
     assert.equal(result.success, false, field);
@@ -489,7 +505,7 @@ test("Reiki signed storage preserves its own consent and signature inside cipher
   assert.equal(record.answers.startedAt, undefined);
   assert.equal(JSON.stringify(record.consent.paragraphs), JSON.stringify(reiki.REIKI_CONSENT_PARAGRAPHS));
   assert.equal(record.consent.privacyNotice, reiki.REIKI_PRIVACY_NOTICE);
-  assert.equal(record.consent.remoteSessionStatement, reiki.REIKI_REMOTE_SESSION_STATEMENT);
+  assert.equal(record.consent.remoteSessionStatement, reiki.reikiSessionStatement(answer.sessionFormat));
   assert.equal(record.consent.electronicSignatureStatement, reiki.REIKI_ELECTRONIC_SIGNATURE_STATEMENT);
   assert.equal(record.signature.method, "typed-name");
   assert.equal(record.signature.name, answer.signatureName);
@@ -502,7 +518,8 @@ test("Reiki signed storage preserves its own consent and signature inside cipher
 
 test("legacy hypnotherapy records retain original fingerprint, shape and immutable retry compatibility", async () => {
   const h = storageHarness();
-  const { website: _website, startedAt: _startedAt, ...answers } = input();
+  const legacyInput = legacyHypnotherapyInput();
+  const { website: _website, startedAt: _startedAt, ...answers } = legacyInput;
   void _website; void _startedAt;
   const submittedAt = "2026-10-28T12:00:00.000Z";
   const unsigned = {
@@ -517,7 +534,8 @@ test("legacy hypnotherapy records retain original fingerprint, shape and immutab
   const opened = await h.module.getSignedIntake(id);
   assert.equal(JSON.stringify(opened), JSON.stringify(legacy));
   assert.equal(Object.hasOwn(opened, "formType"), false);
-  const receipt = await h.module.saveSignedIntake(input());
+  assert.equal(Object.hasOwn(opened.answers, "sessionFormat"), false);
+  const receipt = await h.module.saveSignedIntake(legacyInput);
   assert.equal(receipt.duplicate, true);
   assert.equal(receipt.submittedAt, submittedAt);
   assert.equal(h.objects.get(`${id}.json`).toString("utf8"), originalBytes);
@@ -685,20 +703,24 @@ test("children’s Reiki signed storage encrypts child answers and snapshots the
 
 test("previously signed adult Reiki records retain their original shape, fingerprint and matching retry", async () => {
   const h = storageHarness();
-  const { website: _website, startedAt: _startedAt, ...answers } = reikiInput();
+  const legacyInput = legacyReikiInput();
+  const { website: _website, startedAt: _startedAt, ...answers } = legacyInput;
   void _website; void _startedAt;
   const submittedAt = "2026-10-31T12:00:00.000Z";
   const unsigned = {
     id, submittedAt, formVersion: answers.formVersion, answers,
-    consent: { paragraphs: reiki.REIKI_CONSENT_PARAGRAPHS, privacyNotice: reiki.REIKI_PRIVACY_NOTICE, remoteSessionStatement: reiki.REIKI_REMOTE_SESSION_STATEMENT, electronicSignatureStatement: reiki.REIKI_ELECTRONIC_SIGNATURE_STATEMENT },
+    consent: { paragraphs: ["I understand that Reiki is a complementary energy practice offered for relaxation and stress reduction. My Reiki session will take place remotely.", ...reiki.REIKI_CONSENT_PARAGRAPHS.slice(1)], privacyNotice: reiki.REIKI_PRIVACY_NOTICE, remoteSessionStatement: reiki.REIKI_REMOTE_SESSION_STATEMENT, electronicSignatureStatement: reiki.REIKI_ELECTRONIC_SIGNATURE_STATEMENT },
     signature: { method: "typed-name", name: answers.signatureName, date: answers.signatureDate, recordedAt: submittedAt },
     requestDigest: h.crypto.intakeDigest(answers), formType: "reiki",
   };
   const original = { ...unsigned, recordDigest: h.crypto.intakeDigest(unsigned) };
   const originalBytes = JSON.stringify(h.crypto.encryptIntake(original, id));
   h.objects.set(`${id}.json`, Buffer.from(originalBytes));
-  assert.equal(JSON.stringify(await h.module.getSignedIntake(id)), JSON.stringify(original));
-  const retry = await h.module.saveSignedReikiIntake(reikiInput());
+  const opened = await h.module.getSignedIntake(id);
+  assert.equal(JSON.stringify(opened), JSON.stringify(original));
+  assert.equal(Object.hasOwn(opened.answers, "sessionFormat"), false);
+  assert.equal(Object.hasOwn(opened.answers, "touchPreference"), false);
+  const retry = await h.module.saveSignedReikiIntake(legacyInput);
   assert.equal(retry.duplicate, true);
   assert.equal(retry.submittedAt, submittedAt);
   assert.equal(h.objects.get(`${id}.json`).toString("utf8"), originalBytes);
@@ -838,4 +860,69 @@ test("private admin shows a child’s intake with guardian authority, signature 
   const virtual = { ...childRecord, answers: { ...childRecord.answers, sessionFormat: "virtual", touchPreference: "" } };
   const virtualDetail = JSON.stringify(await adminPage("../src/app/client-intakes/[id]/page.tsx", user, { records: [virtual] }).render());
   assert.match(virtualDetail, /Not applicable for a virtual session/);
+});
+
+test("adult intake POSTs support either session format with a matching signed arrangement snapshot", async () => {
+  for (const [formType, makeInput, sessionStatement] of [["hypnotherapy", input, intake.hypnotherapySessionStatement], ["reiki", reikiInput, reiki.reikiSessionStatement]]) {
+    for (const sessionFormat of ["in-person", "virtual"]) {
+      const h = routeHarness({ formType });
+      const answer = makeInput({ sessionFormat, ...(formType === "reiki" ? { touchPreference: "light-touch" } : {}) });
+      const response = await h.submit(answer);
+      assert.equal(response.status, 201, `${formType} ${sessionFormat}`);
+      const record = await h.storage.module.getSignedIntake(id);
+      assert.equal(record.answers.sessionFormat, sessionFormat);
+      assert.equal(record.consent.remoteSessionStatement, sessionStatement(sessionFormat));
+      if (formType === "reiki") assert.equal(record.answers.touchPreference, sessionFormat === "in-person" ? "light-touch" : "");
+      const originalBytes = h.storage.objects.get(`${id}.json`).toString("utf8");
+      assert.equal((await h.submit(answer)).status, 200);
+      const changed = { ...answer, sessionFormat: sessionFormat === "in-person" ? "virtual" : "in-person" };
+      assert.equal((await h.submit(changed)).status, 409);
+      assert.equal(h.storage.objects.get(`${id}.json`).toString("utf8"), originalBytes);
+      assert.equal(h.notifications.length, 1);
+    }
+  }
+});
+
+test("adult intake routes require the new format and reject stale remote-only forms without writing", async () => {
+  for (const [formType, makeInput, legacyInput] of [["hypnotherapy", input, legacyHypnotherapyInput], ["reiki", reikiInput, legacyReikiInput]]) {
+    const h = routeHarness({ formType });
+    for (const sessionFormat of ["", "unsupported"]) assert.equal((await h.submit(makeInput({ sessionFormat }))).status, 400);
+    const stale = await h.submit(legacyInput());
+    assert.equal(stale.status, 400);
+    const response = await stale.json();
+    assert.ok(response.errors.formVersion);
+    assert.equal(h.storage.objects.size, 0);
+    assert.equal(h.notifications.length, 0);
+  }
+  const reikiRoute = routeHarness({ formType: "reiki" });
+  for (const touchPreference of ["", "unsupported"]) assert.equal((await reikiRoute.submit(reikiInput({ sessionFormat: "in-person", touchPreference }))).status, 400);
+  assert.equal(reikiRoute.storage.objects.size, 0);
+});
+
+test("private admin renders adult format and touch choices while interpreting legacy remote records only in the view", async () => {
+  const user = { email: "admin@example.invalid" };
+  for (const [saveMethod, makeInput, legacyInput, remoteStatement] of [["saveSignedIntake", input, legacyHypnotherapyInput, intake.REMOTE_SESSION_STATEMENT], ["saveSignedReikiIntake", reikiInput, legacyReikiInput, reiki.REIKI_REMOTE_SESSION_STATEMENT]]) {
+    const h = storageHarness();
+    await h.module[saveMethod](makeInput({ sessionFormat: "in-person", ...(saveMethod === "saveSignedReikiIntake" ? { touchPreference: "light-touch" } : {}) }));
+    const record = await h.module.getSignedIntake(id);
+    const detail = JSON.stringify(await adminPage("../src/app/client-intakes/[id]/page.tsx", user, { records: [record] }).render());
+    assert.match(detail, /Session arrangements/);
+    assert.match(detail, /Session format/);
+    assert.match(detail, /In person/);
+    assert.equal(detail.includes("Remote session arrangements"), false);
+    if (saveMethod === "saveSignedReikiIntake") assert.match(detail, /Light touch/);
+    const { website: _website, startedAt: _startedAt, ...answers } = legacyInput();
+    void _website; void _startedAt;
+    const legacy = { ...record, formVersion: answers.formVersion, answers, consent: { ...record.consent, remoteSessionStatement: remoteStatement } };
+    const original = JSON.stringify(legacy);
+    const legacyDetail = JSON.stringify(await adminPage("../src/app/client-intakes/[id]/page.tsx", user, { records: [legacy] }).render());
+    assert.match(legacyDetail, /Virtual \(legacy intake\)/);
+    assert.ok(legacyDetail.includes(remoteStatement));
+    assert.equal(JSON.stringify(legacy), original);
+    assert.equal(Object.hasOwn(legacy.answers, "sessionFormat"), false);
+    if (saveMethod === "saveSignedReikiIntake") {
+      assert.match(legacyDetail, /Not applicable for a virtual session/);
+      assert.equal(Object.hasOwn(legacy.answers, "touchPreference"), false);
+    }
+  }
 });

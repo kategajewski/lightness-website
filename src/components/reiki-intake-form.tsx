@@ -7,7 +7,7 @@ import {
   REIKI_FORM_VERSION,
   REIKI_PRIVACY_NOTICE,
   REIKI_INTAKE_ANSWER_LABELS,
-  REIKI_REMOTE_SESSION_STATEMENT,
+  reikiSessionStatement,
   validateReikiIntake,
   type ReikiIntakeInput,
   type ReikiIntakeFieldErrors,
@@ -22,6 +22,7 @@ type Receipt = { id: string; submittedAt: string; answers: ReikiIntakeInput };
 
 const initialAnswers: Answers = {
   fullName: "", email: "", phone: "", intentions: "", referralSource: "", previousReiki: "",
+  sessionFormat: "", touchPreference: "",
   newsletterConsent: false, remoteReadiness: false, consentAccepted: false,
   signatureName: "", signatureDate: "", website: "",
 };
@@ -178,9 +179,10 @@ export function ReikiIntakeForm() {
   return (
     <main className={styles.root} id="reiki-intake">
       <div className={styles.intro}>
-        <p className={styles.eyebrow}>Virtual Reiki · New clients</p>
-        <h1 className={styles.title}>Before your first virtual Reiki session</h1>
+        <p className={styles.eyebrow}>Reiki · New clients</p>
+        <h1 className={styles.title}>Before your first Reiki session</h1>
         <p>Take a little time to share what brings you here. Please complete these questions and sign the consent before your first Reiki session with Kate. Returning Reiki clients do not need to complete a new intake.</p>
+        <p>This form is for in-person and remote sessions. Choose the format of your booked session below.</p>
         <p>No account is needed. Questions marked required must be completed. Please keep this page open until you see your confirmation.</p>
       </div>
 
@@ -195,18 +197,18 @@ export function ReikiIntakeForm() {
         </div>
         <article className={styles.receipt} aria-labelledby="completed-intake-title">
           <p className={styles.eyebrow}>The Lightness of Being</p>
-          <h2 id="completed-intake-title">Virtual Reiki intake</h2>
+          <h2 id="completed-intake-title">Reiki intake</h2>
           <p className={styles.receiptMeta}>Received {new Date(receipt.submittedAt).toLocaleString()}<br />Reference: {receipt.id}<br />Form version: {REIKI_FORM_VERSION}</p>
           <h3>Your answers</h3>
           <dl>
             {(Object.entries(REIKI_INTAKE_ANSWER_LABELS) as [keyof typeof REIKI_INTAKE_ANSWER_LABELS, string][]).map(([key, label]) => <div key={key}>
               <dt>{label}</dt>
-              <dd>{receipt.answers[key] || "Not provided"}</dd>
+              <dd>{key === "sessionFormat" ? (receipt.answers.sessionFormat === "in-person" ? "In person" : "Remote") : key === "touchPreference" ? (receipt.answers.sessionFormat === "virtual" ? "Not applicable to a remote session" : receipt.answers.touchPreference === "hands-off" ? "Hands-off support" : "Light touch only with my ongoing agreement") : receipt.answers[key] || "Not provided"}</dd>
             </div>)}
             <div><dt>Optional newsletter preference</dt><dd>{receipt.answers.newsletterConsent ? "Yes, I would like to receive occasional email updates." : "I did not request email updates."}</dd></div>
           </dl>
-          <h3>Remote session arrangements</h3>
-          <p>{REIKI_REMOTE_SESSION_STATEMENT}</p>
+          <h3>Session arrangements</h3>
+          <p>{reikiSessionStatement(receipt.answers.sessionFormat)}</p>
           <p><strong>Confirmed</strong></p>
           <h3>Consent</h3>
           {consent}
@@ -219,7 +221,7 @@ export function ReikiIntakeForm() {
           <h3>Privacy notice</h3>
           <p>{REIKI_PRIVACY_NOTICE}</p>
         </article>
-      </> : <form ref={formRef} className={styles.form} method="post" action="/api/client-intake/reiki" onSubmit={submit} noValidate aria-label="Virtual Reiki intake form" aria-busy={isSubmitting}>
+      </> : <form ref={formRef} className={styles.form} method="post" action="/api/client-intake/reiki" onSubmit={submit} noValidate aria-label="Reiki intake form" aria-busy={isSubmitting}>
         <noscript><p className={styles.errorSummary}>Please enable JavaScript to complete and sign this form, or contact Kate at kate@bethelightness.com for another way to complete your intake.</p></noscript>
         {errorMessage ? <div ref={errorSummaryRef} tabIndex={-1} className={styles.errorSummary} role="alert"><p>{errorMessage}</p></div> : null}
         {!isReady ? <p className={styles.hint} role="status">Preparing your intake form. Please wait before entering your answers.</p> : null}
@@ -233,7 +235,7 @@ export function ReikiIntakeForm() {
               <p className={styles.sectionIntro}>A few details so Kate can prepare and reach you if needed.</p>
               <div className={styles.grid}>
                 {field({ key: "fullName", label: "Full name", required: true, autoComplete: "name" })}
-                {field({ key: "phone", label: "Phone number", type: "tel", required: true, autoComplete: "tel", maxLength: 80, hint: "A number Kate can use if your connection drops." })}
+                {field({ key: "phone", label: "Phone number", type: "tel", required: true, autoComplete: "tel", maxLength: 80, hint: "A number Kate can use to reach you about your session." })}
               </div>
               {field({ key: "email", label: "Email address", type: "email", required: answers.newsletterConsent, autoComplete: "email", maxLength: 254, hint: "Optional unless you would like event and program updates." })}
               <label className={styles.check}>
@@ -254,12 +256,34 @@ export function ReikiIntakeForm() {
           </fieldset>
 
           <fieldset className={styles.section}>
-            <legend>Your virtual session</legend>
+            <legend>Session preferences</legend>
             <div className={styles.sectionBody}>
+              <div className={styles.field}>
+                <label htmlFor="sessionFormat" className={styles.label}>Your booked session <span className={styles.optional}>(required)</span></label>
+                <select id="sessionFormat" name="sessionFormat" className={styles.select} required aria-required="true" value={answers.sessionFormat} onChange={(event) => {
+                  update("sessionFormat", event.target.value as Answers["sessionFormat"]);
+                  update("touchPreference", "");
+                  update("remoteReadiness", false);
+                }} aria-invalid={Boolean(errors.sessionFormat) || undefined} aria-describedby={errors.sessionFormat ? "sessionFormat-error" : undefined}>
+                  <option value="">Choose session format</option>
+                  <option value="in-person">In person</option>
+                  <option value="virtual">Remote</option>
+                </select>
+                {errors.sessionFormat ? <p className={styles.error} id="sessionFormat-error">{errors.sessionFormat}</p> : null}
+              </div>
+              {answers.sessionFormat === "in-person" ? <fieldset className={styles.checkGroup}>
+                <legend>Touch preference <span className={styles.optional}>(required)</span></legend>
+                <p className={styles.hint}>Your comfort guides the session. You can change your preference or decline touch at any time.</p>
+                {(["hands-off", "light-touch"] as const).map((value) => <label key={value} className={styles.check}>
+                  <input type="radio" name="touchPreference" value={value} required checked={answers.touchPreference === value} onChange={() => update("touchPreference", value)} aria-describedby={errors.touchPreference ? "touchPreference-error" : undefined} />
+                  <span>{value === "hands-off" ? "Hands-off support" : "Light touch only with my ongoing agreement"}</span>
+                </label>)}
+                {errors.touchPreference ? <p className={styles.error} id="touchPreference-error">{errors.touchPreference}</p> : null}
+              </fieldset> : null}
               <div>
                 <label className={styles.check}>
-                  <input id="remoteReadiness" type="checkbox" name="remoteReadiness" required aria-required="true" checked={answers.remoteReadiness} onChange={(event) => update("remoteReadiness", event.target.checked)} aria-invalid={Boolean(errors.remoteReadiness) || undefined} aria-describedby={errors.remoteReadiness ? "remoteReadiness-error" : undefined} />
-                  <span>{REIKI_REMOTE_SESSION_STATEMENT} <span className={styles.optional}>(required)</span></span>
+                  <input id="remoteReadiness" type="checkbox" name="remoteReadiness" required aria-required="true" disabled={!answers.sessionFormat} checked={answers.remoteReadiness} onChange={(event) => update("remoteReadiness", event.target.checked)} aria-invalid={Boolean(errors.remoteReadiness) || undefined} aria-describedby={errors.remoteReadiness ? "remoteReadiness-error" : undefined} />
+                  <span>{reikiSessionStatement(answers.sessionFormat)} <span className={styles.optional}>(required)</span></span>
                 </label>
                 {errors.remoteReadiness ? <p className={styles.error} id="remoteReadiness-error">{errors.remoteReadiness}</p> : null}
               </div>

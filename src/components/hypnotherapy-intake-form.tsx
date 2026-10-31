@@ -7,7 +7,7 @@ import {
   HYPNOTHERAPY_FORM_VERSION,
   HYPNOTHERAPY_PRIVACY_NOTICE,
   INTAKE_ANSWER_LABELS,
-  REMOTE_SESSION_STATEMENT,
+  hypnotherapySessionStatement,
   validateHypnotherapyIntake,
   type HypnotherapyIntakeInput,
   type IntakeFieldErrors,
@@ -24,7 +24,7 @@ const initialAnswers: Answers = {
   fullName: "", preferredName: "", email: "", phone: "", address: "",
   maritalStatus: "", occupation: "", previousHypnotherapy: "", previousTherapy: "",
   goals: "", previousEfforts: "", medicalConditions: "", newsletterConsent: false,
-  remoteReadiness: false, consentAccepted: false, signatureName: "", signatureDate: "", website: "",
+  sessionFormat: "", remoteReadiness: false, consentAccepted: false, signatureName: "", signatureDate: "", website: "",
 };
 
 function localDate() {
@@ -179,9 +179,9 @@ export function HypnotherapyIntakeForm() {
   return (
     <main className={styles.root} id="hypnotherapy-intake">
       <div className={styles.intro}>
-        <p className={styles.eyebrow}>Virtual hypnotherapy</p>
-        <h1 className={styles.title}>Before your virtual session</h1>
-        <p>Take a little time to share what brings you here. Complete these questions and sign the consent below so Kate can prepare for your session.</p>
+        <p className={styles.eyebrow}>Hypnotherapy</p>
+        <h1 className={styles.title}>Before your hypnotherapy session</h1>
+        <p>Take a little time to share what brings you here. Complete these questions and sign the consent below so Kate can prepare for your in-person or remote session.</p>
         <p>No account is needed. Questions marked required must be completed. Please keep this page open until you see your confirmation.</p>
       </div>
 
@@ -196,18 +196,18 @@ export function HypnotherapyIntakeForm() {
         </div>
         <article className={styles.receipt} aria-labelledby="completed-intake-title">
           <p className={styles.eyebrow}>The Lightness of Being</p>
-          <h2 id="completed-intake-title">Virtual hypnotherapy intake</h2>
+          <h2 id="completed-intake-title">Hypnotherapy intake</h2>
           <p className={styles.receiptMeta}>Received {new Date(receipt.submittedAt).toLocaleString()}<br />Reference: {receipt.id}<br />Form version: {HYPNOTHERAPY_FORM_VERSION}</p>
           <h3>Your answers</h3>
           <dl>
             {(Object.entries(INTAKE_ANSWER_LABELS) as [keyof typeof INTAKE_ANSWER_LABELS, string][]).map(([key, label]) => <div key={key}>
               <dt>{label}</dt>
-              <dd>{key === "previousHypnotherapy" ? (receipt.answers[key] === "yes" ? "Yes" : receipt.answers[key] === "no" ? "No" : "Not provided") : receipt.answers[key] || "Not provided"}</dd>
+              <dd>{key === "sessionFormat" ? (receipt.answers.sessionFormat === "in-person" ? "In person" : "Virtual") : key === "previousHypnotherapy" ? (receipt.answers[key] === "yes" ? "Yes" : receipt.answers[key] === "no" ? "No" : "Not provided") : receipt.answers[key] || "Not provided"}</dd>
             </div>)}
             <div><dt>Optional newsletter preference</dt><dd>{receipt.answers.newsletterConsent ? "Yes, I would like to receive occasional email updates." : "I did not request email updates."}</dd></div>
           </dl>
-          <h3>Remote session arrangements</h3>
-          <p>{REMOTE_SESSION_STATEMENT}</p>
+          <h3>Session arrangements</h3>
+          <p>{hypnotherapySessionStatement(receipt.answers.sessionFormat)}</p>
           <p><strong>Confirmed</strong></p>
           <h3>Consent</h3>
           {consent}
@@ -220,7 +220,7 @@ export function HypnotherapyIntakeForm() {
           <h3>Privacy notice</h3>
           <p>{HYPNOTHERAPY_PRIVACY_NOTICE}</p>
         </article>
-      </> : <form ref={formRef} className={styles.form} method="post" action="/api/client-intake/hypnotherapy" onSubmit={submit} noValidate aria-label="Virtual hypnotherapy intake form" aria-busy={isSubmitting}>
+      </> : <form ref={formRef} className={styles.form} method="post" action="/api/client-intake/hypnotherapy" onSubmit={submit} noValidate aria-label="Hypnotherapy intake form" aria-busy={isSubmitting}>
         <noscript><p className={styles.errorSummary}>Please enable JavaScript to complete and sign this form, or contact Kate at kate@bethelightness.com for another way to complete your intake.</p></noscript>
         {errorMessage ? <div ref={errorSummaryRef} tabIndex={-1} className={styles.errorSummary} role="alert"><p>{errorMessage}</p></div> : null}
         {!isReady ? <p className={styles.hint} role="status">Preparing your intake form. Please wait before entering your answers.</p> : null}
@@ -236,7 +236,7 @@ export function HypnotherapyIntakeForm() {
                 {field({ key: "fullName", label: "Full name", required: true, autoComplete: "name" })}
                 {field({ key: "preferredName", label: "What would you like to be called?", autoComplete: "nickname" })}
                 {field({ key: "email", label: "Email address", type: "email", required: true, autoComplete: "email", maxLength: 254 })}
-                {field({ key: "phone", label: "Phone number", type: "tel", required: true, autoComplete: "tel", maxLength: 80, hint: "A number Kate can use if your connection drops." })}
+                {field({ key: "phone", label: "Phone number", type: "tel", required: true, autoComplete: "tel", maxLength: 80, hint: "A number Kate can use to reach you about your session." })}
               </div>
               {field({ key: "address", label: "Address", autoComplete: "street-address", multiline: true, maxLength: 700 })}
               <div className={styles.grid}>
@@ -272,12 +272,24 @@ export function HypnotherapyIntakeForm() {
           </fieldset>
 
           <fieldset className={styles.section}>
-            <legend>Your virtual session</legend>
+            <legend>Your session</legend>
             <div className={styles.sectionBody}>
+              <div className={styles.field}>
+                <label htmlFor="sessionFormat" className={styles.label}>Your booked session <span className={styles.optional}>(required)</span></label>
+                <select id="sessionFormat" name="sessionFormat" className={styles.select} required aria-required="true" value={answers.sessionFormat} onChange={(event) => {
+                  update("sessionFormat", event.target.value as Answers["sessionFormat"]);
+                  update("remoteReadiness", false);
+                }} aria-invalid={Boolean(errors.sessionFormat) || undefined} aria-describedby={errors.sessionFormat ? "sessionFormat-error" : undefined}>
+                  <option value="">Choose session format</option>
+                  <option value="in-person">In person</option>
+                  <option value="virtual">Virtual</option>
+                </select>
+                {errors.sessionFormat ? <p className={styles.error} id="sessionFormat-error">{errors.sessionFormat}</p> : null}
+              </div>
               <div>
                 <label className={styles.check}>
-                  <input id="remoteReadiness" type="checkbox" name="remoteReadiness" required aria-required="true" checked={answers.remoteReadiness} onChange={(event) => update("remoteReadiness", event.target.checked)} aria-invalid={Boolean(errors.remoteReadiness) || undefined} aria-describedby={errors.remoteReadiness ? "remoteReadiness-error" : undefined} />
-                  <span>{REMOTE_SESSION_STATEMENT} <span className={styles.optional}>(required)</span></span>
+                  <input id="remoteReadiness" type="checkbox" name="remoteReadiness" required aria-required="true" disabled={!answers.sessionFormat} checked={answers.remoteReadiness} onChange={(event) => update("remoteReadiness", event.target.checked)} aria-invalid={Boolean(errors.remoteReadiness) || undefined} aria-describedby={errors.remoteReadiness ? "remoteReadiness-error" : undefined} />
+                  <span>{hypnotherapySessionStatement(answers.sessionFormat)} <span className={styles.optional}>(required)</span></span>
                 </label>
                 {errors.remoteReadiness ? <p className={styles.error} id="remoteReadiness-error">{errors.remoteReadiness}</p> : null}
               </div>

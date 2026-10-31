@@ -2,8 +2,8 @@ import "server-only";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { integrations } from "@/lib/env";
 import { decryptIntake, encryptIntake, intakeDigest, intakeEncryptionConfigured, type EncryptedIntake } from "@/lib/intake-crypto";
-import { ELECTRONIC_SIGNATURE_STATEMENT, HYPNOTHERAPY_CONSENT_PARAGRAPHS, HYPNOTHERAPY_PRIVACY_NOTICE, REMOTE_SESSION_STATEMENT, type HypnotherapyIntakeAnswers, type HypnotherapyIntakeInput } from "@/lib/hypnotherapy-intake";
-import { REIKI_CONSENT_PARAGRAPHS, REIKI_PRIVACY_NOTICE, REIKI_REMOTE_SESSION_STATEMENT, REIKI_ELECTRONIC_SIGNATURE_STATEMENT, type ReikiIntakeAnswers, type ReikiIntakeInput } from "@/lib/reiki-intake";
+import { ELECTRONIC_SIGNATURE_STATEMENT, HYPNOTHERAPY_CONSENT_PARAGRAPHS, HYPNOTHERAPY_PRIVACY_NOTICE, hypnotherapySessionStatement, type HypnotherapyIntakeAnswers, type HypnotherapyIntakeInput } from "@/lib/hypnotherapy-intake";
+import { REIKI_CONSENT_PARAGRAPHS, REIKI_PRIVACY_NOTICE, reikiSessionStatement, REIKI_ELECTRONIC_SIGNATURE_STATEMENT, type ReikiIntakeAnswers, type ReikiIntakeInput } from "@/lib/reiki-intake";
 import { CHILD_REIKI_CONSENT_PARAGRAPHS, CHILD_REIKI_PRIVACY_NOTICE, CHILD_REIKI_GUARDIAN_AUTHORITY_STATEMENT, CHILD_REIKI_ELECTRONIC_SIGNATURE_STATEMENT, childReikiSessionStatement, type ChildReikiIntakeAnswers, type ChildReikiIntakeInput } from "@/lib/children-reiki-intake";
 
 export const INTAKE_BUCKET = "client-intakes";
@@ -49,7 +49,7 @@ export async function saveSignedIntake(input: HypnotherapyIntakeInput) {
   const submittedAt = new Date().toISOString();
   const unsigned = {
     id, submittedAt, formVersion: input.formVersion, answers,
-    consent: { paragraphs: HYPNOTHERAPY_CONSENT_PARAGRAPHS, privacyNotice: HYPNOTHERAPY_PRIVACY_NOTICE, remoteSessionStatement: REMOTE_SESSION_STATEMENT, electronicSignatureStatement: ELECTRONIC_SIGNATURE_STATEMENT },
+    consent: { paragraphs: HYPNOTHERAPY_CONSENT_PARAGRAPHS, privacyNotice: HYPNOTHERAPY_PRIVACY_NOTICE, remoteSessionStatement: hypnotherapySessionStatement(input.sessionFormat), electronicSignatureStatement: ELECTRONIC_SIGNATURE_STATEMENT },
     signature: { method: "typed-name" as const, name: input.signatureName, date: input.signatureDate, recordedAt: submittedAt },
     requestDigest: intakeDigest(answers),
   };
@@ -62,7 +62,7 @@ export async function saveSignedReikiIntake(input: ReikiIntakeInput) {
   const submittedAt = new Date().toISOString();
   const unsigned = {
     id, submittedAt, formVersion: input.formVersion, answers,
-    consent: { paragraphs: REIKI_CONSENT_PARAGRAPHS, privacyNotice: REIKI_PRIVACY_NOTICE, remoteSessionStatement: REIKI_REMOTE_SESSION_STATEMENT, electronicSignatureStatement: REIKI_ELECTRONIC_SIGNATURE_STATEMENT },
+    consent: { paragraphs: REIKI_CONSENT_PARAGRAPHS, privacyNotice: REIKI_PRIVACY_NOTICE, remoteSessionStatement: reikiSessionStatement(input.sessionFormat), electronicSignatureStatement: REIKI_ELECTRONIC_SIGNATURE_STATEMENT },
     signature: { method: "typed-name" as const, name: input.signatureName, date: input.signatureDate, recordedAt: submittedAt },
     requestDigest: intakeDigest(answers),
     formType: "reiki" as const,

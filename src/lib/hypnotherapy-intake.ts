@@ -1,9 +1,13 @@
-export const HYPNOTHERAPY_FORM_VERSION = "hypnotherapy-remote-2026-10-28-v1";
+export const HYPNOTHERAPY_FORM_VERSION = "hypnotherapy-2026-10-31-v2";
 export const HYPNOTHERAPY_CONSENT_PARAGRAPHS = [
   "I am willing to be guided through relaxation, visual imagery, creative visualization, hypnosis and stress reduction processes and techniques. I understand that the counseling I am receiving is not a substitute for normal medical care and I have been advised to discuss this counseling with any physician who is taking care of me now or in the future. Additionally, I should continue any present medical treatment and consult with my regular physician for treatment of old or new illnesses.",
 ] as const;
 export const HYPNOTHERAPY_PRIVACY_NOTICE = "No information about any client will be discussed or shared with any third party without written consent of the client or parent/guardian if the client is under 18 years of age.";
 export const REMOTE_SESSION_STATEMENT = "I will join from a quiet, private space where I can sit or lie down comfortably. I will not take part while driving. If the connection drops, Kate may contact me at the phone number above.";
+export const HYPNOTHERAPY_IN_PERSON_STATEMENT = "I understand that my session will take place in person. I can ask questions, request a break or end the session at any time.";
+export function hypnotherapySessionStatement(format: HypnotherapyIntakeInput["sessionFormat"]) {
+  return format === "virtual" ? REMOTE_SESSION_STATEMENT : format === "in-person" ? HYPNOTHERAPY_IN_PERSON_STATEMENT : "Please choose your session format above to review the arrangements.";
+}
 export const ELECTRONIC_SIGNATURE_STATEMENT = "I have read the consent above and agree to sign this form electronically using my typed full name.";
 
 export type HypnotherapyIntakeInput = {
@@ -21,6 +25,7 @@ export type HypnotherapyIntakeInput = {
   goals: string;
   previousEfforts: string;
   medicalConditions: string;
+  sessionFormat: "" | "in-person" | "virtual";
   newsletterConsent: boolean;
   remoteReadiness: boolean;
   consentAccepted: boolean;
@@ -29,7 +34,9 @@ export type HypnotherapyIntakeInput = {
   website: string;
   startedAt: number;
 };
-export type HypnotherapyIntakeAnswers = Omit<HypnotherapyIntakeInput, "website" | "startedAt">;
+export type HypnotherapyIntakeAnswers = Omit<HypnotherapyIntakeInput, "website" | "startedAt" | "sessionFormat"> & {
+  sessionFormat?: HypnotherapyIntakeInput["sessionFormat"];
+};
 export type IntakeFieldErrors = Partial<Record<keyof HypnotherapyIntakeInput, string>>;
 export const INTAKE_ANSWER_LABELS = {
   fullName: "Full name", preferredName: "Preferred name", email: "Email address", phone: "Phone number",
@@ -37,6 +44,7 @@ export const INTAKE_ANSWER_LABELS = {
   previousHypnotherapy: "Previous hypnotherapy", previousTherapy: "Previous counseling or psychotherapy",
   goals: "What I would like to accomplish", previousEfforts: "Previous efforts to address this concern",
   medicalConditions: "Mental or physical medical conditions and diagnoses",
+  sessionFormat: "Session format",
 } as const;
 
 export function validateHypnotherapyIntake(raw: unknown): {
@@ -59,6 +67,7 @@ export function validateHypnotherapyIntake(raw: unknown): {
     previousHypnotherapy: text("previousHypnotherapy", 3) as HypnotherapyIntakeInput["previousHypnotherapy"],
     previousTherapy: text("previousTherapy", 4000), goals: text("goals", 4000), previousEfforts: text("previousEfforts", 4000),
     medicalConditions: text("medicalConditions", 4000), newsletterConsent: source.newsletterConsent === true,
+    sessionFormat: text("sessionFormat", 20) as HypnotherapyIntakeInput["sessionFormat"],
     remoteReadiness: source.remoteReadiness === true, consentAccepted: source.consentAccepted === true,
     signatureName: text("signatureName", 150), signatureDate: text("signatureDate", 10), website: text("website", 200),
     startedAt: typeof source.startedAt === "number" ? source.startedAt : 0,
@@ -70,7 +79,8 @@ export function validateHypnotherapyIntake(raw: unknown): {
   if (data.phone.replace(/\D/g, "").length < 7) errors.phone = "Please enter a phone number Kate can use to reach you.";
   if (!data.goals) errors.goals = "Please tell Kate what you would like to work on.";
   if (!["", "yes", "no"].includes(data.previousHypnotherapy)) errors.previousHypnotherapy = "Please choose yes or no, or leave this optional question blank.";
-  if (!data.remoteReadiness) errors.remoteReadiness = "Please confirm the remote session arrangements.";
+  if (!["in-person", "virtual"].includes(data.sessionFormat)) errors.sessionFormat = "Please choose whether your booked session is in person or virtual.";
+  if (!data.remoteReadiness) errors.remoteReadiness = "Please confirm the arrangements for your selected session format.";
   if (!data.consentAccepted) errors.consentAccepted = "Please read and accept the consent before signing.";
   if (data.signatureName.length < 2) errors.signatureName = "Please type your full name to sign.";
   const date = new Date(`${data.signatureDate}T12:00:00Z`);

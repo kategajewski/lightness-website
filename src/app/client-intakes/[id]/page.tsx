@@ -24,10 +24,18 @@ function answerEntries(record: SignedIntake) {
   }
   if (record.formType === "reiki") {
     const answers = record.answers;
-    return Object.entries(REIKI_INTAKE_ANSWER_LABELS).map(([key, label]) => ({ key, label, answer: answers[key as keyof typeof REIKI_INTAKE_ANSWER_LABELS] }));
+    return Object.entries(REIKI_INTAKE_ANSWER_LABELS).map(([key, label]) => {
+      let answer = answers[key as keyof typeof REIKI_INTAKE_ANSWER_LABELS];
+      if (key === "sessionFormat") answer = sessionFormatAnswer(answers.sessionFormat);
+      if (key === "touchPreference") answer = answers.sessionFormat !== "in-person" ? "Not applicable for a virtual session" : answers.touchPreference === "light-touch" ? "Light touch" : "Hands off";
+      return { key, label, answer };
+    });
   }
   const answers = record.answers;
-  return Object.entries(INTAKE_ANSWER_LABELS).map(([key, label]) => ({ key, label, answer: answers[key as keyof typeof INTAKE_ANSWER_LABELS] }));
+  return Object.entries(INTAKE_ANSWER_LABELS).map(([key, label]) => ({ key, label, answer: key === "sessionFormat" ? sessionFormatAnswer(answers.sessionFormat) : answers[key as keyof typeof INTAKE_ANSWER_LABELS] }));
+}
+function sessionFormatAnswer(format: string | undefined) {
+  return format === "in-person" ? "In person" : format === "virtual" ? "Virtual" : format === undefined ? "Virtual (legacy intake)" : "Not provided";
 }
 export default async function IntakeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { user } = await getCurrentUserWithAccess();
@@ -46,7 +54,7 @@ export default async function IntakeDetailPage({ params }: { params: Promise<{ i
       <p className="mb-3 text-sm font-bold">{record.formType === "childrens-reiki" ? "Gentle Energy Support (children’s Reiki)" : record.formType === "reiki" ? "Reiki, new client" : "Hypnotherapy"}</p>
       <h2 className="display-section-title">{record.formType === "childrens-reiki" ? record.answers.childName : record.answers.fullName}</h2>{record.formType === "childrens-reiki" && <p className="mt-2 text-[var(--color-muted)]">Parent or legal guardian: {record.answers.fullName}</p>}<p className="mt-2 text-[var(--color-muted)]">Received {new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeStyle: "short", timeZone: "America/New_York" }).format(new Date(record.submittedAt))} Eastern</p>
       <dl className="mt-8 grid gap-6">{answerEntries(record).map(({ key, label, answer }) => <div key={key}><dt className="text-sm font-bold">{label}</dt><dd className="mt-2 whitespace-pre-wrap break-words">{answer || "Not provided"}</dd></div>)}</dl>
-      <section className="mt-10 border-t border-[rgba(76,58,48,0.15)] pt-7"><h3 className="font-bold">{record.formType === "childrens-reiki" ? "Session arrangements" : "Remote session arrangements"}</h3><p className="mt-3">{record.consent.remoteSessionStatement}</p><p className="mt-2 text-sm">{record.formType === "childrens-reiki" ? "Confirmed by parent or legal guardian." : "Confirmed by client."}</p></section>
+      <section className="mt-10 border-t border-[rgba(76,58,48,0.15)] pt-7"><h3 className="font-bold">Session arrangements</h3><p className="mt-3">{record.consent.remoteSessionStatement}</p><p className="mt-2 text-sm">{record.formType === "childrens-reiki" ? "Confirmed by parent or legal guardian." : "Confirmed by client."}</p></section>
       {record.formType === "childrens-reiki" && record.consent.guardianAuthorityStatement && <section className="mt-7"><h3 className="font-bold">Parent or legal guardian authority</h3><p className="mt-3">{record.consent.guardianAuthorityStatement}</p><p className="mt-2 text-sm">Confirmed by parent or legal guardian.</p></section>}
       <section className="mt-7"><h3 className="font-bold">Consent</h3>{record.consent.paragraphs.map((paragraph, index) => <p key={index} className="mt-3 leading-7">{paragraph}</p>)}<p className="mt-4">{record.consent.electronicSignatureStatement}</p></section>
       <section className="mt-7 rounded-xl border border-[rgba(76,58,48,0.2)] p-5"><h3 className="text-sm font-bold">{record.formType === "childrens-reiki" ? "Parent or legal guardian signature" : "Electronic signature"}</h3><p className="mt-3 font-[family-name:var(--font-lightness-display)] text-4xl italic">{record.signature.name}</p><p className="mt-3">Signature date: {record.signature.date}</p><p className="mt-1 text-sm">Method: typed full name. Consent accepted.</p></section>

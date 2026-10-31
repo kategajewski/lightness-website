@@ -31,6 +31,7 @@ function load(file, dependencies = {}, globals = {}) {
 
 const intake = load("../src/lib/hypnotherapy-intake.ts");
 const reiki = load("../src/lib/reiki-intake.ts");
+const childReiki = load("../src/lib/children-reiki-intake.ts");
 const id = "e62d16ea-46e5-417f-b145-c8a70634be55";
 
 function input(overrides = {}) {
@@ -81,6 +82,34 @@ function reikiInput(overrides = {}) {
   };
 }
 
+function childReikiInput(overrides = {}) {
+  return {
+    submissionId: id,
+    formVersion: childReiki.CHILD_REIKI_FORM_VERSION,
+    fullName: "Synthetic Guardian",
+    email: "",
+    phone: "555 010 1234",
+    childName: "Synthetic Child",
+    childAge: "8",
+    relationship: "Parent",
+    intentions: "SYNTHETIC PRIVATE CHILD INTENTIONS",
+    comfortNeeds: "SYNTHETIC PRIVATE COMFORT NEEDS",
+    referralSource: "Synthetic referral",
+    previousReiki: "No previous experience.",
+    sessionFormat: "in-person",
+    touchPreference: "hands-off",
+    newsletterConsent: false,
+    guardianAuthority: true,
+    sessionReadiness: true,
+    consentAccepted: true,
+    signatureName: "Synthetic Guardian",
+    signatureDate: "2026-10-31",
+    website: "",
+    startedAt: Date.now() - 10000,
+    ...overrides,
+  };
+}
+
 function cryptography() {
   const environment = { INTAKE_ENCRYPTION_KEY: crypto.randomBytes(32).toString("base64") };
   const loadedModule = load("../src/lib/intake-crypto.ts", {
@@ -122,6 +151,7 @@ function storageHarness() {
     "@/lib/intake-crypto": encrypted.module,
     "@/lib/hypnotherapy-intake": intake,
     "@/lib/reiki-intake": reiki,
+    "@/lib/children-reiki-intake": childReiki,
   });
   return { module: loadedModule, objects, uploads, downloads, crypto: encrypted.module, environment: encrypted.environment,
     setAvailable(value) { available = value; },
@@ -130,8 +160,8 @@ function storageHarness() {
 }
 
 function routeHarness({ configured = true, notificationError = false, saveError = null, formType = "hypnotherapy" } = {}) {
-  const isReiki = formType === "reiki";
-  const saveMethod = isReiki ? "saveSignedReikiIntake" : "saveSignedIntake";
+  const inputs = { hypnotherapy: input, reiki: reikiInput, "childrens-reiki": childReikiInput };
+  const saveMethod = { hypnotherapy: "saveSignedIntake", reiki: "saveSignedReikiIntake", "childrens-reiki": "saveSignedChildReikiIntake" }[formType];
   const storage = storageHarness();
   const saves = [];
   const notifications = [];
@@ -142,6 +172,7 @@ function routeHarness({ configured = true, notificationError = false, saveError 
     "@/lib/env": { env: { siteUrl: "https://example.invalid" } },
     "@/lib/hypnotherapy-intake": intake,
     "@/lib/reiki-intake": reiki,
+    "@/lib/children-reiki-intake": childReiki,
     "@/lib/intake-storage": {
       ...storage.module,
       intakeStorageConfigured: () => configured,
@@ -160,7 +191,7 @@ function routeHarness({ configured = true, notificationError = false, saveError 
     console: { error: (...args) => logs.push(args) },
   });
   return { storage, saves, notifications, logs,
-    async submit(value = isReiki ? reikiInput() : input(), { headers = {}, body, url = `https://example.invalid/api/client-intake/${formType}` } = {}) {
+    async submit(value = inputs[formType](), { headers = {}, body, url = `https://example.invalid/api/client-intake/${formType}` } = {}) {
       return loadedModule.POST(new Request(url, {
         method: "POST",
         headers: { origin: "https://example.invalid", "content-type": "application/json", ...headers },
@@ -344,6 +375,7 @@ function adminPage(file, user, { configured = true, storageError = false, record
     "@/lib/site": { isAdminEmail: email => email === "admin@example.invalid" },
     "@/lib/hypnotherapy-intake": intake,
     "@/lib/reiki-intake": reiki,
+    "@/lib/children-reiki-intake": childReiki,
     "@/lib/intake-storage": {
       intakeStorageConfigured() { return configured; },
       async listSignedIntakes() {
@@ -393,6 +425,7 @@ test("initial form HTML prevents answers from entering a GET URL when JavaScript
     "react/jsx-runtime": jsxRuntime,
     "@/lib/hypnotherapy-intake": intake,
     "@/lib/reiki-intake": reiki,
+    "@/lib/children-reiki-intake": childReiki,
     "./hypnotherapy-intake-form.module.css": { default: {} },
   });
   const html = renderToStaticMarkup(React.createElement(component.HypnotherapyIntakeForm));
@@ -616,4 +649,193 @@ test("admin inbox and details distinguish Reiki from legacy hypnotherapy and ret
   assert.ok(hypnotherapyDetail.includes(intake.INTAKE_ANSWER_LABELS.goals));
   assert.ok(hypnotherapyDetail.includes(intake.HYPNOTHERAPY_CONSENT_PARAGRAPHS[0]));
   assert.equal(hypnotherapyDetail.includes(reikiRecord.answers.intentions), false);
+});
+
+test("children’s Reiki signed storage encrypts child answers and snapshots the guardian signature and selected arrangements", async () => {
+  for (const sessionFormat of ["in-person", "virtual"]) {
+    const h = storageHarness();
+    const answer = childReikiInput({ sessionFormat, touchPreference: sessionFormat === "virtual" ? "" : "hands-off" });
+    const receipt = await h.module.saveSignedChildReikiIntake(answer);
+    const bytes = h.objects.get(`${id}.json`).toString("utf8");
+    for (const value of [answer.fullName, answer.childName, answer.intentions, answer.comfortNeeds]) assert.equal(bytes.includes(value), false);
+    assert.equal(h.uploads[0].options.upsert, false);
+    const record = await h.module.getSignedIntake(id);
+    assert.equal(record.formType, "childrens-reiki");
+    assert.equal(record.formVersion, childReiki.CHILD_REIKI_FORM_VERSION);
+    assert.equal(record.answers.childName, answer.childName);
+    assert.equal(record.answers.guardianAuthority, true);
+    assert.equal(record.answers.sessionReadiness, true);
+    assert.equal(record.answers.sessionFormat, sessionFormat);
+    assert.equal(record.answers.touchPreference, answer.touchPreference);
+    assert.equal(record.answers.website, undefined);
+    assert.equal(record.answers.startedAt, undefined);
+    assert.equal(JSON.stringify(record.consent.paragraphs), JSON.stringify(childReiki.CHILD_REIKI_CONSENT_PARAGRAPHS));
+    assert.equal(record.consent.privacyNotice, childReiki.CHILD_REIKI_PRIVACY_NOTICE);
+    assert.equal(record.consent.remoteSessionStatement, childReiki.childReikiSessionStatement(sessionFormat));
+    assert.equal(record.consent.guardianAuthorityStatement, childReiki.CHILD_REIKI_GUARDIAN_AUTHORITY_STATEMENT);
+    assert.equal(record.consent.electronicSignatureStatement, childReiki.CHILD_REIKI_ELECTRONIC_SIGNATURE_STATEMENT);
+    assert.equal(record.signature.name, answer.signatureName);
+    assert.equal(record.signature.date, answer.signatureDate);
+    assert.equal(record.signature.recordedAt, receipt.submittedAt);
+    assert.equal(record.requestDigest, h.crypto.intakeDigest(record.answers));
+    const { recordDigest, ...unsigned } = record;
+    assert.equal(recordDigest, h.crypto.intakeDigest(unsigned));
+  }
+});
+
+test("previously signed adult Reiki records retain their original shape, fingerprint and matching retry", async () => {
+  const h = storageHarness();
+  const { website: _website, startedAt: _startedAt, ...answers } = reikiInput();
+  void _website; void _startedAt;
+  const submittedAt = "2026-10-31T12:00:00.000Z";
+  const unsigned = {
+    id, submittedAt, formVersion: answers.formVersion, answers,
+    consent: { paragraphs: reiki.REIKI_CONSENT_PARAGRAPHS, privacyNotice: reiki.REIKI_PRIVACY_NOTICE, remoteSessionStatement: reiki.REIKI_REMOTE_SESSION_STATEMENT, electronicSignatureStatement: reiki.REIKI_ELECTRONIC_SIGNATURE_STATEMENT },
+    signature: { method: "typed-name", name: answers.signatureName, date: answers.signatureDate, recordedAt: submittedAt },
+    requestDigest: h.crypto.intakeDigest(answers), formType: "reiki",
+  };
+  const original = { ...unsigned, recordDigest: h.crypto.intakeDigest(unsigned) };
+  const originalBytes = JSON.stringify(h.crypto.encryptIntake(original, id));
+  h.objects.set(`${id}.json`, Buffer.from(originalBytes));
+  assert.equal(JSON.stringify(await h.module.getSignedIntake(id)), JSON.stringify(original));
+  const retry = await h.module.saveSignedReikiIntake(reikiInput());
+  assert.equal(retry.duplicate, true);
+  assert.equal(retry.submittedAt, submittedAt);
+  assert.equal(h.objects.get(`${id}.json`).toString("utf8"), originalBytes);
+  const otherId = crypto.randomUUID();
+  await h.module.saveSignedReikiIntake(reikiInput({ submissionId: otherId }));
+  const newlySigned = await h.module.getSignedIntake(otherId);
+  assert.deepEqual(Object.keys(newlySigned), Object.keys(original));
+  assert.deepEqual(Object.keys(newlySigned.consent), Object.keys(original.consent));
+  assert.equal(Object.hasOwn(newlySigned.consent, "guardianAuthorityStatement"), false);
+});
+
+test("children’s Reiki retries cannot alter the signed child, guardian, touch choice or session format", async () => {
+  const h = storageHarness();
+  const answer = childReikiInput();
+  const first = await h.module.saveSignedChildReikiIntake(answer);
+  const originalBytes = h.objects.get(`${id}.json`).toString("utf8");
+  const retry = await h.module.saveSignedChildReikiIntake({ ...answer, startedAt: Date.now() - 15000 });
+  assert.equal(retry.duplicate, true);
+  assert.equal(retry.submittedAt, first.submittedAt);
+  for (const changes of [{ childName: "Different child" }, { signatureName: "Different guardian" }, { touchPreference: "light-touch" }, { sessionFormat: "virtual", touchPreference: "" }]) {
+    await assert.rejects(h.module.saveSignedChildReikiIntake({ ...answer, ...changes }), h.module.IntakeConflictError);
+  }
+  for (const save of [() => h.module.saveSignedReikiIntake(reikiInput()), () => h.module.saveSignedIntake(input())]) await assert.rejects(save(), h.module.IntakeConflictError);
+  assert.equal(h.objects.get(`${id}.json`).toString("utf8"), originalBytes);
+  for (const [save, adultInput] of [[h.module.saveSignedIntake, input], [h.module.saveSignedReikiIntake, reikiInput]]) {
+    const adultId = crypto.randomUUID();
+    await save(adultInput({ submissionId: adultId }));
+    const adultBytes = h.objects.get(`${adultId}.json`).toString("utf8");
+    await assert.rejects(h.module.saveSignedChildReikiIntake(childReikiInput({ submissionId: adultId })), h.module.IntakeConflictError);
+    assert.equal(h.objects.get(`${adultId}.json`).toString("utf8"), adultBytes);
+  }
+});
+
+test("children’s Reiki POST rejects missing guardian authority, invalid minor details and unsafe requests before storage", async () => {
+  const h = routeHarness({ formType: "childrens-reiki" });
+  const cases = [
+    { options: { headers: { origin: "https://unrelated.invalid" } }, status: 403 },
+    { options: { headers: { "content-type": "text/plain" } }, status: 415 },
+    { options: { body: "{bad json" }, status: 400 },
+    { options: { headers: { "content-length": "48001" } }, status: 413 },
+    { options: { body: JSON.stringify(childReikiInput({ comfortNeeds: "x".repeat(49000) })) }, status: 413 },
+    ...[["guardianAuthority", false], ["guardianAuthority", "true"], ["sessionReadiness", false], ["consentAccepted", false], ["childName", ""], ["childAge", "18"], ["childAge", "-1"], ["childAge", "1.5"], ["relationship", ""], ["fullName", ""], ["phone", "123"], ["intentions", ""], ["sessionFormat", ""], ["touchPreference", ""], ["signatureName", ""], ["signatureDate", "2026-02-30"], ["formVersion", reiki.REIKI_FORM_VERSION], ["newsletterConsent", true], ["website", "bot"], ["startedAt", 0], ["startedAt", Date.now()]].map(([key, value]) => ({ value: childReikiInput({ [key]: value }), status: 400 })),
+  ];
+  for (const item of cases) assert.equal((await h.submit(item.value, item.options)).status, item.status, JSON.stringify(item.value));
+  assert.equal(h.saves.length, 0);
+  assert.equal(h.notifications.length, 0);
+  assert.equal(h.storage.objects.size, 0);
+  assert.equal(h.logs.length, 0);
+  const unavailable = routeHarness({ formType: "childrens-reiki", configured: false });
+  assert.equal((await unavailable.submit()).status, 503);
+  assert.equal(unavailable.saves.length, 0);
+});
+
+test("children’s Reiki POST accepts both formats, discards virtual touch preference and returns metadata only", async () => {
+  for (const sessionFormat of ["in-person", "virtual"]) {
+    const h = routeHarness({ formType: "childrens-reiki" });
+    const answer = childReikiInput({ sessionFormat, touchPreference: "light-touch" });
+    const response = await h.submit(answer);
+    assert.equal(response.status, 201);
+    assert.match(response.headers.get("cache-control"), /private, no-store/);
+    assert.equal(response.headers.get("referrer-policy"), "no-referrer");
+    assert.match(response.headers.get("x-robots-tag"), /noindex/);
+    const receipt = await response.json();
+    assert.deepEqual(Object.keys(receipt).sort(), ["duplicate", "id", "submittedAt"]);
+    const record = await h.storage.module.getSignedIntake(id);
+    assert.equal(record.answers.email, "");
+    assert.equal(record.answers.touchPreference, sessionFormat === "virtual" ? "" : "light-touch");
+    assert.deepEqual(Object.keys(h.notifications[0]).sort(), ["id", "submittedAt"]);
+    for (const value of [answer.childName, answer.fullName, answer.intentions, answer.comfortNeeds]) {
+      assert.equal(JSON.stringify(receipt).includes(value), false);
+      assert.equal(JSON.stringify(h.notifications).includes(value), false);
+    }
+    assert.equal((await h.submit(answer)).status, 200);
+    assert.equal(h.notifications.length, 1);
+    assert.equal((await h.submit({ ...answer, childName: "Different child" })).status, 409);
+    assert.equal(h.storage.objects.size, 1);
+  }
+});
+
+test("children’s Reiki POST preserves signed saves when notifications fail and keeps child details out of logs", async () => {
+  const h = routeHarness({ formType: "childrens-reiki", notificationError: true });
+  assert.equal((await h.submit()).status, 201);
+  assert.equal(h.storage.objects.size, 1);
+  assert.deepEqual(h.logs, [["Client intake owner notification could not be delivered."]]);
+  const failed = routeHarness({ formType: "childrens-reiki", saveError: new Error("Synthetic child private provider detail") });
+  assert.equal((await failed.submit()).status, 503);
+  assert.deepEqual(failed.logs, [["Client intake persistence failed."]]);
+  assert.equal(failed.notifications.length, 0);
+});
+
+test("children’s Reiki POST applies connection limits without blocking a matching signed retry", async () => {
+  const h = routeHarness({ formType: "childrens-reiki" });
+  const options = { headers: { "x-real-ip": "192.0.2.16" } };
+  const first = childReikiInput();
+  assert.equal((await h.submit(first, options)).status, 201);
+  for (let index = 0; index < 5; index++) assert.equal((await h.submit(childReikiInput({ submissionId: crypto.randomUUID() }), options)).status, 201);
+  assert.equal((await h.submit(childReikiInput({ submissionId: crypto.randomUUID() }), options)).status, 429);
+  assert.equal((await h.submit(first, options)).status, 200);
+  assert.equal(h.storage.objects.size, 6);
+});
+
+test("private admin shows a child’s intake with guardian authority, signature and correct session statement", async () => {
+  const h = storageHarness();
+  const answer = childReikiInput();
+  await h.module.saveSignedChildReikiIntake(answer);
+  await h.module.saveSignedReikiIntake(reikiInput({ submissionId: crypto.randomUUID() }));
+  await h.module.saveSignedIntake(input({ submissionId: crypto.randomUUID() }));
+  const { records } = await h.module.listSignedIntakes();
+  const user = { email: "admin@example.invalid" };
+  const inboxTree = await adminPage("../src/app/client-intakes/page.tsx", user, { records }).render();
+  const inbox = JSON.stringify(inboxTree);
+  assert.match(inbox, /\/client-intake\/childrens-reiki/);
+  assert.match(inbox, /appropriate intake link before a session/);
+  assert.match(inbox, /Gentle Energy Support/);
+  assert.ok(inbox.includes(answer.fullName));
+  function elements(tree) {
+    if (Array.isArray(tree)) return tree.flatMap(elements);
+    if (!tree || typeof tree !== "object") return [];
+    return [...(tree.type ? [tree] : []), ...Object.values(tree.props ?? {}).flatMap(elements)];
+  }
+  assert.ok(elements(inboxTree).some(element => element.type === "h3" && element.props.children === answer.childName));
+  const childRecord = records.find(record => record.formType === "childrens-reiki");
+  childRecord.consent = { ...childRecord.consent, paragraphs: ["Historical child consent snapshot"], guardianAuthorityStatement: "Historical guardian authority snapshot", remoteSessionStatement: "Historical in-person arrangement snapshot" };
+  const detail = JSON.stringify(await adminPage("../src/app/client-intakes/[id]/page.tsx", user, { records: [childRecord] }).render());
+  for (const label of Object.values(childReiki.CHILD_REIKI_ANSWER_LABELS)) assert.ok(detail.includes(label), label);
+  for (const value of [answer.childName, answer.fullName, answer.relationship, answer.comfortNeeds, "Historical child consent snapshot", "Historical guardian authority snapshot", "Historical in-person arrangement snapshot", "Parent or legal guardian signature", "Hands off"]) assert.ok(detail.includes(value), value);
+  assert.equal(detail.includes("Remote session arrangements"), false);
+  assert.equal(detail.includes(intake.INTAKE_ANSWER_LABELS.goals), false);
+  assert.equal(detail.includes(reiki.REIKI_CONSENT_PARAGRAPHS[0]), false);
+  for (const file of ["../src/app/client-intakes/page.tsx", "../src/app/client-intakes/[id]/page.tsx"]) {
+    for (const deniedUser of [null, { email: "client@example.invalid" }]) {
+      const denied = adminPage(file, deniedUser, { records: [childRecord] });
+      await assert.rejects(denied.render(), error => error instanceof Redirect);
+      assert.equal(denied.reads(), 0);
+    }
+  }
+  const virtual = { ...childRecord, answers: { ...childRecord.answers, sessionFormat: "virtual", touchPreference: "" } };
+  const virtualDetail = JSON.stringify(await adminPage("../src/app/client-intakes/[id]/page.tsx", user, { records: [virtual] }).render());
+  assert.match(virtualDetail, /Not applicable for a virtual session/);
 });

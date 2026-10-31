@@ -7,11 +7,21 @@ import { isAdminEmail } from "@/lib/site";
 import { getSignedIntake, intakeStorageConfigured, type SignedIntake } from "@/lib/intake-storage";
 import { INTAKE_ANSWER_LABELS } from "@/lib/hypnotherapy-intake";
 import { REIKI_INTAKE_ANSWER_LABELS } from "@/lib/reiki-intake";
+import { CHILD_REIKI_ANSWER_LABELS } from "@/lib/children-reiki-intake";
 import { PrintIntakeButton } from "@/components/print-intake-button";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Signed client intake", robots: { index: false, follow: false } };
 function answerEntries(record: SignedIntake) {
+  if (record.formType === "childrens-reiki") {
+    const answers = record.answers;
+    return Object.entries(CHILD_REIKI_ANSWER_LABELS).map(([key, label]) => {
+      let answer = answers[key as keyof typeof CHILD_REIKI_ANSWER_LABELS];
+      if (key === "sessionFormat") answer = answers.sessionFormat === "in-person" ? "In person" : "Virtual";
+      if (key === "touchPreference") answer = answers.sessionFormat === "virtual" ? "Not applicable for a virtual session" : answers.touchPreference === "light-touch" ? "Light touch" : "Hands off";
+      return { key, label, answer };
+    });
+  }
   if (record.formType === "reiki") {
     const answers = record.answers;
     return Object.entries(REIKI_INTAKE_ANSWER_LABELS).map(([key, label]) => ({ key, label, answer: answers[key as keyof typeof REIKI_INTAKE_ANSWER_LABELS] }));
@@ -33,12 +43,13 @@ export default async function IntakeDetailPage({ params }: { params: Promise<{ i
   return <PageShell eyebrow="Private signed form" title="Client intake" description="A saved copy of the client’s answers and consent.">
     <div className="intake-admin-tools flex flex-wrap gap-3"><Link href="/client-intakes" className="button-pill">Back to client intakes</Link><PrintIntakeButton /></div>
     <article className="intake-signed-record rounded-[24px] border border-[rgba(76,58,48,0.1)] bg-[#fffaf4] p-6 sm:p-10">
-      <p className="mb-3 text-sm font-bold">{record.formType === "reiki" ? "Reiki, new client" : "Hypnotherapy"}</p>
-      <h2 className="display-section-title">{record.answers.fullName}</h2><p className="mt-2 text-[var(--color-muted)]">Received {new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeStyle: "short", timeZone: "America/New_York" }).format(new Date(record.submittedAt))} Eastern</p>
+      <p className="mb-3 text-sm font-bold">{record.formType === "childrens-reiki" ? "Gentle Energy Support (children’s Reiki)" : record.formType === "reiki" ? "Reiki, new client" : "Hypnotherapy"}</p>
+      <h2 className="display-section-title">{record.formType === "childrens-reiki" ? record.answers.childName : record.answers.fullName}</h2>{record.formType === "childrens-reiki" && <p className="mt-2 text-[var(--color-muted)]">Parent or legal guardian: {record.answers.fullName}</p>}<p className="mt-2 text-[var(--color-muted)]">Received {new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeStyle: "short", timeZone: "America/New_York" }).format(new Date(record.submittedAt))} Eastern</p>
       <dl className="mt-8 grid gap-6">{answerEntries(record).map(({ key, label, answer }) => <div key={key}><dt className="text-sm font-bold">{label}</dt><dd className="mt-2 whitespace-pre-wrap break-words">{answer || "Not provided"}</dd></div>)}</dl>
-      <section className="mt-10 border-t border-[rgba(76,58,48,0.15)] pt-7"><h3 className="font-bold">Remote session arrangements</h3><p className="mt-3">{record.consent.remoteSessionStatement}</p><p className="mt-2 text-sm">Confirmed by client.</p></section>
+      <section className="mt-10 border-t border-[rgba(76,58,48,0.15)] pt-7"><h3 className="font-bold">{record.formType === "childrens-reiki" ? "Session arrangements" : "Remote session arrangements"}</h3><p className="mt-3">{record.consent.remoteSessionStatement}</p><p className="mt-2 text-sm">{record.formType === "childrens-reiki" ? "Confirmed by parent or legal guardian." : "Confirmed by client."}</p></section>
+      {record.formType === "childrens-reiki" && record.consent.guardianAuthorityStatement && <section className="mt-7"><h3 className="font-bold">Parent or legal guardian authority</h3><p className="mt-3">{record.consent.guardianAuthorityStatement}</p><p className="mt-2 text-sm">Confirmed by parent or legal guardian.</p></section>}
       <section className="mt-7"><h3 className="font-bold">Consent</h3>{record.consent.paragraphs.map((paragraph, index) => <p key={index} className="mt-3 leading-7">{paragraph}</p>)}<p className="mt-4">{record.consent.electronicSignatureStatement}</p></section>
-      <section className="mt-7 rounded-xl border border-[rgba(76,58,48,0.2)] p-5"><h3 className="text-sm font-bold">Electronic signature</h3><p className="mt-3 font-[family-name:var(--font-lightness-display)] text-4xl italic">{record.signature.name}</p><p className="mt-3">Signature date: {record.signature.date}</p><p className="mt-1 text-sm">Method: typed full name. Consent accepted.</p></section>
+      <section className="mt-7 rounded-xl border border-[rgba(76,58,48,0.2)] p-5"><h3 className="text-sm font-bold">{record.formType === "childrens-reiki" ? "Parent or legal guardian signature" : "Electronic signature"}</h3><p className="mt-3 font-[family-name:var(--font-lightness-display)] text-4xl italic">{record.signature.name}</p><p className="mt-3">Signature date: {record.signature.date}</p><p className="mt-1 text-sm">Method: typed full name. Consent accepted.</p></section>
       <section className="mt-7"><h3 className="font-bold">Privacy notice</h3><p className="mt-3">{record.consent.privacyNotice}</p><p className="mt-4 text-sm">Newsletter preference: {record.answers.newsletterConsent ? "Client asked to receive updates." : "Client did not ask to receive updates."}</p></section>
       <footer className="mt-9 border-t border-[rgba(76,58,48,0.15)] pt-5 text-xs leading-6 text-[var(--color-muted)]"><p>Form version: {record.formVersion}</p><p>Reference: {record.id}</p><p className="break-all">Record fingerprint: {record.recordDigest}</p></footer>
     </article>

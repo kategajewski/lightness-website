@@ -9,6 +9,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const documents = {
+  "level-two": "reiki-rising-level-two-outline-fall-2026.pdf",
   "start-here": "reiki-rising-start-here-guide.pdf",
   "certification-practice-log": "reiki-rising-certification-practice-log.pdf",
 } as const;
@@ -43,7 +44,9 @@ export async function GET(request: Request, context: MaterialRouteContext) {
   }
 
   const { document } = await context.params;
-  const filename = documents[document as keyof typeof documents];
+  const filename = Object.hasOwn(documents, document)
+    ? documents[document as keyof typeof documents]
+    : undefined;
 
   if (!filename) {
     return new Response("Not found", { status: 404 });

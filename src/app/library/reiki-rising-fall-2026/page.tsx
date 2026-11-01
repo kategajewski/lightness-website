@@ -14,6 +14,7 @@ import {
 } from "@/lib/reiki-rising-live-calls";
 
 const levelOneHref = "/reiki-rising/reiki-rising-level-one-outline-fall-2026.pdf";
+const levelTwoHref = "/library/reiki-rising-fall-2026/materials/level-two";
 const textbookHref = "https://www.reiki.org/store/books/reiki-healing-touch";
 const startHereHref = "/library/reiki-rising-fall-2026/materials/start-here";
 const practiceLogHref =
@@ -145,10 +146,10 @@ export default async function ReikiRisingFall2026LibraryPage() {
       <section className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 sm:px-6">
         <section className="rounded-[28px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
           <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            Start Here
+            Course Materials
           </span>
           <h2 className="display-section-title">
-            Prepare for the first week.
+            Your training guides and practice materials.
           </h2>
           <div className="mt-5 grid gap-4 text-[var(--color-muted)]">
             <p>
@@ -178,6 +179,20 @@ export default async function ReikiRisingFall2026LibraryPage() {
                 </a>
                 <a href={levelOneHref} download className="button-pill">
                   Download Level 1 PDF
+                </a>
+              </div>
+            </article>
+            <article className="rounded-[22px] bg-[rgba(230,194,162,0.24)] p-6">
+              <h3 className="display-card-title">Reiki Level 2 Training Outline</h3>
+              <p className="mt-3 text-[var(--color-muted)]">
+                Your companion for Level 2, with the Reiki symbols, practice guidance and a full session framework.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a href={levelTwoHref} target="_blank" rel="noreferrer" className="button-pill">
+                  Open Level 2 PDF
+                </a>
+                <a href={`${levelTwoHref}?download=1`} className="button-pill">
+                  Download Level 2 PDF
                 </a>
               </div>
             </article>

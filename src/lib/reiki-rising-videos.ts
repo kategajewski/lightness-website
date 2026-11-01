@@ -50,6 +50,17 @@ export const reikiRisingReplays: CourseModule[] = [
       duration: "52 minutes 55 seconds",
     }],
   },
+  {
+    date: "October 28, 2026",
+    releaseAt: "2026-10-29T00:00:00-04:00",
+    title: "Week 5 Class Replay",
+    lessons: [{
+      slug: "live-call-2026-10-28",
+      title: "October 28: Week 5 Class Replay",
+      videoId: "a4d024d8-7729-4b9c-8d57-480bbf93d5a7",
+      duration: "1 hour 13 minutes 28 seconds",
+    }],
+  },
 ];
 
 // New York midnight is still EDT on November 1; EST starts later that morning.
@@ -113,7 +124,14 @@ export const reikiRisingModules: CourseModule[] = [
       { slug: "reiki-for-animals-and-plants", title: "Reiki for Animals and Plants", videoId: "32d58ddf-871c-4dc2-9a94-957fee645365", duration: "11:13" },
     ],
   },
-  { date: "November 1, 2026", releaseAt: "2026-11-01T00:00:00-04:00", title: "Reiki symbols and Cho Ku Rei", lessons: [] },
+  {
+    date: "November 1, 2026", releaseAt: "2026-11-01T00:00:00-04:00",
+    title: "Reiki symbols and Cho Ku Rei",
+    lessons: [
+      { slug: "intro-to-symbols", title: "Intro to Symbols", videoId: "42d29c33-9679-4b7f-b02c-ed91739d75ec", duration: "9:01" },
+      { slug: "cho-ku-rei", title: "Cho Ku Rei", videoId: "b392e04c-cf6d-43da-8057-6e7a9dbbf556", duration: "18:34" },
+    ],
+  },
   { date: "November 8, 2026", releaseAt: "2026-11-08T00:00:00-05:00", title: "Sei He Ki, Koki-ho, and Gyoshi Ho", lessons: [] },
   { date: "November 15, 2026", releaseAt: "2026-11-15T00:00:00-05:00", title: "Hon Sha Ze Sho Nen and distant Reiki", lessons: [] },
   { date: "November 22, 2026", releaseAt: "2026-11-22T00:00:00-05:00", title: "Practicing a full Reiki session with symbols and documentation", lessons: [] },

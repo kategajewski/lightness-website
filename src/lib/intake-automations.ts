@@ -2,7 +2,7 @@ import "server-only";
 import { createHmac } from "node:crypto";
 import { getSignedIntake, type SignedIntake } from "@/lib/intake-storage";
 import { readAutomationValue, reserveAutomationValue, writeAutomationValue, pendingAutomationJobs, acknowledgeAutomationJob } from "@/lib/intake-automation-store";
-import { getIntakeDriveConnection, getIntakeDriveAccessToken, driveConnectionKey } from "@/lib/intake-drive-auth";
+import { getIntakeDriveConnection, getIntakeDriveAccessToken, driveConnectionKey, type IntakeDriveConnection } from "@/lib/intake-drive-auth";
 import { archiveIntakeToDrive, ensureDriveFolder, generateDriveId } from "@/lib/intake-drive";
 import { createSignedIntakePdf } from "@/lib/intake-pdf";
 import { syncIntakeNewsletterToMailchimp } from "@/lib/intake-mailchimp";
@@ -27,11 +27,38 @@ async function allocatedId(key: string, identity: string, accessToken: string) {
   if (allocation.identity !== identity || !/^[a-zA-Z0-9_-]{10,200}$/.test(allocation.id)) throw new Error("The archive reference could not be verified.");
   return allocation.id;
 }
+async function ensureArchiveRoot(connection: IntakeDriveConnection, accessToken: string) {
+  const destination = driveConnectionKey(connection);
+  const rootId = await allocatedId(`ids/root-${destination}`, destination, accessToken);
+  await ensureDriveFolder({ accessToken, folderId: rootId, name: "Client Intake Records" });
+  return { rootId, destination };
+}
+/** Verify the private destination on connection, without processing client data. */
+export async function initializeIntakeDriveArchive() {
+  if (process.env.VERCEL_ENV !== "production") throw new Error("Google Drive archive initialization is unavailable.");
+  const connection = await getIntakeDriveConnection();
+  if (!connection) throw new Error("Google Drive is not connected.");
+  const accessToken = await getIntakeDriveAccessToken(connection);
+  return ensureArchiveRoot(connection, accessToken);
+}
 function clientIdentity(record: SignedIntake) {
   const name = record.answers.fullName.normalize("NFKC").trim().toLowerCase();
   const phone = record.answers.phone.replace(/\D/g, "");
   const child = record.formType === "childrens-reiki" ? record.answers.childName.normalize("NFKC").trim().toLowerCase() : "";
   return createHmac("sha256", process.env.INTAKE_ENCRYPTION_KEY || "").update(JSON.stringify([name, phone, child])).digest("hex");
+}
+function clientFolderLabel(record: SignedIntake) {
+  const fullLabel = record.formType === "childrens-reiki"
+    ? `${record.answers.childName} (guardian: ${record.answers.fullName})`
+    : record.answers.fullName;
+  // Only the cosmetic label is shortened. The client key and signed names stay
+  // intact. Count UTF-16 units to match the adapter without splitting a pair.
+  let label = "";
+  for (const character of fullLabel) {
+    if (label.length + character.length > 160) break;
+    label += character;
+  }
+  return label;
 }
 async function completed(record: SignedIntake, provider: "drive" | "mailchimp") {
   const value = await readAutomationValue<Completion>(`done/${record.id}-${provider}`);
@@ -71,13 +98,11 @@ export async function processIntakeAutomations(id: string) {
       if (!connection) await notePending(id, "drive", "connection-needed");
       else {
         const token = await getIntakeDriveAccessToken(connection);
-        const destination = driveConnectionKey(connection);
+        const { rootId, destination } = await ensureArchiveRoot(connection, token);
         const clientKey = clientIdentity(record);
-        const rootId = await allocatedId(`ids/root-${destination}`, destination, token);
         const clientFolderId = await allocatedId(`ids/client-${destination}-${clientKey}`, `${destination}:${clientKey}`, token);
         const fileId = await allocatedId(`ids/file-${id}`, `${destination}:${record.recordDigest}`, token);
-        await ensureDriveFolder({ accessToken: token, folderId: rootId, name: "Client Intake Records" });
-        const name = record.formType === "childrens-reiki" ? `${record.answers.childName} (guardian: ${record.answers.fullName})` : record.answers.fullName;
+        const name = clientFolderLabel(record);
         await ensureDriveFolder({ accessToken: token, folderId: clientFolderId, parentId: rootId, clientKey, name });
         const pdf = await createSignedIntakePdf(record);
         await archiveIntakeToDrive({ record, pdf, accessToken: token, archiveFolderId: rootId, clientFolderId, clientKey, fileId });

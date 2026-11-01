@@ -95,26 +95,34 @@ function signedRecord(overrides = {}) {
 function pipelineHarness(options = {}) {
   const storage = storeHarness(options);
   const records = new Map();
-  const mailchimp = [], archives = [], folders = [], pdfs = [], lookups = [], generated = [];
+  const mailchimp = [], archives = [], folders = [], pdfs = [], lookups = [], generated = [], authCalls = [];
   let serial = 0;
   const connection = { email: "owner@example.invalid", refreshToken, clientId: "synthetic-client-id" };
   const loaded = load("../src/lib/intake-automations.ts", {
     "@/lib/intake-storage": { async getSignedIntake(id) { lookups.push(id); return records.get(id) || null; } },
     "@/lib/intake-automation-store": storage.module,
     "@/lib/intake-drive-auth": {
-      async getIntakeDriveConnection() { return options.noConnection ? null : connection; },
-      async getIntakeDriveAccessToken() { return accessToken; },
+      async getIntakeDriveConnection() { authCalls.push("connection"); return options.noConnection ? null : connection; },
+      async getIntakeDriveAccessToken() { authCalls.push("token"); return accessToken; },
       driveConnectionKey() { return "f".repeat(64); },
     },
     "@/lib/intake-drive": {
       async generateDriveId(token) { assert.equal(token, accessToken); const id = `generateddrive${String(++serial).padStart(10, "0")}`; generated.push(id); return id; },
-      async ensureDriveFolder(input) { folders.push(input); },
+      async ensureDriveFolder(input) {
+        if (options.folderError?.(input, folders.length + 1)) throw new Error("Synthetic private folder verification failed");
+        if (input.name.length > 160) throw new Error("Synthetic Drive folder label is too long");
+        if (!input.parentId) {
+          const allocation = await storage.module.readAutomationValue(`ids/root-${"f".repeat(64)}`);
+          assert.equal(allocation?.id, input.folderId, "Root ID must be durably reserved before any folder create");
+        }
+        folders.push(input);
+      },
       async archiveIntakeToDrive(input) { archives.push(input); if (options.driveError?.(input, archives.length)) throw new Error(`Provider secret ${refreshToken} and ${input.record.answers.intentions}`); return { id: input.fileId, created: true }; },
     },
     "@/lib/intake-pdf": { async createSignedIntakePdf(record) { pdfs.push(record); return Buffer.from("%PDF-1.7 synthetic private signed copy"); } },
     "@/lib/intake-mailchimp": { async syncIntakeNewsletterToMailchimp(input) { mailchimp.push(input); if (options.mailchimpError?.(input, mailchimp.length)) throw new Error(`Provider secret ${accessToken} and private answer`); return options.mailchimpResult || (input.newsletterConsent ? { outcome: "synced", status: "subscribed" } : { outcome: "not-requested" }); } },
   }, { process: { env: { ...production, ...options.env } } });
-  return { module: loaded, storage, records, mailchimp, archives, folders, pdfs, lookups, generated };
+  return { module: loaded, storage, records, mailchimp, archives, folders, pdfs, lookups, generated, authCalls };
 }
 
 async function queueRecord(h, record = signedRecord()) {
@@ -145,6 +153,61 @@ function routeHarness(h, options = {}) {
     async submit() { return route.POST(new Request("https://bethelightness.com/api/client-intake/reiki", { method: "POST", headers: { Origin: "https://bethelightness.com", "Content-Type": "application/json" }, body: JSON.stringify({ synthetic: true }) })); },
     afters, notifications, events, logs,
   };
+}
+
+test("Drive initialization reserves and verifies the private root without reading any intake or contacting Mailchimp", async () => {
+  const h = pipelineHarness();
+  const result = await h.module.initializeIntakeDriveArchive();
+  assert.equal(result.destination, "f".repeat(64));
+  assert.equal(result.rootId, h.generated[0]);
+  assert.equal(h.folders.length, 1);
+  assert.equal(h.folders[0].name, "Client Intake Records");
+  assert.equal(h.folders[0].parentId, undefined);
+  assert.deepEqual(h.authCalls, ["connection", "token"]);
+  assert.equal(h.lookups.length + h.mailchimp.length + h.pdfs.length + h.archives.length, 0);
+  assert.equal([...h.storage.objects.keys()].some(key => key.includes("/jobs/") || key.includes("/done/")), false);
+});
+
+test("repeat initialization and subsequent client processing reuse the exact reserved root", async () => {
+  const h = pipelineHarness();
+  const first = await h.module.initializeIntakeDriveArchive();
+  const allocationPath = `automation/ids/root-${first.destination}.json`;
+  const originalAllocation = h.storage.objects.get(allocationPath).bytes.toString();
+  const second = await h.module.initializeIntakeDriveArchive();
+  assert.equal(second.rootId, first.rootId);
+  assert.equal(h.generated.length, 1);
+  await queueRecord(h);
+  assert.equal((await h.module.processIntakeAutomations(defaultId)).complete, true);
+  assert.equal(h.archives[0].archiveFolderId, first.rootId);
+  assert.equal(new Set(h.folders.filter(folder => !folder.parentId).map(folder => folder.folderId)).size, 1);
+  assert.equal(h.storage.objects.get(allocationPath).bytes.toString(), originalAllocation);
+});
+
+test("initialization without an owner connection fails generically before token or Drive operations", async () => {
+  const h = pipelineHarness({ noConnection: true });
+  await assert.rejects(() => h.module.initializeIntakeDriveArchive(), /^Error: Google Drive is not connected\.$/);
+  assert.deepEqual(h.authCalls, ["connection"]);
+  assert.equal(h.generated.length + h.folders.length + h.lookups.length + h.mailchimp.length, 0);
+});
+
+test("failed root verification does not report initialization ready or allocate another root on retry", async () => {
+  let fail = true;
+  const h = pipelineHarness({ folderError: () => fail });
+  await assert.rejects(() => h.module.initializeIntakeDriveArchive(), /folder verification failed/);
+  assert.equal(h.generated.length, 1);
+  assert.equal(h.lookups.length + h.mailchimp.length, 0);
+  fail = false;
+  const result = await h.module.initializeIntakeDriveArchive();
+  assert.equal(result.rootId, h.generated[0]);
+  assert.equal(h.generated.length, 1);
+});
+
+for (const environment of ["preview", "development", ""]) {
+  test(`initialization rejects ${environment || "missing"} deployment environment before any provider access`, async () => {
+    const h = pipelineHarness({ env: { VERCEL_ENV: environment } });
+    await assert.rejects(() => h.module.initializeIntakeDriveArchive(), /initialization is unavailable/);
+    assert.equal(h.authCalls.length + h.storage.calls.length + h.generated.length + h.lookups.length + h.mailchimp.length, 0);
+  });
 }
 
 test("validated route durably reserves a job before signed storage and schedules processing after response", async () => {
@@ -335,3 +398,36 @@ test("only the guardian marketing identity crosses to Mailchimp and no token or 
   const serialized = JSON.stringify(operational);
   for (const secret of [accessToken, refreshToken, record.answers.fullName, record.answers.phone, record.answers.email, record.answers.childName, record.answers.intentions]) assert.equal(serialized.includes(secret), false, secret);
 });
+
+for (const [label, fullName, childName] of [
+  ["maximum-length child and guardian", "🧑".repeat(75), "孩".repeat(150)],
+  ["surrogate pair at the truncation boundary", "Å".repeat(146) + "😀ZZ", "A"],
+  ["maximum-length adult Unicode name", "🧑".repeat(75), undefined],
+]) {
+  test(`${label} archives with a bounded display label and the original identity`, async () => {
+    assert.equal(fullName.length, 150);
+    const h = pipelineHarness();
+    const record = signedRecord({ formType: childName ? "childrens-reiki" : "reiki" });
+    record.answers.fullName = fullName;
+    if (childName) record.answers.childName = childName;
+    const originalAnswers = JSON.stringify(record.answers);
+    await queueRecord(h, record);
+    assert.equal((await h.module.processIntakeAutomations(defaultId)).complete, true);
+    const clientFolder = h.folders.find(folder => folder.parentId);
+    const fullLabel = childName ? `${childName} (guardian: ${fullName})` : fullName;
+    assert.ok(clientFolder.name.length <= 160);
+    assert.ok(fullLabel.startsWith(clientFolder.name));
+    if (!childName) assert.equal(clientFolder.name, fullName);
+    const finalUnit = clientFolder.name.charCodeAt(clientFolder.name.length - 1);
+    assert.equal(finalUnit >= 0xd800 && finalUnit <= 0xdbff, false, "Display label must not end with a split surrogate pair");
+    const expectedKey = crypto.createHmac("sha256", encryptionKey).update(JSON.stringify([
+      fullName.normalize("NFKC").trim().toLowerCase(),
+      record.answers.phone.replace(/\D/g, ""),
+      childName ? childName.normalize("NFKC").trim().toLowerCase() : "",
+    ])).digest("hex");
+    assert.equal(clientFolder.clientKey, expectedKey);
+    assert.equal(h.archives[0].clientKey, expectedKey);
+    assert.equal(JSON.stringify(record.answers), originalAnswers);
+    assert.equal(h.pdfs[0], record);
+  });
+}

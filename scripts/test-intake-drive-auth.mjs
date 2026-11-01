@@ -300,7 +300,7 @@ class MockNextResponse extends Response {
   }
   static json(value, options) { return new MockNextResponse(JSON.stringify(value), { ...options, headers: { "Content-Type": "application/json", ...options?.headers } }); }
 }
-function routeHarness(kind, { user = owner, env = {}, providerThrows = false, processThrows = false } = {}) {
+function routeHarness(kind, { user = owner, env = {}, providerThrows = false, initializationThrows = false, processThrows = false } = {}) {
   const events = [];
   const scheduled = [];
   const logs = [];
@@ -314,7 +314,10 @@ function routeHarness(kind, { user = owner, env = {}, providerThrows = false, pr
       async beginIntakeDriveAuthorization(userId) { events.push(["begin", userId]); if (providerThrows) throw new Error(privateProviderPayload); return "https://accounts.google.com/o/oauth2/v2/auth?state=synthetic-state"; },
       async completeIntakeDriveAuthorization(url, userId) { events.push(["complete", userId, url.searchParams.get("code")]); if (providerThrows) throw new Error(`${privateProviderPayload} ${privateAccessToken}`); },
     },
-    "@/lib/intake-automations": { async processPendingIntakeAutomations() { events.push("process"); if (processThrows) throw new Error(privateProviderPayload); return { processed: 2, completed: 1 }; } },
+    "@/lib/intake-automations": {
+      async initializeIntakeDriveArchive() { events.push("initialize-archive"); if (initializationThrows) throw new Error(`${privateProviderPayload} ${privateRefreshToken}`); return { folderId: "synthetic-private-archive-id" }; },
+      async processPendingIntakeAutomations() { events.push("process"); if (processThrows) throw new Error(privateProviderPayload); return { processed: 2, completed: 1 }; },
+    },
   }, { process: { env: environment }, console: { error(...values) { logs.push(values); } } });
   function request(method, { origin = "https://bethelightness.com", authorization, query = "" } = {}) {
     return new Request(`https://bethelightness.com/api/client-intakes/${kind}${query}`, { method, headers: { ...(origin === null ? {} : { Origin: origin }), ...(authorization ? { Authorization: authorization } : {}) } });
@@ -327,6 +330,7 @@ test("connect POST rejects unauthenticated and non-admin users before OAuth acce
     const h = routeHarness("drive/connect", { user });
     assert.equal((await h.module.POST(h.request("POST"))).status, 403);
     assert.equal(h.events.filter(event => Array.isArray(event)).length, 0);
+    assert.equal(h.events.includes("initialize-archive"), false);
     assert.equal(h.scheduled.length, 0);
   }
 });
@@ -356,17 +360,18 @@ test("callback GET rejects unauthenticated, non-admin and preview callers before
     const response = await h.module.GET(h.request("GET", { query: "?code=private-code&state=private-state" }));
     assert.equal(response.status, 403);
     assert.equal(h.events.filter(event => Array.isArray(event)).length, 0);
+    assert.equal(h.events.includes("initialize-archive"), false);
     assert.equal(h.scheduled.length, 0);
     assert.equal(response.headers.get("referrer-policy"), "no-referrer");
   }
 });
 
-test("callback completion schedules processing only after verified connection and never reflects provider details", async () => {
+test("callback completion verifies the private archive after authorization before reporting ready and scheduling processing", async () => {
   for (const providerThrows of [false, true]) {
     const h = routeHarness("drive/callback", { providerThrows });
     const response = await h.module.GET(h.request("GET", { query: "?code=private-code&state=private-state" }));
     assert.equal(response.status, 303);
-    assert.deepEqual(h.events, ["auth", "admin", ["complete", owner.id, "private-code"]]);
+    assert.deepEqual(h.events, ["auth", "admin", ["complete", owner.id, "private-code"], ...(providerThrows ? [] : ["initialize-archive"])]);
     assert.equal(response.headers.get("location"), `https://bethelightness.com/client-intakes/automation?status=${providerThrows ? "connection-failed" : "connected"}`);
     assert.equal(response.headers.get("cache-control"), "private, no-store");
     assert.equal(response.headers.get("referrer-policy"), "no-referrer");
@@ -374,6 +379,18 @@ test("callback completion schedules processing only after verified connection an
     assert.equal(h.logs.length, 0);
     assert.equal((await response.text()).includes(privateAccessToken), false);
   }
+});
+
+test("archive initialization failure never reports ready or schedules intake processing and keeps failure details private", async () => {
+  const h = routeHarness("drive/callback", { initializationThrows: true });
+  const response = await h.module.GET(h.request("GET", { query: "?code=private-code&state=private-state" }));
+  assert.equal(response.status, 303);
+  assert.deepEqual(h.events, ["auth", "admin", ["complete", owner.id, "private-code"], "initialize-archive"]);
+  assert.equal(response.headers.get("location"), "https://bethelightness.com/client-intakes/automation?status=connection-failed");
+  assert.equal(h.scheduled.length, 0);
+  assert.equal(h.logs.length, 0);
+  const visible = `${response.headers.get("location")} ${await response.text()}`;
+  for (const secret of [privateProviderPayload, privateRefreshToken, privateAccessToken, "synthetic-private-archive-id"]) assert.equal(visible.includes(secret), false);
 });
 
 test("scheduled callback processing logs only a generic retry message on failure", async () => {

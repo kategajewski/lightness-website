@@ -69,6 +69,12 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "no-referrer" },
         ],
       })),
+      {
+        // Native POST forms need their real Origin for the strict admin checks.
+        // This page has no client records, and no referrer is sent off-site.
+        source: "/client-intakes/automation",
+        headers: [{ key: "Referrer-Policy", value: "same-origin" }],
+      },
     ];
   },
 };

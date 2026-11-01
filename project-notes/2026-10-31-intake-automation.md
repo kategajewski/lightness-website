@@ -21,3 +21,8 @@ User approved Google API User Data Policy, limited Drive connection and secure c
 Google Auth branding has websitehome/privacy/termsURLs and the app declares onlyopenid,email anddrive.file. Productionpublication is awaiting explicit userapproval after automaticreviewrejecteditsbroadGoogleappavailability; websitecallbackremainsadminandGmaillocked. Do notbypassrejectionorcallDriveactivebeforegrant.
 
 Finalconnectionhelpercreates/verifiestheprivateClientIntakeRecordsrootbeforecallbackreportsconnected, withoutreadingclientsorMailchimp. Childfolderdisplaylabelsnowtruncatecosmeticallyto160UTF16unitswithoutbreakingsurrogates; originalsandidentityHMACremainunchanged. Added10pipelineand1callbackregressions; updatedsubset52testspass,fulllintandTypeScriptpass. CurrentproductionflagandMailchimpremainactive. No signedrecords/subscribers orclientmessagescreated.
+
+
+## November 1 native connection form correction
+
+The live connection form returned403 because the private page's no-referrer policy caused a normal HTML POST to send Origin:null. The endpoint correctly rejected it. The exact settings page /client-intakes/automation now uses Referrer-Policy:same-origin, allowing native Connect and Retry forms to retain their actual origin while sending no referrer off-site. Client records, public intake pages and API callbacks keep no-referrer. Canonical-origin and admin checks are unchanged. MDN documents this Origin behavior at https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Referrer-Policy#effect_on_the_origin_header.

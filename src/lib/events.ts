@@ -17,6 +17,7 @@ export type EventCheckoutConfig = {
   registrationClosed?: boolean;
   capacity?: number;
   paymentLinkId?: string;
+  legacyCheckoutSessionIds?: string[];
 };
 
 export const eventCheckoutConfig = {
@@ -171,6 +172,9 @@ export const eventCheckoutConfig = {
     slug: "reiki-share-november-5-2026",
     capacity: 7,
     paymentLinkId: "plink_1UXthtElTVNK9O7p2bHqxK0l",
+    legacyCheckoutSessionIds: [
+      "cs_live_a1Rh4ds3vDYZeLkyYb2mOuYTDTM0a7KAtg8x2kK2v6Ajt6kQvulDaCPtgU",
+    ],
     name: "Reiki Share",
     description:
       "Ticket for Reiki Share, a practitioner-only community gathering at The Lightness of Being. All purchases are final and non-refundable.",

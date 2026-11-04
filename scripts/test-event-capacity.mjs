@@ -41,8 +41,10 @@ function paymentLink() {
   };
 }
 
-function harness({ link=paymentLink(), stripeFailure=false, lineItemsFailure=false, noStripeClient=false, eventOverrides={}, uncapped=false, webhookType='checkout.session.completed', invalidSignature=false }={}) {
+function harness({ link=paymentLink(), stripeFailure=false, lineItemsFailure=false, noStripeClient=false, eventOverrides={}, uncapped=false, webhookType='checkout.session.completed', invalidSignature=false, legacySessions=[], legacyLookupResult, expireThrows=false, expireResult, rereadResult, limitUpdateThrows=false, unverifiedLimitUpdate=false }={}) {
   const calls = [], emails = [], writes = [], confirmations = [], invoiceConfirmations = [];
+  const legacyById=new Map(legacySessions.map(session=>[session.id,session]));
+  const legacyReads=new Map();
   const event = { ...BASE_EVENT, ...eventOverrides };
   if (uncapped) { delete event.paymentLinkId; delete event.capacity; }
   const stripe = { paymentLinks: {
@@ -56,7 +58,25 @@ function harness({ link=paymentLink(), stripeFailure=false, lineItemsFailure=fal
       if (stripeFailure || lineItemsFailure) throw new Error('Mock Stripe unavailable');
       return clone(link.line_items);
     },
-  }, webhooks:{constructEvent:(payload,signature,secret)=>{
+    update: async(id,input)=>{
+      calls.push({kind:'link-update',id,input});
+      if(limitUpdateThrows) throw new Error('Mock Stripe capacity update unavailable');
+      if(unverifiedLimitUpdate) return clone(link);
+      return {...clone(link),...(input.active===undefined?{}:{active:input.active}),restrictions:{completed_sessions:{...link.restrictions.completed_sessions,...input.restrictions?.completed_sessions}}};
+    },
+  }, checkout:{sessions:{
+    retrieve:async id=>{
+      calls.push({kind:'legacy-read',id});
+      const reads=legacyReads.get(id)||0;legacyReads.set(id,reads+1);
+      const value=reads>0&&rereadResult?rereadResult:(legacyLookupResult||legacyById.get(id));
+      assert.ok(value,'Unexpected legacy session lookup');return clone(value);
+    },
+    expire:async id=>{
+      calls.push({kind:'legacy-expire',id});
+      if(expireThrows) throw new Error('Mock Stripe expiration raced or failed');
+      return clone(expireResult||{...legacyById.get(id),status:'expired'});
+    },
+  }}, webhooks:{constructEvent:(payload,signature,secret)=>{
     calls.push({kind:'signature-check',payload,signature,secret});
     if(invalidSignature) throw new Error('Mock invalid signature');
     return {type:webhookType,data:{object:{id:'cs_mock_paid'}}};
@@ -254,4 +274,72 @@ test('invalid webhook signature rejects before purchase confirmation or other si
   const h=harness({webhookType:'checkout.session.async_payment_succeeded',invalidSignature:true});const result=await h.webhook();
   assert.equal(result.status,400);assert.match(result.body.error,/Invalid Stripe signature/);
   assert.equal(h.confirmations.length,0);assert.equal(h.invoiceConfirmations.length,0);assert.equal(h.emails.length,0);assert.equal(h.writes.length,0);
+});
+
+const LEGACY_ID='cs_legacy_capacity';
+function legacySession(overrides={}) {
+  return {id:LEGACY_ID,livemode:true,mode:'payment',amount_total:2500,currency:'usd',metadata:{purchaseType:'event',eventSlug:EVENT_SLUG},payment_link:null,status:'open',payment_status:'unpaid',...overrides};
+}
+function legacyHarness(overrides={}) {
+  return harness({legacySessions:[legacySession()],eventOverrides:{legacyCheckoutSessionIds:[LEGACY_ID]},...overrides});
+}
+test('valid open unpaid legacy checkout is expired before a new capped redirect',async()=>{
+  const h=legacyHarness();assert.equal((await h.checkout()).url,LINK_URL);assertNoUncappedSession(h);
+  assert.equal(h.calls.filter(call=>call.kind==='legacy-expire').length,1);
+  const expiredIndex=h.calls.findIndex(call=>call.kind==='legacy-expire');
+  assert.ok(expiredIndex<h.calls.findIndex(call=>call.kind==='line-items-read'));
+  assert.equal(h.calls.some(call=>call.kind==='link-update'),false);
+});
+test('already expired legacy checkout needs no expiration or capacity reduction',async()=>{
+  const h=legacyHarness({legacySessions:[legacySession({status:'expired'})]});
+  assert.equal((await h.checkout()).url,LINK_URL);assertNoUncappedSession(h);
+  assert.equal(h.calls.some(call=>call.kind==='legacy-expire'||call.kind==='link-update'),false);
+});
+test('completed legacy checkout reserves one seat and reduces the native cap to six even when unpaid',async()=>{
+  for(const payment_status of ['paid','unpaid']) {
+    const h=legacyHarness({legacySessions:[legacySession({status:'complete',payment_status})]});
+    assert.equal((await h.checkout()).url,LINK_URL);assertNoUncappedSession(h);
+    assert.equal(h.calls.some(call=>call.kind==='legacy-expire'),false);
+    const updates=h.calls.filter(call=>call.kind==='link-update');assert.equal(updates.length,1);
+    assert.equal(updates[0].input.restrictions.completed_sessions.limit,6);
+  }
+});
+test('expiration race rereads a completed legacy payment and reduces the cap',async()=>{
+  const h=legacyHarness({expireThrows:true,rereadResult:legacySession({status:'complete',payment_status:'paid'})});
+  assert.equal((await h.checkout()).url,LINK_URL);assertNoUncappedSession(h);
+  assert.equal(h.calls.filter(call=>call.kind==='legacy-read').length,2);
+  assert.equal(h.calls.filter(call=>call.kind==='legacy-expire').length,1);
+  assert.equal(h.calls.find(call=>call.kind==='link-update').input.restrictions.completed_sessions.limit,6);
+});
+test('legacy checkout remaining open after expiration failure blocks all new checkout',async()=>{
+  for(const expireThrows of [true,false]) {
+    const h=legacyHarness({expireThrows,expireResult:legacySession()});
+    assertBlocked(await h.checkout());assertNoUncappedSession(h);
+    assert.equal(h.calls.some(call=>call.kind==='line-items-read'||call.kind==='link-update'),false);
+  }
+});
+const invalidLegacyCases=[
+  ['identity',row=>({...row,id:'cs_wrong'})],
+  ['mode',row=>({...row,mode:'subscription'})],
+  ['live mode',row=>({...row,livemode:false})],
+  ['amount',row=>({...row,amount_total:1})],
+  ['currency',row=>({...row,currency:'eur'})],
+  ['event',row=>({...row,metadata:{...row.metadata,eventSlug:'other-event'}})],
+  ['purchase type',row=>({...row,metadata:{...row.metadata,purchaseType:'gift_certificate'}})],
+  ['existing Payment Link',row=>({...row,payment_link:'plink_other'})],
+  ['paid open checkout',row=>({...row,payment_status:'paid'})],
+];
+for(const [label,mutate] of invalidLegacyCases) test(`invalid legacy ${label} never expires a session or allows checkout`,async()=>{
+  const invalid=mutate(legacySession());
+  const h=legacyHarness({legacyLookupResult:invalid});
+  assertBlocked(await h.checkout());assertNoUncappedSession(h);
+  assert.equal(h.calls.some(call=>call.kind==='legacy-expire'||call.kind==='link-update'),false);
+});
+test('failed or unverified native-cap reduction blocks new checkout',async()=>{
+  for(const flags of [{limitUpdateThrows:true},{unverifiedLimitUpdate:true}]) {
+    const h=legacyHarness({legacySessions:[legacySession({status:'complete',payment_status:'paid'})],...flags});
+    assertBlocked(await h.checkout());assertNoUncappedSession(h);
+    assert.equal(h.calls.filter(call=>call.kind==='link-update').length,1);
+    assert.equal(h.calls.some(call=>call.kind==='line-items-read'),false);
+  }
 });

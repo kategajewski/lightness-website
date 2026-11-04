@@ -10,21 +10,23 @@ export async function getCappedEventCheckout(
   event: EventCheckoutConfig,
   liveMode: boolean,
 ): Promise<{ url: string } | { error: "sold_out" | "capacity_unavailable" }> {
-  if (!event.paymentLinkId || !event.capacity || event.capacity < 1) {
+  if (!event.paymentLinkId || !event.capacity || !Number.isInteger(event.capacity) || event.capacity < 1) {
     return { error: "capacity_unavailable" };
   }
 
-  const link = await stripe.paymentLinks.retrieve(event.paymentLinkId, {
+  let link = await stripe.paymentLinks.retrieve(event.paymentLinkId, {
     expand: ["optional_items"],
   });
-  const restriction = link.restrictions?.completed_sessions;
+  let restriction = link.restrictions?.completed_sessions;
   if (
     link.livemode !== liveMode ||
     link.metadata.purchaseType !== "event" ||
     link.metadata.eventSlug !== event.slug ||
     link.metadata.marketingConsentSource !== "stripe_payment_link_v1" ||
     !restriction ||
-    restriction.limit !== event.capacity ||
+    !Number.isInteger(restriction.limit) ||
+    restriction.limit < 1 ||
+    restriction.limit > event.capacity ||
     !Number.isInteger(restriction.count) ||
     restriction.count < 0 ||
     !link.url.startsWith("https://buy.stripe.com/")
@@ -32,9 +34,65 @@ export async function getCappedEventCheckout(
     return { error: "capacity_unavailable" };
   }
 
-  if (!link.active || restriction.count >= restriction.limit) {
+  // A previously issued custom Checkout URL can bypass Payment Link inventory.
+  // Expire the explicitly reconciled legacy sessions before allowing new sales.
+  let legacyCompletions = 0;
+  for (const id of event.legacyCheckoutSessionIds ?? []) {
+    let session = await stripe.checkout.sessions.retrieve(id);
+    if (
+      session.id !== id ||
+      session.livemode !== liveMode ||
+      session.mode !== "payment" ||
+      session.amount_total !== event.amountCents ||
+      session.currency !== "usd" ||
+      session.metadata?.purchaseType !== "event" ||
+      session.metadata.eventSlug !== event.slug ||
+      session.payment_link
+    ) {
+      return { error: "capacity_unavailable" };
+    }
+    if (session.status === "open") {
+      if (session.payment_status !== "unpaid") return { error: "capacity_unavailable" };
+      try {
+        session = await stripe.checkout.sessions.expire(id);
+      } catch {
+        // Payment may have completed between retrieval and expiration.
+        session = await stripe.checkout.sessions.retrieve(id);
+      }
+    }
+    if (session.status === "complete") {
+      legacyCompletions += 1;
+    } else if (session.status !== "expired") {
+      return { error: "capacity_unavailable" };
+    }
+  }
+
+  const remainingLimit = event.capacity - legacyCompletions;
+  if (remainingLimit < 1) {
+    if (link.active) await stripe.paymentLinks.update(link.id, { active: false });
     return { error: "sold_out" };
   }
+  if (restriction.limit !== remainingLimit) {
+    // Never raise a limit changed in the Dashboard. Only subtract confirmed
+    // legacy purchases from the original cap, including pending payments.
+    if (restriction.limit < remainingLimit) return { error: "capacity_unavailable" };
+    const adjusted = await stripe.paymentLinks.update(link.id, {
+      restrictions: { completed_sessions: { limit: remainingLimit } },
+    });
+    // Keep the explicitly expanded optional_items from the retrieval above.
+    link = { ...link, active: adjusted.active, restrictions: adjusted.restrictions };
+    restriction = link.restrictions?.completed_sessions;
+    if (
+      restriction?.limit !== remainingLimit ||
+      !Number.isInteger(restriction.count) ||
+      restriction.count < 0
+    ) return { error: "capacity_unavailable" };
+  }
+
+  if (restriction.count >= restriction.limit) {
+    return { error: "sold_out" };
+  }
+  if (!link.active) return { error: "capacity_unavailable" };
 
   const items = await stripe.paymentLinks.listLineItems(link.id, { limit: 2 });
   const item = items.data[0];

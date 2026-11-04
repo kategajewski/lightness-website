@@ -21,6 +21,7 @@ const routes = [
   ["/reiki-training-long-island", 0.9, "monthly"],
   ["/corporate-wellness-long-island", 0.9, "monthly"],
   ["/special-blessing", 0.8, "monthly"],
+  ["/special-blessing/wedding-officiation", 0.8, "monthly"],
   ["/divine-rose-frequencies", 0.85, "monthly"],
   ["/gift-certificate", 0.75, "monthly"],
   ["/contact", 0.8, "monthly"],

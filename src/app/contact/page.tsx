@@ -40,10 +40,13 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
   const isPrivateEventInquiry =
     inquiryType === "events" &&
     subject === "Private Event or Ceremony Inquiry";
+  const isWeddingInquiry =
+    inquiryType === "events" && subject === "Wedding Officiation Inquiry";
   const isUpcomingEventInquiry =
     inquiryType === "events" &&
     Boolean(subject) &&
-    subject !== "Private Event or Ceremony Inquiry";
+    subject !== "Private Event or Ceremony Inquiry" &&
+    subject !== "Wedding Officiation Inquiry";
   const isCorporateInquiry =
     inquiryType === "corporate" && Boolean(subject);
 
@@ -61,6 +64,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             : "Join the Reiki Rising waitlist."
           : isPrivateEventInquiry
             ? "Inquire about a private event or ceremony."
+            : isWeddingInquiry
+              ? "Inquire about wedding officiation."
             : isUpcomingEventInquiry
               ? "Ask about an upcoming event."
               : isCorporateInquiry
@@ -76,6 +81,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             : "Share your details below and Kate will reach out when the next Reiki Rising cohort opens."
           : isPrivateEventInquiry
             ? "Share what you are envisioning and Kate will follow up about creating a personalized ceremony, blessing, or private gathering."
+            : isWeddingInquiry
+              ? "Share a little about your celebration and Kate will follow up about availability, ceremony planning and next steps."
             : isUpcomingEventInquiry
               ? "Use the form below to ask about an upcoming event, gathering, or registration detail."
               : isCorporateInquiry
@@ -185,6 +192,12 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           {isPrivateEventInquiry ? (
             <p className="mt-6 rounded-[18px] border border-[rgba(168,178,159,0.22)] bg-[rgba(255,251,246,0.72)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
               This inquiry will be sent as an events and ceremonies request so Kate can respond more personally.
+            </p>
+          ) : null}
+
+          {isWeddingInquiry ? (
+            <p className="mt-6 rounded-[18px] border border-[rgba(168,178,159,0.22)] bg-[rgba(255,251,246,0.72)] px-4 py-3 text-[0.95rem] text-[var(--color-text)]">
+              This inquiry will be sent as a wedding officiation request so Kate can respond with the right next steps.
             </p>
           ) : null}
 

@@ -12,24 +12,34 @@ export const metadata = createPageMetadata({
 
 const offerings = [
   {
+    title: "Wedding Officiation",
+    description:
+      "Personalized wedding ceremonies that honor your relationship, your story and the promises you are making together.",
+    href: site.links.weddingOfficiation,
+  },
+  {
     title: "Mother Blessingways",
     description:
       "Sacred gatherings created to honor pregnancy, motherhood, and the emotional threshold of welcoming new life.",
+    href: null,
   },
   {
     title: "Baby Blessings",
     description:
       "Gentle, heart-centered ceremonies to celebrate a child, welcome their arrival, and bless the season ahead.",
+    href: null,
   },
   {
     title: "Home Clearings & Blessings",
     description:
       "Energetic support for homes and spaces that are ready to feel lighter, clearer, and more intentionally held.",
+    href: null,
   },
   {
     title: "Custom Rituals & Ceremonies",
     description:
       "Personalized ceremonies for life transitions, sacred thresholds, remembrance, celebration, and meaningful gathering.",
+    href: null,
   },
 ] as const;
 
@@ -100,6 +110,11 @@ export default function SpecialBlessingPage() {
               {item.title}
             </h3>
             <p className="mt-4 text-[var(--color-muted)]">{item.description}</p>
+            {item.href ? (
+              <Link href={item.href} className="mt-5 inline-block font-bold text-[#5d5148]">
+                Explore Wedding Officiation
+              </Link>
+            ) : null}
           </article>
         ))}
       </section>

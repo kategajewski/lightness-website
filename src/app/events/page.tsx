@@ -156,7 +156,7 @@ const connectionPaths = [
   },
   {
     title: "Private & Corporate",
-    description: "Custom ceremonies, private events, and workplace wellness.",
+    description: "Private ceremonies, wedding officiation and workplace wellness.",
     href: "#private-events",
   },
 ] as const;
@@ -194,6 +194,13 @@ const yogaSchedule = [
 ] as const;
 
 const privateEventPaths = [
+  {
+    title: "Wedding Officiation",
+    description:
+      "Personalized wedding ceremonies created with warmth, intention and space for your story.",
+    href: site.links.weddingOfficiation,
+    cta: "Explore Wedding Officiation",
+  },
   {
     title: "Private Events & Ceremonies",
     description:
@@ -345,16 +352,16 @@ export default function EventsPage() {
           Private Events & Ceremonies
         </span>
         <h2 className="display-section-title">
-          Personalized support for private gatherings, rituals, and special moments.
+          Personalized support for weddings, private gatherings, rituals and special moments.
         </h2>
         <p className="mt-4 text-[var(--color-muted)]">
           If you are looking for something more personal, Kate also offers custom
-          ceremonies, private events, and workplace wellness experiences tailored
+          wedding officiation, private events and workplace wellness experiences tailored
           to the people and intention involved.
         </p>
       </section>
 
-      <section className="grid gap-5 md:grid-cols-2">
+      <section className="grid gap-5 md:grid-cols-3">
         {privateEventPaths.map((item) => (
           <article
             key={item.title}

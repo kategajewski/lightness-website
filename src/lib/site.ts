@@ -53,6 +53,7 @@ export const site = {
     mentorshipApplication: "/mentorship-application",
     meditation: "https://root-and-shield.bethelightness.com/about",
     specialBlessing: "/special-blessing",
+    weddingOfficiation: "/special-blessing/wedding-officiation",
     sacredSoundsUnderTheSky: "/sacred-sounds-under-the-sky",
     goldenHourJuly: "/golden-hour-july-28",
     riseIntoLight: "/rise-into-light",

@@ -7,7 +7,7 @@ const gatheringIntentions = [
   "Form community with other Reiki practitioners",
   "Talk all things Reiki in a supportive space",
   "Share Reiki practice with one another",
-  "Receive, reflect, and stay connected to the work",
+  "Receive, reflect and stay connected to the work",
 ] as const;
 
 const goodToKnow = [
@@ -15,6 +15,7 @@ const goodToKnow = [
   "7:00-9:00 PM",
   "The Lightness of Being, 98 Medford Ave, Patchogue, NY 11772",
   "$25 per person",
+  "Limited to 7 practitioners. One place per purchase.",
   "Practitioners only",
   "All purchases are final and non-refundable",
 ] as const;
@@ -24,7 +25,7 @@ const eventJsonLd = {
   "@type": "Event",
   name: "Reiki Share",
   description:
-    "A practitioner-only Reiki gathering to form community, talk all things Reiki, and share practice with one another at The Lightness of Being in Patchogue.",
+    "A practitioner-only Reiki gathering to form community, talk all things Reiki and share practice with one another at The Lightness of Being in Patchogue.",
   startDate: "2026-11-19T19:00:00-05:00",
   endDate: "2026-11-19T21:00:00-05:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
@@ -55,12 +56,22 @@ const eventJsonLd = {
   },
 };
 
-export default function ReikiSharePage() {
+export default async function ReikiSharePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ checkoutError?: string }>;
+}) {
+  const { checkoutError } = await searchParams;
+  const checkoutMessage = checkoutError === "sold_out"
+    ? "All 7 places for this Reiki Share have been reserved. I hope you can join us for a future gathering."
+    : checkoutError
+      ? "Booking is temporarily unavailable. Please try again shortly or contact Kate for help."
+      : null;
   return (
     <PageShell
       eyebrow="Practitioner Gathering"
       title="Reiki Share"
-      description="A small Reiki practitioner gathering to form community, talk all things Reiki, and share with one another."
+      description="A small Reiki practitioner gathering to form community, talk all things Reiki and share with one another."
     >
       <script
         type="application/ld+json"
@@ -73,24 +84,27 @@ export default function ReikiSharePage() {
             Practitioners Only
           </span>
           <h2 className="display-section-title">
-            A Reiki community circle for practice, connection, and sharing.
+            A Reiki community circle for practice, connection and sharing.
           </h2>
           <p className="mt-5 max-w-[40rem] text-[1.03rem] text-[var(--color-muted)]">
             Reiki Share is a small gathering for Reiki practitioners who want to
             stay connected to the work in community. We will gather to talk all
-            things Reiki, share practice with one another, and create space to
+            things Reiki, share practice with one another and create space to
             both give and receive.
           </p>
           <p className="mt-4 max-w-[40rem] text-[var(--color-muted)]">
-            This evening is intentionally limited to keep the space intimate,
-            supportive, and easy to settle into.
+            This evening is limited to 7 practitioners to keep the space intimate,
+            supportive and easy to settle into.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <EventCheckoutForm
-              eventSlug="reiki-share-november-5-2026"
-              buttonLabel="Reserve Your Spot"
-            />
+            {checkoutError !== "sold_out" && (
+              <EventCheckoutForm
+                eventSlug="reiki-share-november-5-2026"
+                buttonLabel="Reserve Your Spot"
+                marketingConsentAtCheckout
+              />
+            )}
             <Link
               href={site.links.events}
               className="button-pill button-pill-secondary"
@@ -98,6 +112,12 @@ export default function ReikiSharePage() {
               Back to Events
             </Link>
           </div>
+          {checkoutMessage && (
+            <p role="alert" className="mt-5 text-[var(--color-text)]">
+              {checkoutMessage}{" "}
+              <Link href={site.links.contact} className="underline">Contact Kate</Link>
+            </p>
+          )}
         </div>
 
         <div className="overflow-hidden rounded-[34px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,252,248,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
@@ -120,7 +140,7 @@ export default function ReikiSharePage() {
           <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
             This is a relaxed, heart-centered practice circle for those already
             trained in Reiki. Come ready to connect, ask questions, share what
-            you are learning, and receive support from the group.
+            you are learning and receive support from the group.
           </p>
           <ul className="mt-6 grid gap-3 text-[var(--color-muted)]">
             {gatheringIntentions.map((item) => (

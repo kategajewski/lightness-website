@@ -1,6 +1,7 @@
 import "server-only";
 import type Stripe from "stripe";
 import { getEventBySlug } from "@/lib/events";
+import { hasEventEmailOptIn } from "@/lib/event-marketing-consent";
 import { integrations } from "@/lib/env";
 import { syncEmailSignupToMailchimp } from "@/lib/mailchimp";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
@@ -65,7 +66,9 @@ export async function recordEventAttendanceFromSession(
   const customerName = session.customer_details?.name?.trim();
 
   if (
-    metadata.marketingConsent === "yes" &&
+    (metadata.marketingConsentSource === "stripe_payment_link_v1"
+      ? hasEventEmailOptIn(session)
+      : metadata.marketingConsent === "yes") &&
     customerEmail &&
     integrations.mailchimp
   ) {

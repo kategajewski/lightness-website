@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { env, integrations } from "@/lib/env";
 import { getEventBySlug } from "@/lib/events";
+import { getCappedEventCheckout } from "@/lib/event-capacity";
+import { getStripe } from "@/lib/stripe/server";
 
 export async function POST(request: Request) {
   const origin = env.siteUrl.replace(/\/$/, "");
@@ -86,6 +88,20 @@ export async function POST(request: Request) {
   }
 
   try {
+    if ("capacity" in event) {
+      const stripe = await getStripe();
+      const checkout = stripe
+        ? await getCappedEventCheckout(stripe, event, env.stripeSecretKey.startsWith("sk_live_"))
+        : { error: "capacity_unavailable" };
+
+      return NextResponse.redirect(
+        "url" in checkout
+          ? checkout.url
+          : `${origin}${event.cancelPath}?checkoutError=${checkout.error}`,
+        { status: 303 },
+      );
+    }
+
     const body = new URLSearchParams({
       mode: "payment",
       "line_items[0][price_data][currency]": "usd",

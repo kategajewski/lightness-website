@@ -15,6 +15,8 @@ export type EventCheckoutConfig = {
   emailDetailLines: string[];
   emailReminderLines: string[];
   registrationClosed?: boolean;
+  capacity?: number;
+  paymentLinkId?: string;
 };
 
 export const eventCheckoutConfig = {
@@ -167,6 +169,8 @@ export const eventCheckoutConfig = {
   // Keep the original booking identifier when rescheduling to preserve attendee records.
   "reiki-share-november-5-2026": {
     slug: "reiki-share-november-5-2026",
+    capacity: 7,
+    paymentLinkId: "plink_1UXthtElTVNK9O7p2bHqxK0l",
     name: "Reiki Share",
     description:
       "Ticket for Reiki Share, a practitioner-only community gathering at The Lightness of Being. All purchases are final and non-refundable.",

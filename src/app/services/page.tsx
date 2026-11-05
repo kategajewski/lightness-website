@@ -48,6 +48,15 @@ const serviceSections = [
         href: "https://calendly.com/thelightnessofbeing/childrensreiki",
         cta: "Book Gentle Energy Support",
       },
+      {
+        title: "Animal & Pet Reiki",
+        description:
+          "Gentle, animal-led Reiki support with a special focus on horses. Sessions honor your animal’s comfort, pace, and unique needs.",
+        pricing:
+          "Equine and pet Reiki sessions are arranged by inquiry so Kate can learn about your animal and setting.",
+        href: site.links.animalPetReiki,
+        cta: "Explore Animal & Pet Reiki",
+      },
     ],
   },
   {

@@ -44,7 +44,7 @@ export default function AnimalPetReikiPage() {
           <img
             src="/homepage-images/equine-reiki-kate-white-horse.jpeg"
             alt="Kate connecting with a white horse outdoors"
-            className="h-full min-h-[26rem] w-full object-cover object-center"
+            className="h-[19rem] w-full object-cover object-center sm:h-[22rem]"
           />
         </div>
         <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">

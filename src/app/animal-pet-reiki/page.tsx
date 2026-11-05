@@ -18,17 +18,17 @@ const offerings = [
   {
     title: "Equine Reiki",
     description:
-      "A quiet, respectful Reiki session for horses, offered at their pace and with deep attention to their comfort, communication, and environment.",
+      "Reiki support for horses, offered remotely or in person when travel to your barn or property is the right fit. Every session follows your horse’s comfort and cues.",
   },
   {
     title: "Pet Reiki",
     description:
-      "Gentle energy support for companion animals who may benefit from more ease, grounding, or a calm moment of care in a familiar space.",
+      "Gentle remote Reiki support for companion animals who may benefit from more ease, grounding, or a calm moment of care in the comfort of home.",
   },
   {
-    title: "Distance Reiki",
+    title: "Travel for Horses",
     description:
-      "A remote option for animals and their people when an in-person session is not the best fit. Details can be discussed during your inquiry.",
+      "For equine Reiki, Kate may travel to your horse when an in-person session feels supportive. Location and travel details can be discussed during your inquiry.",
   },
 ] as const;
 
@@ -40,11 +40,11 @@ export default function AnimalPetReikiPage() {
       description="Animal Reiki offers a quiet, compassionate space for your animal to receive. Kate’s work has a special focus on horses, honoring their sensitivity, wisdom, and individual way of communicating."
     >
       <section className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-        <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.7)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
+        <div className="flex justify-center">
           <img
             src="/homepage-images/equine-reiki-kate-white-horse.jpeg"
             alt="Kate connecting with a white horse outdoors"
-            className="h-[19rem] w-full object-cover object-center sm:h-[22rem]"
+            className="max-h-[22rem] max-w-full rounded-[32px] border border-[rgba(76,58,48,0.08)] object-contain shadow-[0_24px_80px_rgba(59,41,31,0.08)]"
           />
         </div>
         <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
@@ -53,7 +53,7 @@ export default function AnimalPetReikiPage() {
           </span>
           <h2 className="display-section-title">A quiet moment of care, offered at their pace.</h2>
           <p className="mt-5 text-[1.03rem] text-[var(--color-muted)]">
-            Horses are deeply perceptive animals. Equine Reiki creates a calm, grounded space where your horse can simply be, with no expectation to perform or respond in a particular way. Kate follows their cues throughout the session.
+            Horses are deeply perceptive animals. Equine Reiki creates a calm, grounded space where your horse can simply be, with no expectation to perform or respond in a particular way. Animal and pet Reiki is offered remotely, with travel available for horses when an in-person session is the right fit. Kate follows their cues throughout the session.
           </p>
           <p className="mt-4 text-[var(--color-muted)]">
             Sessions are a complementary wellness offering and are not a substitute for veterinary care, diagnosis, or treatment.

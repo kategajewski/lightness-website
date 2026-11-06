@@ -16,6 +16,14 @@ const offerings = [
     description:
       "Personalized wedding ceremonies that honor your relationship, your story and the promises you are making together.",
     href: site.links.weddingOfficiation,
+    cta: "Explore Wedding Officiation",
+  },
+  {
+    title: "Private Group Offerings",
+    description:
+      "Sound journeys, yoga and restorative wellness experiences for gatherings, celebrations, community events and workplace wellness.",
+    href: site.links.privateGroupOfferings,
+    cta: "Explore Group Offerings & Pricing",
   },
   {
     title: "Mother Blessingways",
@@ -112,7 +120,7 @@ export default function SpecialBlessingPage() {
             <p className="mt-4 text-[var(--color-muted)]">{item.description}</p>
             {item.href ? (
               <Link href={item.href} className="mt-5 inline-block font-bold text-[#5d5148]">
-                Explore Wedding Officiation
+                {item.cta}
               </Link>
             ) : null}
           </article>

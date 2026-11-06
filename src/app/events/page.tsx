@@ -209,6 +209,13 @@ const privateEventPaths = [
     cta: "Explore Private Events",
   },
   {
+    title: "Private Group Offerings",
+    description:
+      "Curated sound, yoga and wellness experiences with straightforward group pricing.",
+    href: site.links.privateGroupOfferings,
+    cta: "View Group Offerings & Pricing",
+  },
+  {
     title: "Corporate Wellness",
     description:
       "Bring mindful restoration, healing practices, and supportive experiences into your workplace.",

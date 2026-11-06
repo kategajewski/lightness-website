@@ -54,6 +54,7 @@ export const site = {
     meditation: "https://root-and-shield.bethelightness.com/about",
     specialBlessing: "/special-blessing",
     weddingOfficiation: "/special-blessing/wedding-officiation",
+    privateGroupOfferings: "/special-blessing/private-group-offerings",
     animalPetReiki: "/animal-pet-reiki",
     sacredSoundsUnderTheSky: "/sacred-sounds-under-the-sky",
     goldenHourJuly: "/golden-hour-july-28",

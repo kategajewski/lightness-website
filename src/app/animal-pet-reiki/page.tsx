@@ -99,6 +99,38 @@ export default function AnimalPetReikiPage() {
         </div>
       </section>
 
+      <section>
+        <div className="mx-auto max-w-[42rem] text-center">
+          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">Session Rates</span>
+          <h2 className="display-section-title">Choose the support that fits your animal.</h2>
+          <p className="mx-auto mt-4 text-[var(--color-muted)]">Remote sessions are available for all animals. In-person equine sessions include time for Kate to bond with your horse before Reiki begins.</p>
+        </div>
+        <div className="mt-8 grid gap-5 lg:grid-cols-2">
+          <article className="rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
+            <span className="text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">Remote Support</span>
+            <h3 className="mt-3 display-card-title">Animal & Equine Reiki</h3>
+            <div className="mt-6 grid gap-4 text-[var(--color-muted)]">
+              <div className="flex items-baseline justify-between gap-4 border-b border-[var(--color-line)] pb-4"><span>Animal & Pet Reiki, 30 minutes</span><strong className="shrink-0 text-[var(--color-text)]">$75</strong></div>
+              <div className="flex items-baseline justify-between gap-4 border-b border-[var(--color-line)] pb-4"><span>Equine Reiki, 30 minutes</span><strong className="shrink-0 text-[var(--color-text)]">$75</strong></div>
+              <div className="flex items-baseline justify-between gap-4"><span>Equine Reiki, 60 minutes</span><strong className="shrink-0 text-[var(--color-text)]">$140</strong></div>
+            </div>
+          </article>
+          <article className="rounded-[26px] border border-[rgba(76,58,48,0.08)] bg-[linear-gradient(135deg,rgba(255,252,248,0.92),rgba(230,194,162,0.22),rgba(168,178,159,0.13))] p-7 shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
+            <span className="text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">Travel for Horses</span>
+            <h3 className="mt-3 display-card-title">Equine Reiki & Connection</h3>
+            <div className="mt-6 grid gap-4 text-[var(--color-muted)]">
+              <div className="flex items-baseline justify-between gap-4 border-b border-[var(--color-line)] pb-4"><span>30 minutes</span><strong className="shrink-0 text-[var(--color-text)]">$125</strong></div>
+              <div className="flex items-baseline justify-between gap-4 border-b border-[var(--color-line)] pb-4"><span>45 minutes</span><strong className="shrink-0 text-[var(--color-text)]">$150</strong></div>
+              <div className="flex items-baseline justify-between gap-4"><span>60 minutes</span><strong className="shrink-0 text-[var(--color-text)]">$175</strong></div>
+            </div>
+          </article>
+        </div>
+        <div className="mt-5 rounded-[22px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.72)] p-6 text-[var(--color-muted)] shadow-[0_12px_36px_rgba(59,41,31,0.05)]">
+          <h3 className="display-card-title">More than one horse at the same barn</h3>
+          <p className="mt-3">Each additional horse receives a reduced rate: <strong className="text-[var(--color-text)]">$100 for 30 minutes, $115 for 45 minutes or $125 for 60 minutes.</strong> Travel beyond 20 miles from Patchogue is quoted based on location.</p>
+        </div>
+      </section>
+
       <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.72)] p-6 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-8">
         <div className="grid gap-5 md:grid-cols-2">
           <div className="overflow-hidden rounded-[24px] border border-[rgba(76,58,48,0.08)]">

@@ -134,7 +134,8 @@ export const reikiRisingModules: CourseModule[] = [
   },
   {
     date: "November 8, 2026",
-    releaseAt: "2026-11-08T00:00:00-05:00",
+    // Opened early on November 7 at Kate's request.
+    releaseAt: "2026-11-07T00:00:00-05:00",
     title: "Sei He Ki, Koki Ho and Gyoshi Ho",
     lessons: [
       { slug: "sei-he-ki", title: "Sei He Ki", videoId: "98202c3a-98ca-4d6b-80e2-5d175c981a7b", duration: "18:17" },

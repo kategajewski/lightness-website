@@ -32,7 +32,7 @@ test("all release boundaries are exact and scheduled modules remain Sunday midni
     const date = new Date(module.releaseAt);
     const parts = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", weekday: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(date);
     const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
-    if (index !== 2 && index !== 4) {
+    if (index !== 2 && index !== 4 && index !== 6) {
       assert.equal(values.weekday, "Sunday");
       assert.equal(values.hour, "00");
       assert.equal(values.minute, "00");
@@ -78,7 +78,7 @@ test("Module 3 teaches Grounding before Shielding and future modules remain empt
 
 test("Module 7 contains the three Level 2 symbol practices in teaching order", () => {
   assert.equal(modules[6].date, "November 8, 2026");
-  assert.equal(modules[6].releaseAt, "2026-11-08T00:00:00-05:00");
+  assert.equal(modules[6].releaseAt, "2026-11-07T00:00:00-05:00");
   const expected = [
     ["sei-he-ki", "Sei He Ki", "98202c3a-98ca-4d6b-80e2-5d175c981a7b", "18:17"],
     ["koki-ho", "Koki Ho", "df37f195-a11c-4bae-b7d4-7dcac4bbbca1", "8:02"],

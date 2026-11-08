@@ -132,7 +132,16 @@ export const reikiRisingModules: CourseModule[] = [
       { slug: "cho-ku-rei", title: "Cho Ku Rei", videoId: "b392e04c-cf6d-43da-8057-6e7a9dbbf556", duration: "18:34" },
     ],
   },
-  { date: "November 8, 2026", releaseAt: "2026-11-08T00:00:00-05:00", title: "Sei He Ki, Koki-ho, and Gyoshi Ho", lessons: [] },
+  {
+    date: "November 8, 2026",
+    releaseAt: "2026-11-08T00:00:00-05:00",
+    title: "Sei He Ki, Koki Ho and Gyoshi Ho",
+    lessons: [
+      { slug: "sei-he-ki", title: "Sei He Ki", videoId: "98202c3a-98ca-4d6b-80e2-5d175c981a7b", duration: "18:17" },
+      { slug: "koki-ho", title: "Koki Ho", videoId: "df37f195-a11c-4bae-b7d4-7dcac4bbbca1", duration: "8:02" },
+      { slug: "gyoshi-ho", title: "Gyoshi Ho", videoId: "d400a036-61d1-4d9d-8ad6-285f633d4a7a", duration: "9:19" },
+    ],
+  },
   { date: "November 15, 2026", releaseAt: "2026-11-15T00:00:00-05:00", title: "Hon Sha Ze Sho Nen and distant Reiki", lessons: [] },
   { date: "November 22, 2026", releaseAt: "2026-11-22T00:00:00-05:00", title: "Practicing a full Reiki session with symbols and documentation", lessons: [] },
   { date: "November 29, 2026", releaseAt: "2026-11-29T00:00:00-05:00", title: "Bringing Reiki into the world, business foundations, and psychic surgery", lessons: [] },

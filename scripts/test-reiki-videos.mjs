@@ -45,10 +45,10 @@ test("all release boundaries are exact and scheduled modules remain Sunday midni
   }
 });
 
-test("the four Module 1 lessons stay ordered and Modules 7 onward remain empty", () => {
+test("the four Module 1 lessons stay ordered and future modules remain empty", () => {
   assert.equal(modules[0].lessons.map(l => l.slug).join(","), "what-is-reiki,holy-fire-reiki,science-behind-reiki,history-of-reiki");
   assert.equal(new Set(modules[0].lessons.map(l => l.videoId)).size, 4);
-  assert.ok(modules.slice(6).every(m => m.lessons.length === 0));
+  assert.ok(modules.slice(7).every(m => m.lessons.length === 0));
   assert.equal(videos.findReikiLesson("__proto__"), null);
   assert.equal(videos.findReikiLesson("../../private"), null);
 });
@@ -65,14 +65,32 @@ test("Module 2 has eleven distinct lessons in teaching order with valid playback
   }
 });
 
-test("Module 3 teaches Grounding before Shielding and Modules 7 onward remain empty", () => {
+test("Module 3 teaches Grounding before Shielding and future modules remain empty", () => {
   assert.equal(modules[2].lessons.map(l => l.slug).join(","), "grounding,shielding");
   assert.equal(modules[2].lessons.map(l => l.title).join(","), "Grounding,Shielding");
-  assert.ok(modules.slice(6).every(m => m.lessons.length === 0));
+  assert.ok(modules.slice(7).every(m => m.lessons.length === 0));
   for (const lesson of modules[2].lessons) {
     assert.match(lesson.videoId, /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/);
     assert.match(lesson.duration, /^\d+:[0-5]\d$/);
     assert.equal(videos.findReikiLesson(lesson.slug).module.date, "October 11, 2026");
+  }
+});
+
+test("Module 7 contains the three Level 2 symbol practices in teaching order", () => {
+  assert.equal(modules[6].date, "November 8, 2026");
+  assert.equal(modules[6].releaseAt, "2026-11-08T00:00:00-05:00");
+  const expected = [
+    ["sei-he-ki", "Sei He Ki", "98202c3a-98ca-4d6b-80e2-5d175c981a7b", "18:17"],
+    ["koki-ho", "Koki Ho", "df37f195-a11c-4bae-b7d4-7dcac4bbbca1", "8:02"],
+    ["gyoshi-ho", "Gyoshi Ho", "d400a036-61d1-4d9d-8ad6-285f633d4a7a", "9:19"],
+  ];
+  for (const [index, [slug, title, videoId, duration]] of expected.entries()) {
+    const lesson = modules[6].lessons[index];
+    assert.equal(lesson.slug, slug);
+    assert.equal(lesson.title, title);
+    assert.equal(lesson.videoId, videoId);
+    assert.equal(lesson.duration, duration);
+    assert.equal(videos.findReikiLesson(slug).module, modules[6]);
   }
 });
 

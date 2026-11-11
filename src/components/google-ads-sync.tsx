@@ -5,7 +5,13 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { createRoutePageViewTracker, createTrackingDeduper, initializeGoogleTag } from "@/lib/google-tag";
 import { mentorshipLeadForms, readMentorshipLeadReceipt } from "@/lib/mentorship-lead-receipts";
-import { createCalendlyAttribution, isBusinessCalendlyUrl } from "@/lib/calendly-attribution";
+import {
+  createCalendlyAttribution,
+  isBusinessCalendlyUrl,
+  matchesDecoratedCalendlyLink,
+  withoutCalendlySourceMarker,
+} from "@/lib/calendly-attribution";
+import { createFirstVisitAttribution } from "@/lib/client-source";
 
 declare global {
   interface Window {
@@ -32,19 +38,19 @@ const conversionLabels = {
   checkoutSuccess: process.env.NEXT_PUBLIC_GOOGLE_ADS_PURCHASE_CONVERSION_LABEL,
 };
 
-function isClientIntakePathname(pathname: string | null | undefined) {
-  return ["/client-intake", "/client-intakes", "/api/client-intake", "/api/client-intakes"].some(
+function isPrivateTrackingPathname(pathname: string | null | undefined) {
+  return ["/client-intake", "/client-intakes", "/api/client-intake", "/api/client-intakes", "/admin/client-sources"].some(
     (prefix) => pathname === prefix || pathname?.startsWith(`${prefix}/`),
   );
 }
 
 function isCurrentPagePrivate() {
-  return typeof window !== "undefined" && isClientIntakePathname(window.location.pathname);
+  return typeof window !== "undefined" && isPrivateTrackingPathname(window.location.pathname);
 }
 
 function publicReferrer(referrer: string) {
   try {
-    return isClientIntakePathname(new URL(referrer).pathname) ? "" : referrer;
+    return isPrivateTrackingPathname(new URL(referrer).pathname) ? "" : referrer;
   } catch {
     return referrer;
   }
@@ -65,6 +71,8 @@ function trackGoogleAdsConversion(label?: string, params: Record<string, unknown
 const dedupeTracking = createTrackingDeduper();
 const trackRoutePageView = createRoutePageViewTracker();
 const calendlyAttribution = createCalendlyAttribution();
+const captureFirstVisit = createFirstVisitAttribution();
+const decoratedCalendlyLinks = new WeakMap<HTMLAnchorElement, { originalHref: string; decoratedHref: string }>();
 function trackOnce(key: string, callback: () => boolean) {
   let storage: Storage | undefined;
   try { storage = window.sessionStorage; } catch { /* Storage may be unavailable. */ }
@@ -80,7 +88,7 @@ function GoogleAdsEvents() {
   const eventSlug = searchParams.get("eventSlug");
 
   useEffect(() => {
-    if (!googleTagId || isClientIntakePathname(pathname) || isCurrentPagePrivate()) {
+    if (!googleTagId || isPrivateTrackingPathname(pathname) || isCurrentPagePrivate()) {
       return;
     }
 
@@ -96,16 +104,24 @@ function GoogleAdsEvents() {
   }, [pathname, searchParams]);
 
   useEffect(() => {
-    if (isClientIntakePathname(pathname) || isCurrentPagePrivate()) return;
-    let storage: Storage | undefined;
-    try { storage = window.sessionStorage; } catch { /* Storage may be unavailable. */ }
-    calendlyAttribution.capture(searchParams, storage);
+    if (isPrivateTrackingPathname(pathname) || isCurrentPagePrivate()) return;
+    let sessionStorage: Storage | undefined;
+    let localStorage: Storage | undefined;
+    try { sessionStorage = window.sessionStorage; } catch { /* Storage may be unavailable. */ }
+    try { localStorage = window.localStorage; } catch { /* Storage may be unavailable. */ }
+    calendlyAttribution.capture(searchParams, sessionStorage);
+    const firstVisit = captureFirstVisit(searchParams, publicReferrer(document.referrer), window.location.origin, localStorage);
     function decorateLinks() {
       if (isCurrentPagePrivate()) return;
       for (const link of document.querySelectorAll<HTMLAnchorElement>("a[href]")) {
         const href = link.getAttribute("href") ?? "";
-        const decorated = calendlyAttribution.decorate(href);
-        if (decorated !== href) link.setAttribute("href", decorated);
+        if (!isBusinessCalendlyUrl(href)) continue;
+        const previous = decoratedCalendlyLinks.get(link);
+        const originalHref = previous && matchesDecoratedCalendlyLink(href, previous.decoratedHref) ?
+          previous.originalHref : href;
+        const decoratedHref = calendlyAttribution.decorate(href, firstVisit, originalHref);
+        decoratedCalendlyLinks.set(link, { originalHref, decoratedHref });
+        if (decoratedHref !== href) link.setAttribute("href", decoratedHref);
       }
     }
     // Decorate before interaction, including keyboard, new-tab and context-menu use.
@@ -169,7 +185,7 @@ function GoogleAdsEvents() {
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
-      if (isClientIntakePathname(pathname) || isCurrentPagePrivate()) return;
+      if (isPrivateTrackingPathname(pathname) || isCurrentPagePrivate()) return;
       const target = event.target;
 
       if (!(target instanceof Element)) {
@@ -185,7 +201,7 @@ function GoogleAdsEvents() {
 
       if (isBusinessCalendlyUrl(href)) {
         trackEvent("book_appointment_click", {
-          link_url: href,
+          link_url: withoutCalendlySourceMarker(href),
         });
         trackGoogleAdsConversion(conversionLabels.calendlyClick);
       }
@@ -230,7 +246,7 @@ export function GoogleAdsSync() {
       } catch {
         return;
       }
-      if (destination.origin !== window.location.origin || !isClientIntakePathname(destination.pathname)) return;
+      if (destination.origin !== window.location.origin || !isPrivateTrackingPathname(destination.pathname)) return;
 
       // Enter a fresh document so an already loaded tag cannot observe a private SPA URL.
       event.preventDefault();
@@ -242,8 +258,8 @@ export function GoogleAdsSync() {
     return () => document.removeEventListener("click", openPrivatePage, true);
   }, []);
 
-  // Private intake pages have no Google loader, event handlers or campaign decoration.
-  if (isClientIntakePathname(pathname)) return null;
+  // Private pages have no Google loader, event handlers or campaign decoration.
+  if (isPrivateTrackingPathname(pathname)) return null;
 
   return (
     <>

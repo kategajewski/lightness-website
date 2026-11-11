@@ -122,6 +122,10 @@ export default async function AccountPage() {
             <a href="/client-intakes" className="button-pill">
               Client Intakes
             </a>
+            {/* Start a new document before opening the private report. */}
+            <a href="/admin/client-sources" className="button-pill">
+              Client Sources
+            </a>
           </div>
         </section>
       ) : null}

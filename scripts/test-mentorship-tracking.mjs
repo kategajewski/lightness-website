@@ -19,7 +19,8 @@ function load(file, dependencies = {}, globals = {}) {
 }
 const receipts = load("../src/lib/mentorship-lead-receipts.ts");
 const google = load("../src/lib/google-tag.ts");
-const calendly = load("../src/lib/calendly-attribution.ts");
+const clientSource = load("../src/lib/client-source.ts");
+const calendly = load("../src/lib/calendly-attribution.ts", { "./client-source": clientSource });
 const id = "12345678-1234-4234-8234-123456789012";
 const nextId = "87654321-4321-4321-8321-210987654321";
 function receiptCookie(source = "mentorship_application", overrides = {}) {
@@ -104,6 +105,7 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
   const timers = new Map();
   const listeners = new Map();
   const stored = new Map();
+  const localStored = new Map();
   const observers = new Set();
   const scriptLoads = [];
   const documentNavigations = [];
@@ -114,7 +116,11 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
   };
   Object.defineProperty(window, "sessionStorage", { get: () => {
     if (blockedStorage) throw new Error("storage blocked");
-    return { getItem: key => stored.get(key) ?? null, setItem: (key, value) => stored.set(key, value) };
+    return { getItem: key => stored.get(key) ?? null, setItem: (key, value) => stored.set(key, value), removeItem: key => stored.delete(key) };
+  } });
+  Object.defineProperty(window, "localStorage", { get: () => {
+    if (blockedStorage) throw new Error("storage blocked");
+    return { getItem: key => localStored.get(key) ?? null, setItem: (key, value) => localStored.set(key, value) };
   } });
   const document = {
     title: "Test page", referrer, body: {}, querySelectorAll: () => anchors,
@@ -143,6 +149,7 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
     react: { useEffect: fn => effects.push(fn) },
     "@/lib/google-tag": google,
     "@/lib/calendly-attribution": calendly,
+    "@/lib/client-source": clientSource,
     "@/lib/mentorship-lead-receipts": receipts,
   }, { window, document, Element, MutationObserver: class { constructor(fn) { this.fn = fn; } observe() { observers.add(this.fn); } disconnect() { observers.delete(this.fn); } }, process: { env: configured ? { NEXT_PUBLIC_GA_MEASUREMENT_ID: ga4Id, NEXT_PUBLIC_GOOGLE_ADS_ID: "AW-test", NEXT_PUBLIC_GOOGLE_ADS_CONTACT_CONVERSION_LABEL: "contact-label", NEXT_PUBLIC_GOOGLE_ADS_CALENDLY_CONVERSION_LABEL: "click-label" } : {} } });
   function render(node) {
@@ -154,7 +161,7 @@ function browser(path, cookie = "", { blockedStorage = false, keepCookie = false
   render(component.GoogleAdsSync());
   let cleanups = effects.map(fn => fn()).filter(Boolean);
   const events = () => (window.dataLayer ?? []).map(item => Array.from(item)).filter(item => item[0] === "event");
-  return { window, cookieWrites, events, anchors, scriptLoads, documentNavigations, stored,
+  return { window, cookieWrites, events, anchors, scriptLoads, documentNavigations, stored, localStored,
     addLink: href => { anchors.push(new Element(href)); for (const fn of observers) fn(); },
     navigate: path => {
       cleanups.forEach(fn => fn());
@@ -243,13 +250,21 @@ test("real component decorates initial and later Calendly anchors across Next na
   assert.equal(link.hash, "#details");
   assert.equal(link.searchParams.has("email"), false);
   assert.equal(link.searchParams.has("gclid"), false);
+  assert.equal(link.searchParams.get("utm_content"), "lightness_first_visit_google_ads");
+  b.click(b.anchors[0].href);
+  const clickEvent = b.events().find(item => item[1] === "book_appointment_click");
+  assert.equal(new URL(clickEvent[2].link_url).searchParams.has("utm_content"), false);
+  assert.equal(new URL(clickEvent[2].link_url).searchParams.get("utm_source"), "newsletter");
   b.navigate("/services");
   b.addLink("https://calendly.com/thelightnessofbeing/sacredreset");
   assert.equal(new URL(b.anchors[1].href).searchParams.get("utm_campaign"), "autumn");
+  // The Google linker can update an already decorated anchor before the next navigation.
+  link.searchParams.set("_gl", "1*updated-linker");
+  b.anchors[0].setAttribute("href", link.href);
   b.navigate("/services?gclid=new-paid-click");
   link = new URL(b.anchors[0].href);
   assert.equal(link.searchParams.has("utm_source"), false);
-  assert.equal(link.searchParams.get("_gl"), "1*real-linker");
+  assert.equal(link.searchParams.get("_gl"), "1*updated-linker");
   b.cleanup();
 });
 
@@ -284,12 +299,13 @@ test("campaign handoff works with blocked storage and without a Google tag", () 
 });
 
 
-test("private intake routes and descendants load no Google script, queue no events and capture no attribution", () => {
-  for (const path of ["/client-intake", "/client-intake/complete", "/client-intakes", "/client-intakes/123", "/api/client-intake", "/api/client-intakes/123"]) {
+test("private intake and client source report routes load no Google script, queue no events and capture no attribution", () => {
+  for (const path of ["/client-intake", "/client-intake/complete", "/client-intakes", "/client-intakes/123", "/api/client-intake", "/api/client-intakes/123", "/admin/client-sources"]) {
     const b = browser(`${path}?token=private-token&utm_source=private`, "", { ga4Id: "G-TEST123456", links: ["https://calendly.com/thelightnessofbeing"] });
     assert.equal(b.scriptLoads.length, 0);
     assert.equal(b.window.dataLayer, undefined);
     assert.equal(b.stored.size, 0);
+    assert.equal(b.localStored.size, 0);
     assert.equal(new URL(b.anchors[0].href).searchParams.has("utm_source"), false);
     b.click("https://calendly.com/thelightnessofbeing");
     b.click("mailto:test@example.invalid");

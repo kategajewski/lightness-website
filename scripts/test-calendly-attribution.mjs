@@ -4,12 +4,18 @@ import vm from "node:vm";
 import { test } from "node:test";
 import ts from "typescript";
 
-const source = ts.transpileModule(fs.readFileSync(new URL("../src/lib/calendly-attribution.ts", import.meta.url), "utf8"), {
-  compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
-}).outputText;
-const context = { exports: {}, URL, URLSearchParams };
-vm.runInNewContext(source, context);
-const { createCalendlyAttribution, isBusinessCalendlyUrl } = context.exports;
+function load(file, dependencies = {}) {
+  const source = ts.transpileModule(fs.readFileSync(new URL(file, import.meta.url), "utf8"), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
+  }).outputText;
+  const context = { exports: {}, URL, URLSearchParams, require: name => dependencies[name] };
+  vm.runInNewContext(source, context);
+  return context.exports;
+}
+const clientSource = load("../src/lib/client-source.ts");
+const { classifyCalendlySource, createFirstVisitAttribution } = clientSource;
+const { createCalendlyAttribution, isBusinessCalendlyUrl, withoutCalendlySourceMarker } =
+  load("../src/lib/calendly-attribution.ts", { "./client-source": clientSource });
 const booking = "https://calendly.com/thelightnessofbeing/restandreceiveenergy";
 function storage(value) {
   let current = value ?? null;
@@ -116,4 +122,80 @@ test("blocked or malformed storage cannot break navigation or restore a cleared 
   assert.equal(destination.searchParams.get("utm_source"), "valid");
   assert.equal(destination.searchParams.has("utm_term"), false);
   assert.equal(destination.searchParams.has("email"), false);
+});
+
+test("first visit source distinguishes tagged bios, GBP, ads, organic search and referrals", () => {
+  for (const [query, referrer, expected] of [
+    ["utm_source=instagram&utm_medium=bio&utm_campaign=iamkategajewski", "", "instagram_kate"],
+    ["utm_source=instagram&utm_medium=bio&utm_campaign=thelightnessofbeing", "", "instagram_lightness"],
+    ["", "https://l.instagram.com/", "instagram"],
+    ["utm_source=google&utm_medium=organic&utm_campaign=gbp", "https://www.google.com/", "google_business_profile"],
+    ["", "https://maps.app.goo.gl/private-token", "google_business_profile"],
+    ["gclid=paid-click", "https://www.google.com/", "google_ads"],
+    ["utm_source=google&utm_medium=cpc", "", "google_ads"],
+    ["", "https://www.google.co.uk/", "organic_google"],
+    ["", "https://docs.google.com/document/", "referral"],
+    ["", "https://google.com.example.invalid/?private=1", "referral"],
+    ["utm_source=partner&utm_medium=referral", "", "referral"],
+    ["", "https://www.bethelightness.com/services", "unknown"],
+    ["utm_content=lightness_first_visit_google_ads", "", "unknown"],
+    ["", "", "unknown"],
+  ]) {
+    const firstVisit = createFirstVisitAttribution();
+    const saved = storage();
+    assert.equal(firstVisit(new URLSearchParams(query), referrer, "https://bethelightness.com", saved, 1000), expected);
+    assert.deepEqual(JSON.parse(saved.value()), { source: expected, expiresAt: 1000 + 30 * 24 * 60 * 60 * 1000 });
+  }
+});
+
+test("first visit survives reloads and campaign changes for 30 days from capture", () => {
+  const origin = "https://bethelightness.com";
+  const saved = storage();
+  const started = 1000;
+  const expires = started + 30 * 24 * 60 * 60 * 1000;
+  const capture = createFirstVisitAttribution();
+  const laterCampaign = new URLSearchParams("gclid=paid-click");
+  assert.equal(capture(new URLSearchParams(), "", origin, saved, started), "unknown");
+  assert.equal(capture(laterCampaign, "", origin, saved, expires - 1), "unknown");
+  const reloaded = createFirstVisitAttribution();
+  assert.equal(reloaded(laterCampaign, "", origin, saved, expires - 1), "unknown");
+  assert.equal(reloaded(laterCampaign, "", origin, saved, expires), "google_ads");
+});
+
+test("booking URLs preserve explicit UTMs and strip only the first-visit marker from custom analytics", () => {
+  const tracker = createCalendlyAttribution();
+  tracker.capture(new URLSearchParams("utm_source=google&utm_medium=cpc&utm_content=paid-ad&gclid=paid-click"));
+  const original = `${booking}?utm_campaign=custom&_gl=1*linker#details`;
+  const decorated = tracker.decorate(original, "instagram_kate", original);
+  const destination = new URL(decorated);
+  assert.equal(destination.searchParams.get("utm_campaign"), "custom");
+  assert.equal(destination.searchParams.get("utm_content"), "paid-ad");
+  assert.equal(destination.searchParams.get("utm_term"), "lightness_first_visit_instagram_kate");
+  assert.equal(destination.searchParams.has("gclid"), false);
+  assert.equal(classifyCalendlySource(Object.fromEntries(destination.searchParams)), "instagram_kate");
+  const clickEventUrl = new URL(withoutCalendlySourceMarker(decorated));
+  assert.equal(clickEventUrl.searchParams.get("utm_content"), "paid-ad");
+  assert.equal(clickEventUrl.searchParams.get("utm_source"), "google");
+  assert.equal(clickEventUrl.searchParams.get("_gl"), "1*linker");
+  assert.equal(clickEventUrl.searchParams.has("utm_term"), false);
+  assert.equal(clickEventUrl.hash, "#details");
+});
+
+test("a full campaign keeps all five explicit fields; original link evidence works for direct visits", () => {
+  const tracker = createCalendlyAttribution();
+  const campaign = "utm_source=google&utm_medium=cpc&utm_content=ad&utm_campaign=spring&utm_term=reiki";
+  tracker.capture(new URLSearchParams(campaign));
+  const decorated = tracker.decorate(booking, "organic_google");
+  assert.deepEqual(Object.fromEntries(new URL(decorated).searchParams), Object.fromEntries(new URLSearchParams(campaign)));
+  assert.equal(classifyCalendlySource(Object.fromEntries(new URL(decorated).searchParams)), "google_ads");
+  const direct = createCalendlyAttribution();
+  direct.capture(new URLSearchParams());
+  const tagged = `${booking}?utm_source=google&utm_medium=organic&utm_campaign=gbp`;
+  assert.equal(direct.decorate(tagged, "unknown", tagged), tagged);
+  assert.equal(classifyCalendlySource(Object.fromEntries(new URL(tagged).searchParams)), "google_business_profile");
+  assert.equal(direct.decorate(booking, "unknown", booking), booking);
+  direct.capture(new URLSearchParams("utm_source=google&utm_medium=cpc"));
+  const later = new URL(direct.decorate(booking, "unknown", booking));
+  assert.equal(classifyCalendlySource(Object.fromEntries(later.searchParams)), "unknown");
+  assert.equal(later.searchParams.get("utm_medium"), "cpc");
 });

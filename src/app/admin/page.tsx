@@ -17,6 +17,11 @@ const adminTools = [
       "Review recent contact, mentorship, and email update form submissions.",
     href: "/inquiries",
   },
+  {
+    title: "Client Sources",
+    description: "See where Calendly clients came from and what they booked each month.",
+    href: "/admin/client-sources",
+  },
 ] as const;
 
 export default async function AdminPage() {
@@ -53,9 +58,16 @@ export default async function AdminPage() {
                 {tool.description}
               </p>
               <div className="mt-5">
-                <Link href={tool.href} className="button-pill">
-                  Open {tool.title}
-                </Link>
+                {tool.href === "/admin/client-sources" ? (
+                  // Start a new document before opening the private report.
+                  <a href={tool.href} className="button-pill">
+                    Open {tool.title}
+                  </a>
+                ) : (
+                  <Link href={tool.href} className="button-pill">
+                    Open {tool.title}
+                  </Link>
+                )}
               </div>
             </article>
           ))}

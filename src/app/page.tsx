@@ -4,8 +4,9 @@ import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = createPageMetadata({
-  title: "Holistic Healing, Training & Wellness in Patchogue, NY",
-  description: "Explore Reiki, energy healing, hypnotherapy, sound healing, yoga, training, mentorship, events, corporate wellness, ceremonies, and sacred goods with Kate Gajewski.",
+  title: "Reiki & Energy Healing on Long Island",
+  description:
+    "Book Reiki, hypnotherapy or a private sound bath with Kate Gajewski in Patchogue on Long Island. Explore group events, Reiki training and mentorship.",
   path: "/",
   image: "/homepage-images/kategoddessroom.jpeg",
 });
@@ -52,8 +53,15 @@ export default function Home() {
               whole and aligned.
             </p>
             <p className="mt-4 max-w-[36rem] text-[0.94rem] leading-[1.55] text-[var(--color-brown)]">
-              Located in Patchogue, New York, with sessions available remotely.
-              1:1 sessions designed for support, clarity and transformation.
+              In Patchogue, New York, Kate offers{" "}
+              <Link href={site.links.reikiHealingLongIsland} className="font-semibold underline underline-offset-4">
+                Reiki and energy healing
+              </Link>{" "}
+              and{" "}
+              <Link href={site.links.soundHealingLongIsland} className="font-semibold underline underline-offset-4">
+                private sound baths
+              </Link>
+              . Remote sessions are also available.
             </p>
             <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
               <Link href={site.links.services} className="button-pill">

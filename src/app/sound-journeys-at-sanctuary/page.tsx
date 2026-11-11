@@ -163,6 +163,16 @@ export default function SoundJourneysAtSanctuaryPage() {
               </li>
             ))}
           </ul>
+          <p className="mt-7 text-[var(--color-muted)]">
+            Kate also offers{" "}
+            <Link
+              href={site.links.soundHealingLongIsland}
+              className="font-bold text-[#5d5148] underline decoration-2 underline-offset-4"
+            >
+              private sound baths in Patchogue
+            </Link>{" "}
+            for individuals and small groups.
+          </p>
         </div>
       </section>
 

@@ -268,7 +268,14 @@ export default function EventsPage() {
           </h2>
           <p className="mt-4 text-[var(--color-muted)]">
             Browse the latest readings, sound journeys and community events
-            currently open for registration.
+            currently open for registration. For a one-on-one session, explore{" "}
+            <Link
+              href={site.links.soundHealingLongIsland}
+              className="font-bold text-[#5d5148] underline decoration-2 underline-offset-4"
+            >
+              private sound baths in Patchogue
+            </Link>
+            .
           </p>
           <p className="mt-3 text-[0.92rem] font-semibold text-[var(--color-text)]">
             Events sold directly by The Lightness of Being are final and

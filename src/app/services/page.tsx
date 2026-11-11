@@ -95,7 +95,8 @@ const serviceSections = [
         pricing:
           "Starts at $150. See the full service description through the booking link below.",
         href: "https://calendly.com/thelightnessofbeing/private-sound-healing",
-        cta: "Book Sound Immersion",
+        cta: "Book a Private Sound Bath",
+        guideHref: site.links.soundHealingLongIsland,
       },
     ],
   },
@@ -182,6 +183,14 @@ export default function ServicesPage() {
                   <Link href={service.href} className="font-bold text-[#5d5148]">
                     {service.cta}
                   </Link>
+                  {"guideHref" in service ? (
+                    <Link
+                      href={service.guideHref}
+                      className="mt-2 block w-fit py-1 font-bold text-[#5d5148] underline decoration-2 underline-offset-4"
+                    >
+                      Explore Private Sound Baths
+                    </Link>
+                  ) : null}
                 </article>
               ))}
             </div>
@@ -224,8 +233,8 @@ export default function ServicesPage() {
           These guides answer common questions for people looking for Reiki, sound healing, training, and workplace wellness in Patchogue and across Long Island.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href="/reiki-healing-long-island" className="button-pill button-pill-secondary">Reiki Healing</Link>
-          <Link href="/sound-healing-long-island" className="button-pill button-pill-secondary">Sound Healing</Link>
+          <Link href={site.links.reikiHealingLongIsland} className="button-pill button-pill-secondary">Reiki Healing</Link>
+          <Link href={site.links.soundHealingLongIsland} className="button-pill button-pill-secondary">Private Sound Baths</Link>
           <Link href="/reiki-training-long-island" className="button-pill button-pill-secondary">Reiki Training</Link>
           <Link href="/corporate-wellness-long-island" className="button-pill button-pill-secondary">Corporate Wellness</Link>
         </div>

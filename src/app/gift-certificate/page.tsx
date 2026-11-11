@@ -1,125 +1,148 @@
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { PageShell } from "@/components/page-shell";
+import { env } from "@/lib/env";
+import { getAvailablePurchaseOptions, getOfferBySlug } from "@/lib/offers";
 import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = createPageMetadata({
   title: "Healing & Wellness Gift Certificates",
-  description: "Give a flexible gift certificate for Reiki, energy healing, sound healing, guidance, events, training, and other offerings from The Lightness of Being.",
+  description:
+    "Give someone you love a Reiki session, a sound healing experience or a gift toward training and mentorship with Kate Gajewski.",
   path: "/gift-certificate",
   image: "/homepage-images/gift-certificate-lantern.jpeg",
 });
 
-const giftIdeas = [
-  "A Reiki or energy healing session",
-  "A restorative sound healing experience",
-  "A personalized guidance or coaching session",
-  "Support during a life transition or stressful season",
-  "A thoughtful gift when words do not feel like enough",
-] as const;
+const sessionPrices = [
+  { name: "Rest & Receive (60-minute Reiki)", price: "$140" },
+  { name: "Return to Self: Sacred Reset", price: "$250" },
+  { name: "Gentle Energy Support for Children", price: "$50" },
+  { name: "The Inner Journey (hypnotherapy)", price: "From $150" },
+  { name: "Private Sound Immersion", price: "From $150" },
+  { name: "Personalized Guidance", price: "$150" },
+];
 
-const giftAmounts = [
-  { label: "$50", optionKey: "gift-50" },
-  { label: "$100", optionKey: "gift-100" },
-  { label: "$150", optionKey: "gift-150" },
-  { label: "$250", optionKey: "gift-250" },
-  { label: "$500", optionKey: "gift-500" },
-] as const;
+const programPrices = [
+  {
+    name: "Sound Practitioner Training",
+    price: "$1,344 in full",
+    href: site.links.soundTraining,
+  },
+  {
+    name: "The Healer’s Emergence",
+    price: "From $1,200",
+    href: site.links.reikiMentorship,
+  },
+  {
+    name: "The Embodied Healer",
+    price: "From $1,700",
+    href: site.links.mentorship,
+  },
+];
+
+const priceRowClass = "flex items-baseline justify-between gap-4 py-2.5";
+const priceClass = "shrink-0 text-right font-bold tabular-nums";
 
 export default function GiftCertificatePage() {
+  const offer = getOfferBySlug("gift-certificate");
+  if (!offer) notFound();
+
+  const giftAmounts = getAvailablePurchaseOptions(offer);
+
   return (
     <PageShell
       eyebrow="Gift Certificate"
-      title="Give the gift of healing with warmth and intention."
-      description="Choose a gift amount and offer someone a thoughtful path toward care, calm, and support."
+      title="Give the gift of healing."
+      description="Give someone you love a session, cover the cost of the program they’ve been saving for or help them take the next step toward it."
     >
-      <section className="grid gap-8 lg:grid-cols-[1fr_0.95fr]">
-        <div className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10">
-          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            Healing as a Gift
-          </span>
-          <h2 className="display-section-title">
-            A beautiful way to offer someone care, calm, and support.
-          </h2>
-          <p className="mt-5 max-w-[38rem] text-[1.03rem] text-[var(--color-muted)]">
-            Gift certificates offer a thoughtful way to support someone you
-            love with space to rest, receive, feel inspired, and reconnect
-            with themselves.
-          </p>
-          <ul className="mt-8 grid gap-3 text-[var(--color-muted)]">
-            {giftIdeas.map((idea) => (
-              <li key={idea} className="flex gap-3">
-                <span className="mt-2 h-2 w-2 rounded-full bg-[rgba(93,81,72,0.8)]" />
-                <span>{idea}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="#gift-amounts"
-              className="button-pill"
-            >
-              Choose Gift Amount
-            </Link>
-            <Link
-              href={site.links.contact}
-              className="button-pill"
-            >
-              Ask a Question
-            </Link>
-          </div>
-        </div>
-
-        <div className="overflow-hidden rounded-[32px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,248,242,0.82)] p-4 shadow-[0_24px_80px_rgba(59,41,31,0.08)] max-md:min-h-[420px]">
-          <div className="mx-auto max-w-[24rem]">
-            <Image
-              src="/homepage-images/gift-certificate-lantern.jpeg"
-              alt="A warm lantern glow that reflects the calm and care of The Lightness of Being."
-              width={1200}
-              height={1500}
-              className="h-auto w-full rounded-[26px] object-contain"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className="grid gap-6 rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.78)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] lg:grid-cols-[1fr_0.95fr]">
-        <div>
-          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-            How It Works
-          </span>
-          <h2 className="display-section-title">
-            Choose the amount that feels most supportive.
-          </h2>
-          <p className="mt-4 max-w-[38rem] text-[var(--color-muted)]">
-            Gift certificates can be used toward private healing sessions,
-            personalized guidance, coaching support, and other offerings. If
-            you are not sure which amount to choose, you are always welcome to
-            reach out.
-          </p>
-        </div>
-        <div
+      <div className="grid items-center gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <section
           id="gift-amounts"
-          className="rounded-[24px] bg-[rgba(255,248,242,0.86)] p-6"
+          className="rounded-[30px] border border-[var(--color-button-line)] bg-[var(--color-ivory)] p-6 sm:p-8"
         >
-          <strong className="block text-[1.05rem] text-[var(--color-text)]">
-            Available Amounts
-          </strong>
-          <div className="mt-4 grid gap-3">
+          <h2 className="display-section-title">Choose a gift amount.</h2>
+          <p className="mt-4 text-[var(--color-brown)]">
+            A <strong>$140 gift</strong>{" "}covers a 60-minute Rest &amp; Receive
+            session. You’ll receive a printable certificate by email to share
+            with your loved one.
+          </p>
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
             {giftAmounts.map((amount) => (
-              <form
-                key={amount.optionKey}
-                action="/api/checkout"
-                method="post"
-              >
-                <input type="hidden" name="slug" value="gift-certificate" />
-                <input type="hidden" name="optionKey" value={amount.optionKey} />
-                <button type="submit" className="button-pill">
-                  Choose {amount.label}
+              <form key={amount.key} action="/api/checkout" method="post">
+                <input type="hidden" name="slug" value={offer.slug} />
+                <input type="hidden" name="optionKey" value={amount.key} />
+                <button
+                  type="submit"
+                  className="button-pill w-full"
+                  aria-label={`Buy a ${amount.priceLabel} gift certificate`}
+                >
+                  {amount.priceLabel}
                 </button>
               </form>
             ))}
+          </div>
+          <p className="mt-5 text-[0.94rem] text-[var(--color-brown)]">
+            {env.giftCertificateRestReceiveCoupon
+              ? "To book Rest & Receive, apply the booking coupon from your certificate and add your certificate code to the booking notes. For other offerings, "
+              : "Have a gift certificate? "}
+            <Link href={site.links.contact} className="font-semibold underline underline-offset-4">
+              contact Kate
+            </Link>{" "}
+            with your certificate code.
+          </p>
+        </section>
+
+        <Image
+          src="/homepage-images/gift-certificate-lantern.jpeg"
+          alt="A candle glowing inside a lantern."
+          width={1200}
+          height={1500}
+          sizes="(min-width: 1024px) 420px, 90vw"
+          className="mx-auto hidden h-auto max-h-[20rem] w-full max-w-[25rem] rounded-[30px] object-cover sm:block lg:max-h-[26rem]"
+        />
+      </div>
+
+      <section className="space-y-5" aria-labelledby="gift-price-guide">
+        <h2 id="gift-price-guide" className="display-section-title">
+          What your gift can cover
+        </h2>
+        <div className="grid gap-5 lg:grid-cols-2">
+          <div className="rounded-[26px] border border-[var(--color-button-line)] bg-[var(--color-ivory)] p-6 sm:p-8">
+            <h3 className="display-card-title">Private Sessions</h3>
+            <dl className="mt-4 divide-y divide-[var(--color-button-line)] text-[var(--color-brown)]">
+              {sessionPrices.map(({ name, price }) => (
+                <div key={name} className={priceRowClass}>
+                  <dt>{name}</dt>
+                  <dd className={priceClass}>{price}</dd>
+                </div>
+              ))}
+            </dl>
+            <Link href={site.links.services} className="mt-4 inline-block font-semibold underline underline-offset-4">
+              Explore healing sessions
+            </Link>
+          </div>
+          <div className="rounded-[26px] border border-[var(--color-button-line)] bg-[var(--color-ivory)] p-6 sm:p-8">
+            <h3 className="display-card-title">Training &amp; Mentorship</h3>
+            <dl className="mt-4 divide-y divide-[var(--color-button-line)] text-[var(--color-brown)]">
+              {programPrices.map(({ name, price, href }) => (
+                <div key={name} className={priceRowClass}>
+                  <dt>
+                    <Link href={href} className="underline underline-offset-4">
+                      {name}
+                    </Link>
+                  </dt>
+                  <dd className={priceClass}>{price}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-4 text-[var(--color-brown)]">
+              <Link href={site.links.contact} className="font-semibold underline underline-offset-4">
+                Contact Kate
+              </Link>{" "}
+              to gift a full program or apply a certificate toward tuition.
+            </p>
           </div>
         </div>
       </section>

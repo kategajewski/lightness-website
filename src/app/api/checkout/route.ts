@@ -55,12 +55,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const selectedPriceId = selectedOption?.stripePriceId || offer.stripePriceId;
   const selectedAmountCents = selectedOption?.amountCents;
+  const canCreateInlinePrice = Boolean(selectedAmountCents);
+  const selectedPriceId =
+    selectedOption?.stripePriceId ||
+    (canCreateInlinePrice ? undefined : offer.stripePriceId);
   const checkoutMode =
     selectedOption?.mode ||
     (offer.format === "subscription" ? "subscription" : "payment");
-  const canCreateInlinePrice = Boolean(selectedAmountCents);
 
   if (
     !integrations.stripe ||

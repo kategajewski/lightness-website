@@ -15,6 +15,7 @@ type GiftCertificateInput = {
   buyerName?: string | null;
   purchasedAt?: number | null;
   sessionId?: string | null;
+  restReceiveCouponCode?: string;
 };
 
 export function createGiftCertificateCode(sessionId?: string | null) {
@@ -117,16 +118,24 @@ export async function createGiftCertificatePdf(input: GiftCertificateInput) {
     194,
     cocoa,
   );
-  drawCenteredText(page, "Certificate Code", sansBold, 10, 148, sage);
-  drawCenteredText(page, certificateCode, sansBold, 21, 122, clay);
-  drawCenteredText(
-    page,
-    "Redeem through bethelightness.com using this certificate code.",
-    sans,
-    11,
-    82,
-    cocoa,
-  );
+  drawCenteredText(page, "Certificate Code", sansBold, 10, 155, sage);
+  drawCenteredText(page, certificateCode, sansBold, 21, 132, clay);
+
+  const redemptionInstructions = input.restReceiveCouponCode
+    ? [
+        "To book Rest & Receive, visit bethelightness.com/services.",
+        `Enter ${input.restReceiveCouponCode} in the Coupon code field to waive the $40 deposit.`,
+        "Add the certificate code above to your booking notes so Kate can apply the gift.",
+        "For other offerings, contact Kate at bethelightness.com/contact.",
+      ]
+    : [
+        "Before booking, contact Kate at bethelightness.com/contact with this code.",
+        "Kate will apply your gift and confirm any deposit or balance due.",
+      ];
+
+  redemptionInstructions.forEach((line, index) => {
+    drawCenteredText(page, line, sans, 11, 107 - index * 14, cocoa);
+  });
 
   const bytes = await pdf.save();
 

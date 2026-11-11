@@ -218,6 +218,15 @@ export const offers: Offer[] = [
         stripePriceId: env.stripePriceGiftCertificate100,
       },
       {
+        key: "gift-140",
+        label: "$140 Gift Certificate",
+        priceLabel: "$140",
+        description:
+          "Covers a 60-minute Rest & Receive session or can go toward other offerings.",
+        mode: "payment",
+        amountCents: 14000,
+      },
+      {
         key: "gift-150",
         label: "$150 Gift Certificate",
         priceLabel: "$150",

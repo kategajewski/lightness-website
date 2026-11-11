@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <main className="flex min-h-[calc(100vh-82px)] flex-col bg-[var(--color-ivory)] text-[var(--color-text)]">
       <section className="bg-[var(--color-rose-soft)]">
-        <div className="mx-auto grid w-full max-w-[1180px] items-center gap-8 px-5 py-9 sm:px-8 sm:py-12 lg:grid-cols-[1.16fr_1fr] lg:gap-8 lg:px-[60px] lg:pb-8 xl:gap-10 xl:px-6">
+        <div className="mx-auto grid w-full max-w-[1180px] items-center gap-8 px-5 py-9 sm:px-8 sm:py-12 lg:grid-cols-[1.16fr_1fr] lg:gap-8 lg:px-9 lg:pb-8 xl:gap-10 xl:px-6">
           <div>
             <span className="home-eyebrow mb-5">
               Energy Healing with Kate Gajewski
@@ -69,6 +69,9 @@ export default function Home() {
               </Link>
               <Link href={site.links.courses} className="button-pill button-pill-secondary">
                 Explore Programs
+              </Link>
+              <Link href={site.links.giftCertificate} className="button-pill">
+                Buy a Gift Card
               </Link>
             </div>
           </div>

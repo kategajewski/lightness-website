@@ -25,6 +25,7 @@ type StripeCheckoutSession = {
   id?: string | null;
   metadata?: Record<string, string | undefined> | null;
   payment_intent?: string | { id?: string | null } | null;
+  payment_status?: string | null;
 };
 
 type WebsiteEmailInput = {
@@ -703,18 +704,24 @@ export async function sendPurchaseConfirmationEmail(
   const purchaseType = metadata.purchaseType;
   const amountLabel = formatAmount(session.amount_total, session.currency);
   const customerName = session.customer_details?.name?.trim() || "there";
-  const giftCertificate =
-    purchaseType === "offer" && metadata.offerSlug === "gift-certificate"
-      ? await createGiftCertificatePdf({
-          amountLabel: getGiftCertificateAmountLabel(
-            metadata.optionKey,
-            amountLabel,
-          ),
-          buyerName: session.customer_details?.name,
-          purchasedAt: session.created,
-          sessionId: session.id,
-        })
-      : null;
+  const isGiftCertificate =
+    purchaseType === "offer" && metadata.offerSlug === "gift-certificate";
+  const restReceiveCouponCode =
+    isGiftCertificate && session.payment_status === "paid"
+      ? env.giftCertificateRestReceiveCoupon
+      : "";
+  const giftCertificate = isGiftCertificate
+    ? await createGiftCertificatePdf({
+        amountLabel: getGiftCertificateAmountLabel(
+          metadata.optionKey,
+          amountLabel,
+        ),
+        buyerName: session.customer_details?.name,
+        purchasedAt: session.created,
+        sessionId: session.id,
+        restReceiveCouponCode,
+      })
+    : null;
 
   const emailContent =
     purchaseType === "event"
@@ -724,6 +731,7 @@ export async function sendPurchaseConfirmationEmail(
           metadata.optionKey,
           amountLabel,
           giftCertificate?.certificateCode,
+          restReceiveCouponCode,
           portalAccess,
         );
   const extraLinks: ReadonlyArray<{ label: string; href: string }> =
@@ -1040,7 +1048,8 @@ function getOfferPurchaseEmailContent(
   offerSlug: string | undefined,
   optionKey: string | undefined,
   amountLabel: string,
-  giftCertificateCode?: string,
+  giftCertificateCode: string | undefined,
+  restReceiveCouponCode: string,
   portalAccess?: PortalProvisioningResult,
 ) {
   const offer = offerSlug ? getOfferBySlug(offerSlug) : undefined;
@@ -1095,13 +1104,32 @@ function getOfferPurchaseEmailContent(
         ...detailLines,
         option ? `Gift amount: ${option.priceLabel}` : null,
         giftCertificateCode ? `Certificate code: ${giftCertificateCode}` : null,
+        restReceiveCouponCode ? `Calendly coupon code: ${restReceiveCouponCode}` : null,
       ].filter(Boolean) as string[],
-      reminderLines: [
-        "Your printable gift certificate PDF is attached to this email.",
-        "The recipient can redeem it through bethelightness.com using the certificate code.",
-      ],
+      reminderLines: restReceiveCouponCode
+        ? [
+            "Share the printable gift certificate with your recipient.",
+            "To book Rest & Receive, enter the Calendly coupon in the Coupon code field to waive the $40 deposit.",
+            "Add the certificate code to the booking notes so Kate can apply the gift to the session total.",
+            "For other offerings, contact Kate before booking.",
+          ]
+        : [
+            "The recipient can contact Kate at bethelightness.com/contact with the certificate code before booking. Kate will apply the gift and confirm any deposit or balance due.",
+          ],
       href: `${env.siteUrl}${site.links.giftCertificate}`,
       hrefLabel: "View gift certificate details",
+      extraLinks: restReceiveCouponCode
+        ? [
+            {
+              label: "Book Rest & Receive",
+              href: "https://calendly.com/thelightnessofbeing/restandreceiveenergy",
+            },
+            {
+              label: "Contact Kate",
+              href: `${env.siteUrl}${site.links.contact}`,
+            },
+          ]
+        : [],
     };
   }
 

@@ -53,6 +53,9 @@ export const env = {
   stripePriceGiftCertificate500: readOptionalEnv(
     "STRIPE_PRICE_GIFT_CERTIFICATE_500",
   ),
+  giftCertificateRestReceiveCoupon: readOptionalEnv(
+    "GIFT_CERTIFICATE_REST_RECEIVE_COUPON",
+  ),
 };
 
 export const integrations = {

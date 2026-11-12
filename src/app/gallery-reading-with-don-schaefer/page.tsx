@@ -66,7 +66,7 @@ const eventJsonLd = {
 };
 
 // Set to false to unpublish the event between scheduled dates.
-const registrationPublished = true;
+const registrationPublished = false;
 
 export default function GalleryReadingWithDonSchaeferPage() {
   if (!registrationPublished) notFound();

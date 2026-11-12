@@ -81,8 +81,8 @@ test("Module 7 contains the three Level 2 symbol practices in teaching order", (
   assert.equal(modules[6].releaseAt, "2026-11-07T00:00:00-05:00");
   const expected = [
     ["sei-he-ki", "Sei He Ki", "98202c3a-98ca-4d6b-80e2-5d175c981a7b", "18:17"],
-    ["koki-ho", "Koki Ho", "df37f195-a11c-4bae-b7d4-7dcac4bbbca1", "8:02"],
-    ["gyoshi-ho", "Gyoshi Ho", "d400a036-61d1-4d9d-8ad6-285f633d4a7a", "9:19"],
+    ["koki-ho", "Koki Ho", "d400a036-61d1-4d9d-8ad6-285f633d4a7a", "9:19"],
+    ["gyoshi-ho", "Gyoshi Ho", "df37f195-a11c-4bae-b7d4-7dcac4bbbca1", "8:02"],
   ];
   for (const [index, [slug, title, videoId, duration]] of expected.entries()) {
     const lesson = modules[6].lessons[index];

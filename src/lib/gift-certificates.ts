@@ -10,12 +10,19 @@ import {
   StandardFonts,
 } from "pdf-lib";
 
+export type GiftCertificateBookingCoupon = {
+  service: string;
+  code: string;
+  deposit: string;
+  href: string;
+};
+
 type GiftCertificateInput = {
   amountLabel: string;
   buyerName?: string | null;
   purchasedAt?: number | null;
   sessionId?: string | null;
-  restReceiveCouponCode?: string;
+  bookingCoupons?: readonly GiftCertificateBookingCoupon[];
 };
 
 export function createGiftCertificateCode(sessionId?: string | null) {
@@ -118,14 +125,18 @@ export async function createGiftCertificatePdf(input: GiftCertificateInput) {
     194,
     cocoa,
   );
-  drawCenteredText(page, "Certificate Code", sansBold, 10, 155, sage);
-  drawCenteredText(page, certificateCode, sansBold, 21, 132, clay);
+  drawCenteredText(page, "Certificate Code", sansBold, 10, 171, sage);
+  drawCenteredText(page, certificateCode, sansBold, 21, 149, clay);
 
-  const redemptionInstructions = input.restReceiveCouponCode
+  const redemptionInstructions = input.bookingCoupons?.length
     ? [
-        "To book Rest & Receive, visit bethelightness.com/services.",
-        `Enter ${input.restReceiveCouponCode} in the Coupon code field to waive the $40 deposit.`,
-        "Add the certificate code above to your booking notes so Kate can apply the gift.",
+        "Book at bethelightness.com/services and enter the matching Coupon code in Calendly.",
+        ...input.bookingCoupons.map(
+          ({ service, code, deposit }) =>
+            `${service}: ${code} (waives the ${deposit} deposit)`,
+        ),
+        "Add the certificate code above to your booking notes so Kate can apply the gift to your session.",
+        "If the gift covers part of the session, the remaining balance is still due.",
         "For other offerings, contact Kate at bethelightness.com/contact.",
       ]
     : [
@@ -134,7 +145,7 @@ export async function createGiftCertificatePdf(input: GiftCertificateInput) {
       ];
 
   redemptionInstructions.forEach((line, index) => {
-    drawCenteredText(page, line, sans, 11, 107 - index * 14, cocoa);
+    drawCenteredText(page, line, sans, 11, 123 - index * 12, cocoa);
   });
 
   const bytes = await pdf.save();

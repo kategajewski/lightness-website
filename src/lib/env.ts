@@ -56,6 +56,9 @@ export const env = {
   giftCertificateRestReceiveCoupon: readOptionalEnv(
     "GIFT_CERTIFICATE_REST_RECEIVE_COUPON",
   ),
+  giftCertificateSacredResetCoupon: readOptionalEnv(
+    "GIFT_CERTIFICATE_SACRED_RESET_COUPON",
+  ),
 };
 
 export const integrations = {

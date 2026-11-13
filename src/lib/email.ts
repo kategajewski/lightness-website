@@ -3,6 +3,7 @@ import { env, integrations } from "@/lib/env";
 import {
   createGiftCertificateCode,
   createGiftCertificatePdf,
+  type GiftCertificateBookingCoupon,
 } from "@/lib/gift-certificates";
 import { getOfferBySlug } from "@/lib/offers";
 import type { PortalProvisioningResult } from "@/lib/portal-access";
@@ -706,10 +707,23 @@ export async function sendPurchaseConfirmationEmail(
   const customerName = session.customer_details?.name?.trim() || "there";
   const isGiftCertificate =
     purchaseType === "offer" && metadata.offerSlug === "gift-certificate";
-  const restReceiveCouponCode =
+  const bookingCoupons: GiftCertificateBookingCoupon[] =
     isGiftCertificate && session.payment_status === "paid"
-      ? env.giftCertificateRestReceiveCoupon
-      : "";
+      ? [
+          {
+            service: "Rest & Receive",
+            code: env.giftCertificateRestReceiveCoupon,
+            deposit: "$40",
+            href: "https://calendly.com/thelightnessofbeing/restandreceiveenergy",
+          },
+          {
+            service: "Sacred Reset",
+            code: env.giftCertificateSacredResetCoupon,
+            deposit: "$100",
+            href: "https://calendly.com/thelightnessofbeing/sacredreset",
+          },
+        ].filter(({ code }) => Boolean(code))
+      : [];
   const giftCertificate = isGiftCertificate
     ? await createGiftCertificatePdf({
         amountLabel: getGiftCertificateAmountLabel(
@@ -719,7 +733,7 @@ export async function sendPurchaseConfirmationEmail(
         buyerName: session.customer_details?.name,
         purchasedAt: session.created,
         sessionId: session.id,
-        restReceiveCouponCode,
+        bookingCoupons,
       })
     : null;
 
@@ -731,7 +745,7 @@ export async function sendPurchaseConfirmationEmail(
           metadata.optionKey,
           amountLabel,
           giftCertificate?.certificateCode,
-          restReceiveCouponCode,
+          bookingCoupons,
           portalAccess,
         );
   const extraLinks: ReadonlyArray<{ label: string; href: string }> =
@@ -1049,7 +1063,7 @@ function getOfferPurchaseEmailContent(
   optionKey: string | undefined,
   amountLabel: string,
   giftCertificateCode: string | undefined,
-  restReceiveCouponCode: string,
+  bookingCoupons: readonly GiftCertificateBookingCoupon[],
   portalAccess?: PortalProvisioningResult,
 ) {
   const offer = offerSlug ? getOfferBySlug(offerSlug) : undefined;
@@ -1104,13 +1118,17 @@ function getOfferPurchaseEmailContent(
         ...detailLines,
         option ? `Gift amount: ${option.priceLabel}` : null,
         giftCertificateCode ? `Certificate code: ${giftCertificateCode}` : null,
-        restReceiveCouponCode ? `Calendly coupon code: ${restReceiveCouponCode}` : null,
+        ...bookingCoupons.map(
+          ({ service, code, deposit }) =>
+            `${service} coupon code: ${code} (waives the ${deposit} deposit)`,
+        ),
       ].filter(Boolean) as string[],
-      reminderLines: restReceiveCouponCode
+      reminderLines: bookingCoupons.length
         ? [
             "Share the printable gift certificate with your recipient.",
-            "To book Rest & Receive, enter the Calendly coupon in the Coupon code field to waive the $40 deposit.",
+            "Enter the coupon for your chosen session in the Coupon code field on Calendly.",
             "Add the certificate code to the booking notes so Kate can apply the gift to the session total.",
+            "If the gift covers part of the session, the remaining balance is still due.",
             "For other offerings, contact Kate before booking.",
           ]
         : [
@@ -1118,12 +1136,12 @@ function getOfferPurchaseEmailContent(
           ],
       href: `${env.siteUrl}${site.links.giftCertificate}`,
       hrefLabel: "View gift certificate details",
-      extraLinks: restReceiveCouponCode
+      extraLinks: bookingCoupons.length
         ? [
-            {
-              label: "Book Rest & Receive",
-              href: "https://calendly.com/thelightnessofbeing/restandreceiveenergy",
-            },
+            ...bookingCoupons.map(({ service, href }) => ({
+              label: `Book ${service}`,
+              href,
+            })),
             {
               label: "Contact Kate",
               href: `${env.siteUrl}${site.links.contact}`,

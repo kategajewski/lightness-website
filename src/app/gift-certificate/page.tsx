@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/page-shell";
-import { env } from "@/lib/env";
 import { getAvailablePurchaseOptions, getOfferBySlug } from "@/lib/offers";
 import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -63,11 +62,6 @@ export default function GiftCertificatePage() {
           className="rounded-[30px] border border-[var(--color-button-line)] bg-[var(--color-ivory)] p-6 sm:p-8"
         >
           <h2 className="display-section-title">Choose a gift amount.</h2>
-          <p className="mt-4 text-[var(--color-brown)]">
-            A <strong>$140 gift</strong>{" "}covers a 60-minute Rest &amp; Receive
-            session. You’ll receive a printable certificate by email to share
-            with your loved one.
-          </p>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
             {giftAmounts.map((amount) => (
               <form key={amount.key} action="/api/checkout" method="post">
@@ -83,15 +77,6 @@ export default function GiftCertificatePage() {
               </form>
             ))}
           </div>
-          <p className="mt-5 text-[0.94rem] text-[var(--color-brown)]">
-            {env.giftCertificateRestReceiveCoupon
-              ? "To book Rest & Receive, apply the booking coupon from your certificate and add your certificate code to the booking notes. For other offerings, "
-              : "Have a gift certificate? "}
-            <Link href={site.links.contact} className="font-semibold underline underline-offset-4">
-              contact Kate
-            </Link>{" "}
-            with your certificate code.
-          </p>
         </section>
 
         <Image

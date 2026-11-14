@@ -146,41 +146,32 @@ export default async function DivineRoseFrequenciesPage({
       title="Divine Rose Frequency"
       description="Handmade rosaries, malas, and sacred adornments made from real rose petals, created with intention and worn with devotion."
     >
-      <section className="overflow-hidden rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.82)] shadow-[0_24px_80px_rgba(59,41,31,0.08)]">
-        <div className="grid gap-0 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="flex min-h-[24rem] items-center justify-center bg-[linear-gradient(135deg,rgba(255,252,248,0.94),rgba(249,228,219,0.72))] p-8">
-            <div
-              aria-label="Divine Rose Frequency handmade rosaries and sacred adornments mark"
-              className="aspect-square w-full max-w-[18rem] bg-[url('/divine-rose-frequency/divine-rose-frequency-mark.png')] bg-contain bg-center bg-no-repeat"
-              role="img"
-            />
-          </div>
-          <div className="p-8 sm:p-10 lg:p-12">
-            <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
-              Handmade With Intention
-            </span>
-            <h2 className="display-section-title">
-              Worn with devotion, made bead by bead.
-            </h2>
-            <div className="mt-5 grid gap-4 text-[var(--color-muted)]">
-              <p>
-                Prayer beads have been used across cultures for thousands of years as
-                tools for meditation, mantra, and heartfelt connection. While often
-                associated with Catholicism, their origins trace back to ancient
-                Eastern traditions, where moving bead by bead became a sacred rhythm
-                of presence and peace.
-              </p>
-              <p>
-                These rosaries begin with real rose petals, gently transformed into
-                rose clay and hand-rolled into beads. Each strand carries the essence
-                of the flower: love, remembrance, and spiritual blooming.
-              </p>
-              <p>
-                Every piece is handcrafted with care and can be customized in the
-                style that speaks to you, from a Catholic-style rosary to a 108-bead
-                mala or a design entirely your own.
-              </p>
-            </div>
+      <section className="rounded-[30px] border border-[rgba(76,58,48,0.08)] bg-[rgba(255,251,246,0.82)] p-8 shadow-[0_24px_80px_rgba(59,41,31,0.08)] sm:p-10 lg:p-12">
+        <div className="mx-auto max-w-[65ch]">
+          <span className="mb-4 inline-block text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+            Handmade With Intention
+          </span>
+          <h2 className="display-section-title">
+            Worn with devotion, made bead by bead.
+          </h2>
+          <div className="mt-5 grid gap-4 text-[var(--color-muted)]">
+            <p>
+              Prayer beads have been used across cultures for thousands of years as
+              tools for meditation, mantra and heartfelt connection. While often
+              associated with Catholicism, their origins trace back to ancient
+              Eastern traditions, where moving bead by bead became a sacred rhythm
+              of presence and peace.
+            </p>
+            <p>
+              These rosaries begin with real rose petals, gently transformed into
+              rose clay and hand-rolled into beads. Each strand carries the essence
+              of the flower: love, remembrance and spiritual blooming.
+            </p>
+            <p>
+              Every piece is handcrafted with care and can be customized in the
+              style that speaks to you, from a Catholic-style rosary to a 108-bead
+              mala or a design entirely your own.
+            </p>
           </div>
         </div>
       </section>

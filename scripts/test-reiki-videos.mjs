@@ -48,7 +48,7 @@ test("all release boundaries are exact and scheduled modules remain Sunday midni
 test("the four Module 1 lessons stay ordered and future modules remain empty", () => {
   assert.equal(modules[0].lessons.map(l => l.slug).join(","), "what-is-reiki,holy-fire-reiki,science-behind-reiki,history-of-reiki");
   assert.equal(new Set(modules[0].lessons.map(l => l.videoId)).size, 4);
-  assert.ok(modules.slice(7).every(m => m.lessons.length === 0));
+  assert.ok(modules.slice(8).every(m => m.lessons.length === 0));
   assert.equal(videos.findReikiLesson("__proto__"), null);
   assert.equal(videos.findReikiLesson("../../private"), null);
 });
@@ -68,7 +68,7 @@ test("Module 2 has eleven distinct lessons in teaching order with valid playback
 test("Module 3 teaches Grounding before Shielding and future modules remain empty", () => {
   assert.equal(modules[2].lessons.map(l => l.slug).join(","), "grounding,shielding");
   assert.equal(modules[2].lessons.map(l => l.title).join(","), "Grounding,Shielding");
-  assert.ok(modules.slice(7).every(m => m.lessons.length === 0));
+  assert.ok(modules.slice(8).every(m => m.lessons.length === 0));
   for (const lesson of modules[2].lessons) {
     assert.match(lesson.videoId, /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/);
     assert.match(lesson.duration, /^\d+:[0-5]\d$/);
@@ -179,6 +179,37 @@ function endpoint({ email = "student@example.com", cohort = "reiki-rising-fall-2
   });
   return route.GET(new Request(`https://bethelightness.com/library/reiki-rising-fall-2026/videos/${slug}${preview ? "?preview=1" : ""}`), { params: Promise.resolve({ lesson: slug }) });
 }
+
+test("Module 8 teaches Hon Sha Ze Sho Nen before the steps and all three new recordings stay cohort protected", async () => {
+  const moduleEight = modules[7];
+  assert.equal(moduleEight.date, "November 15, 2026");
+  assert.equal(moduleEight.lessons.map(lesson => lesson.slug).join(","), "hon-sha-ze-sho-nen,steps-for-sending-distant-reiki");
+
+  const replay = videos.reikiRisingReplays.find(item => item.date === "November 11, 2026");
+  assert.ok(replay);
+  assert.equal(replay.lessons.length, 1);
+  assert.equal(replay.lessons[0].slug, "live-call-2026-11-11");
+
+  const expectedVideoIds = {
+    "hon-sha-ze-sho-nen": "401530e4-3efd-4568-9268-91ee70ed4fda",
+    "steps-for-sending-distant-reiki": "c5a8aab9-b808-43b0-8a16-24adb574cff2",
+    "live-call-2026-11-11": "c9f3b59e-c4e0-49bb-878b-7d337d226309",
+  };
+
+  for (const release of [moduleEight, replay]) {
+    const releaseAt = Date.parse(release.releaseAt);
+    const before = new Date(releaseAt - 1).toISOString();
+    const now = new Date(releaseAt).toISOString();
+    for (const { slug } of release.lessons) {
+      assert.equal((await endpoint({ slug, now: before })).status, 403);
+      const response = await endpoint({ slug, now });
+      assert.equal(response.status, 200);
+      assert.equal(new URL((await response.json()).url).pathname, `/embed/762439/${expectedVideoIds[slug]}`);
+      assert.equal((await endpoint({ slug, now, email: "" })).status, 401);
+      assert.equal((await endpoint({ slug, now, cohort: "reiki-rising-spring-2026" })).status, 403);
+    }
+  }
+});
 
 test("unauthenticated, wrong cohort and inactive students cannot obtain tokens even with preview", async () => {
   for (const [overrides, status] of [[{ email: "" }, 401], [{ cohort: "reiki-rising-spring-2026" }, 403], [{ status: "inactive" }, 403]]) {
@@ -518,8 +549,8 @@ test("October 21 Week 4 replay unlocks at its exact boundary and remains cohort 
   const now = "2026-10-22T04:00:00Z";
   const match = videos.findReikiLesson(slug);
   assert.ok(match, "Week 4 replay must have verified playback metadata");
-  assert.equal(videos.reikiRisingReplays.length, 5);
-  assert.equal(videos.reikiRisingReplays.map(replay => replay.lessons.map(lesson => lesson.slug).join(",")).join(","), "live-call-2026-09-30,live-call-2026-10-07,live-call-2026-10-14,live-call-2026-10-21,live-call-2026-10-28");
+  assert.equal(videos.reikiRisingReplays.length, 6);
+  assert.equal(videos.reikiRisingReplays.map(replay => replay.lessons.map(lesson => lesson.slug).join(",")).join(","), "live-call-2026-09-30,live-call-2026-10-07,live-call-2026-10-14,live-call-2026-10-21,live-call-2026-10-28,live-call-2026-11-11");
   assert.equal(videos.reikiRisingReplays[3], match.module);
   assert.equal(match.module.date, "October 21, 2026");
   assert.equal(match.module.releaseAt, "2026-10-22T00:00:00-04:00");

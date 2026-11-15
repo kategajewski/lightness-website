@@ -61,6 +61,17 @@ export const reikiRisingReplays: CourseModule[] = [
       duration: "1 hour 13 minutes 28 seconds",
     }],
   },
+  {
+    date: "November 11, 2026",
+    releaseAt: "2026-11-12T00:00:00-05:00",
+    title: "Level 2 Placement Class Replay",
+    lessons: [{
+      slug: "live-call-2026-11-11",
+      title: "November 11: Level 2 Placement Class Replay",
+      videoId: "c9f3b59e-c4e0-49bb-878b-7d337d226309",
+      duration: "31 minutes 14 seconds",
+    }],
+  },
 ];
 
 // New York midnight is still EDT on November 1; EST starts later that morning.
@@ -143,7 +154,14 @@ export const reikiRisingModules: CourseModule[] = [
       { slug: "gyoshi-ho", title: "Gyoshi Ho", videoId: "df37f195-a11c-4bae-b7d4-7dcac4bbbca1", duration: "8:02" },
     ],
   },
-  { date: "November 15, 2026", releaseAt: "2026-11-15T00:00:00-05:00", title: "Hon Sha Ze Sho Nen and distant Reiki", lessons: [] },
+  {
+    date: "November 15, 2026", releaseAt: "2026-11-15T00:00:00-05:00",
+    title: "Hon Sha Ze Sho Nen and distant Reiki",
+    lessons: [
+      { slug: "hon-sha-ze-sho-nen", title: "Hon Sha Ze Sho Nen", videoId: "401530e4-3efd-4568-9268-91ee70ed4fda", duration: "23:49" },
+      { slug: "steps-for-sending-distant-reiki", title: "Steps for Sending Distant Reiki", videoId: "c5a8aab9-b808-43b0-8a16-24adb574cff2", duration: "10:08" },
+    ],
+  },
   { date: "November 22, 2026", releaseAt: "2026-11-22T00:00:00-05:00", title: "Practicing a full Reiki session with symbols and documentation", lessons: [] },
   { date: "November 29, 2026", releaseAt: "2026-11-29T00:00:00-05:00", title: "Bringing Reiki into the world, business foundations, and psychic surgery", lessons: [] },
 ];

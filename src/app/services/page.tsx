@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 
 export const metadata = createPageMetadata({
   title: "Reiki, Hypnotherapy & Sound Healing Services in Patchogue",
-  description: "Explore private Reiki and energy healing, hypnotherapy and regression, sound healing, and personalized guidance with Kate Gajewski in Patchogue, NY and remotely.",
+  description: "Reiki, hypnotherapy, private sound healing and personalized guidance with Kate Gajewski in Patchogue, Long Island, plus remote options.",
   path: "/services",
   image: "/homepage-images/healing-session.jpeg",
 });
@@ -21,6 +21,7 @@ const serviceSections = [
       "Reiki and energy healing work gently with the body, mind, and energy field to support relaxation, emotional balance, and a return to greater steadiness and flow.",
     services: [
       {
+        id: "rest-and-receive",
         title: "Rest & Receive",
         description:
           "A 60-minute Reiki and energy healing session to help you pause, soften, and receive support for nervous system regulation, energetic balance, and restoration.",
@@ -31,6 +32,7 @@ const serviceSections = [
         cta: "Book Rest & Receive",
       },
       {
+        id: "sacred-reset",
         title: "Return to Self: Sacred Reset",
         description:
           "A two-hour guided healing experience that blends spiritual guidance, life coaching, Holy Fire healing, and Reiki to help you release, realign, and return to yourself.",
@@ -40,6 +42,7 @@ const serviceSections = [
         cta: "Book Sacred Reset",
       },
       {
+        id: "childrens-reiki",
         title: "Gentle Energy Support (for Children)",
         description:
           "A calm and nurturing 30-minute energy healing session designed to support children with emotional balance, relaxation, grounding, and gentle overall well-being.",
@@ -49,6 +52,7 @@ const serviceSections = [
         cta: "Book Gentle Energy Support",
       },
       {
+        id: "animal-pet-reiki",
         title: "Animal & Pet Reiki",
         description:
           "Gentle, animal-led Reiki support with a special focus on horses. Sessions honor your animal’s comfort, pace, and unique needs.",
@@ -69,6 +73,7 @@ const serviceSections = [
       "This offering is ideal for those ready to explore root patterns, beliefs, and the deeper layers shaping their present experience.",
     services: [
       {
+        id: "inner-journey",
         title: "The Inner Journey",
         description:
           "A guided hypnotherapy and regression session designed to help you explore the subconscious, uncover root patterns, and support deep inner healing and recalibration.",
@@ -89,6 +94,7 @@ const serviceSections = [
       "Sound healing uses soothing frequencies and instruments like crystal bowls, gong, and chimes to calm the nervous system, invite rest, and support emotional and energetic release.",
     services: [
       {
+        id: "private-sound-immersion",
         title: "Private Sound Immersion",
         description:
           "A private sound healing experience using crystal bowls, gong, chimes, and other instruments to calm the nervous system, support energetic release, and invite deep restoration.",
@@ -110,6 +116,7 @@ const serviceSections = [
       "Guidance sessions are more conversational and insight-based, offering space for reflection, practical clarity, spiritual support, and mentorship that meets you where you are.",
     services: [
       {
+        id: "personalized-guidance",
         title: "Personalized Guidance",
         description:
           "A one-on-one session for clarity, direction, and grounded support through coaching, Reiki mentorship, or sound guidance.",
@@ -122,13 +129,91 @@ const serviceSections = [
   },
 ] as const;
 
+const servicesIntro =
+  "Private Reiki, hypnotherapy, sound healing and personalized guidance with Kate Gajewski at The Lightness of Being in Patchogue, New York, serving clients across Long Island. Remote options are also available.";
+
+const sessionQuestions = [
+  {
+    question: "Where are private sessions held?",
+    answer:
+      "Kate Gajewski offers in-person sessions at The Lightness of Being, 98 Medford Ave, Patchogue, NY 11772, serving clients across Long Island.",
+  },
+  {
+    question:
+      "How do I choose between Rest & Receive, Sacred Reset and Personalized Guidance?",
+    answer:
+      "Rest & Receive is a 60-minute Reiki and energy healing session. Sacred Reset is a two-hour experience combining spiritual guidance, coaching, Holy Fire healing and Reiki. Personalized Guidance is a conversational one-on-one session for clarity, direction and support.",
+  },
+  {
+    question: "How do I book a session?",
+    answer:
+      "Choose an offering on this page and follow its booking link to Kate's Calendly schedule for available appointments, the full session description and deposit details. Animal & Pet Reiki sessions are arranged by inquiry.",
+  },
+] as const;
+
+const servicesGraph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${site.url}/services#webpage`,
+      url: `${site.url}/services`,
+      name: "Private healing sessions in Patchogue",
+      description: servicesIntro,
+      isPartOf: { "@id": `${site.url}/#website` },
+      about: { "@id": `${site.url}/#business` },
+      mainEntity: { "@id": `${site.url}/services#service-catalog` },
+    },
+    {
+      "@type": "OfferCatalog",
+      "@id": `${site.url}/services#service-catalog`,
+      name: "Private healing sessions with Kate Gajewski",
+      itemListElement: serviceSections.flatMap((section) =>
+        section.services.map((service) => ({
+          "@type": "Offer",
+          url: new URL(service.href, site.url).href,
+          itemOffered: {
+            "@type": "Service",
+            "@id": `${site.url}/services#${service.id}`,
+            url: `${site.url}/services#${service.id}`,
+            name: service.title,
+            description: service.description,
+            serviceType: section.eyebrow,
+            provider: { "@id": `${site.url}/#business` },
+            areaServed: [
+              { "@type": "City", name: "Patchogue" },
+              { "@type": "AdministrativeArea", name: "Long Island" },
+            ],
+          },
+        })),
+      ),
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${site.url}/services#session-questions`,
+      isPartOf: { "@id": `${site.url}/services#webpage` },
+      mainEntity: sessionQuestions.map(({ question, answer }) => ({
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: { "@type": "Answer", text: answer },
+      })),
+    },
+  ],
+};
+
 export default function ServicesPage() {
   return (
     <PageShell
       eyebrow="Services"
       title="Healing support for where you are right now."
-      description="Explore the private 1:1 offerings available, each designed to meet you with care, clarity, and the support that feels right for this season of your life."
+      description={servicesIntro}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(servicesGraph).replace(/</g, "\\u003c"),
+        }}
+      />
       <div className="grid gap-8">
         {serviceSections.map((section) => (
           <section
@@ -157,7 +242,8 @@ export default function ServicesPage() {
               {section.services.map((service) => (
                 <article
                   key={service.title}
-                  className="surface-ivory rounded-[22px] border border-[var(--color-line)] p-7 shadow-[0_8px_24px_rgba(59,41,31,0.04)]"
+                  id={service.id}
+                  className="surface-ivory scroll-mt-28 rounded-[22px] border border-[var(--color-line)] p-7 shadow-[0_8px_24px_rgba(59,41,31,0.04)]"
                 >
                   <div className="mb-5 h-12 w-12 rounded-full bg-[radial-gradient(circle_at_30%_30%,var(--color-ivory),transparent_75%),linear-gradient(135deg,var(--color-rose-soft),var(--color-rose))]" />
                   <h3 className="display-card-title">
@@ -238,6 +324,26 @@ export default function ServicesPage() {
           <Link href="/reiki-training-long-island" className="button-pill button-pill-secondary">Reiki Training</Link>
           <Link href="/corporate-wellness-long-island" className="button-pill button-pill-secondary">Corporate Wellness</Link>
         </div>
+      </section>
+
+      <section
+        id="session-questions"
+        aria-labelledby="session-questions-title"
+        className="surface-ivory scroll-mt-28 rounded-[30px] border border-[var(--color-line)] p-8 shadow-[0_12px_36px_rgba(59,41,31,0.04)] sm:p-10"
+      >
+        <h2 id="session-questions-title" className="display-section-title">
+          Planning your session
+        </h2>
+        <dl className="mt-6 grid gap-6">
+          {sessionQuestions.map(({ question, answer }) => (
+            <div key={question}>
+              <dt className="display-card-title">{question}</dt>
+              <dd className="mt-3 max-w-[48rem] text-[var(--color-muted)]">
+                {answer}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       <div id="monthly-membership" className="scroll-mt-28">

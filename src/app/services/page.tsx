@@ -129,6 +129,27 @@ export default function ServicesPage() {
       title="Healing support for where you are right now."
       description="Explore the private 1:1 offerings available, each designed to meet you with care, clarity, and the support that feels right for this season of your life."
     >
+      <section
+        aria-labelledby="gift-a-session-title"
+        className="surface-ivory flex flex-col gap-5 rounded-[30px] border border-[var(--color-button-line)] p-6 sm:p-8 md:flex-row md:items-center md:justify-between md:gap-8"
+      >
+        <div>
+          <h2 id="gift-a-session-title" className="display-card-title">
+            Give the gift of rest and care.
+          </h2>
+          <p className="mt-3 max-w-[38rem] text-[var(--color-muted)]">
+            Give someone you love time to pause, receive and reconnect with a
+            gift certificate toward a healing session.
+          </p>
+        </div>
+        <Link
+          href={site.links.giftCertificate}
+          className="button-pill w-full shrink-0 text-center sm:w-auto"
+        >
+          Give a Gift Certificate
+        </Link>
+      </section>
+
       <div className="grid gap-8">
         {serviceSections.map((section) => (
           <section

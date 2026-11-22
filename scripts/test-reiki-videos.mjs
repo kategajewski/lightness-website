@@ -220,6 +220,21 @@ test("unauthenticated, wrong cohort and inactive students cannot obtain tokens e
   }
 });
 
+test("November 18 replay unlocks on November 19 for active Fall 2026 students", async () => {
+  const slug = "live-call-2026-11-18";
+  const before = "2026-11-19T04:59:59.999Z";
+  const now = "2026-11-19T05:00:00Z";
+  assert.equal((await endpoint({ slug, now: before })).status, 403);
+  const response = await endpoint({ slug, now });
+  assert.equal(response.status, 200);
+  assert.equal(new URL((await response.json()).url).pathname, "/embed/762439/b5e8a4ea-bc44-4ad4-9ebc-a09cca8d25b3");
+  for (const [overrides, status] of [[{ email: "" }, 401], [{ cohort: "reiki-rising-spring-2026" }, 403], [{ status: "inactive" }, 403], [{ configured: false }, 503]]) {
+    const blocked = await endpoint({ slug, now, ...overrides });
+    assert.equal(blocked.status, status);
+    assert.ok(!(await blocked.json()).url);
+  }
+});
+
 test("students stay locked until the exact boundary; admin previews do not unlock students", async () => {
   const before = "2026-09-27T03:59:59.999Z";
   assert.equal((await endpoint({ now: before })).status, 403);
@@ -549,8 +564,8 @@ test("October 21 Week 4 replay unlocks at its exact boundary and remains cohort 
   const now = "2026-10-22T04:00:00Z";
   const match = videos.findReikiLesson(slug);
   assert.ok(match, "Week 4 replay must have verified playback metadata");
-  assert.equal(videos.reikiRisingReplays.length, 6);
-  assert.equal(videos.reikiRisingReplays.map(replay => replay.lessons.map(lesson => lesson.slug).join(",")).join(","), "live-call-2026-09-30,live-call-2026-10-07,live-call-2026-10-14,live-call-2026-10-21,live-call-2026-10-28,live-call-2026-11-11");
+  assert.equal(videos.reikiRisingReplays.length, 7);
+  assert.equal(videos.reikiRisingReplays.map(replay => replay.lessons.map(lesson => lesson.slug).join(",")).join(","), "live-call-2026-09-30,live-call-2026-10-07,live-call-2026-10-14,live-call-2026-10-21,live-call-2026-10-28,live-call-2026-11-11,live-call-2026-11-18");
   assert.equal(videos.reikiRisingReplays[3], match.module);
   assert.equal(match.module.date, "October 21, 2026");
   assert.equal(match.module.releaseAt, "2026-10-22T00:00:00-04:00");

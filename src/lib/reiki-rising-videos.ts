@@ -173,7 +173,14 @@ export const reikiRisingModules: CourseModule[] = [
       { slug: "steps-for-sending-distant-reiki", title: "Steps for Sending Distant Reiki", videoId: "c5a8aab9-b808-43b0-8a16-24adb574cff2", duration: "10:08" },
     ],
   },
-  { date: "November 22, 2026", releaseAt: "2026-11-22T00:00:00-05:00", title: "Practicing a full Reiki session with symbols and documentation", lessons: [] },
+  {
+    date: "November 22, 2026", releaseAt: "2026-11-22T00:00:00-05:00",
+    title: "Practicing a full Reiki session with symbols and documentation",
+    lessons: [
+      { slug: "conducting-a-full-reiki-session-with-symbols", title: "Conducting a Full Reiki Session with Symbols", videoId: "ecc0c980-0757-4f61-95cf-7f31e683be8a", duration: "3:55" },
+      { slug: "reiki-client-intake-forms", title: "Reiki Client Intake Forms", videoId: "4e42f7bf-a4dd-4599-ab3b-be1cce037403", duration: "8:09" },
+    ],
+  },
   { date: "November 29, 2026", releaseAt: "2026-11-29T00:00:00-05:00", title: "Bringing Reiki into the world, business foundations, and psychic surgery", lessons: [] },
 ];
 

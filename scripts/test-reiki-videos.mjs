@@ -48,7 +48,7 @@ test("all release boundaries are exact and scheduled modules remain Sunday midni
 test("the four Module 1 lessons stay ordered and future modules remain empty", () => {
   assert.equal(modules[0].lessons.map(l => l.slug).join(","), "what-is-reiki,holy-fire-reiki,science-behind-reiki,history-of-reiki");
   assert.equal(new Set(modules[0].lessons.map(l => l.videoId)).size, 4);
-  assert.ok(modules.slice(8).every(m => m.lessons.length === 0));
+  assert.ok(modules.slice(9).every(m => m.lessons.length === 0));
   assert.equal(videos.findReikiLesson("__proto__"), null);
   assert.equal(videos.findReikiLesson("../../private"), null);
 });
@@ -68,7 +68,7 @@ test("Module 2 has eleven distinct lessons in teaching order with valid playback
 test("Module 3 teaches Grounding before Shielding and future modules remain empty", () => {
   assert.equal(modules[2].lessons.map(l => l.slug).join(","), "grounding,shielding");
   assert.equal(modules[2].lessons.map(l => l.title).join(","), "Grounding,Shielding");
-  assert.ok(modules.slice(8).every(m => m.lessons.length === 0));
+  assert.ok(modules.slice(9).every(m => m.lessons.length === 0));
   for (const lesson of modules[2].lessons) {
     assert.match(lesson.videoId, /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/);
     assert.match(lesson.duration, /^\d+:[0-5]\d$/);
@@ -232,6 +232,27 @@ test("November 18 replay unlocks on November 19 for active Fall 2026 students", 
     const blocked = await endpoint({ slug, now, ...overrides });
     assert.equal(blocked.status, status);
     assert.ok(!(await blocked.json()).url);
+  }
+});
+
+test("Week 9 lessons unlock November 22 and remain protected for the Fall 2026 cohort", async () => {
+  const moduleNine = modules[8];
+  const before = "2026-11-22T04:59:59.999Z";
+  const now = "2026-11-22T05:00:00Z";
+  assert.equal(moduleNine.date, "November 22, 2026");
+  assert.equal(moduleNine.lessons.map(lesson => lesson.slug).join(","), "conducting-a-full-reiki-session-with-symbols,reiki-client-intake-forms");
+
+  for (const lesson of moduleNine.lessons) {
+    assert.equal(videos.findReikiLesson(lesson.slug).module, moduleNine);
+    assert.equal((await endpoint({ slug: lesson.slug, now: before })).status, 403);
+    const response = await endpoint({ slug: lesson.slug, now });
+    assert.equal(response.status, 200);
+    assert.equal(new URL((await response.json()).url).pathname, `/embed/762439/${lesson.videoId}`);
+    for (const [overrides, status] of [[{ email: "" }, 401], [{ cohort: "reiki-rising-spring-2026" }, 403], [{ status: "inactive" }, 403], [{ configured: false }, 503]]) {
+      const blocked = await endpoint({ slug: lesson.slug, now, ...overrides });
+      assert.equal(blocked.status, status);
+      assert.ok(!(await blocked.json()).url);
+    }
   }
 });
 

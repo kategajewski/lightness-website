@@ -19,6 +19,7 @@ const textbookHref = "https://www.reiki.org/store/books/reiki-healing-touch";
 const startHereHref = "/library/reiki-rising-fall-2026/materials/start-here";
 const practiceLogHref =
   "/library/reiki-rising-fall-2026/materials/certification-practice-log";
+const clientIntakeHref = "/library/reiki-rising-fall-2026/materials/client-intake-form";
 
 export const dynamic = "force-dynamic";
 
@@ -223,6 +224,20 @@ export default async function ReikiRisingFall2026LibraryPage() {
                 </a>
                 <a href={`${practiceLogHref}?download=1`} className="button-pill">
                   Download Practice Log
+                </a>
+              </div>
+            </article>
+            <article className="rounded-[22px] bg-[rgba(168,178,159,0.18)] p-6">
+              <h3 className="display-card-title">Reiki Client Intake Form</h3>
+              <p className="mt-3 text-[var(--color-muted)]">
+                A blank form you can use with clients before a Reiki session.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a href={clientIntakeHref} target="_blank" rel="noreferrer" className="button-pill">
+                  Open Client Intake PDF
+                </a>
+                <a href={`${clientIntakeHref}?download=1`} className="button-pill">
+                  Download Client Intake PDF
                 </a>
               </div>
             </article>

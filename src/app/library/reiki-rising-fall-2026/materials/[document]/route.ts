@@ -12,6 +12,7 @@ const documents = {
   "level-two": "reiki-rising-level-two-outline-fall-2026.pdf",
   "start-here": "reiki-rising-start-here-guide.pdf",
   "certification-practice-log": "reiki-rising-certification-practice-log.pdf",
+  "client-intake-form": "reiki-client-intake-form.pdf",
 } as const;
 
 type MaterialRouteContext = {

@@ -5,13 +5,13 @@ import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 const ticketUrl =
-  "https://www.sanctuary-health.org/event-details/rooted-vision-a-womens-circle-2";
-const flyerPath = "/homepage-images/rooted-vision-november-2026.png";
+  "https://www.sanctuary-health.org/event-details/rooted-vision-a-womens-circle-3";
+const flyerPath = "/homepage-images/rooted-vision-december-2026.jpeg";
 
 export const metadata = createPageMetadata({
   title: "Rooted Vision: A Women's Circle with Kate, Jessica and Janesa",
   description:
-    "An evening of guided imagery, drumming and ritual with Kate, Jessica and Janesa at Sanctuary+Health in Patchogue. November 13, 2026, 8:00-9:30 PM.",
+    "An evening of guided imagery, drumming and ritual with Kate, Jessica and Janesa at Sanctuary+Health in Patchogue. December 11, 2026, 8:00-9:30 PM.",
   path: "/rooted-vision-womens-circle",
   image: flyerPath,
 });
@@ -22,8 +22,8 @@ const eventJsonLd = {
   name: "Rooted Vision: A Women's Circle with Kate, Jessica and Janesa",
   description:
     "A women's circle with guided imagery, medicine drumming, ritual and a shared petal blessing.",
-  startDate: "2026-11-13T20:00:00-05:00",
-  endDate: "2026-11-13T21:30:00-05:00",
+  startDate: "2026-12-11T20:00:00-05:00",
+  endDate: "2026-12-11T21:30:00-05:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
   image: `${site.url}${flyerPath}`,
@@ -83,7 +83,7 @@ export default function RootedVisionWomensCirclePage() {
             <div>
               <dt className="mb-1 text-[0.72rem] font-bold uppercase tracking-[0.16em]">When</dt>
               <dd>
-                <span className="block font-semibold text-[var(--color-text)]">Friday, November 13, 2026</span>
+                <span className="block font-semibold text-[var(--color-text)]">Friday, December 11, 2026</span>
                 8:00-9:30 PM
               </dd>
             </div>
@@ -104,12 +104,12 @@ export default function RootedVisionWomensCirclePage() {
           </dl>
 
           <p className="mt-6 text-[0.95rem] leading-7 text-[var(--color-muted)]">
-            This gathering is hosted by Sanctuary+Health. Purchase your tickets
-            directly through their event page using the button below.
+            Ticket details and registration are managed by Sanctuary+Health.
+            Check their event page for current availability.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <a href={ticketUrl} target="_blank" rel="noopener noreferrer" className="button-pill">
-              Purchase Tickets
+              View Event at Sanctuary
             </a>
             <Link href={site.links.events} className="button-pill button-pill-secondary">
               Back to Events
@@ -120,9 +120,9 @@ export default function RootedVisionWomensCirclePage() {
         <figure className="overflow-hidden rounded-[26px] border border-[var(--color-line)]">
           <Image
             src={flyerPath}
-            alt="Rooted Vision: A Women's Circle with Kate, Jessica and Janesa. Friday, November 13, 2026, 8:00-9:30 PM at Sanctuary+Health in Patchogue."
-            width={1000}
-            height={1250}
+            alt="Rooted Vision: A Women's Circle with Kate, Jessica and Janesa. Friday, December 11, 2026, 8:00-9:30 PM at Sanctuary+Health in Patchogue."
+            width={1080}
+            height={1350}
             priority
             sizes="(min-width: 1180px) 530px, (min-width: 1024px) 45vw, 94vw"
             className="block h-auto w-full"

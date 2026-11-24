@@ -4,14 +4,14 @@ import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 const sanctuaryRegistrationUrl =
-  "https://www.sanctuary-health.org/event-details/reiki-infused-sound-journey-the-art-of-receiving";
+  "https://www.sanctuary-health.org/event-details/reiki-infused-sound-journey-return-to-the-light";
 
 export const metadata = createPageMetadata({
-  title: "The Art of Receiving | Holy Fire® Reiki Infused Sound Journey",
+  title: "Return to the Light | Holy Fire® Reiki Infused Sound Journey",
   description:
-    "The Art of Receiving: a Holy Fire® Reiki infused sound journey with Kate at Sanctuary+Health, Patchogue. Monday, November 16, 2026, 8:00–9:30 PM.",
+    "Return to the Light, a Holy Fire® Reiki infused sound journey with Kate at Sanctuary+Health, Patchogue. Tuesday, December 22, 2026, 8:00–9:30 PM.",
   path: "/sound-journeys-at-sanctuary",
-  image: "/homepage-images/art-of-receiving-november-2026.jpeg",
+  image: "/homepage-images/return-to-the-light-december-2026.jpeg",
 });
 
 const experienceNotes = [
@@ -24,14 +24,14 @@ const experienceNotes = [
 const eventJsonLd = {
   "@context": "https://schema.org",
   "@type": "Event",
-  name: "The Art of Receiving Sound Journey with Kate",
+  name: "Return to the Light Sound Journey with Kate",
   description:
-    "An evening of sound layered with Holy Fire® Reiki, inviting you to soften and make space for rest, nourishment and the goodness of life.",
-  startDate: "2026-11-16T20:00:00-05:00",
-  endDate: "2026-11-16T21:30:00-05:00",
+    "A winter solstice sound journey with Holy Fire® Reiki, offering deep rest, reflection and renewal as the days begin to lengthen.",
+  startDate: "2026-12-22T20:00:00-05:00",
+  endDate: "2026-12-22T21:30:00-05:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
-  image: `${site.url}/homepage-images/art-of-receiving-november-2026.jpeg`,
+  image: `${site.url}/homepage-images/return-to-the-light-december-2026.jpeg`,
   performer: {
     "@type": "Person",
     name: "Kate Gajewski",
@@ -75,7 +75,7 @@ export default function SoundJourneysAtSanctuaryPage() {
           <div className="flex flex-col justify-center p-7 sm:p-9 lg:p-12">
             <div className="flex flex-wrap gap-2">
               <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
-                Monday, November 16, 2026
+                Tuesday, December 22, 2026
               </span>
               <span className="rounded-full border border-[rgba(76,58,48,0.12)] bg-[rgba(255,252,248,0.72)] px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-[var(--color-text)]">
                 8:00-9:30 PM
@@ -83,22 +83,22 @@ export default function SoundJourneysAtSanctuaryPage() {
             </div>
 
             <span className="mt-8 text-[0.72rem] font-bold uppercase tracking-[0.2em] text-[var(--color-muted)]">
-              November&apos;s Gathering
+              December&apos;s Gathering
             </span>
             <h2 className="mt-3 max-w-[11ch] font-display text-[3.15rem] leading-[0.96] tracking-[0] text-[var(--color-text)] sm:text-[4.3rem] lg:text-[5rem]">
-              The Art of Receiving
+              Return to the Light
             </h2>
             <p className="mt-5 text-[1.06rem] font-semibold text-[var(--color-text)]">
               A Holy Fire® Reiki Infused Sound Journey
             </p>
             <p className="mt-5 max-w-[39rem] text-[1.06rem] leading-8 text-[var(--color-muted)]">
-              In a season centered around giving, The Art of Receiving is an
-              invitation to soften, open and make space for rest and nourishment.
-              Settle into a sound journey layered with Holy Fire® Reiki and receive
-              the evening in whatever way feels right for you.
+              As the winter solstice passes and the days begin to lengthen,
+              settle into an evening of deep rest, reflection and renewal.
+              Sound layered with Holy Fire® Reiki offers space to reconnect
+              with your inner light and welcome the year ahead.
             </p>
             <p className="mt-4 text-[1.06rem] leading-8 text-[var(--color-muted)]">
-              Come as you are and give yourself space to receive.
+              Come as you are and make room for the light returning within you.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -115,7 +115,7 @@ export default function SoundJourneysAtSanctuaryPage() {
               </Link>
             </div>
             <p className="mt-4 max-w-[35rem] text-[0.86rem] leading-6 text-[var(--color-muted)]">
-              Tickets are $55 before processing fees and are sold by
+              Tickets are $55 plus a $1.38 service fee and are sold by
               Sanctuary+Health. You can also find the event in the Mindbody app
               under Sanctuary+Health.
             </p>
@@ -123,8 +123,8 @@ export default function SoundJourneysAtSanctuaryPage() {
 
           <div className="flex items-center overflow-hidden bg-[#30292b]">
             <img
-              src="/homepage-images/art-of-receiving-november-2026.jpeg"
-              alt="The Art of Receiving, a Holy Fire Reiki infused sound journey with Kate at Sanctuary+Health, Monday November 16, 8–9:30 PM"
+              src="/homepage-images/return-to-the-light-december-2026.jpeg"
+              alt="Return to the Light, a Holy Fire Reiki infused sound journey with Kate at Sanctuary+Health, Tuesday December 22, 8–9:30 PM"
               className="block h-auto w-full object-contain object-center"
             />
           </div>

@@ -170,6 +170,7 @@ export const eventCheckoutConfig = {
   // Keep the original booking identifier when rescheduling to preserve attendee records.
   "reiki-share-november-5-2026": {
     slug: "reiki-share-november-5-2026",
+    registrationClosed: true,
     // Stripe still counts the canceled booking. Eight purchases cover seven places.
     capacity: 8,
     paymentLinkId: "plink_1UXthtElTVNK9O7p2bHqxK0l",

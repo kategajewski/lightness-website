@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { EventCheckoutForm } from "@/components/event-checkout-form";
 import { PageShell } from "@/components/page-shell";
 import { site } from "@/lib/site";
@@ -56,11 +57,16 @@ const eventJsonLd = {
   },
 };
 
+// Set to true when the next gathering is ready to publish.
+const registrationPublished = false;
+
 export default async function ReikiSharePage({
   searchParams,
 }: {
   searchParams: Promise<{ checkoutError?: string }>;
 }) {
+  if (!registrationPublished) notFound();
+
   const { checkoutError } = await searchParams;
   const checkoutMessage = checkoutError === "sold_out"
     ? "All 7 places for this Reiki Share have been reserved. I hope you can join us for a future gathering."

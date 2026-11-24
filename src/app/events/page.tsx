@@ -12,28 +12,28 @@ export const metadata = createPageMetadata({
 
 const upcomingEvents = [
   {
-    sortKey: "2026-11-13",
+    sortKey: "2026-12-11",
     isActive: true,
     eyebrow: "A Gathering for Women",
     title: "Rooted Vision: A Women's Circle",
     description:
       "An evening with Kate, Jessica and Janesa to slow down, return to your body and make space for what is ready to grow.",
     details:
-      "Friday, November 13, 2026 · 8:00-9:30 PM · Sanctuary+Health, Patchogue · Sliding-scale tickets through Sanctuary",
+      "Friday, December 11, 2026 · 8:00-9:30 PM · Sanctuary+Health, Patchogue · Sliding-scale tickets through Sanctuary",
     href: site.links.rootedVision,
     cta: "Explore the Women's Circle",
     cardClass:
       "border-[var(--color-rose)] bg-[var(--color-ivory)]",
   },
   {
-    sortKey: "2026-11-16",
+    sortKey: "2026-12-22",
     isActive: true,
     eyebrow: "Reiki-Infused Sound Journey",
-    title: "The Art of Receiving",
+    title: "Return to the Light",
     description:
-      "A Holy Fire® Reiki infused sound journey with Kate. Make space for rest, nourishment and the goodness of life.",
+      "A Holy Fire® Reiki infused sound journey with Kate. Rest, reflect and welcome the return of the light.",
     details:
-      "Monday, November 16, 2026 · 8:00-9:30 PM · Sanctuary+Health, Patchogue · $55 before processing fees",
+      "Tuesday, December 22, 2026 · 8:00-9:30 PM · Sanctuary+Health, Patchogue · $55 before processing fees",
     href: site.links.soundJourneysAtSanctuary,
     cta: "Explore the Sound Journey",
     cardClass:
@@ -83,7 +83,7 @@ const upcomingEvents = [
   },
   {
     sortKey: "2026-11-19",
-    isActive: true,
+    isActive: false,
     eyebrow: "Practitioner Gathering",
     title: "Reiki Share",
     description:
@@ -267,8 +267,8 @@ export default function EventsPage() {
             Explore upcoming gatherings and seasonal experiences.
           </h2>
           <p className="mt-4 text-[var(--color-muted)]">
-            Browse the latest readings, sound journeys and community events
-            currently open for registration. For a one-on-one session, explore{" "}
+            Browse upcoming women&apos;s circles, sound journeys and community events.
+            For a one-on-one session, explore{" "}
             <Link
               href={site.links.soundHealingLongIsland}
               className="font-bold text-[#5d5148] underline decoration-2 underline-offset-4"

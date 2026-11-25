@@ -4,24 +4,16 @@ Prepared November 24, 2026 for the existing Lightness Platform.
 
 ## Release status
 
-- Implementation is prepared in `/private/tmp/lightness-holiday-2026`, based on refreshed production commit `c22cb042f7773731c3877bbeb23c4d12ca6dcecc`. Canonical implementation and checkout hardening are committed through `cbbb6f4`. The Desktop checkout became dataless through local file offloading; the hydrated temporary checkout is the authoritative release source.
-- Git HTTPS fetch and Vercel production metadata independently confirmed that baseline. The matching READY deployment is `dpl_EJVWtfGwv4fqx7ZGDJBmYXNWvAvZ`.
-- No public production promotion or campaign activation has been completed. Private test deployments use the production environment with per-deployment test overrides and no assigned aliases. The live domain remains on the original `c22cb04` deployment. Do not release the older dirty Desktop checkout over the current site.
-- After Kate signed into Supabase, the final migration was installed through the existing Website project. Service-role access returned HTTP 200 and anonymous access was rejected with HTTP 401. The ledger now contains five isolated test purchases.
-- The available local Stripe credential is in test mode. Production Stripe and email secrets are marked sensitive in Vercel and their values cannot be retrieved through the API. Their presence does not establish that the local integration uses the production configuration.
-- Browser sandbox purchases of all five tiers were completed. The Stripe API confirmed each session was complete and paid for its exact USD face value with `livemode=false`. No real money was charged.
-- Five genuine Stripe completed-payment events were replayed into the protected staged webhook using a fresh staged signing secret. All returned HTTP 200. The existing paid certificate email markers were recorded, and five separate promotional email outboxes have provider references with one attempt each. Replaying the $50 event twice more created no additional voucher or delivery attempt.
-- Kate explicitly confirmed that all ten test emails arrived: the five paid gift certificates and five separate promotional vouchers. The Resend status API returned HTTP 401 with the existing sending credential; mailbox delivery was therefore verified by the recipient rather than by provider status retrieval.
-- The existing LIVE Stripe webhook endpoint `we_1TcW9zElTVNK9O7pJhAuaXto` was updated and verified with four enabled events: `checkout.session.completed`, `invoice.paid`, `checkout.session.async_payment_succeeded` and `charge.refunded`. Its destination URL, API version and signing secret were unchanged.
-- An existing live $140 inline-price checkout produced a `cs_live_` session without submitting payment. The older $50 external-price path redirected back to the internal checkout page. Gift checkout now uses inline full face values for every listed amount so it does not depend on the failing external mapping.
+- The campaign is published at `https://bethelightness.com/gift-certificate`. The reviewed application release is `beff9218646b3b9da3ea69ce7c22ac2ec35d13bf`, based on the refreshed `c22cb04` production baseline. Public release checks passed on November 24, 2026 at 9:56 PM Eastern.
+- GitHub `main` contains the reviewed application. The hydrated checkout used for this work is `/private/tmp/lightness-holiday-2026`. The older Desktop checkout became dataless through local file offloading and its unrelated changes were preserved. Use GitHub main as the durable source; temporary files are not the only backup.
+- Migrations 001, 002 and 003 are installed in the existing Website Supabase project. Server access is allowed and public access is denied. The campaign's five test vouchers remain isolated by Stripe test mode.
+- All five genuine Stripe sandbox card purchases completed at full face value. Kate confirmed receipt of all ten emails: five original paid certificates and five separate promotional vouchers. The final bank-aware replay reused those events without new email attempts, adding five durable initiation proofs and five preserved event receipts.
+- Delayed bank settlement and out-of-order initiation were verified with automated tests, not an actual bank transfer. Real live checkouts were opened without submitting payment to verify `cs_live_` routing. No real money was charged during testing.
+- The existing LIVE webhook listens to `checkout.session.completed`, `invoice.paid`, `checkout.session.async_payment_succeeded` and `charge.refunded`. Its URL, API version and signing secret were preserved.
+- Both campaign settings are persisted in the Vercel production project. Ordinary production mail recipients and cron settings are preserved. No test credentials or diagnostic route are in the public release.
+- Existing saved gift Price IDs caused the older $50 path to return to checkout while the inline $140 option worked. All gift amounts now use full face value inline pricing, including after the promotion ends.
 
-Private test deployments:
-
-- `https://lightness-website-pozy0qpql-bethelightness.vercel.app` (`dpl_ErdHfEmi7rjPYGaStm8KQ2HQPKQ3`) performed the real sandbox-event fulfillment and duplicate checks.
-- `https://lightness-website-8fjfelov4-bethelightness.vercel.app` (`dpl_B9mFwj5kbSWYoMnV8e1ewWNEuJXZ`) includes the finalized checkout hardening and an artifact-only delivery-status diagnostic. It is READY, has no aliases and leaves the live domain unchanged.
-- Both artifacts narrow owner notifications to `kate@bethelightness.com`, set `CONTACT_FORWARD_TO` to that same approved inbox, omit cron configuration and disable intake automation. They use test Stripe keys at build and runtime. These are test-only changes outside the canonical source.
-- The diagnostic is Vercel protected and requires an independent random per-deployment token. It reads only the five known Kate test vouchers and attempts provider status retrieval. It is absent from the canonical release source and sends no email.
-- Never promote either test deployment to the live domain. A live release must be a fresh build from canonical source with ordinary production settings and no diagnostic route.
+Archived private test artifacts used test Stripe keys, purchaser-only test notifications and disabled cron activity. They must never be promoted as a live release. The diagnostic existed only in a protected test artifact and is absent from the canonical application. Detailed private test payloads and delivery references are excluded from published source.
 
 ## Approved campaign rules
 
@@ -134,7 +126,7 @@ The campaign was published on November 24, 2026 after the approved rules and del
 | Production flags persisted | `2026-11-25T02:53:42.427Z` |
 | Reviewed clean candidate | `dpl_4jEww7fPGY9K1uMnc52Qm6Cv7pCT` |
 | Clean candidate promotion | `2026-11-25T02:55:30.797Z` |
-| Final GitHub production deployment | `dpl_vko5o8susnh2whbNf3a21HkhXoNS`, READY |
+| Initial verified GitHub application deployment | `dpl_vko5o8susnh2whbNf3a21HkhXoNS`, READY |
 | Public smoke verification | `2026-11-25T02:56:38.653Z` |
 
 Production was refreshed immediately before publication. GitHub main and the domain were still at `c22cb042f7773731c3877bbeb23c4d12ca6dcecc`. Main was fast-forwarded to the reviewed `beff921` release after the two campaign flags were persisted. The clean candidate was promoted while the GitHub build was completing. The automatic GitHub deployment then became READY and assigned all five original aliases to the same reviewed application source: `bethelightness.com`, `www.bethelightness.com`, `lightness-preview-4x1n.vercel.app`, `lightness-website-bethelightness.vercel.app` and `lightness-website-git-main-bethelightness.vercel.app`.
@@ -147,6 +139,8 @@ The live Stripe webhook endpoint retains its existing URL, API version and signi
 
 All three migrations are installed. The final main holiday suite passed 114 tests and four relevant existing email, invoice, enrollment and event-capacity suites passed 82 regressions. SQL and native contention suites passed 68 tests in total. Direct restricted-access checks rejected redemption before January 1, combination with another promotion and ineligible training purchases without changing the test voucher balance. These were controlled verification checks, not live customer redemptions.
 
-Kate confirmed receipt of all five paid gift certificate emails and all five separate complimentary voucher emails. The final replay preserved the same five vouchers, five sent outboxes, provider references and single delivery attempts. It added only the five durable initiation proofs and five raw event receipts required by the bank timing rule. No additional email delivery was required.
+The five payment-path checks used real Stripe sandbox card payments. Kate confirmed receipt of all five paid gift certificate emails and all five separate complimentary voucher emails. Delayed bank settlement, event ordering and deadline behavior were verified with automated tests, not a real bank transfer. The final bank-aware replay used those same five genuine completed events and preserved the same five vouchers, five sent outboxes, provider references and single delivery attempts. It added only the five durable initiation proofs and five raw event receipts required by the bank timing rule. No additional email delivery was required.
 
 Private release evidence is held outside the published source: `/private/tmp/lightness-holiday-postlaunch-smoke.json`, `/private/tmp/lightness-holiday-production-flags-result.json` and `/private/tmp/lightness-holiday-production-release-verification.json`. Detailed Stripe event payloads and delivery references stay under the ignored private output directory.
+
+The original Desktop checkout became dataless through iCloud during this work. Its existing changes were left untouched. The hydrated isolated checkout at `/private/tmp/lightness-holiday-2026` and synchronized GitHub main hold the authoritative release source. Private operator scripts and payloads in temporary storage are not a durable source backup.

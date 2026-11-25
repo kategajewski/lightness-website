@@ -1,19 +1,27 @@
 import Link from "next/link";
 import { HOLIDAY_CAMPAIGN } from "@/lib/holiday-gift-campaign";
 import { CourseReleaseRefresh } from "@/components/course-release-refresh";
+import styles from "./holiday-gift-banner.module.css";
 
 export function HolidayGiftBanner() {
   return (
-    <section aria-labelledby="holiday-gift-title" className="border-b border-[var(--color-button-line)] bg-[var(--color-beige)] px-5 py-7 sm:px-8">
+    <section aria-labelledby="holiday-gift-title" className={styles.banner}>
       <CourseReleaseRefresh nextReleaseAt={new Date().getTime() < Date.parse(HOLIDAY_CAMPAIGN.purchaseEndsAt) ? Date.parse(HOLIDAY_CAMPAIGN.purchaseEndsAt) : null} serverNow={new Date().getTime()} />
-      <div className="mx-auto flex max-w-[1180px] flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-        <div className="max-w-[46rem]">
-          <h2 id="holiday-gift-title" className="display-card-title">{HOLIDAY_CAMPAIGN.name}</h2>
-          <p className="mt-2 font-semibold">{HOLIDAY_CAMPAIGN.tagline}</p>
-          <p className="mt-2 text-[var(--color-brown)]">Receive up to $100 in complimentary healing credit when you purchase a gift certificate now through December 15th.</p>
-          <p className="mt-3 text-sm leading-relaxed text-[var(--color-brown)]">Terms and conditions apply to gift certificates and gift cards. Offer ends December 15, 2026 at 11:59 PM Eastern. Separate complimentary promotional vouchers are valid January 1 through March 31, 2027 toward private healing services. Transferable. Cannot be combined with other promotions.</p>
+      <svg aria-hidden="true" className={styles.stars} viewBox="0 0 180 150" fill="none">
+        <path d="M107 15c0 33-9 44-33 48 24 4 33 15 33 48 0-33 9-44 33-48-24-4-33-15-33-48Z" stroke="currentColor" strokeWidth="1.2" />
+        <path d="M40 83c0 15-4 20-15 22 11 2 15 7 15 22 0-15 4-20 15-22-11-2-15-7-15-22Z" fill="currentColor" />
+        <path d="M153 101c0 11-3 15-11 17 8 2 11 6 11 17 0-11 3-15 11-17-8-2-11-6-11-17Z" fill="currentColor" />
+        <circle cx="45" cy="31" r="2" fill="currentColor" />
+        <circle cx="160" cy="38" r="1.5" fill="currentColor" />
+      </svg>
+      <div className={styles.content}>
+        <div className={styles.copy}>
+          <p className={styles.eyebrow}>Holiday Gift Certificates</p>
+          <h2 id="holiday-gift-title" className={`display-section-title ${styles.title}`}>{HOLIDAY_CAMPAIGN.name}</h2>
+          <p className={styles.tagline}>{HOLIDAY_CAMPAIGN.tagline}</p>
+          <p className={styles.description}>Receive <strong>up to $100 in complimentary healing credit</strong> when you purchase a gift certificate now through December 15th.</p>
         </div>
-        <Link href="/gift-certificate#gift-amounts" className="button-pill shrink-0 self-start lg:self-center">Shop Holiday Gift Certificates</Link>
+        <Link href="/gift-certificate#gift-amounts" className={styles.button}>Shop Holiday Gift Certificates <span aria-hidden="true">→</span></Link>
       </div>
     </section>
   );

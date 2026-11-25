@@ -1,0 +1,132 @@
+.banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-block: 1px solid #cfb57b;
+  background:
+    radial-gradient(ellipse at 100% 0%, #e7d09a55, transparent 60%),
+    linear-gradient(110deg, #fffdf8 35%, #fbf4e3);
+  padding: 2rem 1.25rem;
+  color: var(--color-text);
+}
+
+.banner::after {
+  position: absolute;
+  inset: 5px 0;
+  z-index: -1;
+  border-block: 1px solid #cfb57b45;
+  content: "";
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  margin-inline: auto;
+  display: flex;
+  max-width: 1180px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.copy {
+  max-width: 46rem;
+}
+
+.eyebrow {
+  margin-bottom: 0.7rem;
+  color: #806124;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.title {
+  color: #5b4427;
+  text-wrap: balance;
+}
+
+.tagline {
+  margin-top: 0.8rem;
+  color: #806124;
+  font-size: 1.08rem;
+  font-weight: 600;
+}
+
+.description {
+  margin-top: 0.5rem;
+  max-width: 43rem;
+  color: var(--color-brown);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 52px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border: 1px solid #b28c43;
+  border-radius: 9999px;
+  background: linear-gradient(115deg, #f7e8bf, #dbb96f 75%, #eed9a3);
+  padding: 1rem 1.5rem;
+  color: #392c1c;
+  font-size: 0.94rem;
+  font-weight: 600;
+  box-shadow: 0 5px 20px #9a762422, inset 0 1px 0 #ffffffb3;
+}
+
+.button:hover {
+  background: linear-gradient(115deg, #f7e8bf, #cfab5e 75%, #e7cd8d);
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--color-brown);
+  outline-offset: 4px;
+}
+
+.stars {
+  position: absolute;
+  top: -0.5rem;
+  right: 0.5rem;
+  width: 180px;
+  color: #bd9345;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@media (max-width: 1023px) {
+  .content {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .banner {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .stars {
+    top: 0.15rem;
+    right: -1.5rem;
+    width: 120px;
+    opacity: 0.3;
+  }
+
+  .button {
+    width: 100%;
+    padding-inline: 1rem;
+  }
+}

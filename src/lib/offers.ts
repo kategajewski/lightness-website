@@ -205,6 +205,7 @@ export const offers: Offer[] = [
         description:
           "A gentle entry-point gift for care, support, or a thoughtful offering.",
         mode: "payment",
+        amountCents: 5000,
         stripePriceId:
           env.stripePriceGiftCertificate50 || env.stripePriceGiftCertificate,
       },
@@ -215,6 +216,7 @@ export const offers: Offer[] = [
         description:
           "A flexible gift amount for healing support and meaningful care.",
         mode: "payment",
+        amountCents: 10000,
         stripePriceId: env.stripePriceGiftCertificate100,
       },
       {
@@ -243,6 +245,7 @@ export const offers: Offer[] = [
         description:
           "A more generous gift for deeper support or multiple offerings.",
         mode: "payment",
+        amountCents: 25000,
         stripePriceId: env.stripePriceGiftCertificate250,
       },
       {
@@ -252,6 +255,7 @@ export const offers: Offer[] = [
         description:
           "A premium gift for someone you want to support in a meaningful way.",
         mode: "payment",
+        amountCents: 50000,
         stripePriceId: env.stripePriceGiftCertificate500,
       },
     ],
@@ -294,6 +298,10 @@ export function getAvailablePurchaseOptions(offer: Offer, now = new Date()) {
 }
 
 export function getCheckoutReadiness(offer: Offer) {
+  // Hosted gift checkout redirects to Stripe and does not use Stripe.js.
+  const stripeConfigured = offer.slug === "gift-certificate"
+    ? Boolean(env.stripeSecretKey)
+    : integrations.stripe;
   const optionPriceIds =
     offer.purchaseOptions?.map((option) => option.stripePriceId).filter(Boolean) ??
     [];
@@ -302,11 +310,11 @@ export function getCheckoutReadiness(offer: Offer) {
     offer.purchaseOptions?.some((option) => Boolean(option.amountCents)) ?? false;
 
   return {
-    stripeConfigured: integrations.stripe,
+    stripeConfigured,
     hasPriceId:
       Boolean(offer.stripePriceId) || hasAnyOptionPrice || hasAnyInlinePrice,
     checkoutReady:
-      integrations.stripe &&
+      stripeConfigured &&
       (Boolean(offer.stripePriceId) || hasAnyOptionPrice || hasAnyInlinePrice),
     currentFallbackHref:
       offer.format === "inquiry"

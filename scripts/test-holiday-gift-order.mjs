@@ -75,13 +75,13 @@ test("fulfillment trusts a consistent payment snapshot independent of campaign e
   assert.throws(() => order.giftOrderFromMetadata(metadata, 12537));
 });
 
-function checkoutHarness(active = true) {
+function checkoutHarness(active = true, { stripeConfigured = true, secretKey = "synthetic-only", configuredOffer } = {}) {
   const requests = [];
   const stamps = [];
-  const offer = { slug: "gift-certificate", name: "Gift Certificate", format: "one_time", purchaseOptions: options };
+  const offer = configuredOffer || { slug: "gift-certificate", name: "Gift Certificate", format: "one_time", purchaseOptions: options };
   const route = loadTs("../src/app/api/checkout/route.ts", {
     "next/server": { NextResponse: { redirect: (location, { status }) => ({ location, status }) } },
-    "@/lib/env": { env: { siteUrl: "https://example.invalid", stripeSecretKey: "synthetic-only" }, integrations: { stripe: true } },
+    "@/lib/env": { env: { siteUrl: "https://example.invalid", stripeSecretKey: secretKey }, integrations: { stripe: stripeConfigured } },
     "@/lib/offers": { getOfferBySlug: (slug) => slug === offer.slug ? offer : null, isPurchaseOptionAvailable: () => true },
     "@/lib/reiki-rising-agreement": {},
     "@/lib/holiday-gift-order": order,
@@ -132,6 +132,70 @@ test("all existing listed amounts still use their exact full face value", async 
     assert.equal(h.requests[0].body.get("line_items[0][price_data][unit_amount]"), String(option.amountCents));
     assert.equal(h.requests[0].body.get("line_items[0][quantity]"), "1");
   }
+});
+
+function offersHarness(env = {}, stripeConfigured = false) {
+  return loadTs("../src/lib/offers.ts", {
+    "@/lib/env": { env, integrations: { stripe: stripeConfigured } },
+    "@/lib/site": { site: { links: { membership: "/membership", soundTraining: "/sound-training", giftCertificate: "/gift-certificate", contact: "/contact" } } },
+  });
+}
+
+test("hosted gift readiness and checkout need the server key without requiring a publishable key", async () => {
+  const catalog = offersHarness({ stripeSecretKey: "sk_test_synthetic_server_only" });
+  const giftOffer = catalog.getOfferBySlug("gift-certificate");
+  const readiness = catalog.getCheckoutReadiness(giftOffer);
+  assert.equal(readiness.stripeConfigured, true);
+  assert.equal(readiness.checkoutReady, true);
+  const h = checkoutHarness(false, { stripeConfigured: false, secretKey: "sk_test_synthetic_server_only", configuredOffer: giftOffer });
+  const result = await h.post({ optionKey: "gift-50" });
+  assert.equal(result.location, "https://checkout.stripe.invalid/synthetic");
+  assert.equal(h.requests[0].body.get("line_items[0][price_data][unit_amount]"), "5000");
+});
+
+test("missing server credentials still prevent hosted gift checkout", async () => {
+  const catalog = offersHarness({ stripePublishableKey: "pk_test_synthetic" }, true);
+  assert.equal(catalog.getCheckoutReadiness(catalog.getOfferBySlug("gift-certificate")).checkoutReady, false);
+  const h = checkoutHarness(false, { stripeConfigured: true, secretKey: "" });
+  assert.match((await h.post({ optionKey: "gift-50" })).location, /checkout\/gift-certificate$/);
+  assert.equal(h.requests.length, 0);
+});
+
+test("stale gift Price IDs are ignored and all six regular amounts stay exact after campaign expiration", async () => {
+  const catalog = offersHarness({
+    stripeSecretKey: "sk_test_synthetic_server_only", stripePriceGiftCertificate: "price_live_wrong_denomination",
+    stripePriceGiftCertificate50: "price_live_obsolete_50", stripePriceGiftCertificate100: "price_live_obsolete_100",
+    stripePriceGiftCertificate150: "price_live_obsolete_150", stripePriceGiftCertificate250: "price_live_obsolete_250",
+    stripePriceGiftCertificate500: "price_live_obsolete_500",
+  });
+  const giftOffer = catalog.getOfferBySlug("gift-certificate");
+  const available = catalog.getAvailablePurchaseOptions(giftOffer);
+  assert.deepEqual(available.map((option) => option.amountCents), [5000, 10000, 14000, 15000, 25000, 50000]);
+  for (const active of [true, false]) {
+    for (const option of available) {
+      const h = checkoutHarness(active, { stripeConfigured: false, configuredOffer: giftOffer });
+      const result = await h.post({ optionKey: option.key });
+      assert.equal(result.location, "https://checkout.stripe.invalid/synthetic");
+      const body = h.requests[0].body;
+      assert.equal(body.has("line_items[0][price]"), false);
+      assert.equal(body.get("line_items[0][price_data][unit_amount]"), String(option.amountCents));
+      assert.equal(body.get("line_items[0][quantity]"), "1");
+      assert.equal(body.get("metadata[giftTotalAmountCents]"), String(option.amountCents));
+      if (!active) {
+        assert.equal(h.stamps.length, 0);
+        assert.ok([...body.keys()].every((key) => !key.startsWith("metadata[holiday")));
+      }
+    }
+  }
+});
+
+test("hosted gift credential hardening leaves other offer readiness and checkout gates unchanged", async () => {
+  const catalog = offersHarness({ stripeSecretKey: "sk_test_synthetic_server_only", stripePriceMembershipMonthly: "price_membership" });
+  const membership = catalog.getOfferBySlug("monthly-membership");
+  assert.equal(catalog.getCheckoutReadiness(membership).checkoutReady, false);
+  const h = checkoutHarness(false, { stripeConfigured: false, configuredOffer: membership });
+  assert.match((await h.post({})).location, /checkout\/monthly-membership$/);
+  assert.equal(h.requests.length, 0);
 });
 
 const gift = loadTs("../src/lib/gift-certificates.ts", { "@/lib/holiday-gift-order": order });

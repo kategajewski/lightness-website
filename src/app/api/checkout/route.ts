@@ -73,19 +73,21 @@ export async function POST(request: Request) {
     );
   }
 
-  const selectedAmountCents = giftOrder && holidayActive
+  const selectedAmountCents = giftOrder
     ? giftOrder.unitAmountCents
     : selectedOption?.amountCents;
   const canCreateInlinePrice = Boolean(selectedAmountCents);
-  const selectedPriceId =
-    (giftOrder && holidayActive ? undefined : selectedOption?.stripePriceId) ||
-    (canCreateInlinePrice ? undefined : offer.stripePriceId);
+  // Gift certificates always charge their validated face value. Saved Stripe
+  // Price IDs may belong to a different account mode or an older denomination.
+  const selectedPriceId = giftOrder
+    ? undefined
+    : selectedOption?.stripePriceId || (canCreateInlinePrice ? undefined : offer.stripePriceId);
   const checkoutMode =
     selectedOption?.mode ||
     (offer.format === "subscription" ? "subscription" : "payment");
 
   if (
-    !integrations.stripe ||
+    !(giftOrder ? Boolean(env.stripeSecretKey) : integrations.stripe) ||
     (!selectedPriceId && !canCreateInlinePrice) ||
     !env.stripeSecretKey
   ) {
@@ -198,7 +200,7 @@ export async function POST(request: Request) {
     );
     body.set(
       "line_items[0][price_data][product_data][name]",
-      giftOrder && holidayActive
+      giftOrder
         ? `${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(giftOrder.unitAmountCents / 100)} Gift Certificate`
         : selectedOption?.label || offer.name,
     );
@@ -229,16 +231,18 @@ export async function POST(request: Request) {
     body.set("metadata[initialPaymentCents]", String(selectedOption.initialPaymentCents));
   }
 
-  if (giftOrder && holidayActive) {
+  if (giftOrder) {
     body.set("metadata[giftUnitAmountCents]", String(giftOrder.unitAmountCents));
     body.set("metadata[giftQuantity]", String(giftOrder.quantity));
     body.set("metadata[giftTotalAmountCents]", String(giftOrder.totalAmountCents));
-    addHolidayCheckoutMetadata(body, {
-      key: giftOrder.optionKey,
-      amountCents: giftOrder.unitAmountCents,
-      purchaseCents: giftOrder.totalAmountCents,
-      quantity: giftOrder.quantity,
-    });
+    if (holidayActive) {
+      addHolidayCheckoutMetadata(body, {
+        key: giftOrder.optionKey,
+        amountCents: giftOrder.unitAmountCents,
+        purchaseCents: giftOrder.totalAmountCents,
+        quantity: giftOrder.quantity,
+      });
+    }
   }
 
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {

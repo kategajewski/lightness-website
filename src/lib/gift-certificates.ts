@@ -10,6 +10,8 @@ import {
   StandardFonts,
 } from "pdf-lib";
 
+export { giftOrderFromMetadata } from "@/lib/holiday-gift-order";
+
 export type GiftCertificateBookingCoupon = {
   service: string;
   code: string;
@@ -22,11 +24,15 @@ type GiftCertificateInput = {
   buyerName?: string | null;
   purchasedAt?: number | null;
   sessionId?: string | null;
+  certificateIndex?: number;
   bookingCoupons?: readonly GiftCertificateBookingCoupon[];
 };
 
-export function createGiftCertificateCode(sessionId?: string | null) {
-  const source = sessionId || `${Date.now()}-${Math.random()}`;
+export function createGiftCertificateCode(sessionId?: string | null, certificateIndex?: number) {
+  const sessionSource = sessionId || `${Date.now()}-${Math.random()}`;
+  const source = certificateIndex === undefined
+    ? sessionSource
+    : `${sessionSource}:gift:${certificateIndex}`;
   const digest = createHash("sha256").update(source).digest("hex");
   return `LIGHT-${digest.slice(0, 4).toUpperCase()}-${digest
     .slice(4, 10)
@@ -34,7 +40,7 @@ export function createGiftCertificateCode(sessionId?: string | null) {
 }
 
 export async function createGiftCertificatePdf(input: GiftCertificateInput) {
-  const certificateCode = createGiftCertificateCode(input.sessionId);
+  const certificateCode = createGiftCertificateCode(input.sessionId, input.certificateIndex);
   const pdf = await PDFDocument.create();
   const page = pdf.addPage([792, 612]);
   const logo = await embedLogo(pdf);

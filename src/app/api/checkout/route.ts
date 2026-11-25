@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { addHolidayCheckoutMetadata, isHolidayCampaignActive } from "@/lib/holiday-gift-campaign";
+import { parseHolidayGiftOrder } from "@/lib/holiday-gift-order";
 import { env, integrations } from "@/lib/env";
 import { getOfferBySlug, isPurchaseOptionAvailable } from "@/lib/offers";
 import { REIKI_RISING_AGREEMENT_VERSION } from "@/lib/reiki-rising-agreement";
@@ -32,7 +34,23 @@ export async function POST(request: Request) {
       option.key === optionKey && isPurchaseOptionAvailable(option),
   );
 
-  if (offer.purchaseOptions?.length && !selectedOption) {
+  const holidayActive = isHolidayCampaignActive();
+  const giftOrder = offer.slug === "gift-certificate"
+    ? parseHolidayGiftOrder({
+        optionKey,
+        customAmount: String(formData.get("customAmount") ?? ""),
+        quantity: String(formData.get("quantity") ?? "1"),
+      }, {
+        campaignActive: holidayActive,
+        options: (offer.purchaseOptions ?? []).filter((option) => isPurchaseOptionAvailable(option)),
+      })
+    : null;
+
+  if (offer.slug === "gift-certificate" && !giftOrder) {
+    return NextResponse.redirect(`${origin}/gift-certificate?order=invalid`, { status: 303 });
+  }
+
+  if (offer.purchaseOptions?.length && !selectedOption && !giftOrder?.isCustom) {
     const redirectPath =
       offer.slug === "reiki-rising"
         ? `${origin}/checkout/${offer.slug}?agreement=required`
@@ -55,10 +73,12 @@ export async function POST(request: Request) {
     );
   }
 
-  const selectedAmountCents = selectedOption?.amountCents;
+  const selectedAmountCents = giftOrder && holidayActive
+    ? giftOrder.unitAmountCents
+    : selectedOption?.amountCents;
   const canCreateInlinePrice = Boolean(selectedAmountCents);
   const selectedPriceId =
-    selectedOption?.stripePriceId ||
+    (giftOrder && holidayActive ? undefined : selectedOption?.stripePriceId) ||
     (canCreateInlinePrice ? undefined : offer.stripePriceId);
   const checkoutMode =
     selectedOption?.mode ||
@@ -76,10 +96,10 @@ export async function POST(request: Request) {
 
   const body = new URLSearchParams({
     mode: checkoutMode,
-    "line_items[0][quantity]": "1",
+    "line_items[0][quantity]": String(giftOrder?.quantity ?? 1),
     "metadata[purchaseType]": "offer",
     "metadata[offerSlug]": offer.slug,
-    "metadata[optionKey]": selectedOption?.key ?? "",
+    "metadata[optionKey]": giftOrder?.optionKey ?? selectedOption?.key ?? "",
     success_url: `${origin}/checkout/success?type=offer&slug=${encodeURIComponent(
       offer.slug,
     )}&session_id={CHECKOUT_SESSION_ID}`,
@@ -178,7 +198,9 @@ export async function POST(request: Request) {
     );
     body.set(
       "line_items[0][price_data][product_data][name]",
-      selectedOption?.label || offer.name,
+      giftOrder && holidayActive
+        ? `${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(giftOrder.unitAmountCents / 100)} Gift Certificate`
+        : selectedOption?.label || offer.name,
     );
 
     if (checkoutMode === "subscription") {
@@ -205,6 +227,18 @@ export async function POST(request: Request) {
     }
     body.set("custom_text[submit][message]", selectedOption.description);
     body.set("metadata[initialPaymentCents]", String(selectedOption.initialPaymentCents));
+  }
+
+  if (giftOrder && holidayActive) {
+    body.set("metadata[giftUnitAmountCents]", String(giftOrder.unitAmountCents));
+    body.set("metadata[giftQuantity]", String(giftOrder.quantity));
+    body.set("metadata[giftTotalAmountCents]", String(giftOrder.totalAmountCents));
+    addHolidayCheckoutMetadata(body, {
+      key: giftOrder.optionKey,
+      amountCents: giftOrder.unitAmountCents,
+      purchaseCents: giftOrder.totalAmountCents,
+      quantity: giftOrder.quantity,
+    });
   }
 
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {

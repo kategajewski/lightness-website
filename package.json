@@ -6,7 +6,8 @@
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:holiday": "node --test --test-concurrency=1 scripts/test-holiday-gift-campaign.mjs scripts/test-holiday-gift-order.mjs scripts/test-holiday-voucher-fulfillment.mjs scripts/test-holiday-voucher-email.mjs scripts/test-holiday-voucher-admin.mjs"
   },
   "dependencies": {
     "@pdf-lib/fontkit": "1.1.1",

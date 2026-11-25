@@ -6,6 +6,12 @@ import { isAdminEmail } from "@/lib/site";
 
 const adminTools = [
   {
+    title: "Holiday Vouchers",
+    description:
+      "Review complimentary vouchers, purchaser details and healing credit balances.",
+    href: "/admin/holiday-vouchers",
+  },
+  {
     title: "Event Attendance",
     description:
       "See completed Stripe event purchases grouped into attendance lists.",

@@ -1,4 +1,7 @@
 import Image from "next/image";
+import { HolidayGiftDisclosures } from "@/components/holiday-gift-promotion";
+import { HolidayGiftOrderForm } from "@/components/holiday-gift-order-form";
+import { APPROVED_HOLIDAY_RULES, formatHolidayMoney, holidayBonusForOption, isHolidayCampaignActive } from "@/lib/holiday-gift-campaign";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/page-shell";
@@ -44,24 +47,28 @@ const programPrices = [
 const priceRowClass = "flex items-baseline justify-between gap-4 py-2.5";
 const priceClass = "shrink-0 text-right font-bold tabular-nums";
 
+export const dynamic = "force-dynamic";
+
 export default function GiftCertificatePage() {
+  const holidayActive = isHolidayCampaignActive();
   const offer = getOfferBySlug("gift-certificate");
   if (!offer) notFound();
 
-  const giftAmounts = getAvailablePurchaseOptions(offer);
+  const giftAmounts = getAvailablePurchaseOptions(offer).filter((amount) => !(holidayActive && amount.key === "gift-140" && APPROVED_HOLIDAY_RULES?.gift140 === "hidden"));
 
   return (
     <PageShell
       eyebrow="Gift Certificate"
-      title="Give the gift of healing."
-      description="Give someone you love a session, cover the cost of the program they’ve been saving for or help them take the next step toward it."
+      title={holidayActive ? "A Little Light Goes a Long Way" : "Give the gift of healing."}
+      description={holidayActive ? "Give a little. Get a little. Receive up to $100 in complimentary healing credit when you purchase a gift certificate through December 15." : "Give someone you love a session, cover the cost of the program they’ve been saving for or help them take the next step toward it."}
     >
-      <div className="grid items-center gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="grid items-start gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <section
           id="gift-amounts"
           className="rounded-[30px] border border-[var(--color-button-line)] bg-[var(--color-ivory)] p-6 sm:p-8"
         >
           <h2 className="display-section-title">Choose a gift amount.</h2>
+          {holidayActive ? <HolidayGiftDisclosures /> : null}
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
             {giftAmounts.map((amount) => (
               <form key={amount.key} action="/api/checkout" method="post">
@@ -70,13 +77,16 @@ export default function GiftCertificatePage() {
                 <button
                   type="submit"
                   className="button-pill w-full"
-                  aria-label={`Buy a ${amount.priceLabel} gift certificate`}
+                  aria-describedby={holidayActive ? "holiday-gift-terms" : undefined}
+                  aria-label={`Buy a ${amount.priceLabel} gift certificate${holidayActive && holidayBonusForOption(amount.key) ? ` and receive a ${formatHolidayMoney(holidayBonusForOption(amount.key))} complimentary promotional voucher` : ""}`}
                 >
                   {amount.priceLabel}
                 </button>
+                {holidayActive && holidayBonusForOption(amount.key) > 0 ? <p className="mt-2 text-center text-sm font-semibold text-[var(--color-brown)]">+ {formatHolidayMoney(holidayBonusForOption(amount.key))} complimentary voucher</p> : null}
               </form>
             ))}
           </div>
+          {holidayActive ? <HolidayGiftOrderForm /> : null}
         </section>
 
         <Image

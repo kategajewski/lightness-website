@@ -3,6 +3,7 @@ import { env, integrations } from "@/lib/env";
 import {
   createGiftCertificateCode,
   createGiftCertificatePdf,
+  giftOrderFromMetadata,
   type GiftCertificateBookingCoupon,
 } from "@/lib/gift-certificates";
 import { getOfferBySlug } from "@/lib/offers";
@@ -724,20 +725,31 @@ export async function sendPurchaseConfirmationEmail(
           },
         ].filter(({ code }) => Boolean(code))
       : [];
-  const giftCertificate = isGiftCertificate
-    ? await createGiftCertificatePdf({
-        amountLabel: getGiftCertificateAmountLabel(
-          metadata.optionKey,
-          amountLabel,
-        ),
+  const paidGiftOrder = isGiftCertificate
+    ? giftOrderFromMetadata(metadata, session.amount_total)
+    : null;
+  if (paidGiftOrder && session.currency !== "usd") {
+    throw new Error("Gift certificate purchase currency does not match.");
+  }
+  const giftAmountLabel = !isGiftCertificate ? "" : paidGiftOrder
+    ? formatAmount(paidGiftOrder.unitAmountCents, "usd")
+    : getGiftCertificateAmountLabel(metadata.optionKey, amountLabel);
+  const giftCertificates: Awaited<ReturnType<typeof createGiftCertificatePdf>>[] = [];
+  if (isGiftCertificate) {
+    for (let index = 1; index <= (paidGiftOrder?.quantity ?? 1); index += 1) {
+      giftCertificates.push(await createGiftCertificatePdf({
+        amountLabel: giftAmountLabel,
         buyerName: session.customer_details?.name,
         purchasedAt: session.created,
         sessionId: session.id,
+        certificateIndex: (paidGiftOrder?.quantity ?? 1) > 1 ? index : undefined,
         bookingCoupons,
-      })
-    : null;
+      }));
+    }
+  }
+  const giftCertificate = giftCertificates[0] ?? null;
 
-  const emailContent =
+  const baseEmailContent =
     purchaseType === "event"
       ? getEventPurchaseEmailContent(metadata.eventSlug, amountLabel)
       : getOfferPurchaseEmailContent(
@@ -748,6 +760,21 @@ export async function sendPurchaseConfirmationEmail(
           bookingCoupons,
           portalAccess,
         );
+  const emailContent = isGiftCertificate
+    ? {
+        ...baseEmailContent,
+        detailLines: [
+          ...baseEmailContent.detailLines.filter((line) => !line.startsWith("Gift amount:") && !line.startsWith("Certificate code:")),
+          ...giftCertificates.map((certificate, index) => `${giftCertificates.length > 1 ? `Paid certificate ${index + 1}` : "Paid gift certificate"}: ${giftAmountLabel}. Code: ${certificate.certificateCode}`),
+        ],
+        reminderLines: giftCertificates.length > 1
+          ? ["Each attached PDF is a separate paid gift certificate. Share each one with its recipient.", ...baseEmailContent.reminderLines]
+          : baseEmailContent.reminderLines,
+      }
+    : baseEmailContent;
+  const giftAttachmentMessage = giftCertificates.length > 1
+    ? `Your ${giftCertificates.length} printable gift certificate PDFs are attached to this email.`
+    : "Your printable gift certificate PDF is attached to this email.";
   const extraLinks: ReadonlyArray<{ label: string; href: string }> =
     "extraLinks" in emailContent && Array.isArray(emailContent.extraLinks)
       ? (emailContent.extraLinks as ReadonlyArray<{
@@ -773,7 +800,7 @@ export async function sendPurchaseConfirmationEmail(
     ...extraLinks.map((link) => `${link.label}: ${link.href}`),
     "",
     giftCertificate
-      ? "Your printable gift certificate PDF is attached to this email."
+      ? giftAttachmentMessage
       : "A Stripe receipt should also arrive separately at this email address.",
     "",
     "With love,",
@@ -867,7 +894,7 @@ export async function sendPurchaseConfirmationEmail(
             <p style="margin: 18px auto 0; max-width: 420px; color: #7b6c62; font-family: 'Lato', Arial, sans-serif; font-size: 14px; line-height: 1.65;">
               ${
                 giftCertificate
-                  ? "Your printable gift certificate PDF is attached to this email."
+                  ? giftAttachmentMessage
                   : "A Stripe receipt should also arrive separately at this email address."
               }
             </p>
@@ -894,15 +921,11 @@ export async function sendPurchaseConfirmationEmail(
     text,
     html,
     attachments: [
-      ...(giftCertificate
-        ? [
-            {
-              filename: giftCertificate.filename,
-              content: giftCertificate.pdf,
-              contentType: "application/pdf",
-            },
-          ]
-        : []),
+      ...giftCertificates.map((certificate) => ({
+        filename: certificate.filename,
+        content: certificate.pdf,
+        contentType: "application/pdf",
+      })),
       ...(calendarAttachment ? [calendarAttachment] : []),
     ],
   });
@@ -950,10 +973,11 @@ export async function sendPurchaseOwnerNotificationEmail(
   const agreementVersion = metadata.agreementVersion?.trim() || "";
   const agreementAcceptedAt = metadata.agreementAcceptedAt?.trim() || "";
   const mediaReleaseAccepted = metadata.mediaReleaseAccepted === "true";
-  const giftCertificateCode =
-    metadata.purchaseType === "offer" && metadata.offerSlug === "gift-certificate"
-      ? createGiftCertificateCode(session.id)
-      : "";
+  const isGiftCertificate = metadata.purchaseType === "offer" && metadata.offerSlug === "gift-certificate";
+  const giftOrder = isGiftCertificate ? giftOrderFromMetadata(metadata, session.amount_total) : null;
+  const giftCertificateCodes = isGiftCertificate
+    ? Array.from({ length: giftOrder?.quantity ?? 1 }, (_, index) => createGiftCertificateCode(session.id, (giftOrder?.quantity ?? 1) > 1 ? index + 1 : undefined))
+    : [];
 
   const lines = [
     purchaseIntro,
@@ -975,7 +999,8 @@ export async function sendPurchaseOwnerNotificationEmail(
     agreementAccepted
       ? `Optional media permission: ${mediaReleaseAccepted ? "Yes" : "No"}`
       : null,
-    giftCertificateCode ? `Gift certificate code: ${giftCertificateCode}` : null,
+    giftOrder ? `Paid gift certificates: ${giftOrder.quantity} at ${formatAmount(giftOrder.unitAmountCents, "usd")} each` : null,
+    ...giftCertificateCodes.map((code, index) => `Gift certificate${giftCertificateCodes.length > 1 ? ` ${index + 1}` : ""} code: ${code}`),
     `Stripe ${paymentLabel}: ${session.id || "Not provided"}`,
     `Payment intent: ${paymentIntent || "Not provided"}`,
   ].filter(Boolean) as string[];
@@ -999,9 +1024,7 @@ export async function sendPurchaseOwnerNotificationEmail(
           : ""
       }
       ${
-        giftCertificateCode
-          ? `<p><strong>Gift certificate code:</strong> ${escapeHtml(giftCertificateCode)}</p>`
-          : ""
+        giftCertificateCodes.map((code, index) => `<p><strong>Gift certificate${giftCertificateCodes.length > 1 ? ` ${index + 1}` : ""} code:</strong> ${escapeHtml(code)}</p>`).join("")
       }
       <p><strong>Stripe ${paymentLabel}:</strong> ${escapeHtml(session.id || "Not provided")}</p>
       <p><strong>Payment intent:</strong> ${escapeHtml(paymentIntent || "Not provided")}</p>

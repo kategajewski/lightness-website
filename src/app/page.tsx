@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { HolidayGiftBanner } from "@/components/holiday-gift-promotion";
+import { isHolidayCampaignActive } from "@/lib/holiday-gift-campaign";
 import Link from "next/link";
 import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -32,11 +34,14 @@ const testimonials = [
   },
 ] as const;
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   const featuredTestimonial = testimonials.find((item) => item.featured);
 
   return (
     <main className="flex min-h-[calc(100vh-82px)] flex-col bg-[var(--color-ivory)] text-[var(--color-text)]">
+      {isHolidayCampaignActive() ? <HolidayGiftBanner /> : null}
       <section className="bg-[var(--color-rose-soft)]">
         <div className="mx-auto grid w-full max-w-[1180px] items-center gap-8 px-5 py-9 sm:px-8 sm:py-12 lg:grid-cols-[1.16fr_1fr] lg:gap-8 lg:px-9 lg:pb-8 xl:gap-10 xl:px-6">
           <div>

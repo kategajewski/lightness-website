@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { HolidayGiftDisclosures } from "@/components/holiday-gift-promotion";
+import { HolidayGiftOrderForm } from "@/components/holiday-gift-order-form";
+import { APPROVED_HOLIDAY_RULES, formatHolidayMoney, holidayBonusForOption, isHolidayCampaignActive } from "@/lib/holiday-gift-campaign";
 import { notFound, redirect } from "next/navigation";
 import {
   getAvailablePurchaseOptions,
@@ -33,7 +36,8 @@ export default async function CheckoutPage({
   const isSoundTraining = offer.slug === "sound-training";
   const isGiftCertificate = offer.slug === "gift-certificate";
   const isReikiRising = offer.slug === "reiki-rising";
-  const availableOptions = getAvailablePurchaseOptions(offer);
+  const holidayActive = isGiftCertificate && isHolidayCampaignActive();
+  const availableOptions = getAvailablePurchaseOptions(offer).filter((option) => !(holidayActive && option.key === "gift-140" && APPROVED_HOLIDAY_RULES?.gift140 === "hidden"));
   const hasOptions = availableOptions.length > 0;
   const checkoutFeatures = offer.features;
   const currentPriceLabel = isReikiRising
@@ -127,6 +131,8 @@ export default async function CheckoutPage({
                   : "This checkout page is being prepared for live payment. In the meantime, you can return to the main offer page for full details."}
             </p>
           </div>
+
+          {holidayActive ? <HolidayGiftDisclosures /> : null}
 
           {hasOptions ? (
             <div className="mt-6 grid gap-4">
@@ -285,6 +291,7 @@ export default async function CheckoutPage({
                     <p className="mt-3 text-[var(--color-muted)]">
                       {option.description}
                     </p>
+                    {holidayActive && holidayBonusForOption(option.key) > 0 ? <p className="mt-3 font-semibold text-[var(--color-brown)]">Includes a separate {formatHolidayMoney(holidayBonusForOption(option.key))} complimentary promotional voucher at no additional charge.</p> : null}
                     <div className="mt-4">
                       {readiness.checkoutReady &&
                       (option.stripePriceId || option.amountCents) ? (
@@ -314,6 +321,7 @@ export default async function CheckoutPage({
                 ))
               )}
 
+              {holidayActive ? <HolidayGiftOrderForm /> : null}
               <div className="flex flex-wrap gap-3">
                 <Link
                   href={

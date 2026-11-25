@@ -21,6 +21,7 @@ const CUSTOMER_EMAIL_SENT_KEY = "customerEmailSentAt";
 const OWNER_EMAIL_SENT_KEY = "ownerEmailSentAt";
 
 type ConfirmationResult = {
+  paymentStatus?: "paid" | "pending" | "unknown";
   customerEmail: "sent" | "skipped" | "already_sent" | "failed";
   ownerEmail: "sent" | "skipped" | "already_sent" | "failed";
   portalAccess?: PortalProvisioningResult["status"];
@@ -32,6 +33,7 @@ export async function processCheckoutSessionConfirmation(
   source: "webhook" | "success_page",
 ): Promise<ConfirmationResult> {
   const result: ConfirmationResult = {
+    paymentStatus: "unknown",
     customerEmail: "skipped",
     ownerEmail: "skipped",
   };
@@ -59,8 +61,10 @@ export async function processCheckoutSessionConfirmation(
     session.status !== "complete" ||
     !["paid", "no_payment_required"].includes(session.payment_status)
   ) {
+    result.paymentStatus = "pending";
     return result;
   }
+  result.paymentStatus = "paid";
 
   const metadata = session.metadata ?? {};
   const metadataUpdates: Stripe.MetadataParam = {};

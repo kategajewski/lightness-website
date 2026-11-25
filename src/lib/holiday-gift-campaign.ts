@@ -27,6 +27,7 @@ export type HolidayCampaignRules = {
   allowPaidGiftCertificates: boolean;
   cancellationRestoration: "existing-policy-original-expiry";
   partialRefunds: "recalculate";
+  paymentQualification: "initiated-before-deadline";
 };
 
 export const HOLIDAY_PRIVATE_SERVICES = [
@@ -51,6 +52,7 @@ export const APPROVED_HOLIDAY_RULES: HolidayCampaignRules | null = {
   allowPaidGiftCertificates: true,
   cancellationRestoration: "existing-policy-original-expiry",
   partialRefunds: "recalculate",
+  paymentQualification: "initiated-before-deadline",
 };
 
 export type HolidayCampaignSettings = {
@@ -116,7 +118,7 @@ export function addHolidayCheckoutMetadata(
   body.set("metadata[giftUnitAmountCents]", String(option.amountCents));
   body.set("metadata[giftQuantity]", String(quantity));
   body.set("metadata[giftTotalAmountCents]", String(purchaseCents));
-  body.set("custom_text[submit][message]", `Terms and conditions apply to gift certificates and gift cards. Pay ${formatHolidayMoney(purchaseCents)} for ${quantity === 1 ? "your paid certificate" : `${quantity} paid certificates`}. Your separate ${formatHolidayMoney(bonus)} complimentary promotional voucher is valid January 1 through March 31, 2027 and expires March 31, 2027 at 11:59 PM Eastern. Private healing services only. Transferable. Partial redemption is allowed. Paid gift certificates and other holiday vouchers may be used together. Cannot be combined with other promotions. Payment must succeed by December 15, 2026 at 11:59 PM Eastern.`);
+  body.set("custom_text[submit][message]", `Terms and conditions apply to gift certificates and gift cards. Pay ${formatHolidayMoney(purchaseCents)} for ${quantity === 1 ? "your paid certificate" : `${quantity} paid certificates`}. Your separate ${formatHolidayMoney(bonus)} complimentary promotional voucher is valid January 1 through March 31, 2027 and expires March 31, 2027 at 11:59 PM Eastern. Private healing services only. Transferable. Partial redemption is allowed. Paid gift certificates and other holiday vouchers may be used together. Cannot be combined with other promotions. Initiate payment by December 15, 2026 at 11:59 PM Eastern. Bank payments initiated by then qualify if settlement finishes later. Opening a checkout alone does not qualify. Certificates and vouchers are issued only after successful payment.`);
   // Charge the disclosed full face value rather than trusting an external price mapping.
   body.delete("line_items[0][price]");
   body.set("line_items[0][price_data][currency]", "usd");
@@ -125,7 +127,7 @@ export function addHolidayCheckoutMetadata(
   return true;
 }
 
-type HolidayPaidSession = {
+export type HolidayCampaignSessionSnapshot = {
   id: string;
   status: string | null;
   payment_status: string;
@@ -137,26 +139,38 @@ type HolidayPaidSession = {
   total_details?: { amount_discount: number } | null;
 };
 
-/** Use the signed successful-payment event time, never browser/session creation time. */
-export function qualifyHolidayPurchase(
-  session: HolidayPaidSession,
-  paidAtSeconds: number,
+/** Inspect the signed completed snapshot before storing its initiation proof, including after the deadline. */
+export function inspectHolidayCampaignOrder(
+  session: HolidayCampaignSessionSnapshot,
   settings = getHolidayCampaignSettings(),
 ) {
   const metadata = session.metadata ?? {};
   if (metadata.holidayCampaignId !== HOLIDAY_CAMPAIGN.id) return null;
-  if (!isHolidayCampaignActive(new Date(paidAtSeconds * 1000), settings)) return null;
-  if (metadata.holidayLaunchAt !== settings.launchedAt) return null;
+  if (!Number.isFinite(Date.parse(settings.launchedAt)) || metadata.holidayLaunchAt !== settings.launchedAt) return null;
   if (metadata.purchaseType !== "offer" || metadata.offerSlug !== "gift-certificate") return null;
-  if (session.status !== "complete" || session.payment_status !== "paid" || session.currency !== "usd" || !session.payment_intent) return null;
+  if (session.status !== "complete" || !["paid", "unpaid"].includes(session.payment_status) || session.currency !== "usd" || !session.payment_intent) return null;
+  if (![metadata.giftUnitAmountCents, metadata.giftQuantity, metadata.giftTotalAmountCents].every((value) => /^\d+$/.test(value ?? ""))) return null;
   const unitAmountCents = Number(metadata.giftUnitAmountCents);
   const quantity = Number(metadata.giftQuantity);
   const purchaseCents = Number(metadata.giftTotalAmountCents);
   const tier = HOLIDAY_CAMPAIGN.tiers.find((item) => item.optionKey === metadata.optionKey);
   const expectedUnit = tier?.purchaseCents ?? (metadata.optionKey === "gift-140" ? 14000 : metadata.optionKey === "gift-custom" ? unitAmountCents : 0);
-  if (!Number.isSafeInteger(unitAmountCents) || unitAmountCents <= 0 || !Number.isSafeInteger(quantity) || quantity < 1 || !Number.isSafeInteger(purchaseCents) || purchaseCents !== unitAmountCents * quantity || expectedUnit !== unitAmountCents) return null;
+  if (!Number.isSafeInteger(unitAmountCents) || unitAmountCents <= 0 || !Number.isSafeInteger(quantity) || quantity < 1 || quantity > 100 || !Number.isSafeInteger(purchaseCents) || purchaseCents > 99999999 || purchaseCents !== unitAmountCents * quantity || expectedUnit !== unitAmountCents) return null;
   const bonusCents = holidayBonusForTotal(purchaseCents);
   if (!purchaseCents || !bonusCents || session.amount_total !== purchaseCents || session.amount_subtotal !== purchaseCents || (session.total_details?.amount_discount ?? 0) !== 0) return null;
   if (metadata.holidayPurchaseCents !== String(purchaseCents) || metadata.holidayBonusCents !== String(bonusCents)) return null;
-  return { purchaseCents, bonusCents, paidAt: new Date(paidAtSeconds * 1000).toISOString() };
+  return { purchaseCents, bonusCents };
+}
+
+/** Only a durable signed completed-event timestamp proves initiation. A session's creation time does not. */
+export function qualifyHolidayPurchase(
+  session: HolidayCampaignSessionSnapshot,
+  initiatedAtSeconds: number,
+  settings = getHolidayCampaignSettings(),
+) {
+  if (session.payment_status !== "paid") return null;
+  const order = inspectHolidayCampaignOrder(session, settings);
+  if (!order || !isHolidayCampaignActive(new Date(initiatedAtSeconds * 1000), settings)) return null;
+  const initiatedAt = new Date(initiatedAtSeconds * 1000).toISOString();
+  return { ...order, initiatedAt };
 }

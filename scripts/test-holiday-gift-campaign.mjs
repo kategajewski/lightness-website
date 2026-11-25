@@ -58,10 +58,35 @@ test("stale checkout pages after cutoff cannot create promotional eligibility", 
   assert.equal(body.has("metadata[holidayCampaignId]"), false);
 });
 
-test("successful-payment time governs eligibility even if a webhook arrives later", () => {
+test("verified payment initiation time governs eligibility when bank settlement happens later", () => {
   const session = paidSession(c.HOLIDAY_CAMPAIGN.tiers[0]);
   assert.ok(c.qualifyHolidayPurchase(session, Date.parse("2026-12-16T04:59:59Z") / 1000, settings));
   assert.equal(c.qualifyHolidayPurchase(session, Date.parse("2026-12-16T05:00:00Z") / 1000, settings), null);
+});
+
+test("completed unpaid snapshots can be recorded as initiation proof without issuing a voucher", () => {
+  const session = { ...paidSession(c.HOLIDAY_CAMPAIGN.tiers[0]), payment_status: "unpaid" };
+  const inspected = c.inspectHolidayCampaignOrder(session, settings);
+  assert.equal(inspected.purchaseCents, 5000);
+  assert.equal(inspected.bonusCents, 500);
+  assert.equal(c.qualifyHolidayPurchase(session, paidAt, settings), null);
+  assert.equal(c.inspectHolidayCampaignOrder({ ...session, status: "open", created: paidAt - 10000 }, settings), null);
+});
+
+test("completed proof after the deadline is retained for an explicit ineligible decision", () => {
+  const session = paidSession(c.HOLIDAY_CAMPAIGN.tiers[0]);
+  assert.ok(c.inspectHolidayCampaignOrder(session, settings));
+  assert.equal(c.qualifyHolidayPurchase(session, Date.parse("2026-12-16T05:00:01Z") / 1000, settings), null);
+});
+
+test("checkout discloses the bank settlement exception without treating an open checkout as payment", () => {
+  const body = new URLSearchParams();
+  c.addHolidayCheckoutMetadata(body, { key: "gift-50", amountCents: 5000 }, new Date("2026-12-10"), settings);
+  const text = body.get("custom_text[submit][message]");
+  assert.match(text, /Initiate payment by December 15, 2026 at 11:59 PM Eastern/);
+  assert.match(text, /Bank payments initiated by then qualify if settlement finishes later/);
+  assert.match(text, /Opening a checkout alone does not qualify/);
+  assert.ok(text.length <= 1200);
 });
 
 test("unpaid, discounted, wrong-currency and altered amount sessions do not qualify", () => {

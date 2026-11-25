@@ -22,11 +22,22 @@ export default async function CheckoutSuccessPage({
     : undefined;
   const offer = slug ? getOfferBySlug(slug) : undefined;
   const event = type === "event" ? getEventBySlug(eventSlug) : undefined;
+  const isGiftCertificate = type !== "event" && offer?.slug === "gift-certificate";
+  const giftPaymentStatus = confirmationResult?.paymentStatus ?? "unknown";
+  const unconfirmedGift = isGiftCertificate && giftPaymentStatus !== "paid";
 
-  const eyebrow = type === "event" ? "Ticket Confirmed" : "Payment Complete";
-  const title = event?.confirmationTitle ?? "You're in.";
+  const eyebrow = unconfirmedGift
+    ? giftPaymentStatus === "pending" ? "Payment Pending" : "Payment Status Unavailable"
+    : type === "event" ? "Ticket Confirmed" : "Payment Complete";
+  const title = unconfirmedGift
+    ? "Your payment is not confirmed yet."
+    : event?.confirmationTitle ?? "You're in.";
   const description =
-    event?.confirmationDescription ??
+    (unconfirmedGift
+      ? giftPaymentStatus === "pending"
+        ? "Bank payments can take time to process. Your paid gift certificate will be emailed only after payment succeeds. If your purchase qualifies for the holiday promotion, your complimentary voucher will arrive in a separate email after successful payment."
+        : "We could not confirm your payment status right now. Please check your Stripe confirmation or contact Kate before trying another payment. Gift certificates are issued only after successful payment. Any qualifying complimentary holiday voucher is emailed separately."
+      : undefined) ?? event?.confirmationDescription ??
     (offer
       ? offer.slug === "gift-certificate"
         ? confirmationResult?.customerEmail === "sent" ||

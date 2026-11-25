@@ -53,13 +53,17 @@ function deferred() {
 /** Mock the transactional store contract; the companion SQL suite tests its real locking. */
 function harness(inputSession = paidSession(), { payment = {}, charge = {}, deliveryFailures = 0, emailConfigured = true } = {}) {
   const vouchers = new Map();
+  const initiations = new Map();
+  const initiationReceipts = new Map();
+  const initiationInputs = [];
   const outboxes = new Map();
   const issueInputs = [];
   const refundInputs = [];
   const emailAttempts = [];
   const providerDeliveries = new Map();
   const errors = [];
-  const h = { vouchers, outboxes, issueInputs, refundInputs, emailAttempts, providerDeliveries, errors,
+  const h = { vouchers, initiations, initiationReceipts, initiationInputs, outboxes, issueInputs, refundInputs, emailAttempts, providerDeliveries, errors,
+    currentSession: structuredClone(inputSession), initiationSaveFailures: 0, confirmationCalls: 0, originalCertificateDeliveries: 0,
     deliveryFailures, blockDelivery: null, deliveryStarted: deferred(), confirmation: { customerEmail: "sent", ownerEmail: "sent" } };
   const paymentRecord = { id: inputSession.payment_intent, status: "succeeded", currency: "usd", amount: inputSession.amount_total,
     amount_received: inputSession.amount_total, livemode: false, latest_charge: "ch_test_synthetic", ...payment };
@@ -68,12 +72,42 @@ function harness(inputSession = paidSession(), { payment = {}, charge = {}, deli
   h.charge = chargeRecord;
   h.payment = paymentRecord;
   const stripe = {
+    checkout: { sessions: { retrieve: async (id) => { assert.equal(id, inputSession.id); return h.currentSession; } } },
     paymentIntents: { retrieve: async (id) => { assert.equal(id, inputSession.payment_intent); return paymentRecord; } },
     charges: { retrieve: async (id) => { assert.equal(id, chargeRecord.id); return chargeRecord; } },
     webhooks: { constructEvent(payload, signature, secret) {
       if (signature !== "synthetic-valid-signature" || secret !== "synthetic-secret") throw new Error("Synthetic invalid signature");
       return JSON.parse(payload);
     } },
+  };
+  const initiationStore = {
+    async recordHolidayPaymentInitiation(input) {
+      initiationInputs.push(input);
+      if (h.initiationSaveFailures > 0) { h.initiationSaveFailures -= 1; throw new Error("Synthetic database outage"); }
+      const record = { campaign_id: input.campaignId, checkout_session_id: input.checkoutSessionId,
+        payment_intent_id: input.paymentIntentId, stripe_livemode: input.stripeLivemode,
+        purchase_amount_cents: input.purchaseAmountCents, currency: input.currency, initiated_at: input.initiatedAt,
+        completed_event_id: input.completedEventId, event_type: input.eventType, holiday_launch_at: input.holidayLaunchAt };
+      const key = `${input.campaignId}:${input.checkoutSessionId}`;
+      if (initiationReceipts.has(record.completed_event_id)) {
+        assert.deepEqual(initiationReceipts.get(record.completed_event_id), record, "The same signed event cannot change its payload");
+      } else initiationReceipts.set(record.completed_event_id, record);
+      if (initiations.has(key)) {
+        const financialIdentity = (proof) => {
+          const identity = { ...proof };
+          delete identity.initiated_at;
+          delete identity.completed_event_id;
+          return identity;
+        };
+        assert.deepEqual(financialIdentity(initiations.get(key)), financialIdentity(record), "A receipt cannot change financial identity");
+        if (Date.parse(record.initiated_at) < Date.parse(initiations.get(key).initiated_at)) initiations.set(key, record);
+      } else initiations.set(key, record);
+      return { ...initiations.get(key) };
+    },
+    async getHolidayPaymentInitiation(campaignId, sessionId) {
+      const record = initiations.get(`${campaignId}:${sessionId}`);
+      return record ? { ...record } : null;
+    },
   };
   const store = {
     async issueHolidayVoucher(input) {
@@ -137,6 +171,7 @@ function harness(inputSession = paidSession(), { payment = {}, charge = {}, deli
   const fulfillment = loadTs("../src/lib/holiday-voucher-fulfillment.ts", {
     "@/lib/gift-certificates": { createGiftCertificateCode: certificateCode },
     "@/lib/holiday-gift-campaign": campaign,
+    "@/lib/holiday-payment-initiation-store": initiationStore,
     "@/lib/holiday-voucher-store": store,
     "@/lib/holiday-voucher-email": email,
     "@/lib/stripe/server": { getStripe: async () => stripe },
@@ -144,7 +179,11 @@ function harness(inputSession = paidSession(), { payment = {}, charge = {}, deli
   const route = loadTs("../src/app/api/stripe/webhook/route.ts", {
     "next/server": { NextResponse: { json: (body, options) => ({ body, status: options?.status ?? 200 }) } },
     "@/lib/env": { env: { stripeWebhookSecret: "synthetic-secret" } },
-    "@/lib/checkout-confirmation": { processCheckoutSessionConfirmation: async () => h.confirmation },
+    "@/lib/checkout-confirmation": { processCheckoutSessionConfirmation: async () => {
+      h.confirmationCalls += 1;
+      if (h.confirmation.customerEmail === "sent") h.originalCertificateDeliveries += 1;
+      return h.confirmation;
+    } },
     "@/lib/invoice-confirmation": { processInvoiceConfirmation: async () => {} },
     "@/lib/holiday-voucher-fulfillment": fulfillment,
     "@/lib/stripe/server": { getStripe: async () => stripe },
@@ -196,7 +235,7 @@ test("concurrent webhook deliveries converge on one voucher and one email claim"
 });
 
 test("the processor must confirm a succeeded payment for the full purchased USD value", async () => {
-  for (const payment of [{ status: "processing" }, { status: "canceled" }, { currency: "cad" }, { amount: 4999 }, { amount_received: 4999 }]) {
+  for (const payment of [{ status: "processing" }, { status: "canceled" }, { currency: "cad" }, { livemode: true }, { amount: 4999 }, { amount_received: 4999 }]) {
     const h = harness(paidSession(), { payment });
     assert.equal((await h.post()).status, 500);
     assert.equal(h.vouchers.size, 0);
@@ -204,26 +243,187 @@ test("the processor must confirm a succeeded payment for the full purchased USD 
   }
 });
 
-test("late delivery uses the signed successful-payment event time, not processing time", async () => {
+test("late delivery uses signed initiation time while issuance records the actual processing time", async () => {
   assert.ok(DeliveryDate.now() > Date.parse(campaign.HOLIDAY_CAMPAIGN.purchaseEndsAt));
   const h = harness();
   const timely = h.event(undefined, { created: Date.parse("2026-12-16T04:59:59Z") / 1000 });
   assert.equal((await h.post(timely)).status, 200);
   assert.equal(h.vouchers.size, 1);
-  assert.equal(h.issueInputs[0].issued_at, "2026-12-16T04:59:59.000Z");
+  assert.equal(h.initiationInputs[0].initiatedAt, "2026-12-16T04:59:59.000Z");
+  assert.equal(h.issueInputs[0].issued_at, "2027-01-15T12:00:00.000Z");
   const late = harness();
   assert.equal((await late.post(late.event(undefined, { created: Date.parse("2026-12-16T05:00:00Z") / 1000 }))).status, 200);
   assert.equal(late.vouchers.size, 0);
+  assert.equal(late.initiations.size, 1);
 });
 
 test("an unpaid checkout waits for its asynchronous successful-payment event", async () => {
   const paid = paidSession();
   const h = harness(paid);
   const unpaid = { ...paid, payment_status: "unpaid" };
+  h.currentSession = unpaid;
+  h.confirmation = { customerEmail: "skipped", ownerEmail: "skipped", paymentStatus: "pending" };
   assert.equal((await h.post(h.event(unpaid))).status, 200);
   assert.equal(h.vouchers.size, 0);
+  assert.equal(h.initiations.size, 1);
+  h.currentSession = paid;
+  h.confirmation = { customerEmail: "sent", ownerEmail: "sent", paymentStatus: "paid" };
   assert.equal((await h.post(h.event(paid, { id: "evt_test_async", type: "checkout.session.async_payment_succeeded" }))).status, 200);
   assert.equal(h.vouchers.size, 1);
+});
+
+const beforeCutoff = Date.parse("2026-12-16T04:59:59.000Z") / 1000;
+const afterCutoff = Date.parse("2026-12-18T12:00:00.000Z") / 1000;
+
+test("bank settlement after the deadline qualifies from durable timely initiation and sends once", async () => {
+  const paid = paidSession();
+  const pending = { ...paid, payment_status: "unpaid" };
+  const h = harness(paid);
+  h.currentSession = pending;
+  h.confirmation = { customerEmail: "skipped", ownerEmail: "skipped", paymentStatus: "pending" };
+  const completed = h.event(pending, { created: beforeCutoff });
+  assert.equal((await h.post(completed)).status, 200);
+  assert.equal(h.initiations.size, 1);
+  assert.equal(h.vouchers.size, 0);
+  assert.equal(h.emailAttempts.length, 0);
+  h.currentSession = paid;
+  h.confirmation = { customerEmail: "sent", ownerEmail: "sent", paymentStatus: "paid" };
+  const settled = h.event(paid, { id: "evt_test_settled_later", type: "checkout.session.async_payment_succeeded", created: afterCutoff });
+  assert.equal((await h.post(settled)).status, 200);
+  assert.equal((await h.post(settled)).status, 200);
+  assert.equal(h.vouchers.size, 1);
+  assert.equal(h.emailAttempts.length, 1);
+  assert.equal(h.initiationInputs.length, 1);
+  assert.equal([...h.initiations.values()][0].initiated_at, "2026-12-16T04:59:59.000Z");
+});
+
+test("opening a checkout before the cutoff cannot qualify a payment initiated afterward", async () => {
+  const paid = paidSession(undefined, { created: beforeCutoff - 3600 });
+  // A metadata hint from a browser cannot replace the signed completed-event timestamp.
+  paid.metadata.paymentInitiatedAt = "2026-12-15T23:00:00-05:00";
+  const pending = { ...paid, payment_status: "unpaid" };
+  const h = harness(paid);
+  h.currentSession = pending;
+  h.confirmation = { customerEmail: "skipped", ownerEmail: "skipped", paymentStatus: "pending" };
+  const lateCompletion = h.event(pending, { created: beforeCutoff + 1 });
+  assert.equal((await h.post(lateCompletion)).status, 200);
+  assert.equal((await h.post(lateCompletion)).status, 200);
+  assert.equal(h.initiations.size, 1);
+  assert.equal([...h.initiations.values()][0].initiated_at, "2026-12-16T05:00:00.000Z");
+  h.currentSession = paid;
+  h.confirmation = { customerEmail: "sent", ownerEmail: "sent", paymentStatus: "paid" };
+  assert.equal((await h.post(h.event(paid, { id: "evt_test_late_settlement", type: "checkout.session.async_payment_succeeded", created: afterCutoff }))).status, 200);
+  assert.equal(h.vouchers.size, 0);
+  assert.equal(h.emailAttempts.length, 0);
+  assert.equal(h.confirmationCalls, 3, "The original paid certificate still uses the existing confirmation process");
+});
+
+test("out-of-order bank success retries until completed proof arrives and reconciles current paid state", async () => {
+  const paid = paidSession();
+  const pendingSnapshot = { ...paid, payment_status: "unpaid" };
+  const h = harness(paid);
+  const settledFirst = h.event(paid, { id: "evt_test_async_first", type: "checkout.session.async_payment_succeeded", created: afterCutoff });
+  assert.equal((await h.post(settledFirst)).status, 500);
+  assert.equal(h.initiations.size, 0);
+  assert.equal(h.vouchers.size, 0);
+  assert.equal(h.confirmationCalls, 1);
+  assert.equal(h.originalCertificateDeliveries, 1);
+  h.confirmation = { customerEmail: "already_sent", ownerEmail: "already_sent", paymentStatus: "paid" };
+  // The completed snapshot is unpaid but Stripe's current session has already settled.
+  assert.equal((await h.post(h.event(pendingSnapshot, { created: beforeCutoff }))).status, 200);
+  assert.equal(h.vouchers.size, 1);
+  assert.equal((await h.post(settledFirst)).status, 200);
+  assert.equal(h.emailAttempts.length, 1);
+  assert.equal(h.originalCertificateDeliveries, 1);
+});
+
+test("distinct completed Event IDs converge on earliest authenticated initiation without another voucher or email", async () => {
+  const paid = paidSession();
+  const h = harness(paid);
+  // A later duplicate arrives first and cannot establish predeadline eligibility.
+  assert.equal((await h.post(h.event(paid, { id: "evt_test_late_duplicate_first", created: afterCutoff }))).status, 200);
+  assert.equal(h.vouchers.size, 0);
+  h.confirmation = { customerEmail: "already_sent", ownerEmail: "already_sent", paymentStatus: "paid" };
+  assert.equal((await h.post(h.event(paid, { id: "evt_test_actual_earlier_completion", created: beforeCutoff }))).status, 200);
+  assert.equal(h.vouchers.size, 1);
+  assert.equal(h.emailAttempts.length, 1);
+  assert.equal([...h.initiations.values()][0].completed_event_id, "evt_test_actual_earlier_completion");
+  assert.equal([...h.initiations.values()][0].initiated_at, "2026-12-16T04:59:59.000Z");
+  assert.equal((await h.post(h.event(paid, { id: "evt_test_another_late_duplicate", created: afterCutoff + 60 }))).status, 200);
+  assert.equal(h.initiationReceipts.size, 3);
+  assert.equal(h.initiations.size, 1);
+  assert.equal(h.vouchers.size, 1);
+  assert.equal(h.emailAttempts.length, 1);
+});
+
+test("unpaid completed snapshots cannot bypass original certificate delivery once the current session is paid", async () => {
+  for (const customerEmail of ["skipped", "failed"]) {
+    const paid = paidSession();
+    const h = harness(paid);
+    h.confirmation = { customerEmail, ownerEmail: "sent", paymentStatus: "pending" };
+    const event = h.event({ ...paid, payment_status: "unpaid" }, { created: beforeCutoff });
+    assert.equal((await h.post(event)).status, 500);
+    assert.equal(h.initiations.size, 1);
+    assert.equal(h.vouchers.size, 0);
+    h.confirmation = { customerEmail: "already_sent", ownerEmail: "already_sent", paymentStatus: "paid" };
+    assert.equal((await h.post(event)).status, 200);
+    assert.equal(h.vouchers.size, 1);
+  }
+});
+
+test("proof storage failure delivers the original certificate and retries only the complimentary fulfillment", async () => {
+  const h = harness();
+  h.initiationSaveFailures = 1;
+  assert.equal((await h.post()).status, 500);
+  assert.equal(h.initiations.size, 0);
+  assert.equal(h.confirmationCalls, 1);
+  assert.equal(h.originalCertificateDeliveries, 1);
+  assert.equal(h.emailAttempts.length, 0);
+  h.confirmation = { customerEmail: "already_sent", ownerEmail: "already_sent", paymentStatus: "paid" };
+  assert.equal((await h.post()).status, 200);
+  assert.equal(h.initiations.size, 1);
+  assert.equal(h.vouchers.size, 1);
+  assert.equal(h.originalCertificateDeliveries, 1);
+  assert.equal(h.emailAttempts.length, 1);
+});
+
+test("settlement must match the stored session, intent, mode, amount and campaign launch", async () => {
+  const mutations = [
+    (session) => { session.payment_intent = "pi_test_another"; },
+    (session) => { session.livemode = true; },
+    (session) => { session.currency = "cad"; },
+    (session) => { session.metadata.holidayLaunchAt = "2026-11-01T00:00:00.000Z"; },
+    (session) => { session.amount_total -= 1; },
+  ];
+  for (const mutate of mutations) {
+    const paid = paidSession();
+    const pending = { ...paid, payment_status: "unpaid" };
+    const h = harness(paid);
+    h.currentSession = pending;
+    assert.equal((await h.post(h.event(pending, { created: beforeCutoff }))).status, 200);
+    h.currentSession = structuredClone(paid);
+    mutate(h.currentSession);
+    assert.equal((await h.post(h.event(paid, { id: "evt_test_binding", type: "checkout.session.async_payment_succeeded", created: afterCutoff }))).status, 500);
+    assert.equal(h.vouchers.size, 0);
+  }
+});
+
+test("bank success without any completion evidence never falls back to session.created", async () => {
+  const paid = paidSession(undefined, { created: beforeCutoff - 86400 });
+  const h = harness(paid);
+  assert.equal((await h.post(h.event(paid, { type: "checkout.session.async_payment_succeeded", created: afterCutoff }))).status, 500);
+  assert.equal(h.initiations.size, 0);
+  assert.equal(h.vouchers.size, 0);
+});
+
+test("an async success whose current checkout is not yet paid remains retryable", async () => {
+  const paid = paidSession();
+  const pending = { ...paid, payment_status: "unpaid" };
+  const h = harness(paid);
+  h.currentSession = pending;
+  assert.equal((await h.post(h.event(pending, { created: beforeCutoff }))).status, 200);
+  assert.equal((await h.post(h.event(paid, { id: "evt_test_stale_current", type: "checkout.session.async_payment_succeeded", created: afterCutoff }))).status, 500);
+  assert.equal(h.vouchers.size, 0);
 });
 
 test("a refund arriving before issuance is re-read before any voucher email is sent", async () => {
@@ -277,6 +477,7 @@ test("failed or skipped paid certificate delivery cannot silently complete the c
     assert.equal((await h.post()).status, 500, customerEmail);
     assert.equal(h.vouchers.size, 0);
     assert.equal(h.emailAttempts.length, 0);
+    assert.equal(h.initiations.size, 1);
   }
 });
 
@@ -286,6 +487,7 @@ test("unverified webhook payloads cannot issue a voucher or send an email", asyn
     assert.equal((await h.post(undefined, signature)).status, 400);
     assert.equal(h.vouchers.size, 0);
     assert.equal(h.emailAttempts.length, 0);
+    assert.equal(h.initiations.size, 0);
   }
 });
 

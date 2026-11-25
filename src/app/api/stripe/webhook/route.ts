@@ -4,7 +4,7 @@ import { processCheckoutSessionConfirmation } from "@/lib/checkout-confirmation"
 import { env } from "@/lib/env";
 import { processInvoiceConfirmation } from "@/lib/invoice-confirmation";
 import { getStripe } from "@/lib/stripe/server";
-import { fulfillHolidayVoucherFromPayment, processHolidayVoucherRefund } from "@/lib/holiday-voucher-fulfillment";
+import { fulfillHolidayVoucherFromPayment, prepareHolidayVoucherPayment, processHolidayVoucherRefund } from "@/lib/holiday-voucher-fulfillment";
 
 export async function POST(request: Request) {
   if (!env.stripeWebhookSecret) {
@@ -56,6 +56,18 @@ export async function POST(request: Request) {
   ) {
     const session = event.data.object as Stripe.Checkout.Session;
 
+    // Record the signed completion before acknowledging it, even while bank funds are pending.
+    let holidayInitiation: Awaited<ReturnType<typeof prepareHolidayVoucherPayment>> = null;
+    let holidayInitiationFailed = false;
+    if (session.metadata?.holidayCampaignId) {
+      try {
+        holidayInitiation = await prepareHolidayVoucherPayment(session, event);
+      } catch {
+        console.error("Promotional payment initiation reconciliation failed", { eventId: event.id });
+        holidayInitiationFailed = true;
+      }
+    }
+
     const result = await processCheckoutSessionConfirmation(
       session.id,
       "webhook",
@@ -75,12 +87,15 @@ export async function POST(request: Request) {
       );
     }
 
-    if (session.metadata?.holidayCampaignId && session.payment_status === "paid") {
-      if (!["sent", "already_sent"].includes(result.customerEmail)) {
-        return NextResponse.json({ error: "Paid gift certificate email delivery failed. Please retry." }, { status: 500 });
-      }
+    // Promotional storage must not prevent delivery of the original paid certificate.
+    // The failed proof still returns 500 so Stripe retries complimentary fulfillment.
+    if (holidayInitiationFailed) {
+      return NextResponse.json({ error: "Promotional payment initiation reconciliation failed. Please retry." }, { status: 500 });
+    }
+
+    if (session.metadata?.holidayCampaignId) {
       try {
-        await fulfillHolidayVoucherFromPayment(session, event);
+        await fulfillHolidayVoucherFromPayment(session, event, holidayInitiation, result.customerEmail);
       } catch {
         console.error("Promotional voucher fulfillment failed", { eventId: event.id });
         return NextResponse.json({ error: "Promotional voucher fulfillment failed. Please retry." }, { status: 500 });

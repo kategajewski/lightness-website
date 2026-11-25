@@ -105,6 +105,11 @@ function harness({ link=paymentLink(), stripeFailure=false, lineItemsFailure=fal
     '@/lib/mailchimp': {syncEmailSignupToMailchimp:async input=>{emails.push(input);return {skipped:false};}},
     '@/lib/checkout-confirmation': {processCheckoutSessionConfirmation:async(sessionId,source)=>{confirmations.push({sessionId,source});return {customerEmail:'sent',ownerEmail:'sent'};}},
     '@/lib/invoice-confirmation': {processInvoiceConfirmation:async invoiceId=>{invoiceConfirmations.push(invoiceId);}},
+    '@/lib/holiday-voucher-fulfillment': {
+      prepareHolidayVoucherPayment: () => { assert.fail('Non-campaign event must not prepare a holiday voucher'); },
+      fulfillHolidayVoucherFromPayment: () => { assert.fail('Non-campaign event must not fulfill a holiday voucher'); },
+      processHolidayVoucherRefund: () => { assert.fail('Non-refund event must not reconcile a holiday voucher refund'); },
+    },
   };
   const cache = new Map();
   function load(relative) {

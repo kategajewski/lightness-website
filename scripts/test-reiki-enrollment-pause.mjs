@@ -44,6 +44,8 @@ test('closed Reiki checkout redirects before offers or payment processing', asyn
     '@/lib/env': { env: { siteUrl: 'https://bethelightness.com' }, integrations: { stripe: true } },
     '@/lib/offers': { getOfferBySlug: forbidden, isPurchaseOptionAvailable: forbidden },
     '@/lib/reiki-rising-agreement': {},
+    '@/lib/holiday-gift-campaign': { addHolidayCheckoutMetadata: forbidden, isHolidayCampaignActive: forbidden },
+    '@/lib/holiday-gift-order': { parseHolidayGiftOrder: forbidden },
   });
   const form = new FormData();
   form.set('slug', 'reiki-rising');

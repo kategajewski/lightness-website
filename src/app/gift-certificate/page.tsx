@@ -68,7 +68,6 @@ export default function GiftCertificatePage() {
           className="rounded-[30px] border border-[var(--color-button-line)] bg-[var(--color-ivory)] p-6 sm:p-8"
         >
           <h2 className="display-section-title">Choose a gift amount.</h2>
-          {holidayActive ? <HolidayGiftDisclosures /> : null}
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
             {giftAmounts.map((amount) => (
               <form key={amount.key} action="/api/checkout" method="post">
@@ -87,6 +86,7 @@ export default function GiftCertificatePage() {
             ))}
           </div>
           {holidayActive ? <HolidayGiftOrderForm /> : null}
+          {holidayActive ? <HolidayGiftDisclosures /> : null}
         </section>
 
         <Image
